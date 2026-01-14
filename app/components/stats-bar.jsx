@@ -55,7 +55,7 @@ function ExperienceCalculator({ startDate = '2016-01-01' }) {
 function CertificationBadge() {
   return (
     <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-      <span className="text-[10px] font-medium">6 certs (2025)</span>
+      <span className="text-[10px] font-medium"><a href="https://www.credly.com/users/jake-sciotto">6 certs (2025)</a></span>
     </span>
   )
 }

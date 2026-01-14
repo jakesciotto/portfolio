@@ -6,6 +6,7 @@ const navItems = {
   },
   '/projects': {
     name: 'projects',
+    disabled: true,
   }
 }
 
@@ -18,7 +19,17 @@ export function Navbar() {
           id="nav"
         >
           <div className="flex flex-row space-x-0 pr-10">
-            {Object.entries(navItems).map(([path, { name }]) => {
+            {Object.entries(navItems).map(([path, { name, disabled }]) => {
+              if (disabled) {
+                return (
+                  <span
+                    key={path}
+                    className="flex align-middle relative py-1 px-2 m-1 text-neutral-400 dark:text-neutral-600 cursor-not-allowed"
+                  >
+                    {name}
+                  </span>
+                )
+              }
               return (
                 <Link
                   key={path}

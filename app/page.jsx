@@ -24,11 +24,10 @@ export default function Page() {
                 <h4 className="mb-3 text-white text-2xl font-semibold">
                   about (in order of importance)
                 </h4>
-                <ul className="list-disc text-sm md:text-base pl-4 space-y-2 text-neutral-200">
+                <ul className="list-disc text-sm md:text-base pl-5 space-y-3 leading-relaxed text-neutral-200">
                   <li className="transition-colors hover:text-white">brazilian jiu jitsu blue belt & kids department head</li>
                   <li className="transition-colors hover:text-white">semi-neurotic highly technical problem solver</li>
                   <li className="transition-colors hover:text-white">200-hour certified yoga teacher</li>
-
                   <li className="transition-colors hover:text-white">"smartest guy i have ever met" - my wife</li>
                   <li className="transition-colors hover:text-white">has two master's degrees - this debt is not going to pay for itself</li>
                   <li className="transition-colors hover:text-white">alumni mentor at johns hopkins - tough explaining my 7 years in undergrad</li>
@@ -44,17 +43,18 @@ export default function Page() {
                 <h4 className="mb-3 text-slate-900 dark:text-white text-2xl font-semibold">
                   technical capabilities*
                 </h4>
-                <ul className="list-disc text-sm md:text-base pl-4 space-y-2 text-slate-800 dark:text-neutral-200">
+                <ul className="list-disc text-sm md:text-base pl-5 space-y-3 leading-relaxed text-slate-800 dark:text-neutral-200">
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">cloud architecture: serverless, event-driven, iac, containerization (i blew up an old macbook putting microk8s on it)</li>
-                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">languages: python, sql, javascript, java, c++, r - in order of decreasing confidence</li>
-                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">stats: regression analysis, predictive modeling, time series analysis - 2x fantasy football champion without watching games</li>
+                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">programming: python, sql, javascript, java, c++, r - in order of decreasing confidence**</li>
+                   <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-3">**oh yeah i also build web apps w/ next/react and am familiar with deployment technologies like vercel or whatever</p>
+                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">stats: regression (all kinds), predictive modeling, time series analysis - 2x fantasy football champion without watching games</li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">machine learning: tensorflow, pytorch, scikit-learn, xgboost, & ability to explain what it is to an 8 year old</li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">data platforms & analytics: snowflake/bigquery, streaming, semantic layers, any data viz tool - do not ever ask me about a pie chart</li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">ai & llm systems: vector dbs, prompt versioning, caching, token-level cost controls</li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">finops: framework, agentic ai / genai cost optimization, chargeback models</li>
                 </ul>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-3">*i send emails for a living but on the side i also build web apps in next/react</p>
-                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">**stack overflow access required, six aws/finops certifications available upon request, results may vary</p>
+               
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">*six aws/finops certifications available upon request, results may vary</p>
               </div>
             </div>
           </AnimatedSection>
