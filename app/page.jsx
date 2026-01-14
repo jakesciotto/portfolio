@@ -35,14 +35,13 @@ export default function Page() {
             technical capabilities*
           </h4>
           <ul className="list-disc text-sm md:text-base pl-4 space-y-2 text-slate-800 dark:text-neutral-200">
-            <li className="transition-colors hover:text-slate-900 dark:hover:text-white">cloud: aws, azure, gcp - yes i know they're expensive, that's the point</li>
+            <li className="transition-colors hover:text-slate-900 dark:hover:text-white">cloud architecture: serverless, event-driven, iaac, containerization (i blew up an old macbook putting microk8s on it)</li>
             <li className="transition-colors hover:text-slate-900 dark:hover:text-white">languages: python, sql, javascript, java, c++, r - in order of decreasing confidence</li>
-            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-3">*i send emails for a living but i also build web apps in next/react</p>
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-3">*i send emails for a living but on the side i also build web apps in next/react</p>
             <li className="transition-colors hover:text-slate-900 dark:hover:text-white">ml frameworks: tensorflow, pytorch, keras, scikit-learn - 70% documentation, 30% intuition</li>
-            <li className="transition-colors hover:text-slate-900 dark:hover:text-white">data: etl pipelines, wrangling, transformation</li>
-            <li className="transition-colors hover:text-slate-900 dark:hover:text-white">visualization: looker, tableau, power bi - do not ever ask me about a pie chart</li>
-            <li className="transition-colors hover:text-slate-900 dark:hover:text-white">finops: cost optimization, chargeback models, framework</li>
-            <li className="transition-colors hover:text-slate-900 dark:hover:text-white">project management: agile, jira, trello - daily standup survivor</li>
+            <li className="transition-colors hover:text-slate-900 dark:hover:text-white">data platforms & analytics: snowflake/bigquery, streaming, semantic layers, any data viz tool - do not ever ask me about a pie chart</li>
+            <li className="transition-colors hover:text-slate-900 dark:hover:text-white">ai & llm systems: vector dbs, prompt versioning, caching, token-level cost controls</li>
+            <li className="transition-colors hover:text-slate-900 dark:hover:text-white">finops: framework, agentic ai / genai cost optimization, chargeback models</li>
           </ul>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-3">*stack overflow access required, six aws/finops certifications available upon request, results may vary</p>
         </div>
