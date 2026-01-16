@@ -7,13 +7,12 @@ export default function Page() {
   return (
     <>
       <StatsBar />
-
-      <div className="mt-12">
-        <section>
+        
+      {/* Header */}
+      <div className="mt-12 max-w-2xl mx-auto">
           <h1 className="font-semibold text-6xl mb-2 tracking-tighter gradient-text">jake sciotto</h1>
-          <p className="font-semibold text-m tracking-tighter">boulder, co</p>
-          <p className="text-xs text-neutral-500 mt-1">engineer by training, problem solver by trade, chaos agent by choice</p>
-        </section>
+            <p className="w-1/2 font-semibold text-sm tracking-tighter">boulder, co</p>
+            <p className="text-xs text-neutral-500 mt-1">engineer by training, problem solver by trade, chaos agent by choice</p>
 
         <section className="space-y-6 mt-8">
 
@@ -41,17 +40,17 @@ export default function Page() {
             <div className="relative flex flex-col bg-transparent shadow-md border border-slate-200 dark:border-slate-700 rounded-lg w-full max-w-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-300 dark:hover:border-slate-600">
               <div className="p-5 md:p-6">
                 <h4 className="mb-3 text-slate-900 dark:text-white text-2xl font-semibold">
-                  technical capabilities*
+                  technical capabilities
                 </h4>
                 <ul className="list-disc text-sm md:text-base pl-5 space-y-3 leading-relaxed text-slate-800 dark:text-neutral-200">
-                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">cloud architecture: serverless, event-driven, iac, containerization (i blew up an old macbook putting microk8s on it)</li>
+                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">cloud architecture: serverless + event-driven, iac tools, containerized workloads (i blew up an old macbook putting microk8s on it)</li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">programming: python, sql, javascript, java, c++, r - in order of decreasing confidence**</li>
-                   <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-3">**oh yeah i also build web apps w/ next/react and am familiar with deployment technologies like vercel or whatever</p>
-                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">stats: regression (all kinds), predictive modeling, time series analysis - 2x fantasy football champion without watching games</li>
-                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">machine learning: tensorflow, pytorch, scikit-learn, xgboost, & ability to explain what it is to an 8 year old</li>
-                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">data platforms & analytics: snowflake/bigquery, streaming, semantic layers, any data viz tool - do not ever ask me about a pie chart</li>
-                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">ai & llm systems: vector dbs, prompt versioning, caching, token-level cost controls</li>
-                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">finops: framework, agentic ai / genai cost optimization, chargeback models</li>
+                   <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-3">*when im not sending emails i do build production web apps with next/react, deploy on vercel, and managed ci/cd</p>
+                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">stats: regression (linear, logistic, regularized), predictive modeling, time series analysis - 2x fantasy football champion (model-driven, not on vibes)</li>
+                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">machine learning: scikit-learn, xgboost, pytorch/tensorflow - tabular models, forecasting, and applied ml</li>
+                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">data platforms & analytics: snowflake/bigquery, streaming pipelines, semantic layers, bi tooling - do not ever ask me about a pie chart</li>
+                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">ai & llm systems: vector dbs, prompt versioning, caching, token-level cost controls for prod workloads</li>
+                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">finops: framework, chargeback/showback models, genai cost optimization (agentic / usage-aware) </li>
                 </ul>
                
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">*six aws/finops certifications available upon request, results may vary</p>
@@ -68,9 +67,10 @@ export default function Page() {
 
               <div className="space-y-5 md:space-y-6 text-sm md:text-base">
                 <div className="transition-all duration-200 hover:translate-x-1">
-                  <p className="font-semibold text-slate-900 dark:text-white">senior finops account manager | cloudzero</p>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400">dec 2024 - present (currently employed, updating portfolio anyway)</p>
-                  <p className="mt-1 text-neutral-700 dark:text-neutral-300">managing enterprise cloud spend, partnering with c-suite to optimize costs, applying finops framework to solve expensive problems</p>
+                  <p className="font-semibold text-slate-900 dark:text-white">staff technical account manager | cloudzero</p>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400 italic">senior &rarr; staff dec 2025</p>
+                  <p className="text-xs text-neutral-500 dark:text-neutral-400">dec 2024 - present</p>   
+                  <p className="mt-1 text-neutral-700 dark:text-neutral-300">building bleeding edge finops solutions as the linchpin between business and technology (trademark pending on this phrase)</p>
                 </div>
 
                 <div className="transition-all duration-200 hover:translate-x-1">

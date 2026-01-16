@@ -53,33 +53,44 @@ function ExperienceCalculator({ startDate = '2016-01-01' }) {
 }
 
 function CertificationBadge() {
+  const badges = [
+    '/img/image1.png',
+    '/img/image2.png',
+    '/img/image3.png',
+    '/img/image4.png',
+    '/img/image5.png',
+    '/img/image6.png',
+  ]
+
   return (
-    <span className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-      <span className="text-[10px] font-medium"><a href="https://www.credly.com/users/jake-sciotto">6 certs (2025)</a></span>
-    </span>
+    <a
+      href="https://www.credly.com/users/jake-sciotto"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex items-center gap-0.5 hover:opacity-80 transition-opacity"
+      title="View certifications on Credly"
+    >
+      {badges.map((badge, index) => (
+        <img
+          key={index}
+          src={badge}
+          alt={`Certification badge ${index + 1}`}
+          className="w-7 h-7 rounded-sm object-cover"
+        />
+      ))}
+    </a>
   )
-}
-
-function LastUpdated() {
-  // This will be static for now - could pull from git commit later
-  const buildDate = new Date()
-  const daysAgo = Math.floor((Date.now() - buildDate) / (24 * 60 * 60 * 1000))
-
-  return <span>Updated {daysAgo === 0 ? 'today' : `${daysAgo} days ago`}</span>
 }
 
 export default function StatsBar() {
   return (
     <div className="fixed top-0 left-0 right-0 backdrop-blur-md bg-white/80 dark:bg-black/80 border-b border-neutral-200 dark:border-neutral-800 px-4 py-2 z-50">
-      <div className="max-w-4xl mx-auto flex justify-between items-center text-xs text-neutral-600 dark:text-neutral-400">
+      <div className="max-w-2xl mx-auto flex justify-between items-center text-xs text-neutral-600 dark:text-neutral-400">
         <div className="flex gap-3 md:gap-4 items-center flex-wrap">
           <GitHubActivity />
           <ExperienceCalculator />
-          <CertificationBadge />
         </div>
-        <div className="hidden md:block">
-          <LastUpdated />
-        </div>
+        <CertificationBadge />
       </div>
     </div>
   )
