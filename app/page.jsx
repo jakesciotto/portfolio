@@ -40,13 +40,13 @@ export default function Page() {
             <div className="relative flex flex-col bg-transparent shadow-md border border-slate-200 dark:border-slate-700 rounded-lg w-full max-w-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-300 dark:hover:border-slate-600">
               <div className="p-5 md:p-6">
                 <h4 className="mb-3 text-slate-900 dark:text-white text-2xl font-semibold">
-                  technical capabilities
+                  technical capabilities*
                 </h4>
                 <ul className="list-disc text-sm md:text-base pl-5 space-y-3 leading-relaxed text-slate-800 dark:text-neutral-200">
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">cloud architecture: serverless + event-driven, iac tools, containerized workloads (i blew up an old macbook putting microk8s on it)</li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">programming: python, sql, javascript, java, c++, r - in order of decreasing confidence**</li>
-                   <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-3">*when im not sending emails i do build production web apps with next/react, deploy on vercel, and managed ci/cd</p>
-                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">stats: regression (linear, logistic, regularized), predictive modeling, time series analysis - 2x fantasy football champion (model-driven, not on vibes)</li>
+                   <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-3">**when im not sending emails i do build production web apps with next/react w/ managed ci/cd</p>
+                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">stats: regression (linear, logistic, regularized), predictive modeling, time series analysis - 2x fantasy football champion (model-driven, vibe-informed)</li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">machine learning: scikit-learn, xgboost, pytorch/tensorflow - tabular models, forecasting, and applied ml</li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">data platforms & analytics: snowflake/bigquery, streaming pipelines, semantic layers, bi tooling - do not ever ask me about a pie chart</li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">ai & llm systems: vector dbs, prompt versioning, caching, token-level cost controls for prod workloads</li>
@@ -115,7 +115,6 @@ export default function Page() {
                 <p className="transition-colors hover:text-neutral-900 dark:hover:text-white"><span className="font-semibold">m.s. information technology</span> - kennesaw state (2019) - solana fellowship recipient</p>
                 <p className="transition-colors hover:text-neutral-900 dark:hover:text-white"><span className="font-semibold">b.s. information technology</span> - kennesaw state (2014-2018)</p>
               </div>
-              <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-3">yes, two master's degrees. no, i don't know why either.</p>
             </div>
           </AnimatedSection>
 
