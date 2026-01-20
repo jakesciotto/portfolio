@@ -67,8 +67,8 @@ export default function Page() {
 
               <div className="space-y-5 md:space-y-6 text-sm md:text-base">
                 <div className="transition-all duration-200 hover:translate-x-1">
-                  <p className="font-semibold text-slate-900 dark:text-white">staff technical account manager | cloudzero</p>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400 italic">senior &rarr; staff dec 2025</p>
+                  <p className="font-semibold text-slate-900 dark:text-white">senior technical account manager | cloudzero</p>
+                  {/*<p className="text-xs text-neutral-500 dark:text-neutral-400 italic">senior &rarr; staff dec 2025</p>*/}
                   <p className="text-xs text-neutral-500 dark:text-neutral-400">dec 2024 - present</p>   
                   <p className="mt-1 text-neutral-700 dark:text-neutral-300">building bleeding edge finops solutions as the linchpin between business and technology (trademark pending on this phrase)</p>
                 </div>
