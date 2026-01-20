@@ -12,7 +12,7 @@ export default function Page() {
       <div className="mt-12 max-w-2xl mx-auto">
           <h1 className="font-semibold text-6xl mb-2 tracking-tighter gradient-text">jake sciotto</h1>
             <p className="w-1/2 font-semibold text-sm tracking-tighter">boulder, co</p>
-            <p className="text-xs text-neutral-500 mt-1">engineer by training, problem solver by trade, chaos agent by choice</p>
+            <p className="text-xs text-neutral-500 mt-1">engineer by training, problem solver by trade, <a href="/tweets" className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors cursor-pointer">chaos agent</a> by choice</p>
 
         <section className="space-y-6 mt-8">
 
