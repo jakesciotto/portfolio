@@ -1,35 +1,25 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import AnimatedSection from '../components/animated-section'
+import { readdirSync } from 'fs'
+import { join } from 'path'
+import TweetClient from './tweet-client'
 
 export default function TweetsPage() {
-  const [tweetImages, setTweetImages] = useState([])
-
-  useEffect(() => {
-    // Dynamically find all tweet images
-    const images = ['tweet1.PNG', 'tweet2.PNG']
-    setTweetImages(images)
-  }, [])
+  // Read all files from the public/img directory that start with 'tweet'
+  const imgDir = join(process.cwd(), 'public', 'img')
+  const allFiles = readdirSync(imgDir)
+  const tweetImages = allFiles.filter((file) => file.toLowerCase().startsWith('tweet')).sort()
 
   return (
-    <div className="mt-12 max-w-4xl mx-auto px-4">
-      <h1 className="font-semibold text-5xl mb-4 tracking-tighter gradient-text">when i was online</h1>
-      <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-8">a collection of moments from the timeline</p>
+    <div className="mt-12 max-w-5xl mx-auto px-4">
+      <h1 className="font-semibold text-5xl mb-4 tracking-tighter gradient-text">
+        when i was online
+      </h1>
+      <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-8">
+        a collection of moments from the timeline
+      </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-4">
         {tweetImages.map((image, index) => (
-          <AnimatedSection key={image} delay={index * 100}>
-            <div className="relative flex flex-col bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-300 dark:hover:border-slate-600">
-              <div className="relative w-full aspect-auto">
-                <img
-                  src={`/img/${image}`}
-                  alt={`Tweet ${index + 1}`}
-                  className="w-full h-auto object-contain"
-                />
-              </div>
-            </div>
-          </AnimatedSection>
+          <TweetClient key={image} image={image} index={index} />
         ))}
       </div>
 

@@ -6,8 +6,8 @@ const navItems = {
   },
   '/projects': {
     name: 'projects',
-    disabled: true
-  }
+    disabled: true,
+  },
 }
 
 export function Navbar() {
