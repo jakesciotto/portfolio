@@ -31,7 +31,7 @@ export default function Page() {
                 <h4 className="mb-3 text-white text-2xl font-semibold">
                   about (in order of importance)
                 </h4>
-                <ul className="list-disc text-sm md:text-base pl-5 space-y-3 leading-relaxed text-neutral-200">
+                <ul className="list-disc text-sm md:text-base pl-5 space-y-2 leading-relaxed text-neutral-200">
                   <li className="transition-colors hover:text-white">
                     brazilian jiu jitsu blue belt & kids department head
                   </li>
