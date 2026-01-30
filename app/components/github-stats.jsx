@@ -95,8 +95,8 @@ export default function GitHubStats({ username = 'jakesciotto' }) {
   return (
     <>
       <StatCard
-        title="commits (last 7 days)"
-        value={stats.commits7d}
+        title="commits (last 30 days)"
+        value={stats.commits30d}
         variant="standard"
         animateNumber={typeof stats.commits7d === 'number'}
       />
