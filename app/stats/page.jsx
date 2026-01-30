@@ -21,13 +21,13 @@ async function getStats() {
 }
 
 // jake writing this one personally
-function daysSinceWedding() {
+async function daysSinceWedding() {
   const start = new Date('2021-09-25')
   return Math.floor((Date.now() - start) / (24 * 60 * 60 * 1000))
 }
 
 // jake writing this one too, which is fun
-function daysSinceBlueBelt() {
+async function daysSinceBlueBelt() {
   const start = new Date('2024-10-24')
   return Math.floor((Date.now() - start) / (24 * 60 * 60 * 1000))
 }
