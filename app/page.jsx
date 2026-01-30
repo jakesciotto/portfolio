@@ -24,7 +24,10 @@ export default function Page() {
         </p>
 
         <section className="space-y-6 mt-8">
-          {/* About - Dark card with hover lift */}
+          {/* About section
+           // TODO: add stats cards to top section here and maybe make them smaller
+           */}
+
           <AnimatedSection delay={100}>
             <div className="relative flex flex-col bg-slate-800 shadow-md border border-slate-700 rounded-lg w-full max-w-2xl transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-slate-600">
               <div className="p-5 md:p-6">

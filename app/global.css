@@ -151,7 +151,8 @@ table {
 
 /* Animated gradient for name */
 @keyframes gradient-shift {
-  0%, 100% {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
   50% {
@@ -196,7 +197,10 @@ table {
 .fade-in-section {
   opacity: 0;
   filter: blur(4px);
-  transition: opacity 0.6s ease-out, filter 0.6s ease-out, transform 0.6s ease-out;
+  transition:
+    opacity 0.6s ease-out,
+    filter 0.6s ease-out,
+    transform 0.6s ease-out;
   transform: translateY(20px);
 }
 

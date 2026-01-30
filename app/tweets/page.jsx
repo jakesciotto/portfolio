@@ -6,7 +6,9 @@ export default function TweetsPage() {
   // Read all files from the public/img directory that start with 'tweet'
   const imgDir = join(process.cwd(), 'public', 'img')
   const allFiles = readdirSync(imgDir)
-  const tweetImages = allFiles.filter((file) => file.toLowerCase().startsWith('tweet')).sort()
+  const tweetImages = allFiles
+    .filter((file) => file.toLowerCase().startsWith('tweet'))
+    .sort()
 
   return (
     <div className="mt-12 max-w-5xl mx-auto px-4">
