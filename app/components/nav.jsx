@@ -9,7 +9,7 @@ const navItems = {
   },
   '/projects': {
     name: 'projects',
-    disabled: false,
+    disabled: true,
   },
 }
 
