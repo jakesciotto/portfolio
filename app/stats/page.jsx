@@ -45,7 +45,7 @@ export default async function StatsPage() {
           live stats
         </h1>
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-          the numbers behind the chaos
+          if numbers are important to you
         </p>
       </div>
 
@@ -92,6 +92,14 @@ export default async function StatsPage() {
 
         <AnimatedSection delay={350}>
           <StatCard
+            title="years of student loan debt to pay off"
+            value="∞"
+            variant="secondary"
+          />
+        </AnimatedSection>
+
+        <AnimatedSection delay={350}>
+          <StatCard
             title="knee surgeries"
             value={5}
             subtitle="yea i am still training martial arts"
@@ -107,18 +115,10 @@ export default async function StatsPage() {
           />
         </AnimatedSection>
 
-        <AnimatedSection delay={350}>
+        <AnimatedSection delay={500}>
           <StatCard
             title="days suffering as a blue belt"
             value={daysSuffering}
-            variant="secondary"
-          />
-        </AnimatedSection>
-
-        <AnimatedSection delay={350}>
-          <StatCard
-            title="years of student loan debt to pay off"
-            value="∞"
             variant="secondary"
           />
         </AnimatedSection>
