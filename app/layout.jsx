@@ -1,3 +1,11 @@
+export const metadata = {
+  title: {
+    default: 'jake sciotto',
+    template: '%s | jake sciotto',
+  },
+  description: 'engineer by training, problem solver by trade, chaos agent by choice',
+}
+
 import './global.css'
 import { GeistSans } from 'geist/font/sans'
 import { GeistMono } from 'geist/font/mono'

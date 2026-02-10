@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 
 function GitHubActivity({ username = 'jakesciotto' }) {
@@ -71,11 +72,13 @@ function CertificationBadge() {
       title="View certifications on Credly"
     >
       {badges.map((badge, index) => (
-        <img
+        <Image
           key={index}
           src={badge}
           alt={`Certification badge ${index + 1}`}
-          className="w-7 h-7 rounded-sm object-cover"
+          width={28}
+          height={28}
+          className="rounded-sm object-cover"
         />
       ))}
     </a>

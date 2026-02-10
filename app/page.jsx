@@ -1,5 +1,3 @@
-'use client'
-
 import StatsBar from './components/stats-bar'
 import AnimatedSection from './components/animated-section'
 
@@ -10,8 +8,12 @@ export default function Page() {
 
       {/* Header */}
       <div className="mt-12 max-w-2xl mx-auto">
-        <h1 className="font-semibold text-6xl mb-2 tracking-tighter gradient-text">jake sciotto</h1>
-        <p className="w-1/2 font-semibold text-sm tracking-tighter">boulder, co</p>
+        <h1 className="font-semibold text-6xl mb-2 tracking-tighter gradient-text">
+          jake sciotto
+        </h1>
+        <p className="w-1/2 font-semibold text-sm tracking-tighter">
+          boulder, co
+        </p>
         <p className="text-xs text-neutral-500 mt-1">
           engineer by training, problem solver by trade,{' '}
           <a
@@ -48,10 +50,12 @@ export default function Page() {
                     "smartest guy i have ever met" - my wife
                   </li>
                   <li className="transition-colors hover:text-white">
-                    has two master's degrees - this debt is not going to pay for itself
+                    has two master's degrees - this debt is not going to pay for
+                    itself
                   </li>
                   <li className="transition-colors hover:text-white">
-                    alumni mentor at johns hopkins - tough explaining my 7 years in undergrad
+                    alumni mentor at johns hopkins - tough explaining my 7 years
+                    in undergrad
                   </li>
                 </ul>
               </div>
@@ -67,41 +71,45 @@ export default function Page() {
                 </h4>
                 <ul className="list-disc text-sm md:text-base pl-5 space-y-3 leading-relaxed text-slate-800 dark:text-neutral-200">
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">
-                    cloud architecture: serverless + event-driven, iac tools, containerized
-                    workloads (i blew up an old macbook putting microk8s on it)
+                    cloud architecture: serverless + event-driven, iac tools,
+                    containerized workloads (i blew up an old macbook putting
+                    microk8s on it)
                   </li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">
-                    programming: python, sql, javascript, java, c++, r - in order of decreasing
-                    confidence**
+                    programming: python, sql, javascript, java, c++, r - in
+                    order of decreasing confidence**
                   </li>
-                  <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-3">
-                    **when im not sending emails i do build production web apps with next/react w/
-                    managed ci/cd
-                  </p>
-                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">
-                    stats: regression (linear, logistic, regularized), predictive modeling, time
-                    series analysis - 2x fantasy football champion (model-driven, vibe-informed)
+                  <li className="list-none text-xs text-neutral-500 dark:text-neutral-400 mt-1">
+                    **when im not sending emails i do build production web apps
+                    with next/react w/ managed ci/cd
                   </li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">
-                    machine learning: scikit-learn, xgboost, pytorch/tensorflow - tabular models,
-                    forecasting, and applied ml
+                    stats: regression (linear, logistic, regularized),
+                    predictive modeling, time series analysis - 2x fantasy
+                    football champion (model-driven, vibe-informed)
                   </li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">
-                    data platforms & analytics: snowflake/bigquery, streaming pipelines, semantic
-                    layers, bi tooling - do not ever ask me about a pie chart
+                    machine learning: scikit-learn, xgboost, pytorch/tensorflow
+                    - tabular models, forecasting, and applied ml
                   </li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">
-                    ai & llm systems: vector dbs, prompt versioning, caching, token-level cost
-                    controls for prod workloads
+                    data platforms & analytics: snowflake/bigquery, streaming
+                    pipelines, semantic layers, bi tooling - do not ever ask me
+                    about a pie chart
                   </li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">
-                    finops: framework, chargeback/showback models, genai cost optimization (agentic
-                    / usage-aware){' '}
+                    ai & llm systems: vector dbs, prompt versioning, caching,
+                    token-level cost controls for prod workloads
+                  </li>
+                  <li className="transition-colors hover:text-slate-900 dark:hover:text-white">
+                    finops: framework, chargeback/showback models, genai cost
+                    optimization (agentic / usage-aware){' '}
                   </li>
                 </ul>
 
                 <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-                  *six aws/finops certifications available upon request, results may vary
+                  *six aws/finops certifications available upon request, results
+                  may vary
                 </p>
               </div>
             </div>
@@ -126,8 +134,9 @@ export default function Page() {
                     senior &rarr; dec 2024 - dec 2025
                   </p>
                   <p className="mt-1 text-neutral-700 dark:text-neutral-300">
-                    building bleeding edge finops solutions as the linchpin between business and
-                    technology (trademark pending on this phrase)
+                    building bleeding edge finops solutions as the linchpin
+                    between business and technology (trademark pending on this
+                    phrase)
                   </p>
                 </div>
 
@@ -139,9 +148,9 @@ export default function Page() {
                     dec 2022 - dec 2024
                   </p>
                   <p className="mt-1 text-neutral-700 dark:text-neutral-300">
-                    implemented healthcare software, coordinated cross-functional teams, led
-                    training and change management - basically made sure doctors could use the
-                    software
+                    implemented healthcare software, coordinated
+                    cross-functional teams, led training and change management -
+                    basically made sure doctors could use the software
                   </p>
                 </div>
 
@@ -153,9 +162,9 @@ export default function Page() {
                     dec 2020 - dec 2022
                   </p>
                   <p className="mt-1 text-neutral-700 dark:text-neutral-300">
-                    led covid-19 solution implementations for hundreds of thousands of users,
-                    designed creative solutions for evolving requirements - peak pandemic chaos
-                    coordination
+                    led covid-19 solution implementations for hundreds of
+                    thousands of users, designed creative solutions for evolving
+                    requirements - peak pandemic chaos coordination
                   </p>
                 </div>
 
@@ -167,8 +176,9 @@ export default function Page() {
                     aug 2020 - dec 2022
                   </p>
                   <p className="mt-1 text-neutral-700 dark:text-neutral-300">
-                    taught computing infrastructure and networking, consulted for healthcare
-                    research - they gave me a podium and students showed up
+                    taught computing infrastructure and networking, consulted
+                    for healthcare research - they gave me a podium and students
+                    showed up
                   </p>
                 </div>
 
@@ -180,8 +190,9 @@ export default function Page() {
                     aug 2018 - dec 2019
                   </p>
                   <p className="mt-1 text-neutral-700 dark:text-neutral-300">
-                    built power bi dashboards, developed transparent pricing strategy, performed
-                    statistical analysis - made pretty charts so people felt informed
+                    built power bi dashboards, developed transparent pricing
+                    strategy, performed statistical analysis - made pretty
+                    charts so people felt informed
                   </p>
                 </div>
 
@@ -193,8 +204,8 @@ export default function Page() {
                     2014 - 2017 (the before times)
                   </p>
                   <p className="mt-1 text-neutral-700 dark:text-neutral-300">
-                    helped 10 small businesses launch websites - learned that clients definitely
-                    know what they want until you build it
+                    helped 10 small businesses launch websites - learned that
+                    clients definitely know what they want until you build it
                   </p>
                 </div>
               </div>
@@ -209,16 +220,20 @@ export default function Page() {
               </h4>
               <div className="text-sm md:text-base space-y-2 text-neutral-700 dark:text-neutral-300">
                 <p className="transition-colors hover:text-neutral-900 dark:hover:text-white">
-                  <span className="font-semibold">m.s. data science</span> - johns hopkins
-                  university (2020-2021)
+                  <span className="font-semibold">m.s. data science</span> -
+                  johns hopkins university (2020-2021)
                 </p>
                 <p className="transition-colors hover:text-neutral-900 dark:hover:text-white">
-                  <span className="font-semibold">m.s. information technology</span> - kennesaw
-                  state (2019) - solana fellowship recipient
+                  <span className="font-semibold">
+                    m.s. information technology
+                  </span>{' '}
+                  - kennesaw state (2019) - solana fellowship recipient
                 </p>
                 <p className="transition-colors hover:text-neutral-900 dark:hover:text-white">
-                  <span className="font-semibold">b.s. information technology</span> - kennesaw
-                  state (2014-2018)
+                  <span className="font-semibold">
+                    b.s. information technology
+                  </span>{' '}
+                  - kennesaw state (2014-2018)
                 </p>
               </div>
             </div>
