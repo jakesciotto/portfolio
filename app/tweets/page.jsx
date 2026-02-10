@@ -1,6 +1,7 @@
 import { readdirSync } from 'fs'
 import { join } from 'path'
 import TweetClient from './tweet-client'
+import AnimatedSection from '../components/animated-section'
 
 export default function TweetsPage() {
   // Read all files from the public/img directory that start with 'tweet'
@@ -21,7 +22,9 @@ export default function TweetsPage() {
 
       <div className="grid grid-cols-1 gap-4">
         {tweetImages.map((image, index) => (
-          <TweetClient key={image} image={image} index={index} />
+          <AnimatedSection key={image} delay={100 + index * 100}>
+            <TweetClient image={image} index={index} />
+          </AnimatedSection>
         ))}
       </div>
 
