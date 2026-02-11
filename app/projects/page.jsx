@@ -31,7 +31,7 @@ export default function Page() {
                     preview
                   </span>
                 </span>
-                <span className="ml-auto text-[10px] font-medium uppercase tracking-widest text-neutral-500 border border-neutral-700 rounded-full px-2.5 py-0.5">
+                <span className="ml-auto shrink-0 whitespace-nowrap text-[10px] font-medium uppercase tracking-widest text-neutral-500 border border-neutral-700 rounded-full px-2.5 py-0.5">
                   coming soon
                 </span>
               </h4>
