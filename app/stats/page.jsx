@@ -1,41 +1,36 @@
-import { promises as fs } from 'fs'
-import path from 'path'
 import StatCard from '../components/stat-card'
 import GitHubStats from '../components/github-stats'
 import AnimatedSection from '../components/animated-section'
 
-async function getStats() {
-  try {
-    const filePath = path.join(process.cwd(), 'public', 'stats.json')
-    const fileContents = await fs.readFile(filePath, 'utf8')
-    return JSON.parse(fileContents)
-  } catch (error) {
-    console.error('Failed to read stats.json:', error)
-    return {
-      energy_drinks_this_month: 0,
-      days_since_secrets_to_prod: 0,
-      meetings_survived_this_week: 0,
-      pull_requests_merged_total: 0,
-    }
+function daysSince(dateStr) {
+  return Math.floor((Date.now() - new Date(dateStr)) / (24 * 60 * 60 * 1000))
+}
+
+// seeded random per week so the number is stable within a week
+function meetingsThisWeek() {
+  const now = new Date()
+  const weekNum = Math.floor((now - new Date(now.getFullYear(), 0, 1)) / (7 * 24 * 60 * 60 * 1000))
+  const seed = now.getFullYear() * 100 + weekNum
+  return 20 + ((seed * 9301 + 49297) % 233280) % 11
+}
+
+// seeded random per day so the number doesn't change on refresh
+function energyDrinksThisMonth() {
+  const now = new Date()
+  let total = 0
+  for (let day = 1; day <= now.getDate(); day++) {
+    const seed = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + day
+    total += (seed * 9301 + 49297) % 233280 > 116640 ? 3 : 2
   }
+  return total
 }
 
-// jake writing this one personally
-function daysSinceWedding() {
-  const start = new Date('2021-09-25')
-  return Math.floor((Date.now() - start) / (24 * 60 * 60 * 1000))
-}
-
-// jake writing this one too, which is fun
-function daysSinceBlueBelt() {
-  const start = new Date('2024-10-24')
-  return Math.floor((Date.now() - start) / (24 * 60 * 60 * 1000))
-}
-
-export default async function StatsPage() {
-  const stats = await getStats()
-  const daysMarried = daysSinceWedding()
-  const daysSuffering = daysSinceBlueBelt()
+export default function StatsPage() {
+  const meetings = meetingsThisWeek()
+  const daysClean = daysSince('2023-02-10')
+  const drinksThisMonth = energyDrinksThisMonth()
+  const daysMarried = daysSince('2021-09-25')
+  const daysSuffering = daysSince('2024-10-24')
 
   return (
     <div className="mt-12 max-w-5xl mx-auto px-4">
@@ -55,7 +50,7 @@ export default async function StatsPage() {
         <AnimatedSection delay={100}>
           <StatCard
             title="days since pushing secrets to prod"
-            value={stats.days_since_secrets_to_prod}
+            value={daysClean}
             variant="primary"
             animateNumber={true}
           />
@@ -64,7 +59,7 @@ export default async function StatsPage() {
         <AnimatedSection delay={150}>
           <StatCard
             title="energy drinks this month"
-            value={stats.energy_drinks_this_month}
+            value={drinksThisMonth}
             variant="primary"
             animateNumber={true}
           />
@@ -73,7 +68,7 @@ export default async function StatsPage() {
         <AnimatedSection delay={200}>
           <StatCard
             title="meetings survived this week"
-            value={stats.meetings_survived_this_week}
+            value={meetings}
             variant="primary"
             animateNumber={true}
           />

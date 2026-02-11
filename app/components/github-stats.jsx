@@ -3,10 +3,9 @@
 import { useEffect, useState } from 'react'
 import StatCard from './stat-card'
 
-export default function GitHubStats({ username = 'jakesciotto' }) {
+export default function GitHubStats() {
   const [stats, setStats] = useState({
     commits7d: '---',
-    commits30d: '---',
     loading: true,
   })
 
@@ -22,33 +21,13 @@ export default function GitHubStats({ username = 'jakesciotto' }) {
         return
       }
 
-      const response = await fetch(`https://api.github.com/users/${username}/events`)
+      const response = await fetch('/api/github-stats')
       if (!response.ok) throw new Error('GitHub API error')
 
-      const events = await response.json()
-
-      if (!Array.isArray(events)) {
-        throw new Error('Invalid response format')
-      }
-
-      const now = Date.now()
-      const sevenDaysAgo = now - 7 * 24 * 60 * 60 * 1000
-      const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000
-
-      // Count push events (GitHub API doesn't always include commits array)
-      const pushEvents = events.filter((e) => e.type === 'PushEvent')
-
-      const commits7d = pushEvents.filter(
-        (e) => new Date(e.created_at).getTime() > sevenDaysAgo
-      ).length
-
-      const commits30d = pushEvents.filter(
-        (e) => new Date(e.created_at).getTime() > thirtyDaysAgo
-      ).length
+      const { commits7d } = await response.json()
 
       const newStats = {
         commits7d,
-        commits30d,
         loading: false,
       }
 
@@ -63,7 +42,7 @@ export default function GitHubStats({ username = 'jakesciotto' }) {
       if (cached) {
         setStats({ ...JSON.parse(cached), loading: false })
       } else {
-        setStats({ commits7d: '---', commits30d: '---', loading: false })
+        setStats({ commits7d: '---', loading: false })
       }
     }
   }
@@ -90,7 +69,7 @@ export default function GitHubStats({ username = 'jakesciotto' }) {
       clearInterval(interval)
       document.removeEventListener('visibilitychange', handleVisibilityChange)
     }
-  }, [username])
+  }, [])
 
   return (
     <>
