@@ -20,7 +20,7 @@ export default function Page() {
             href="/tweets"
             className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors cursor-pointer"
           >
-            chaos agent
+            terminally online millenial
           </a>{' '}
           by choice
         </p>
