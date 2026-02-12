@@ -1,5 +1,6 @@
 import StatsBar from './components/stats-bar'
 import AnimatedSection from './components/animated-section'
+import InfoTooltip from './components/info-tooltip'
 
 export default function Page() {
   return (
@@ -38,7 +39,7 @@ export default function Page() {
                 </h4>
                 <ul className="list-disc text-sm md:text-base pl-5 space-y-2 leading-relaxed text-neutral-200">
                   <li className="transition-colors hover:text-white">
-                    brazilian jiu jitsu blue belt & kids department head
+                    brazilian jiu jitsu blue belt who doesn't pull guard
                   </li>
                   <li className="transition-colors hover:text-white">
                     semi-neurotic highly technical problem solver
@@ -50,7 +51,7 @@ export default function Page() {
                     "smartest guy i have ever met" - my wife
                   </li>
                   <li className="transition-colors hover:text-white">
-                    has two master's degrees - this debt is not going to pay for
+                    two master's degrees - this debt is not going to pay for
                     itself
                   </li>
                   <li className="transition-colors hover:text-white">
@@ -77,11 +78,13 @@ export default function Page() {
                   </li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">
                     programming: python, sql, javascript, java, c++, r - in
-                    order of decreasing confidence**
-                  </li>
-                  <li className="list-none text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-                    **when im not sending emails i do build production web apps
-                    with next/react w/ managed ci/cd
+                    order of decreasing confidence
+                    <InfoTooltip>
+                      technologies include but are not limited to next.js/react,
+                      node.js, express, vercel, tailwind, graphql, postgres,
+                      redis, docker, github actions, terraform, oauth/jwt,
+                      websockets - loOK AT THIS NERD, I BET YOU LOVE BOOKS
+                    </InfoTooltip>
                   </li>
                   <li className="transition-colors hover:text-slate-900 dark:hover:text-white">
                     stats: regression (linear, logistic, regularized),
@@ -134,7 +137,10 @@ export default function Page() {
                     senior &rarr; dec 2024 - dec 2025
                   </p>
                   <p className="mt-1 text-neutral-700 dark:text-neutral-300">
-                    building bleeding edge finops solutions as the linchpin
+                    - nicknamed "mr figure shit out"
+                  </p>
+                  <p className="mt-1 text-neutral-700 dark:text-neutral-300">
+                    - building bleeding edge finops solutions as the linchpin
                     between business and technology (trademark pending on this
                     phrase)
                   </p>
@@ -149,8 +155,8 @@ export default function Page() {
                   </p>
                   <p className="mt-1 text-neutral-700 dark:text-neutral-300">
                     implemented healthcare software, coordinated
-                    cross-functional teams, led training and change management -
-                    basically made sure doctors could use the software
+                    cross-functional teams, led training and change management
+                    at big boy scale - what's the deal with healthcare
                   </p>
                 </div>
 
@@ -164,7 +170,7 @@ export default function Page() {
                   <p className="mt-1 text-neutral-700 dark:text-neutral-300">
                     led covid-19 solution implementations for hundreds of
                     thousands of users, designed creative solutions for evolving
-                    requirements - peak pandemic chaos coordination
+                    requirements - should have invested in zoom
                   </p>
                 </div>
 
@@ -204,8 +210,8 @@ export default function Page() {
                     2014 - 2017 (the before times)
                   </p>
                   <p className="mt-1 text-neutral-700 dark:text-neutral-300">
-                    helped 10 small businesses launch websites - learned that
-                    clients definitely know what they want until you build it
+                    helped 10 small businesses launch websites - if you are
+                    reading this i miss php
                   </p>
                 </div>
               </div>
@@ -220,8 +226,16 @@ export default function Page() {
               </h4>
               <div className="text-sm md:text-base space-y-2 text-neutral-700 dark:text-neutral-300">
                 <p className="transition-colors hover:text-neutral-900 dark:hover:text-white">
-                  <span className="font-semibold">m.s. data science</span> -
-                  johns hopkins university (2020-2021)
+                  <span className="font-semibold">m.s. data science </span>
+                  <a
+                    href="https://www.youtube.com/watch?v=bGH2d1jBJu8"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-inherit no-underline hover:text-inherit"
+                  >
+                    - johns hopkins university
+                  </a>{' '}
+                  (2020-2021)
                 </p>
                 <p className="transition-colors hover:text-neutral-900 dark:hover:text-white">
                   <span className="font-semibold">
