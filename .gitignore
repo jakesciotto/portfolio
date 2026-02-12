@@ -38,3 +38,5 @@ next-env.d.ts
 
 pnpm-lock.yaml
 .prettierrc.json
+public/img/*
+!public/img/.gitkeep
