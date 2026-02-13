@@ -39,7 +39,7 @@ export default function Page() {
                 </h4>
                 <ul className="list-disc text-sm md:text-base pl-5 space-y-2 leading-relaxed text-neutral-200">
                   <li className="transition-colors hover:text-white">
-                    brazilian jiu jitsu blue belt who doesn't pull guard
+                    brazilian jiu jitsu blue belt & strongest man alive
                   </li>
                   <li className="transition-colors hover:text-white">
                     semi-neurotic highly technical problem solver
@@ -51,7 +51,7 @@ export default function Page() {
                     "smartest guy i have ever met" - my wife
                   </li>
                   <li className="transition-colors hover:text-white">
-                    two master's degrees - this debt is not going to pay for
+                    has two master's degrees - this debt is not going to pay for
                     itself
                   </li>
                   <li className="transition-colors hover:text-white">
