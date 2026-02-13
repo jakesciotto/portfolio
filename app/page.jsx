@@ -1,6 +1,7 @@
 import StatsBar from './components/stats-bar'
 import AnimatedSection from './components/animated-section'
 import InfoTooltip from './components/info-tooltip'
+import TrackedLink from './components/tracked-link'
 
 export default function Page() {
   return (
@@ -17,12 +18,14 @@ export default function Page() {
         </p>
         <p className="text-xs text-neutral-500 mt-1">
           engineer by training, problem solver by trade,{' '}
-          <a
+          <TrackedLink
             href="/tweets"
+            eventName="tweets_page_link_clicked"
+            eventProperties={{ link_text: 'terminally online millenial', location: 'header' }}
             className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors cursor-pointer"
           >
             terminally online millenial
-          </a>{' '}
+          </TrackedLink>{' '}
           by choice
         </p>
 
@@ -227,14 +230,16 @@ export default function Page() {
               <div className="text-sm md:text-base space-y-2 text-neutral-700 dark:text-neutral-300">
                 <p className="transition-colors hover:text-neutral-900 dark:hover:text-white">
                   <span className="font-semibold">m.s. data science </span>
-                  <a
+                  <TrackedLink
                     href="https://www.youtube.com/watch?v=bGH2d1jBJu8"
+                    eventName="education_link_clicked"
+                    eventProperties={{ school: 'johns_hopkins', link_type: 'easter_egg' }}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-inherit no-underline hover:text-inherit"
                   >
                     - johns hopkins university
-                  </a>{' '}
+                  </TrackedLink>{' '}
                   (2020-2021)
                 </p>
                 <p className="transition-colors hover:text-neutral-900 dark:hover:text-white">

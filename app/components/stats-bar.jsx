@@ -2,6 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
+import posthog from 'posthog-js'
 
 function GitHubActivity({ username = 'jakesciotto' }) {
   const [isActive, setIsActive] = useState(null)
@@ -63,6 +64,13 @@ function CertificationBadge() {
     '/img/image6.png',
   ]
 
+  const handleBadgeClick = () => {
+    posthog.capture('certification_badges_clicked', {
+      url: 'https://www.credly.com/users/jake-sciotto',
+      badge_count: badges.length,
+    })
+  }
+
   return (
     <a
       href="https://www.credly.com/users/jake-sciotto"
@@ -70,6 +78,7 @@ function CertificationBadge() {
       rel="noopener noreferrer"
       className="flex items-center gap-0.5 hover:opacity-80 transition-opacity"
       title="View certifications on Credly"
+      onClick={handleBadgeClick}
     >
       {badges.map((badge, index) => (
         <Image

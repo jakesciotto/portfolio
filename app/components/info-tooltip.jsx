@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import posthog from 'posthog-js'
 
 export default function InfoTooltip({ children }) {
   const [open, setOpen] = useState(false)
@@ -16,10 +17,20 @@ export default function InfoTooltip({ children }) {
     return () => document.removeEventListener('click', handleClickOutside)
   }, [open])
 
+  const handleToggle = () => {
+    const newOpen = !open
+    setOpen(newOpen)
+    if (newOpen) {
+      posthog.capture('info_tooltip_opened', {
+        section: 'technical_capabilities',
+      })
+    }
+  }
+
   return (
     <span ref={ref} className="relative inline-block align-middle ml-1">
       <button
-        onClick={() => setOpen(!open)}
+        onClick={handleToggle}
         className="inline-flex items-center justify-center w-4 h-4 text-[10px] rounded-full bg-neutral-700 text-neutral-300 cursor-pointer hover:bg-neutral-600 transition-colors"
         aria-label="More info"
       >

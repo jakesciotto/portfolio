@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import posthog from 'posthog-js'
 
 const navItems = {
   '/': {
@@ -14,6 +17,13 @@ const navItems = {
 }
 
 export function Navbar() {
+  const handleNavClick = (path, name) => {
+    posthog.capture('nav_link_clicked', {
+      destination_path: path,
+      link_name: name,
+    })
+  }
+
   return (
     <aside className="-ml-[8px] mb-16 tracking-tight">
       <div className="lg:sticky lg:top-20">
@@ -38,6 +48,7 @@ export function Navbar() {
                   key={path}
                   href={path}
                   className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2 m-1"
+                  onClick={() => handleNavClick(path, name)}
                 >
                   {name}
                 </Link>

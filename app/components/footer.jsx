@@ -1,3 +1,7 @@
+'use client'
+
+import posthog from 'posthog-js'
+
 function ArrowIcon() {
   return (
     <svg
@@ -16,6 +20,14 @@ function ArrowIcon() {
 }
 
 export default function Footer() {
+  const handleExternalLinkClick = (url, linkName) => {
+    posthog.capture('external_link_clicked', {
+      url: url,
+      link_name: linkName,
+      location: 'footer',
+    })
+  }
+
   return (
     <footer className="mt-auto mb-8">
       <ul className="font-sm mt-8 flex flex-col space-x-0 space-y-2 text-neutral-600 md:flex-row md:space-x-4 md:space-y-0 dark:text-neutral-300">
@@ -25,6 +37,12 @@ export default function Footer() {
             rel="noopener noreferrer"
             target="_blank"
             href="https://github.com/jakesciotto"
+            onClick={() =>
+              handleExternalLinkClick(
+                'https://github.com/jakesciotto',
+                'github'
+              )
+            }
           >
             <ArrowIcon />
             <p className="ml-2 h-7">github</p>
