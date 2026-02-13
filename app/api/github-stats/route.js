@@ -3,50 +3,51 @@ import PostHogClient from '../../posthog'
 export async function GET(request) {
   const posthog = PostHogClient()
   const token = process.env.GITHUB_TOKEN
-  const headers = token ? { Authorization: `Bearer ${token}` } : {}
-  const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
 
   // Get a distinct ID from headers if available, otherwise use anonymous
   const distinctId =
     request.headers.get('x-posthog-distinct-id') || 'server_anonymous'
 
   try {
-    let allPushes = 0
+    const now = new Date().toISOString()
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
 
-    for (let page = 1; page <= 3; page++) {
-      const res = await fetch(
-        `https://api.github.com/users/jakesciotto/events?per_page=100&page=${page}`,
-        { headers, next: { revalidate: 300 } }
-      )
-      if (!res.ok) break
+    const res = await fetch('https://api.github.com/graphql', {
+      method: 'POST',
+      headers: {
+        Authorization: `bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        query: `query {
+          viewer {
+            contributionsCollection(from: "${sevenDaysAgo}", to: "${now}") {
+              totalCommitContributions
+            }
+          }
+        }`,
+      }),
+      next: { revalidate: 300 },
+    })
 
-      const events = await res.json()
-      if (!Array.isArray(events) || events.length === 0) break
+    if (!res.ok) throw new Error(`GitHub API error: ${res.status}`)
 
-      allPushes += events.filter(
-        (e) =>
-          e.type === 'PushEvent' &&
-          new Date(e.created_at).getTime() > sevenDaysAgo
-      ).length
-
-      // Stop if we've gone past 7 days
-      const oldest = new Date(events[events.length - 1].created_at).getTime()
-      if (oldest < sevenDaysAgo) break
-    }
+    const { data } = await res.json()
+    const commits7d = data.viewer.contributionsCollection.totalCommitContributions
 
     // Track successful fetch
     posthog.capture({
       distinctId: distinctId,
       event: 'github_stats_fetched',
       properties: {
-        commits_7d: allPushes,
+        commits_7d: commits7d,
         source: 'api',
       },
     })
 
     await posthog.shutdown()
 
-    return Response.json({ commits7d: allPushes })
+    return Response.json({ commits7d })
   } catch (error) {
     // Track error
     posthog.capture({
