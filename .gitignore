@@ -38,3 +38,6 @@ next-env.d.ts
 
 .prettierrc.json
 .env.local
+
+# archive
+/archive
