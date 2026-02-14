@@ -6,35 +6,45 @@ import posthog from 'posthog-js'
 
 function GitHubActivity({ username = 'jakesciotto' }) {
   const [isActive, setIsActive] = useState(null)
+  const [commits7d, setCommits7d] = useState(null)
 
   useEffect(() => {
-    // Check cache first
+    // Check activity cache
     const cached = localStorage.getItem('gh_activity')
     const cacheTime = localStorage.getItem('gh_activity_time')
 
     if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 3600000) {
       setIsActive(cached === 'true')
-      return
+    } else {
+      fetch(`https://api.github.com/users/${username}/events`)
+        .then(res => res.json())
+        .then(events => {
+          if (Array.isArray(events) && events.length > 0) {
+            const lastEvent = new Date(events[0].created_at)
+            const dayAgo = Date.now() - (24 * 60 * 60 * 1000)
+            const active = lastEvent.getTime() > dayAgo
+
+            setIsActive(active)
+            localStorage.setItem('gh_activity', active.toString())
+            localStorage.setItem('gh_activity_time', Date.now().toString())
+          }
+        })
+        .catch(() => setIsActive(false))
     }
 
-    // Fetch from GitHub API
-    fetch(`https://api.github.com/users/${username}/events`)
-      .then(res => res.json())
-      .then(events => {
-        if (Array.isArray(events) && events.length > 0) {
-          const lastEvent = new Date(events[0].created_at)
-          const dayAgo = Date.now() - (24 * 60 * 60 * 1000)
-          const active = lastEvent.getTime() > dayAgo
+    // Fetch weekly commits
+    const cachedStats = localStorage.getItem('gh_stats')
+    const statsCacheTime = localStorage.getItem('gh_stats_time')
 
-          setIsActive(active)
-          localStorage.setItem('gh_activity', active.toString())
-          localStorage.setItem('gh_activity_time', Date.now().toString())
-        }
-      })
-      .catch(() => {
-        // Fail gracefully - don't show indicator if API fails
-        setIsActive(false)
-      })
+    if (cachedStats && statsCacheTime && Date.now() - parseInt(statsCacheTime) < 300000) {
+      const parsed = JSON.parse(cachedStats)
+      setCommits7d(parsed.commits7d)
+    } else {
+      fetch('/api/github-stats')
+        .then(res => res.json())
+        .then(data => setCommits7d(data.commits7d))
+        .catch(() => {})
+    }
   }, [username])
 
   if (isActive === null) return null
@@ -42,7 +52,7 @@ function GitHubActivity({ username = 'jakesciotto' }) {
   return (
     <span className="flex items-center gap-1.5">
       <span className={`w-2 h-2 rounded-full ${isActive ? 'bg-green-500' : 'bg-neutral-400'}`} />
-      <span>{isActive ? 'Active on GitHub' : 'GitHub'}</span>
+      {commits7d != null && <span>{commits7d} commits this week</span>}
     </span>
   )
 }
