@@ -3,14 +3,15 @@
 import Image from 'next/image'
 import { useRef } from 'react'
 import posthog from 'posthog-js'
+import { Badge } from '@/app/components/ui/badge'
 
-const pillColors = {
-  default: 'text-neutral-500 border-neutral-700',
-  green: 'text-emerald-500 border-emerald-700',
-  blue: 'text-blue-500 border-blue-700',
-  yellow: 'text-amber-500 border-amber-700',
-  red: 'text-red-500 border-red-700',
-  purple: 'text-purple-500 border-purple-700',
+const pillVariantMap = {
+  green: 'neonGreen',
+  blue: 'neonCyan',
+  yellow: 'neonAmber',
+  red: 'neonMagenta',
+  purple: 'neonPurple',
+  default: 'outline',
 }
 
 export default function ProjectItem({ project }) {
@@ -27,39 +28,52 @@ export default function ProjectItem({ project }) {
   }
 
   return (
-    <li className="relative group" onMouseEnter={handleMouseEnter}>
-      <h4 className="mb-3 text-neutral-900 dark:text-white text-l font-semibold cursor-default flex items-center gap-3">
+    <li
+      className="relative group glass-card glow-cyan p-4"
+      onMouseEnter={handleMouseEnter}
+    >
+      <h4 className="mb-2 text-card-foreground text-l font-semibold cursor-default flex items-center gap-3">
         <span className="w-fit">
           {project.link ? (
-            <a href={project.link} target="_blank" rel="noopener noreferrer" className="hover:underline">
+            <a
+              href={project.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-neon-cyan transition-colors"
+            >
               {project.name}
             </a>
           ) : (
             project.name
           )}
-          <span className="ml-2 text-xs font-normal text-neutral-500 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            {project.link ? '↗' : 'preview'}
+          <span className="ml-2 text-xs font-normal text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            {project.link ? '↗' : project.preview ? 'preview' : ''}
           </span>
         </span>
         {project.pill && (
-          <span className={`ml-auto shrink-0 whitespace-nowrap text-[10px] font-medium uppercase tracking-widest border rounded-full px-2.5 py-0.5 ${pillColors[project.pillColor] || pillColors.default}`}>
+          <Badge
+            variant={
+              pillVariantMap[project.pillColor] || pillVariantMap.default
+            }
+            className="ml-auto"
+          >
             {project.pill}
-          </span>
+          </Badge>
         )}
       </h4>
       {project.description && (
-        <p className="text-sm text-neutral-500 dark:text-neutral-400 -mt-1 mb-3">
+        <p className="text-xs text-muted-foreground -mt-1 mb-1">
           {project.description}
         </p>
       )}
-      {!project.link && (
+      {!project.link && project.preview && (
         <div className="absolute left-0 top-full z-10 pointer-events-none opacity-0 group-hover:opacity-100 scale-95 group-hover:scale-100 transition-all duration-200 ease-out">
           <Image
             src={project.preview}
             alt={`${project.name} preview`}
             width={320}
             height={200}
-            className="rounded-lg shadow-2xl border border-neutral-800"
+            className="rounded-lg shadow-2xl border border-border"
           />
         </div>
       )}

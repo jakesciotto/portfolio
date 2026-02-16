@@ -1,13 +1,30 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { cn } from '@/app/lib/utils'
+
+const glowColorMap = {
+  cyan: 'glow-cyan',
+  magenta: 'glow-magenta',
+  green: 'glow-green',
+  amber: 'glow-amber',
+  purple: 'glow-purple',
+}
+
+const neonTextMap = {
+  cyan: 'text-neon-cyan',
+  magenta: 'text-neon-magenta',
+  green: 'text-neon-green',
+  amber: 'text-neon-amber',
+  purple: 'text-neon-purple',
+}
 
 export default function StatCard({
   title,
   value,
   subtitle,
-  variant = 'standard',
-  animateNumber = false
+  glowColor = 'cyan',
+  animateNumber = false,
 }) {
   const [displayValue, setDisplayValue] = useState(animateNumber ? 0 : value)
 
@@ -17,7 +34,7 @@ export default function StatCard({
       return
     }
 
-    const duration = 1000 // 1 second animation
+    const duration = 1000
     const steps = 30
     const increment = value / steps
     const stepDuration = duration / steps
@@ -36,26 +53,26 @@ export default function StatCard({
     return () => clearInterval(timer)
   }, [value, animateNumber])
 
-  const variants = {
-    primary: 'bg-slate-800 border border-slate-700 text-white shadow-md hover:shadow-xl hover:border-slate-600',
-    standard: 'bg-transparent border border-slate-200 dark:border-slate-700 shadow-md hover:shadow-xl hover:border-slate-300 dark:hover:border-slate-600',
-    accent: 'border-l-4 border-slate-300 dark:border-slate-600 pl-4 md:pl-6 hover:border-slate-400 dark:hover:border-slate-500 hover:pl-5 md:hover:pl-7'
-  }
-
-  const variantClasses = variants[variant] || variants.standard
-
   return (
-    <div className={`relative flex flex-col h-full rounded-lg p-5 md:p-6 transition-all duration-300 hover:-translate-y-1 ${variantClasses}`}>
-      <div className="text-4xl md:text-5xl font-bold mb-2 tracking-tight">
+    <div
+      className={cn(
+        'glass-card relative flex flex-col h-full p-5 md:p-6',
+        glowColorMap[glowColor] || glowColorMap.cyan,
+      )}
+    >
+      <div
+        className={cn(
+          'text-4xl md:text-5xl font-bold mb-2 tracking-tighter',
+          neonTextMap[glowColor] || 'text-card-foreground',
+        )}
+      >
         {displayValue}
       </div>
-      <div className="text-sm md:text-base font-medium text-neutral-700 dark:text-neutral-300 break-words">
+      <div className="text-sm tracking-tight font-semibold md:text-base text-muted-foreground break-word">
         {title}
       </div>
       {subtitle && (
-        <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-          {subtitle}
-        </div>
+        <div className="text-xs text-muted-foreground/70 mt-1">{subtitle}</div>
       )}
     </div>
   )

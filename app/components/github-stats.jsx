@@ -11,12 +11,10 @@ export default function GitHubStats() {
 
   const fetchGitHubStats = async () => {
     try {
-      // Check cache first
       const cached = localStorage.getItem('gh_stats')
       const cacheTime = localStorage.getItem('gh_stats_time')
 
       if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 300000) {
-        // Cache valid for 5 minutes
         setStats({ ...JSON.parse(cached), loading: false })
         return
       }
@@ -37,7 +35,6 @@ export default function GitHubStats() {
     } catch (error) {
       console.error('Failed to fetch GitHub stats:', error)
 
-      // Try to use cached data even if expired
       const cached = localStorage.getItem('gh_stats')
       if (cached) {
         setStats({ ...JSON.parse(cached), loading: false })
@@ -50,14 +47,12 @@ export default function GitHubStats() {
   useEffect(() => {
     fetchGitHubStats()
 
-    // Auto-refresh every 5 minutes
     const interval = setInterval(() => {
       if (!document.hidden) {
         fetchGitHubStats()
       }
-    }, 300000) // 5 minutes
+    }, 300000)
 
-    // Pause when tab hidden
     const handleVisibilityChange = () => {
       if (!document.hidden) {
         fetchGitHubStats()
@@ -72,13 +67,11 @@ export default function GitHubStats() {
   }, [])
 
   return (
-    <>
-      <StatCard
-        title="commits (last 7 days)"
-        value={stats.commits7d}
-        variant="standard"
-        animateNumber={typeof stats.commits7d === 'number'}
-      />
-    </>
+    <StatCard
+      title="commits (last 7 days)"
+      value={stats.commits7d}
+      glowColor="cyan"
+      animateNumber={typeof stats.commits7d === 'number'}
+    />
   )
 }

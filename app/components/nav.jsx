@@ -1,22 +1,20 @@
 'use client'
 
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import posthog from 'posthog-js'
+import { cn } from '@/app/lib/utils'
 
 const navItems = {
-  '/': {
-    name: 'home',
-  },
-  '/stats': {
-    name: 'stats',
-  },
-  '/projects': {
-    name: 'projects',
-    disabled: false,
-  },
+  '/': { name: 'home' },
+  '/stats': { name: 'stats' },
+  '/projects': { name: 'projects' },
+  '/certifications': { name: 'certs' },
 }
 
 export function Navbar() {
+  const pathname = usePathname()
+
   const handleNavClick = (path, name) => {
     posthog.capture('nav_link_clicked', {
       destination_path: path,
@@ -33,11 +31,13 @@ export function Navbar() {
         >
           <div className="flex flex-row space-x-0 pr-10">
             {Object.entries(navItems).map(([path, { name, disabled }]) => {
+              const isActive = pathname === path
+
               if (disabled) {
                 return (
                   <span
                     key={path}
-                    className="flex align-middle relative py-1 px-2 m-1 text-neutral-400 dark:text-neutral-600 cursor-not-allowed"
+                    className="flex align-middle relative py-1 px-2 m-1 text-muted-foreground cursor-not-allowed"
                   >
                     {name}
                   </span>
@@ -47,10 +47,18 @@ export function Navbar() {
                 <Link
                   key={path}
                   href={path}
-                  className="transition-all hover:text-neutral-800 dark:hover:text-neutral-200 flex align-middle relative py-1 px-2 m-1"
+                  className={cn(
+                    "relative flex align-middle py-1 px-2 m-1 transition-all",
+                    isActive
+                      ? "text-neon-cyan"
+                      : "text-muted-foreground hover:text-foreground"
+                  )}
                   onClick={() => handleNavClick(path, name)}
                 >
                   {name}
+                  {isActive && (
+                    <span className="absolute bottom-0 left-2 right-2 h-px bg-neon-cyan" />
+                  )}
                 </Link>
               )
             })}

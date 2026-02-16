@@ -6,15 +6,15 @@ function daysSince(dateStr) {
   return Math.floor((Date.now() - new Date(dateStr)) / (24 * 60 * 60 * 1000))
 }
 
-// seeded random per week so the number is stable within a week
 function meetingsThisWeek() {
   const now = new Date()
-  const weekNum = Math.floor((now - new Date(now.getFullYear(), 0, 1)) / (7 * 24 * 60 * 60 * 1000))
+  const weekNum = Math.floor(
+    (now - new Date(now.getFullYear(), 0, 1)) / (7 * 24 * 60 * 60 * 1000),
+  )
   const seed = now.getFullYear() * 100 + weekNum
-  return 20 + ((seed * 9301 + 49297) % 233280) % 11
+  return 20 + (((seed * 9301 + 49297) % 233280) % 11)
 }
 
-// seeded random per day so the number doesn't change on refresh
 function energyDrinksThisMonth() {
   const now = new Date()
   let total = 0
@@ -39,19 +39,18 @@ export default function StatsPage() {
         <h1 className="font-semibold text-6xl mb-2 tracking-tighter gradient-text">
           live stats
         </h1>
-        <p className="text-sm text-neutral-500 dark:text-neutral-400">
+        <p className="text-sm text-muted-foreground">
           if numbers are important to you
         </p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-        {/* Primary stats - top three filled cards */}
         <AnimatedSection delay={100}>
           <StatCard
             title="days since pushing secrets to prod"
             value={daysClean}
-            variant="primary"
+            glowColor="magenta"
             animateNumber={true}
           />
         </AnimatedSection>
@@ -60,8 +59,9 @@ export default function StatsPage() {
           <StatCard
             title="energy drinks this month"
             value={drinksThisMonth}
-            variant="primary"
+            glowColor="green"
             animateNumber={true}
+            subtitle="another white can monster could fix me"
           />
         </AnimatedSection>
 
@@ -69,27 +69,25 @@ export default function StatsPage() {
           <StatCard
             title="meetings survived this week"
             value={meetings}
-            variant="primary"
+            glowColor="amber"
             animateNumber={true}
+            subtitle="should we hop on a call"
           />
         </AnimatedSection>
 
-        {/* GitHub stats - auto-refreshing */}
         <AnimatedSection delay={250}>
           <GitHubStats />
         </AnimatedSection>
 
-        {/* Personal stats */}
-
         <AnimatedSection delay={300}>
-          <StatCard title="pets in my house" value={5} variant="secondary" />
+          <StatCard title="pets in my house" value={5} glowColor="purple" />
         </AnimatedSection>
 
         <AnimatedSection delay={350}>
           <StatCard
             title="years of student loan debt to pay off"
-            value="∞"
-            variant="secondary"
+            value="&infin;"
+            glowColor="magenta"
           />
         </AnimatedSection>
 
@@ -98,7 +96,7 @@ export default function StatsPage() {
             title="knee surgeries"
             value={5}
             subtitle="yea i am still training martial arts"
-            variant="secondary"
+            glowColor="green"
           />
         </AnimatedSection>
 
@@ -106,7 +104,7 @@ export default function StatsPage() {
           <StatCard
             title="days as #1 wife guy"
             value={daysMarried}
-            variant="secondary"
+            glowColor="amber"
           />
         </AnimatedSection>
 
@@ -114,14 +112,15 @@ export default function StatsPage() {
           <StatCard
             title="days suffering as a blue belt"
             value={daysSuffering}
-            variant="secondary"
+            glowColor="purple"
+            subtitle="i dont pull guard though"
           />
         </AnimatedSection>
       </div>
 
       {/* Footer note */}
       <div className="mt-12 mb-8 text-center">
-        <p className="text-xs text-neutral-500 dark:text-neutral-400">
+        <p className="text-xs text-muted-foreground">
           github stats auto-refresh every 5 minutes. manual stats updated when i
           remember.
         </p>

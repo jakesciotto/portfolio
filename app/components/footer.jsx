@@ -30,27 +30,37 @@ export default function Footer() {
 
   return (
     <footer className="mt-auto mb-8">
-      <ul className="font-sm mt-8 flex flex-col space-x-0 space-y-2 text-neutral-600 md:flex-row md:space-x-4 md:space-y-0 dark:text-neutral-300">
-        <li>
-          <a
-            className="flex items-center transition-all hover:text-neutral-800 dark:hover:text-neutral-100"
-            rel="noopener noreferrer"
-            target="_blank"
-            href="https://github.com/jakesciotto"
-            onClick={() =>
-              handleExternalLinkClick(
-                'https://github.com/jakesciotto',
-                'github'
-              )
-            }
-          >
-            <ArrowIcon />
-            <p className="ml-2 h-7">github</p>
-          </a>
-        </li>
-      </ul>
-      <p className="mt-8 text-neutral-600 dark:text-neutral-300">
-        © {new Date().getFullYear()} MIT Licensed
+      <div className="font-sm mt-8 flex items-center text-muted-foreground">
+        <a
+          className="flex items-center transition-all hover:text-neon-cyan"
+          rel="noopener noreferrer"
+          target="_blank"
+          href="https://github.com/jakesciotto"
+          onClick={() =>
+            handleExternalLinkClick(
+              'https://github.com/jakesciotto',
+              'github'
+            )
+          }
+        >
+          <ArrowIcon />
+          <p className="ml-2 h-7">github</p>
+        </a>
+        <a
+          className="ml-auto transition-all hover:text-neon-cyan"
+          href="mailto:jake.sciotto@gmail.com"
+          onClick={() =>
+            handleExternalLinkClick(
+              'mailto:jake.sciotto@gmail.com',
+              'email'
+            )
+          }
+        >
+          jake.sciotto@gmail.com
+        </a>
+      </div>
+      <p className="mt-8 text-muted-foreground">
+        &copy; {new Date().getFullYear()} MIT Licensed
       </p>
     </footer>
   )

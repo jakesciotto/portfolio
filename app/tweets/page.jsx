@@ -4,7 +4,6 @@ import TweetClient from './tweet-client'
 import AnimatedSection from '../components/animated-section'
 
 export default function TweetsPage() {
-  // Read all files from the public/img directory that start with 'tweet'
   const imgDir = join(process.cwd(), 'public', 'img')
   const allFiles = readdirSync(imgDir)
   const tweetImages = allFiles
@@ -13,10 +12,10 @@ export default function TweetsPage() {
 
   return (
     <div className="mt-12 max-w-5xl mx-auto px-4">
-      <h1 className="font-semibold text-5xl mb-4 tracking-tighter gradient-text">
+      <h1 className="font-semibold text-6xl mb-4 tracking-tighter gradient-text">
         when i was online
       </h1>
-      <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-8">
+      <p className="text-sm text-muted-foreground mb-8">
         a collection of moments from the timeline
       </p>
 
@@ -31,9 +30,9 @@ export default function TweetsPage() {
       <div className="mt-12 text-center">
         <a
           href="/"
-          className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-200 transition-colors"
+          className="text-sm text-muted-foreground hover:text-neon-cyan transition-colors"
         >
-          ← back to reality
+          &larr; back to reality
         </a>
       </div>
     </div>

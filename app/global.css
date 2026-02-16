@@ -1,11 +1,74 @@
 @import 'tailwindcss';
 
-::selection {
-  background-color: #47a3f3;
-  color: #fefefe;
+/* ═══════════════════════════════════════════
+   Theme tokens — registers with Tailwind v4
+   so utilities like bg-background, text-foreground,
+   border-neon-cyan etc. all work automatically
+   ═══════════════════════════════════════════ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-magenta: var(--neon-magenta);
+  --color-neon-green: var(--neon-green);
+  --color-neon-amber: var(--neon-amber);
+  --color-neon-purple: var(--neon-purple);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
+/* ═══════════════════════════════════════════
+   Light mode
+   ═══════════════════════════════════════════ */
 :root {
+  --background: #f8f9fa;
+  --foreground: #0f172a;
+  --card: rgba(255, 255, 255, 0.7);
+  --card-foreground: #0f172a;
+  --popover: rgba(255, 255, 255, 0.85);
+  --popover-foreground: #0f172a;
+  --primary: #0891b2;
+  --primary-foreground: #ffffff;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  --destructive: #ef4444;
+  --border: rgba(0, 0, 0, 0.08);
+  --input: #e2e8f0;
+  --ring: #0891b2;
+  --radius: 0.75rem;
+
+  --neon-cyan: #0891b2;
+  --neon-magenta: #db2777;
+  --neon-green: #16a34a;
+  --neon-amber: #d97706;
+  --neon-purple: #9333ea;
+
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(0, 0, 0, 0.08);
+
   --sh-class: #2d5e9d;
   --sh-identifier: #354150;
   --sh-sign: #8996a3;
@@ -17,120 +80,85 @@
   --sh-entity: #e25a1c;
 }
 
+/* ═══════════════════════════════════════════
+   Dark mode
+   ═══════════════════════════════════════════ */
 @media (prefers-color-scheme: dark) {
   :root {
+    --background: #121215;
+    --foreground: #f8fafc;
+    --card: rgba(255, 255, 255, 0.05);
+    --card-foreground: #f8fafc;
+    --popover: rgba(30, 30, 50, 0.9);
+    --popover-foreground: #f8fafc;
+    --primary: #00f0ff;
+    --primary-foreground: #0f172a;
+    --secondary: rgba(255, 255, 255, 0.08);
+    --secondary-foreground: #f8fafc;
+    --muted: rgba(255, 255, 255, 0.06);
+    --muted-foreground: #94a3b8;
+    --accent: rgba(255, 255, 255, 0.08);
+    --accent-foreground: #f8fafc;
+    --destructive: #ef4444;
+    --border: rgba(255, 255, 255, 0.1);
+    --input: rgba(255, 255, 255, 0.15);
+    --ring: #00f0ff;
+
+    --neon-cyan: #00f0ff;
+    --neon-magenta: #ff006e;
+    --neon-green: #39ff14;
+    --neon-amber: #ffbe0b;
+    --neon-purple: #b829dd;
+
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+
     --sh-class: #4c97f8;
     --sh-identifier: white;
     --sh-keyword: #f47067;
     --sh-string: #0fa295;
-  }
-  html {
+
     color-scheme: dark;
   }
+}
+
+/* ═══════════════════════════════════════════
+   Base
+   ═══════════════════════════════════════════ */
+::selection {
+  background-color: var(--neon-cyan);
+  color: #fefefe;
 }
 
 html {
   min-width: 360px;
 }
 
-.prose .anchor {
-  @apply absolute invisible no-underline;
-
-  margin-left: -1em;
-  padding-right: 0.5em;
-  width: 80%;
-  max-width: 700px;
-  cursor: pointer;
+/* ═══════════════════════════════════════════
+   Glass card
+   ═══════════════════════════════════════════ */
+.glass-card {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  transition: all 0.3s ease;
 }
 
-.anchor:hover {
-  @apply visible;
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--glow-color, var(--neon-cyan)) 40%, transparent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--glow-color, var(--neon-cyan)) 15%, transparent),
+              0 8px 32px rgba(0, 0, 0, 0.12);
 }
 
-.prose a {
-  @apply underline transition-all decoration-neutral-400 dark:decoration-neutral-600 underline-offset-2 decoration-[0.1em];
-}
+.glow-cyan { --glow-color: var(--neon-cyan); }
+.glow-magenta { --glow-color: var(--neon-magenta); }
+.glow-green { --glow-color: var(--neon-green); }
+.glow-amber { --glow-color: var(--neon-amber); }
+.glow-purple { --glow-color: var(--neon-purple); }
 
-.prose .anchor:after {
-  @apply text-neutral-300 dark:text-neutral-700;
-  content: '#';
-}
-
-.prose *:hover > .anchor {
-  @apply visible;
-}
-
-.prose pre {
-  @apply bg-neutral-50 dark:bg-neutral-900 rounded-lg overflow-x-auto border border-neutral-200 dark:border-neutral-900 py-2 px-3 text-sm;
-}
-
-.prose code {
-  @apply px-1 py-0.5 rounded-lg;
-}
-
-.prose pre code {
-  @apply p-0;
-  border: initial;
-  line-height: 1.5;
-}
-
-.prose code span {
-  @apply font-medium;
-}
-
-.prose img {
-  /* Don't apply styles to next/image */
-  @apply m-0;
-}
-
-.prose p {
-  @apply my-4 text-neutral-800 dark:text-neutral-200;
-}
-
-.prose h1 {
-  @apply text-4xl font-medium tracking-tight mt-6 mb-2;
-}
-
-.prose h2 {
-  @apply text-xl font-medium tracking-tight mt-6 mb-2;
-}
-
-.prose h3 {
-  @apply text-xl font-medium tracking-tight mt-6 mb-2;
-}
-
-.prose h4 {
-  @apply text-lg font-medium tracking-tight mt-6 mb-2;
-}
-
-.prose strong {
-  @apply font-medium;
-}
-
-.prose ul {
-  @apply list-disc pl-6;
-}
-
-.prose ol {
-  @apply list-decimal pl-6;
-}
-
-.prose > :first-child {
-  /* Override removing top margin, causing layout shift */
-  margin-top: 1.25em !important;
-  margin-bottom: 1.25em !important;
-}
-
-pre::-webkit-scrollbar {
-  display: none;
-}
-
-pre {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
-/* Remove Safari input shadow on mobile */
 input[type='text'],
 input[type='email'] {
   -webkit-appearance: none;
@@ -138,18 +166,9 @@ input[type='email'] {
   appearance: none;
 }
 
-table {
-  display: block;
-  max-width: fit-content;
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
-.title {
-  text-wrap: balance;
-}
-
-/* Animated gradient for name */
+/* ═══════════════════════════════════════════
+   Animated gradient for name
+   ═══════════════════════════════════════════ */
 @keyframes gradient-shift {
   0%,
   100% {
@@ -163,28 +182,28 @@ table {
 .gradient-text {
   background: linear-gradient(
     90deg,
-    #000 0%,
-    #333 25%,
-    #000 50%,
-    #333 75%,
-    #000 100%
+    #0f172a 0%,
+    #334155 25%,
+    #0f172a 50%,
+    #334155 75%,
+    #0f172a 100%
   );
   background-size: 200% 100%;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   animation: gradient-shift 8s ease infinite;
+  padding: 0.05em 0;
 }
 
 @media (prefers-color-scheme: dark) {
   .gradient-text {
     background: linear-gradient(
       90deg,
-      #fff 0%,
-      #ccc 25%,
-      #fff 50%,
-      #ccc 75%,
-      #fff 100%
+      #00f0ff 0%,
+      #b829dd 33%,
+      #ff006e 66%,
+      #00f0ff 100%
     );
     background-size: 200% 100%;
     -webkit-background-clip: text;
@@ -193,7 +212,51 @@ table {
   }
 }
 
-/* Intersection observer animations */
+/* ═══════════════════════════════════════════
+   Shimmer / glimmer effect
+   ═══════════════════════════════════════════ */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shimmer-link {
+  background: linear-gradient(
+    90deg,
+    currentColor 0%,
+    currentColor 40%,
+    var(--neon-magenta) 50%,
+    currentColor 60%,
+    currentColor 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.shimmer-link:hover {
+  -webkit-text-fill-color: transparent;
+  background: linear-gradient(
+    90deg,
+    var(--neon-magenta) 0%,
+    var(--neon-purple) 50%,
+    var(--neon-magenta) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ═══════════════════════════════════════════
+   Intersection observer animations
+   ═══════════════════════════════════════════ */
 .fade-in-section {
   opacity: 0;
   filter: blur(4px);
@@ -210,7 +273,9 @@ table {
   transform: translateY(0);
 }
 
-/* Respect reduced motion preferences */
+/* ═══════════════════════════════════════════
+   Reduced motion
+   ═══════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
   .gradient-text {
     animation: none;
@@ -223,5 +288,9 @@ table {
     filter: none;
     transform: none;
     transition: none;
+  }
+
+  .glass-card:hover {
+    transform: none;
   }
 }

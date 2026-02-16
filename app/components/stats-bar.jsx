@@ -1,15 +1,16 @@
 'use client'
 
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useEffect, useState, useRef } from 'react'
 import posthog from 'posthog-js'
+import { cn } from '@/app/lib/utils'
 
 function GitHubActivity({ username = 'jakesciotto' }) {
   const [isActive, setIsActive] = useState(null)
   const [commits7d, setCommits7d] = useState(null)
 
   useEffect(() => {
-    // Check activity cache
     const cached = localStorage.getItem('gh_activity')
     const cacheTime = localStorage.getItem('gh_activity_time')
 
@@ -32,7 +33,6 @@ function GitHubActivity({ username = 'jakesciotto' }) {
         .catch(() => setIsActive(false))
     }
 
-    // Fetch weekly commits
     const cachedStats = localStorage.getItem('gh_stats')
     const statsCacheTime = localStorage.getItem('gh_stats_time')
 
@@ -51,7 +51,7 @@ function GitHubActivity({ username = 'jakesciotto' }) {
 
   return (
     <span className="flex items-center gap-1.5">
-      <span className={`w-2 h-2 rounded-full ${isActive ? 'bg-green-500' : 'bg-neutral-400'}`} />
+      <span className={`w-2 h-2 rounded-full ${isActive ? 'bg-neon-green shadow-[0_0_6px_var(--neon-green)]' : 'bg-muted-foreground'}`} />
       {commits7d != null && <span>{commits7d} commits this week</span>}
     </span>
   )
@@ -76,18 +76,16 @@ function CertificationBadge() {
 
   const handleBadgeClick = () => {
     posthog.capture('certification_badges_clicked', {
-      url: 'https://www.credly.com/users/jake-sciotto',
+      destination: '/certifications',
       badge_count: badges.length,
     })
   }
 
   return (
-    <a
-      href="https://www.credly.com/users/jake-sciotto"
-      target="_blank"
-      rel="noopener noreferrer"
+    <Link
+      href="/certifications"
       className="flex items-center gap-0.5 hover:opacity-80 transition-opacity"
-      title="View certifications on Credly"
+      title="View certifications"
       onClick={handleBadgeClick}
     >
       {badges.map((badge, index) => (
@@ -100,14 +98,35 @@ function CertificationBadge() {
           className="rounded-sm object-cover"
         />
       ))}
-    </a>
+    </Link>
   )
 }
 
 export default function StatsBar() {
+  const [visible, setVisible] = useState(true)
+  const lastScrollY = useRef(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY
+      if (currentY > lastScrollY.current && currentY > 60) {
+        setVisible(false)
+      } else {
+        setVisible(true)
+      }
+      lastScrollY.current = currentY
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
-    <div className="fixed top-0 left-0 right-0 backdrop-blur-md bg-white/80 dark:bg-black/80 border-b border-neutral-200 dark:border-neutral-800 px-4 py-2 z-50">
-      <div className="max-w-2xl mx-auto flex justify-between items-center text-xs text-neutral-600 dark:text-neutral-400">
+    <div className={cn(
+      "fixed top-0 left-0 right-0 glass px-4 py-2 z-50 transition-transform duration-300",
+      visible ? "translate-y-0" : "-translate-y-full"
+    )}>
+      <div className="max-w-2xl mx-auto flex justify-between items-center text-xs text-muted-foreground">
         <div className="flex gap-3 md:gap-4 items-center flex-wrap">
           <GitHubActivity />
           <ExperienceCalculator />
