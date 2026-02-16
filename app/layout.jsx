@@ -18,9 +18,17 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`bg-background text-foreground ${GeistSans.variable} ${GeistMono.variable}`}
     >
-      <body className="antialiased max-w-2xl mx-4 mt-8 lg:mx-auto min-h-screen flex flex-col">
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})()`,
+          }}
+        />
+      </head>
+      <body className="antialiased max-w-2xl mx-4 mt-8 md:mx-auto min-h-screen flex flex-col">
         <TooltipProvider>
           <StatsBar />
           <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0 flex-grow">

@@ -67,7 +67,7 @@ const certifications = [
 
 export default function CertificationsPage() {
   return (
-    <div className="mt-12 max-w-5xl mx-auto px-4">
+    <div className="mt-12 max-w-5xl px-4">
       <h1 className="font-semibold text-6xl mb-4 tracking-tighter gradient-text">
         certifications
       </h1>
@@ -84,7 +84,7 @@ export default function CertificationsPage() {
             >
               <GlassCard
                 glowColor={cert.glowColor}
-                className="h-full flex flex-col items-center text-center"
+                className="h-full flex flex-col items-start text-left"
               >
                 <Image
                   src={cert.image}
@@ -99,7 +99,7 @@ export default function CertificationsPage() {
                 <p className="text-xs text-muted-foreground mb-3">
                   {cert.issuer}
                 </p>
-                <div className="mt-auto flex flex-wrap gap-2 justify-center">
+                <div className="mt-auto flex flex-wrap gap-2">
                   <Badge variant="neonCyan">earned {cert.earned}</Badge>
                   {cert.expires && (
                     <Badge variant="outline">expires {cert.expires}</Badge>

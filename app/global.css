@@ -83,8 +83,7 @@
 /* ═══════════════════════════════════════════
    Dark mode
    ═══════════════════════════════════════════ */
-@media (prefers-color-scheme: dark) {
-  :root {
+html.dark {
     --background: #121215;
     --foreground: #f8fafc;
     --card: rgba(255, 255, 255, 0.05);
@@ -119,7 +118,6 @@
     --sh-string: #0fa295;
 
     color-scheme: dark;
-  }
 }
 
 /* ═══════════════════════════════════════════
@@ -196,8 +194,7 @@ input[type='email'] {
   padding: 0.05em 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  .gradient-text {
+html.dark .gradient-text {
     background: linear-gradient(
       90deg,
       #00f0ff 0%,
@@ -209,7 +206,6 @@ input[type='email'] {
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-  }
 }
 
 /* ═══════════════════════════════════════════
