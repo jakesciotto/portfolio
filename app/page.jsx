@@ -47,7 +47,7 @@ export default function Page() {
                   semi-neurotic highly technical problem solver
                 </li>
                 <li className="transition-colors hover:text-card-foreground">
-                  coaching lacrosse & bjj since 18 - the nick saban of youth
+                  coaching lacrosse & bjj since 2009 - the nick saban of youth
                   sports (self-appointed)
                 </li>
                 <li className="transition-colors hover:text-card-foreground">
