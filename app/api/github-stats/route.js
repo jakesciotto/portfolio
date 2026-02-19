@@ -11,6 +11,7 @@ export async function GET(request) {
   try {
     const now = new Date().toISOString()
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
+    const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()
 
     const res = await fetch('https://api.github.com/graphql', {
       method: 'POST',
@@ -21,7 +22,10 @@ export async function GET(request) {
       body: JSON.stringify({
         query: `query {
           viewer {
-            contributionsCollection(from: "${sevenDaysAgo}", to: "${now}") {
+            current: contributionsCollection(from: "${sevenDaysAgo}", to: "${now}") {
+              totalCommitContributions
+            }
+            previous: contributionsCollection(from: "${fourteenDaysAgo}", to: "${sevenDaysAgo}") {
               totalCommitContributions
             }
           }
@@ -33,7 +37,8 @@ export async function GET(request) {
     if (!res.ok) throw new Error(`GitHub API error: ${res.status}`)
 
     const { data } = await res.json()
-    const commits7d = data.viewer.contributionsCollection.totalCommitContributions
+    const commits7d = data.viewer.current.totalCommitContributions
+    const prevCommits7d = data.viewer.previous.totalCommitContributions
 
     // Track successful fetch
     posthog.capture({
@@ -41,13 +46,14 @@ export async function GET(request) {
       event: 'github_stats_fetched',
       properties: {
         commits_7d: commits7d,
+        prev_commits_7d: prevCommits7d,
         source: 'api',
       },
     })
 
     await posthog.shutdown()
 
-    return Response.json({ commits7d })
+    return Response.json({ commits7d, prevCommits7d })
   } catch (error) {
     // Track error
     posthog.capture({

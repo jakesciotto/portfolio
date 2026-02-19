@@ -6,6 +6,7 @@ import StatCard from './stat-card'
 export default function GitHubStats() {
   const [stats, setStats] = useState({
     commits7d: '---',
+    prevCommits7d: null,
     loading: true,
   })
 
@@ -22,10 +23,11 @@ export default function GitHubStats() {
       const response = await fetch('/api/github-stats')
       if (!response.ok) throw new Error('GitHub API error')
 
-      const { commits7d } = await response.json()
+      const { commits7d, prevCommits7d } = await response.json()
 
       const newStats = {
         commits7d,
+        prevCommits7d,
         loading: false,
       }
 
@@ -66,12 +68,22 @@ export default function GitHubStats() {
     }
   }, [])
 
+  const trend =
+    typeof stats.commits7d === 'number' && typeof stats.prevCommits7d === 'number'
+      ? stats.commits7d > stats.prevCommits7d
+        ? 'up'
+        : stats.commits7d < stats.prevCommits7d
+          ? 'down'
+          : null
+      : null
+
   return (
     <StatCard
       title="commits (last 7 days)"
       value={stats.commits7d}
       glowColor="cyan"
       animateNumber={typeof stats.commits7d === 'number'}
+      trend={trend}
     />
   )
 }

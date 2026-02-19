@@ -6,6 +6,7 @@ import { cn } from '@/app/lib/utils'
 function GitHubActivity({ username = 'jakesciotto' }) {
   const [isActive, setIsActive] = useState(null)
   const [commits7d, setCommits7d] = useState(null)
+  const [prevCommits7d, setPrevCommits7d] = useState(null)
 
   useEffect(() => {
     const cached = localStorage.getItem('gh_activity')
@@ -40,10 +41,14 @@ function GitHubActivity({ username = 'jakesciotto' }) {
     ) {
       const parsed = JSON.parse(cachedStats)
       setCommits7d(parsed.commits7d)
+      setPrevCommits7d(parsed.prevCommits7d ?? null)
     } else {
       fetch('/api/github-stats')
         .then((res) => res.json())
-        .then((data) => setCommits7d(data.commits7d))
+        .then((data) => {
+          setCommits7d(data.commits7d)
+          setPrevCommits7d(data.prevCommits7d ?? null)
+        })
         .catch(() => {})
     }
   }, [username])
@@ -55,7 +60,25 @@ function GitHubActivity({ username = 'jakesciotto' }) {
       <span
         className={`w-2 h-2 rounded-full shrink-0 ${isActive ? 'bg-neon-green shadow-[0_0_6px_var(--neon-green)]' : 'bg-muted-foreground'}`}
       />
-      {commits7d != null && <span>{commits7d} commits this week</span>}
+      {commits7d != null && (
+        <span className="flex items-center gap-1">
+          {commits7d} commits this week
+          {typeof commits7d === 'number' &&
+            typeof prevCommits7d === 'number' &&
+            commits7d > prevCommits7d && (
+              <span className="text-neon-green text-[15px] leading-none relative -top-[0.9 px] pb-1">
+                &#8599;
+              </span>
+            )}
+          {typeof commits7d === 'number' &&
+            typeof prevCommits7d === 'number' &&
+            commits7d < prevCommits7d && (
+              <span className="text-neon-magenta text-[15px] leading-none relative -top-[0.9px] pb-1">
+                &#8600;;
+              </span>
+            )}
+        </span>
+      )}
     </span>
   )
 }
@@ -156,12 +179,11 @@ export default function StatsBar() {
       )}
     >
       <div className="max-w-2xl mx-auto flex justify-between items-center text-xs text-muted-foreground">
-        <div className="flex gap-2 sm:gap-4 items-center">
-          <GitHubActivity />
-          <span className="text-border">·</span>
+        <GitHubActivity />
+        <div className="flex gap-3 items-center">
           <ExperienceCalculator />
+          <ThemeToggle />
         </div>
-        <ThemeToggle />
       </div>
     </div>
   )

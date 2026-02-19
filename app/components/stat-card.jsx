@@ -62,7 +62,7 @@ export default function StatCard({
     >
       <div
         className={cn(
-          'text-4xl md:text-5xl font-bold mb-2 tracking-tighter',
+          'text-4xl md:text-5xl font-semibold mb-2 tracking-tighter opacity-85',
           neonTextMap[glowColor] || 'text-card-foreground',
         )}
       >
