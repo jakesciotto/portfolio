@@ -152,7 +152,6 @@ export async function GET(request) {
     return Response.json({
       sleep: { current: { hours: null, score: null, verdict: 'NO DATA' }, trend: { hours: [], scores: [] } },
       readiness: { current: null, trend: [] },
-      _debug: error?.message,
     })
   }
 }
