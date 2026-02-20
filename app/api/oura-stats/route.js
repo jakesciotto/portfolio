@@ -1,8 +1,25 @@
+import { Redis } from '@upstash/redis'
 import PostHogClient from '../../posthog'
+
+const redis =
+  process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN
+    ? new Redis({
+        url: process.env.UPSTASH_REDIS_REST_URL,
+        token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      })
+    : null
 
 // In-memory token cache (persists across requests in the same serverless instance)
 let cachedAccessToken = null
 let tokenExpiresAt = 0
+
+async function getRefreshToken() {
+  if (redis) {
+    const stored = await redis.get('oura_refresh_token').catch(() => null)
+    if (stored) return stored
+  }
+  return process.env.OURA_REFRESH_TOKEN
+}
 
 async function getAccessToken() {
   // Return cached token if still valid (with 60s buffer)
@@ -10,7 +27,7 @@ async function getAccessToken() {
     return cachedAccessToken
   }
 
-  const refreshToken = process.env.OURA_REFRESH_TOKEN
+  const refreshToken = await getRefreshToken()
   if (!refreshToken) throw new Error('OURA_REFRESH_TOKEN not set')
 
   const res = await fetch('https://api.ouraring.com/oauth/token', {
@@ -32,6 +49,12 @@ async function getAccessToken() {
   const data = await res.json()
   cachedAccessToken = data.access_token
   tokenExpiresAt = Date.now() + (data.expires_in || 86400) * 1000
+
+  // Persist rotated refresh token to Redis
+  if (data.refresh_token && redis) {
+    await redis.set('oura_refresh_token', data.refresh_token).catch(() => {})
+  }
+
   return cachedAccessToken
 }
 
