@@ -1,9 +1,12 @@
 export async function GET(request) {
-  const code = new URL(request.url).searchParams.get('code')
+  const url = new URL(request.url)
+  const code = url.searchParams.get('code')
 
   if (!code) {
     return new Response('Missing code parameter', { status: 400 })
   }
+
+  const redirectUri = `${url.origin}/api/oura-callback`
 
   const res = await fetch('https://api.ouraring.com/oauth/token', {
     method: 'POST',
@@ -13,7 +16,7 @@ export async function GET(request) {
       code,
       client_id: process.env.OURA_CLIENT_ID,
       client_secret: process.env.OURA_CLIENT_SECRET,
-      redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/api/oura-callback`,
+      redirect_uri: redirectUri,
     }),
   })
 
