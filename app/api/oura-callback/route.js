@@ -29,10 +29,10 @@ export async function GET(request) {
   }
 
   // Store refresh token in Redis so it survives rotation
-  if (data.refresh_token && process.env.UPSTASH_REDIS_REST_URL) {
+  if (data.refresh_token && process.env.KV_REST_API_URL) {
     const redis = new Redis({
-      url: process.env.UPSTASH_REDIS_REST_URL,
-      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+      url: process.env.KV_REST_API_URL,
+      token: process.env.KV_REST_API_TOKEN,
     })
     await redis.set('oura_refresh_token', data.refresh_token)
   }
