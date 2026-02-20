@@ -74,7 +74,7 @@ function GitHubActivity({ username = 'jakesciotto' }) {
             typeof prevCommits7d === 'number' &&
             commits7d < prevCommits7d && (
               <span className="text-neon-magenta text-[15px] leading-none relative -top-[0.9px] pb-1">
-                &#8600;;
+                &#8600;
               </span>
             )}
         </span>
