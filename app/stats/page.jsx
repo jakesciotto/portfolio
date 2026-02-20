@@ -1,5 +1,6 @@
 import StatCard from '../components/stat-card'
 import GitHubStats from '../components/github-stats'
+import OuraStats from '../components/oura-sleep-stats'
 import AnimatedSection from '../components/animated-section'
 
 function daysSince(dateStr) {
@@ -44,9 +45,27 @@ export default function StatsPage() {
         </p>
       </div>
 
+      {/* Health Section */}
+      <div className="mb-4">
+        <h2 className="font-semibold text-3xl mb-1 tracking-tighter text-foreground">
+          health
+        </h2>
+        <p className="text-xs text-muted-foreground">courtesy of oura ring</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+        <OuraStats delayStart={100} compact />
+      </div>
+
       {/* Stats Grid */}
+      <div className="mt-12 mb-4">
+        <h2 className="font-semibold text-3xl mb-1 tracking-tighter text-foreground">
+          everything else
+        </h2>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-        <AnimatedSection delay={100}>
+        <AnimatedSection delay={350}>
           <StatCard
             title="days since pushing secrets to prod"
             value={daysClean}
@@ -55,7 +74,7 @@ export default function StatsPage() {
           />
         </AnimatedSection>
 
-        <AnimatedSection delay={150}>
+        <AnimatedSection delay={400}>
           <StatCard
             title="energy drinks this month"
             value={drinksThisMonth}
@@ -65,7 +84,7 @@ export default function StatsPage() {
           />
         </AnimatedSection>
 
-        <AnimatedSection delay={200}>
+        <AnimatedSection delay={450}>
           <StatCard
             title="meetings survived this week"
             value={meetings}
@@ -75,15 +94,15 @@ export default function StatsPage() {
           />
         </AnimatedSection>
 
-        <AnimatedSection delay={250}>
+        <AnimatedSection delay={500}>
           <GitHubStats />
         </AnimatedSection>
 
-        <AnimatedSection delay={300}>
+        <AnimatedSection delay={550}>
           <StatCard title="pets in my house" value={5} glowColor="purple" />
         </AnimatedSection>
 
-        <AnimatedSection delay={350}>
+        <AnimatedSection delay={600}>
           <StatCard
             title="years of student loan debt to pay off"
             value="&infin;"
@@ -91,7 +110,7 @@ export default function StatsPage() {
           />
         </AnimatedSection>
 
-        <AnimatedSection delay={350}>
+        <AnimatedSection delay={650}>
           <StatCard
             title="knee surgeries"
             value={5}
@@ -100,7 +119,7 @@ export default function StatsPage() {
           />
         </AnimatedSection>
 
-        <AnimatedSection delay={350}>
+        <AnimatedSection delay={700}>
           <StatCard
             title="days as #1 wife guy"
             value={daysMarried}
@@ -108,7 +127,7 @@ export default function StatsPage() {
           />
         </AnimatedSection>
 
-        <AnimatedSection delay={500}>
+        <AnimatedSection delay={750}>
           <StatCard
             title="days suffering as a blue belt"
             value={daysSuffering}
@@ -121,8 +140,8 @@ export default function StatsPage() {
       {/* Footer note */}
       <div className="mt-12 mb-8 text-center">
         <p className="text-xs text-muted-foreground">
-          github stats auto-refresh every 5 minutes. manual stats updated when i
-          remember.
+          github stats auto-refresh every 5 minutes. sleep stats refresh every
+          15 minutes. manual stats updated when i remember.
         </p>
       </div>
     </div>

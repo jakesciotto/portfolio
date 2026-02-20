@@ -3,55 +3,31 @@
 import { useEffect, useState, useRef } from 'react'
 import { cn } from '@/app/lib/utils'
 
-function GitHubActivity({ username = 'jakesciotto' }) {
+function GitHubActivity() {
   const [isActive, setIsActive] = useState(null)
   const [commits7d, setCommits7d] = useState(null)
   const [prevCommits7d, setPrevCommits7d] = useState(null)
 
   useEffect(() => {
-    const cached = localStorage.getItem('gh_activity')
-    const cacheTime = localStorage.getItem('gh_activity_time')
+    const cached = localStorage.getItem('gh_stats')
+    const cacheTime = localStorage.getItem('gh_stats_time')
 
-    if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 3600000) {
-      setIsActive(cached === 'true')
-    } else {
-      fetch(`https://api.github.com/users/${username}/events`)
-        .then((res) => res.json())
-        .then((events) => {
-          if (Array.isArray(events) && events.length > 0) {
-            const lastEvent = new Date(events[0].created_at)
-            const dayAgo = Date.now() - 24 * 60 * 60 * 1000
-            const active = lastEvent.getTime() > dayAgo
-
-            setIsActive(active)
-            localStorage.setItem('gh_activity', active.toString())
-            localStorage.setItem('gh_activity_time', Date.now().toString())
-          }
-        })
-        .catch(() => setIsActive(false))
-    }
-
-    const cachedStats = localStorage.getItem('gh_stats')
-    const statsCacheTime = localStorage.getItem('gh_stats_time')
-
-    if (
-      cachedStats &&
-      statsCacheTime &&
-      Date.now() - parseInt(statsCacheTime) < 300000
-    ) {
-      const parsed = JSON.parse(cachedStats)
+    if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 300000) {
+      const parsed = JSON.parse(cached)
       setCommits7d(parsed.commits7d)
       setPrevCommits7d(parsed.prevCommits7d ?? null)
+      setIsActive(parsed.isActive ?? null)
     } else {
       fetch('/api/github-stats')
         .then((res) => res.json())
         .then((data) => {
           setCommits7d(data.commits7d)
           setPrevCommits7d(data.prevCommits7d ?? null)
+          setIsActive(data.isActive ?? false)
         })
         .catch(() => {})
     }
-  }, [username])
+  }, [])
 
   if (isActive === null) return null
 
@@ -178,7 +154,7 @@ export default function StatsBar() {
         visible ? 'translate-y-0' : '-translate-y-full',
       )}
     >
-      <div className="max-w-2xl mx-auto flex justify-between items-center text-xs text-muted-foreground">
+      <div className="max-w-3xl mx-auto flex justify-between items-center text-xs text-muted-foreground">
         <GitHubActivity />
         <div className="flex gap-3 items-center">
           <ExperienceCalculator />

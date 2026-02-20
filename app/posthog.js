@@ -1,20 +1,9 @@
 import { PostHog } from 'posthog-node'
 
-let posthogClient = null
-
 export default function PostHogClient() {
-  if (!posthogClient) {
-    posthogClient = new PostHog(process.env.NEXT_PUBLIC_POSTHOG_KEY, {
-      host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-      flushAt: 1,
-      flushInterval: 0,
-    })
-  }
-  return posthogClient
-}
-
-export async function shutdownPostHog() {
-  if (posthogClient) {
-    await posthogClient.shutdown()
-  }
+  return new PostHog(process.env.POSTHOG_SERVER_KEY || process.env.NEXT_PUBLIC_POSTHOG_KEY, {
+    host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+    flushAt: 1,
+    flushInterval: 0,
+  })
 }

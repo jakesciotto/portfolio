@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className="antialiased max-w-2xl mx-4 mt-8 md:mx-auto min-h-screen flex flex-col">
+      <body className="antialiased max-w-3xl mx-4 mt-8 md:mx-auto min-h-screen flex flex-col">
         <TooltipProvider>
           <StatsBar />
           <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0 flex-grow">

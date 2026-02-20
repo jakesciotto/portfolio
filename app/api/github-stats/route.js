@@ -24,6 +24,14 @@ export async function GET(request) {
           viewer {
             current: contributionsCollection(from: "${sevenDaysAgo}", to: "${now}") {
               totalCommitContributions
+              contributionCalendar {
+                weeks {
+                  contributionDays {
+                    date
+                    contributionCount
+                  }
+                }
+              }
             }
             previous: contributionsCollection(from: "${fourteenDaysAgo}", to: "${sevenDaysAgo}") {
               totalCommitContributions
@@ -40,7 +48,21 @@ export async function GET(request) {
     const commits7d = data.viewer.current.totalCommitContributions
     const prevCommits7d = data.viewer.previous.totalCommitContributions
 
-    // Track successful fetch
+    // Extract daily breakdown from contribution calendar
+    const allDays = data.viewer.current.contributionCalendar.weeks
+      .flatMap((w) => w.contributionDays)
+      .filter((d) => d.date >= sevenDaysAgo.split('T')[0])
+      .sort((a, b) => a.date.localeCompare(b.date))
+
+    const daily = allDays.map((d) => d.contributionCount)
+
+    // Check if active in last 24 hours (any contributions today or yesterday)
+    const todayStr = now.split('T')[0]
+    const yesterdayStr = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+    const isActive = allDays.some(
+      (d) => (d.date === todayStr || d.date === yesterdayStr) && d.contributionCount > 0
+    )
+
     posthog.capture({
       distinctId: distinctId,
       event: 'github_stats_fetched',
@@ -51,9 +73,7 @@ export async function GET(request) {
       },
     })
 
-    await posthog.shutdown()
-
-    return Response.json({ commits7d, prevCommits7d })
+    return Response.json({ commits7d, prevCommits7d, daily, isActive })
   } catch (error) {
     // Track error
     posthog.capture({
@@ -65,7 +85,6 @@ export async function GET(request) {
       },
     })
 
-    await posthog.shutdown()
 
     return Response.json({ commits7d: 0 }, { status: 500 })
   }

@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <>
       {/* Header */}
-      <div className="mt-12 max-w-2xl mx-auto">
+      <div className="mt-12 max-w-3xl mx-auto">
         {/* Hero with radial glow */}
         <div className="relative">
           <div className="absolute -top-20 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-neon-cyan/5 dark:bg-neon-cyan/10 blur-3xl pointer-events-none" />
