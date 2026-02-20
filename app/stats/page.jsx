@@ -64,13 +64,14 @@ export default function StatsPage() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
         <AnimatedSection delay={350}>
           <StatCard
             title="days since pushing secrets to prod"
             value={daysClean}
             glowColor="magenta"
             animateNumber={true}
+            compact
           />
         </AnimatedSection>
 
@@ -81,6 +82,7 @@ export default function StatsPage() {
             glowColor="green"
             animateNumber={true}
             subtitle="another white can monster could fix me"
+            compact
           />
         </AnimatedSection>
 
@@ -91,6 +93,7 @@ export default function StatsPage() {
             glowColor="amber"
             animateNumber={true}
             subtitle="should we hop on a call"
+            compact
           />
         </AnimatedSection>
 
@@ -99,7 +102,7 @@ export default function StatsPage() {
         </AnimatedSection>
 
         <AnimatedSection delay={550}>
-          <StatCard title="pets in my house" value={5} glowColor="purple" />
+          <StatCard title="pets in my house" value={5} glowColor="purple" compact />
         </AnimatedSection>
 
         <AnimatedSection delay={600}>
@@ -107,6 +110,7 @@ export default function StatsPage() {
             title="years of student loan debt to pay off"
             value="&infin;"
             glowColor="magenta"
+            compact
           />
         </AnimatedSection>
 
@@ -116,6 +120,7 @@ export default function StatsPage() {
             value={5}
             subtitle="yea i am still training martial arts"
             glowColor="green"
+            compact
           />
         </AnimatedSection>
 
@@ -124,6 +129,7 @@ export default function StatsPage() {
             title="days as #1 wife guy"
             value={daysMarried}
             glowColor="amber"
+            compact
           />
         </AnimatedSection>
 
@@ -133,6 +139,7 @@ export default function StatsPage() {
             value={daysSuffering}
             glowColor="purple"
             subtitle="i dont pull guard though"
+            compact
           />
         </AnimatedSection>
       </div>

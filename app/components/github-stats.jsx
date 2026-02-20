@@ -78,6 +78,7 @@ export default function GitHubStats() {
       animateNumber={typeof stats.commits7d === 'number'}
       sparklineData={stats.daily}
       sparklineColor="cyan"
+      compact
     />
   )
 }
