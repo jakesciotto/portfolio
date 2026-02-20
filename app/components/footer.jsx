@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import posthog from 'posthog-js'
 
 function ArrowIcon() {
@@ -30,9 +31,9 @@ export default function Footer() {
 
   return (
     <footer className="mt-auto mb-8">
-      <div className="font-sm mt-8 flex items-center text-muted-foreground">
+      <div className="mt-8 flex items-center gap-3 text-xs text-muted-foreground">
         <a
-          className="flex items-center transition-all hover:text-neon-cyan"
+          className="transition-all hover:text-neon-cyan"
           rel="noopener noreferrer"
           target="_blank"
           href="https://github.com/jakesciotto"
@@ -43,25 +44,39 @@ export default function Footer() {
             )
           }
         >
-          <ArrowIcon />
-          <p className="ml-2 h-7">github</p>
+          github
         </a>
+        <span className="text-muted-foreground/40">|</span>
         <a
-          className="ml-auto transition-all hover:text-neon-cyan"
+          className="transition-all hover:text-neon-cyan"
           href="mailto:jake.sciotto@gmail.com"
           onClick={() =>
             handleExternalLinkClick(
               'mailto:jake.sciotto@gmail.com',
-              'email'
+              'contact'
             )
           }
         >
-          jake.sciotto@gmail.com
+          contact
         </a>
+        <span className="text-muted-foreground/40">|</span>
+        <Link
+          href="/privacy"
+          className="transition-all hover:text-neon-cyan"
+        >
+          privacy
+        </Link>
+        <span className="text-muted-foreground/40">|</span>
+        <Link
+          href="/terms"
+          className="transition-all hover:text-neon-cyan"
+        >
+          terms
+        </Link>
+        <span className="ml-auto text-xs">
+          &copy; {new Date().getFullYear()} MIT Licensed
+        </span>
       </div>
-      <p className="mt-8 text-muted-foreground">
-        &copy; {new Date().getFullYear()} MIT Licensed
-      </p>
     </footer>
   )
 }
