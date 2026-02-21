@@ -93,19 +93,6 @@ export async function GET(request) {
         ouraFetch('daily_sleep', accessToken, sevenDaysAgo, tomorrow),
         ouraFetch('daily_readiness', accessToken, sevenDaysAgo, tomorrow),
       ])
-
-    // Debug: dump full data
-    if (new URL(request.url).searchParams.get('debug') === '1') {
-      return Response.json({
-        today: new Date().toISOString().split('T')[0],
-        daily_sleep: dailySleepData.data,
-        sleep_sessions: (sleepData.data || []).map(s => ({
-          day: s.day, type: s.type, total_sleep_duration: s.total_sleep_duration,
-          time_in_bed: s.time_in_bed, bedtime_start: s.bedtime_start, bedtime_end: s.bedtime_end,
-        })),
-      })
-    }
-
     // Sum all sleep sessions per day
     const sleepByDay = {}
     for (const session of sleepData.data || []) {
