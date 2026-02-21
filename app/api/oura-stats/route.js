@@ -81,16 +81,17 @@ export async function GET(request) {
     const accessToken = await getAccessToken()
 
     const today = new Date().toISOString().split('T')[0]
+    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0]
     const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
       .toISOString()
       .split('T')[0]
 
-    // Fetch all endpoints in parallel
+    // Fetch all endpoints in parallel (use tomorrow as end_date to include today's data)
     const [sleepData, dailySleepData, readinessData] =
       await Promise.all([
-        ouraFetch('sleep', accessToken, sevenDaysAgo, today),
-        ouraFetch('daily_sleep', accessToken, sevenDaysAgo, today),
-        ouraFetch('daily_readiness', accessToken, sevenDaysAgo, today),
+        ouraFetch('sleep', accessToken, sevenDaysAgo, tomorrow),
+        ouraFetch('daily_sleep', accessToken, sevenDaysAgo, tomorrow),
+        ouraFetch('daily_readiness', accessToken, sevenDaysAgo, tomorrow),
       ])
 
     // Debug: dump full data
