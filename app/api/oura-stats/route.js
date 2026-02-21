@@ -93,42 +93,28 @@ export async function GET(request) {
         ouraFetch('daily_readiness', accessToken, sevenDaysAgo, today),
       ])
 
-    // Debug: log raw sleep sessions
+    // Debug: dump full session data for today
     if (new URL(request.url).searchParams.get('debug') === '1') {
-      return Response.json({
-        raw: (sleepData.data || []).map(s => ({
-          day: s.day,
-          type: s.type,
-          is_longest: s.is_longest,
-          total_sleep_duration: s.total_sleep_duration,
-          hours: s.total_sleep_duration ? +(s.total_sleep_duration / 3600).toFixed(2) : null,
-          bedtime_start: s.bedtime_start,
-          bedtime_end: s.bedtime_end,
-        }))
-      })
+      const today = new Date().toISOString().split('T')[0]
+      const todaySessions = (sleepData.data || []).filter(s => s.day === today || s.day === new Date(Date.now() - 86400000).toISOString().split('T')[0])
+      return Response.json({ today, sessions: todaySessions })
     }
 
-    // Process sleep sessions — group by day, pick longest per day
+    // Sum all sleep sessions per day
     const sleepByDay = {}
     for (const session of sleepData.data || []) {
       const day = session.day
-      if (
-        !sleepByDay[day] ||
-        session.is_longest ||
-        (session.total_sleep_duration || 0) >
-          (sleepByDay[day].total_sleep_duration || 0)
-      ) {
-        sleepByDay[day] = session
+      if (!sleepByDay[day]) {
+        sleepByDay[day] = 0
       }
+      sleepByDay[day] += session.total_sleep_duration || 0
     }
 
     const sleepTrend = Object.entries(sleepByDay)
       .sort(([a], [b]) => a.localeCompare(b))
-      .map(([day, s]) => ({
+      .map(([day, total]) => ({
         day,
-        hours: s.total_sleep_duration
-          ? +(s.total_sleep_duration / 3600).toFixed(1)
-          : null,
+        hours: total > 0 ? +(total / 3600).toFixed(1) : null,
       }))
 
     const latestSleep = sleepTrend[sleepTrend.length - 1]
