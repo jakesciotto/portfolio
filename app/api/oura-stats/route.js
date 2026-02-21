@@ -93,6 +93,21 @@ export async function GET(request) {
         ouraFetch('daily_readiness', accessToken, sevenDaysAgo, today),
       ])
 
+    // Debug: log raw sleep sessions
+    if (new URL(request.url).searchParams.get('debug') === '1') {
+      return Response.json({
+        raw: (sleepData.data || []).map(s => ({
+          day: s.day,
+          type: s.type,
+          is_longest: s.is_longest,
+          total_sleep_duration: s.total_sleep_duration,
+          hours: s.total_sleep_duration ? +(s.total_sleep_duration / 3600).toFixed(2) : null,
+          bedtime_start: s.bedtime_start,
+          bedtime_end: s.bedtime_end,
+        }))
+      })
+    }
+
     // Process sleep sessions — group by day, pick longest per day
     const sleepByDay = {}
     for (const session of sleepData.data || []) {
