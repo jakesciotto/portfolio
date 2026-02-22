@@ -1,6 +1,7 @@
 import StatCard from '../components/stat-card'
 import GitHubStats from '../components/github-stats'
 import OuraStats from '../components/oura-sleep-stats'
+import SpotifyStats from '../components/spotify-stats'
 import AnimatedSection from '../components/animated-section'
 
 function daysSince(dateStr) {
@@ -38,7 +39,7 @@ export default function StatsPage() {
       {/* Header */}
       <div className="mb-12">
         <h1 className="font-semibold text-6xl mb-2 tracking-tighter gradient-text">
-          live stats
+          stats
         </h1>
         <p className="text-sm text-muted-foreground">
           if numbers are important to you
@@ -56,6 +57,16 @@ export default function StatsPage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
         <OuraStats delayStart={100} compact />
       </div>
+
+      {/* Music Section */}
+      <div className="mt-12 mb-4">
+        <h2 className="font-semibold text-3xl mb-1 tracking-tighter text-foreground">
+          music
+        </h2>
+        <p className="text-xs text-muted-foreground">10 years of spotify data</p>
+      </div>
+
+      <SpotifyStats delayStart={250} compact />
 
       {/* Stats Grid */}
       <div className="mt-12 mb-4">
@@ -102,7 +113,12 @@ export default function StatsPage() {
         </AnimatedSection>
 
         <AnimatedSection delay={550}>
-          <StatCard title="pets in my house" value={5} glowColor="purple" compact />
+          <StatCard
+            title="pets in my house"
+            value={5}
+            glowColor="purple"
+            compact
+          />
         </AnimatedSection>
 
         <AnimatedSection delay={600}>
