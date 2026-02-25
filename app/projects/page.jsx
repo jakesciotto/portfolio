@@ -46,6 +46,14 @@ const workProject = [
     pillColor: 'green',
     link: 'https://chromewebstore.google.com/detail/gejpbillcbkknkgbpjdglcjallnhjloh?utm_source=item-share-cb',
   },
+  {
+    name: 'aidatasucks.com',
+    description:
+      'vendor comparison site grading AI providers on financial data transparency for FinOps teams',
+    pill: 'live',
+    pillColor: 'green',
+    link: 'https://aidatasucks.com',
+  },
 ]
 
 const anycost = {

@@ -10,6 +10,24 @@ export const metadata = {
 
 const certifications = [
   {
+    name: 'FinOps Certified: FinOps for AI',
+    issuer: 'FinOps Foundation',
+    earned: 'Feb 2026',
+    expires: null,
+    image: '/img/image7.png',
+    credly: 'https://www.credly.com/users/jake-sciotto',
+    glowColor: 'magenta',
+  },
+  {
+    name: 'FinOps for AI Trained: Level 3',
+    issuer: 'FinOps Foundation',
+    earned: 'Feb 2026',
+    expires: null,
+    image: '/img/image8.png',
+    credly: 'https://www.credly.com/users/jake-sciotto',
+    glowColor: 'cyan',
+  },
+  {
     name: 'FinOps for AI Trained: Level 2',
     issuer: 'FinOps Foundation',
     earned: 'Dec 2025',
@@ -91,7 +109,8 @@ export default function CertificationsPage() {
                   alt={cert.name}
                   width={96}
                   height={96}
-                  className="rounded-md object-contain mb-4"
+                  className="object-contain mb-4"
+                  unoptimized
                 />
                 <h3 className="text-sm font-semibold text-card-foreground mb-1">
                   {cert.name}
