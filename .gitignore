@@ -45,3 +45,5 @@ next-env.d.ts
 /docs/plans
 scripts/
 /data
+.env*.local
+.env.local

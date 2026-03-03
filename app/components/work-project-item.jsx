@@ -1,30 +1,38 @@
-'use client'
+"use client";
 
-import { useRef } from 'react'
-import posthog from 'posthog-js'
-import { Badge } from '@/app/components/ui/badge'
+import { useRef } from "react";
+import posthog from "posthog-js";
+import { Badge } from "@/app/components/ui/badge";
 
 const pillVariantMap = {
-  green: 'neonGreen',
-  blue: 'neonCyan',
-  yellow: 'neonAmber',
-  red: 'neonMagenta',
-  purple: 'neonPurple',
-  default: 'outline',
-}
+  green: "neonGreen",
+  blue: "neonCyan",
+  yellow: "neonAmber",
+  red: "neonMagenta",
+  purple: "neonPurple",
+  default: "outline",
+};
 
 export default function WorkProjectItem({ project }) {
-  const hasTrackedRef = useRef(false)
+  const hasTrackedRef = useRef(false);
 
   const handleMouseEnter = () => {
     if (!hasTrackedRef.current) {
-      posthog.capture('project_preview_viewed', {
+      posthog.capture("project_preview_viewed", {
         project_name: project.name,
-        type: 'work',
-      })
-      hasTrackedRef.current = true
+        type: "work",
+      });
+      hasTrackedRef.current = true;
     }
-  }
+  };
+
+  const handleLinkClick = () => {
+    posthog.capture("work_project_link_clicked", {
+      project_name: project.name,
+      url: project.link,
+      project_type: "work",
+    });
+  };
 
   return (
     <div
@@ -39,6 +47,7 @@ export default function WorkProjectItem({ project }) {
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-neon-cyan transition-colors"
+              onClick={handleLinkClick}
             >
               {project.name}
             </a>
@@ -46,7 +55,7 @@ export default function WorkProjectItem({ project }) {
             project.name
           )}
           <span className="ml-2 text-xs font-normal text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            {project.link ? '↗' : project.preview ? 'preview' : ''}
+            {project.link ? "↗" : project.preview ? "preview" : ""}
           </span>
         </span>
         {project.pill && (
@@ -66,5 +75,5 @@ export default function WorkProjectItem({ project }) {
         </p>
       )}
     </div>
-  )
+  );
 }

@@ -1,31 +1,39 @@
-'use client'
+"use client";
 
-import Image from 'next/image'
-import { useRef } from 'react'
-import posthog from 'posthog-js'
-import { Badge } from '@/app/components/ui/badge'
+import Image from "next/image";
+import { useRef } from "react";
+import posthog from "posthog-js";
+import { Badge } from "@/app/components/ui/badge";
 
 const pillVariantMap = {
-  green: 'neonGreen',
-  blue: 'neonCyan',
-  yellow: 'neonAmber',
-  red: 'neonMagenta',
-  purple: 'neonPurple',
-  default: 'outline',
-}
+  green: "neonGreen",
+  blue: "neonCyan",
+  yellow: "neonAmber",
+  red: "neonMagenta",
+  purple: "neonPurple",
+  default: "outline",
+};
 
 export default function ProjectItem({ project }) {
-  const hasTrackedRef = useRef(false)
+  const hasTrackedRef = useRef(false);
 
   const handleMouseEnter = () => {
     if (!hasTrackedRef.current) {
-      posthog.capture('project_preview_viewed', {
+      posthog.capture("project_preview_viewed", {
         project_name: project.name,
         preview_image: project.preview,
-      })
-      hasTrackedRef.current = true
+      });
+      hasTrackedRef.current = true;
     }
-  }
+  };
+
+  const handleLinkClick = () => {
+    posthog.capture("project_link_clicked", {
+      project_name: project.name,
+      url: project.link,
+      project_type: "personal",
+    });
+  };
 
   return (
     <li
@@ -40,6 +48,7 @@ export default function ProjectItem({ project }) {
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-neon-cyan transition-colors"
+              onClick={handleLinkClick}
             >
               {project.name}
             </a>
@@ -47,7 +56,7 @@ export default function ProjectItem({ project }) {
             project.name
           )}
           <span className="ml-2 text-xs font-normal text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            {project.link ? '↗' : project.preview ? 'preview' : ''}
+            {project.link ? "↗" : project.preview ? "preview" : ""}
           </span>
         </span>
         {project.pill && (
@@ -78,5 +87,5 @@ export default function ProjectItem({ project }) {
         </div>
       )}
     </li>
-  )
+  );
 }

@@ -1,17 +1,19 @@
-import { readdirSync } from 'fs'
-import { join } from 'path'
-import TweetClient from './tweet-client'
-import AnimatedSection from '../components/animated-section'
+import { readdirSync } from "fs";
+import { join } from "path";
+import TweetClient from "./tweet-client";
+import TweetsPageTracker from "./tweets-page-tracker";
+import AnimatedSection from "../components/animated-section";
 
 export default function TweetsPage() {
-  const imgDir = join(process.cwd(), 'public', 'img')
-  const allFiles = readdirSync(imgDir)
+  const imgDir = join(process.cwd(), "public", "img");
+  const allFiles = readdirSync(imgDir);
   const tweetImages = allFiles
-    .filter((file) => file.toLowerCase().startsWith('tweet'))
-    .sort()
+    .filter((file) => file.toLowerCase().startsWith("tweet"))
+    .sort();
 
   return (
     <div className="mt-12 max-w-5xl mx-auto px-4">
+      <TweetsPageTracker tweetCount={tweetImages.length} />
       <h1 className="font-semibold text-6xl mb-4 tracking-tighter gradient-text">
         when i was online
       </h1>
@@ -36,5 +38,5 @@ export default function TweetsPage() {
         </a>
       </div>
     </div>
-  )
+  );
 }
