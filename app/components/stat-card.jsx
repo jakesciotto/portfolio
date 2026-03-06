@@ -4,27 +4,29 @@ import { useEffect, useState } from 'react'
 import { cn } from '@/app/lib/utils'
 import Sparkline from './ui/sparkline'
 
-const glowColorMap = {
-  cyan: 'glow-cyan',
-  magenta: 'glow-magenta',
-  green: 'glow-green',
-  amber: 'glow-amber',
-  purple: 'glow-purple',
+const accentClassMap = {
+  primary: 'card-accent-left',
+  secondary: 'card-accent-secondary',
+  tertiary: 'card-accent-tertiary',
 }
 
-const neonTextMap = {
-  cyan: 'text-neon-cyan',
-  magenta: 'text-neon-magenta',
-  green: 'text-neon-green',
-  amber: 'text-neon-amber',
-  purple: 'text-neon-purple',
+const accentTextMap = {
+  primary: 'text-accent-primary',
+  secondary: 'text-accent-secondary',
+  tertiary: 'text-accent-tertiary',
+}
+
+const sparklineColorMap = {
+  primary: 'primary',
+  secondary: 'secondary',
+  tertiary: 'tertiary',
 }
 
 export default function StatCard({
   title,
   value,
   subtitle,
-  glowColor = 'cyan',
+  accent = 'primary',
   animateNumber = false,
   sparklineData = null,
   sparklineColor = null,
@@ -61,9 +63,9 @@ export default function StatCard({
   return (
     <div
       className={cn(
-        'glass-card relative flex flex-col h-full',
+        'card relative flex flex-col h-full',
         compact ? 'p-3 md:p-4' : 'p-5 md:p-6',
-        glowColorMap[glowColor] || glowColorMap.cyan,
+        accentClassMap[accent] || accentClassMap.primary,
       )}
     >
       <div className="flex items-start justify-between gap-2">
@@ -71,7 +73,7 @@ export default function StatCard({
           className={cn(
             'font-semibold mb-1 tracking-tighter opacity-85',
             compact ? 'text-2xl md:text-3xl' : 'text-4xl md:text-5xl mb-2',
-            neonTextMap[glowColor] || 'text-card-foreground',
+            accentTextMap[accent] || 'text-card-foreground',
           )}
         >
           {displayValue}
@@ -91,7 +93,7 @@ export default function StatCard({
         )}>{subtitle}</div>
       )}
       {sparklineData && sparklineData.length >= 2 && (
-        <Sparkline data={sparklineData} color={sparklineColor || glowColor} height={compact ? 32 : 40} />
+        <Sparkline data={sparklineData} color={sparklineColorMap[sparklineColor || accent] || 'primary'} height={compact ? 32 : 40} />
       )}
     </div>
   )

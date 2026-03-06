@@ -1,10 +1,10 @@
 @import 'tailwindcss';
 
-/* ═══════════════════════════════════════════
-   Theme tokens — registers with Tailwind v4
+/* ===================================================
+   Theme tokens -- registers with Tailwind v4
    so utilities like bg-background, text-foreground,
-   border-neon-cyan etc. all work automatically
-   ═══════════════════════════════════════════ */
+   border-accent-primary etc. all work automatically
+   =================================================== */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -25,49 +25,42 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-neon-cyan: var(--neon-cyan);
-  --color-neon-magenta: var(--neon-magenta);
-  --color-neon-green: var(--neon-green);
-  --color-neon-amber: var(--neon-amber);
-  --color-neon-purple: var(--neon-purple);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-tertiary: var(--accent-tertiary);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 }
 
-/* ═══════════════════════════════════════════
+/* ===================================================
    Light mode
-   ═══════════════════════════════════════════ */
+   =================================================== */
 :root {
-  --background: #f8f9fa;
-  --foreground: #0f172a;
-  --card: rgba(255, 255, 255, 0.7);
-  --card-foreground: #0f172a;
-  --popover: rgba(255, 255, 255, 0.85);
-  --popover-foreground: #0f172a;
-  --primary: #0891b2;
+  --background: #f5f0eb;
+  --foreground: #1a1a1a;
+  --card: #ede8e2;
+  --card-foreground: #1a1a1a;
+  --popover: #f0ebe5;
+  --popover-foreground: #1a1a1a;
+  --primary: #c2654a;
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #f1f5f9;
-  --accent-foreground: #0f172a;
-  --destructive: #ef4444;
-  --border: rgba(0, 0, 0, 0.08);
-  --input: #e2e8f0;
-  --ring: #0891b2;
-  --radius: 0.75rem;
+  --secondary: #eae5df;
+  --secondary-foreground: #1a1a1a;
+  --muted: #e5e0da;
+  --muted-foreground: #6b6560;
+  --accent: #eae5df;
+  --accent-foreground: #1a1a1a;
+  --destructive: #c2654a;
+  --border: #d5cfc8;
+  --input: #d5cfc8;
+  --ring: #c2654a;
+  --radius: 0.5rem;
 
-  --neon-cyan: #0891b2;
-  --neon-magenta: #db2777;
-  --neon-green: #16a34a;
-  --neon-amber: #d97706;
-  --neon-purple: #9333ea;
-
-  --glass-bg: rgba(255, 255, 255, 0.6);
-  --glass-border: rgba(0, 0, 0, 0.08);
+  --accent-primary: #b34f35;
+  --accent-secondary: #5f7a63;
+  --accent-tertiary: #b5932e;
 
   --sh-class: #2d5e9d;
   --sh-identifier: #354150;
@@ -80,51 +73,46 @@
   --sh-entity: #e25a1c;
 }
 
-/* ═══════════════════════════════════════════
+/* ===================================================
    Dark mode
-   ═══════════════════════════════════════════ */
+   =================================================== */
 html.dark {
-    --background: #121215;
-    --foreground: #f8fafc;
-    --card: rgba(255, 255, 255, 0.05);
-    --card-foreground: #f8fafc;
-    --popover: rgba(30, 30, 50, 0.9);
-    --popover-foreground: #f8fafc;
-    --primary: #00f0ff;
-    --primary-foreground: #0f172a;
-    --secondary: rgba(255, 255, 255, 0.08);
-    --secondary-foreground: #f8fafc;
-    --muted: rgba(255, 255, 255, 0.06);
-    --muted-foreground: #94a3b8;
-    --accent: rgba(255, 255, 255, 0.08);
-    --accent-foreground: #f8fafc;
-    --destructive: #ef4444;
-    --border: rgba(255, 255, 255, 0.1);
-    --input: rgba(255, 255, 255, 0.15);
-    --ring: #00f0ff;
+  --background: #0c0c0e;
+  --foreground: #e8e6e3;
+  --card: #161618;
+  --card-foreground: #e8e6e3;
+  --popover: #1a1a1d;
+  --popover-foreground: #e8e6e3;
+  --primary: #c2654a;
+  --primary-foreground: #0c0c0e;
+  --secondary: #1e1e21;
+  --secondary-foreground: #e8e6e3;
+  --muted: #1e1e21;
+  --muted-foreground: #8a8683;
+  --accent: #1e1e21;
+  --accent-foreground: #e8e6e3;
+  --destructive: #c2654a;
+  --border: #2a2a2d;
+  --input: #2a2a2d;
+  --ring: #c2654a;
 
-    --neon-cyan: #00f0ff;
-    --neon-magenta: #ff006e;
-    --neon-green: #39ff14;
-    --neon-amber: #ffbe0b;
-    --neon-purple: #b829dd;
+  --accent-primary: #c2654a;
+  --accent-secondary: #7a917e;
+  --accent-tertiary: #c9a84c;
 
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
+  --sh-class: #4c97f8;
+  --sh-identifier: white;
+  --sh-keyword: #f47067;
+  --sh-string: #0fa295;
 
-    --sh-class: #4c97f8;
-    --sh-identifier: white;
-    --sh-keyword: #f47067;
-    --sh-string: #0fa295;
-
-    color-scheme: dark;
+  color-scheme: dark;
 }
 
-/* ═══════════════════════════════════════════
+/* ===================================================
    Base
-   ═══════════════════════════════════════════ */
+   =================================================== */
 ::selection {
-  background-color: var(--neon-cyan);
+  background-color: var(--accent-primary);
   color: #fefefe;
 }
 
@@ -132,30 +120,31 @@ html {
   min-width: 360px;
 }
 
-/* ═══════════════════════════════════════════
-   Glass card
-   ═══════════════════════════════════════════ */
-.glass-card {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+/* ===================================================
+   Card -- solid background, optional left accent
+   =================================================== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  transition: all 0.3s ease;
+  transition: border-color 0.2s ease;
 }
 
-.glass-card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--glow-color, var(--neon-cyan)) 40%, transparent);
-  box-shadow: 0 0 24px color-mix(in srgb, var(--glow-color, var(--neon-cyan)) 15%, transparent),
-              0 8px 32px rgba(0, 0, 0, 0.12);
+.card:hover {
+  border-color: color-mix(in srgb, var(--accent-primary) 40%, var(--border));
 }
 
-.glow-cyan { --glow-color: var(--neon-cyan); }
-.glow-magenta { --glow-color: var(--neon-magenta); }
-.glow-green { --glow-color: var(--neon-green); }
-.glow-amber { --glow-color: var(--neon-amber); }
-.glow-purple { --glow-color: var(--neon-purple); }
+.card-accent-left {
+  border-left: 2px solid var(--accent-primary);
+}
+
+.card-accent-secondary {
+  border-left: 2px solid var(--accent-secondary);
+}
+
+.card-accent-tertiary {
+  border-left: 2px solid var(--accent-tertiary);
+}
 
 input[type='text'],
 input[type='email'] {
@@ -164,129 +153,26 @@ input[type='email'] {
   appearance: none;
 }
 
-/* ═══════════════════════════════════════════
-   Animated gradient for name
-   ═══════════════════════════════════════════ */
-@keyframes gradient-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+/* ===================================================
+   Animations
+   =================================================== */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.gradient-text {
-  background: linear-gradient(
-    90deg,
-    #0f172a 0%,
-    #334155 25%,
-    #0f172a 50%,
-    #334155 75%,
-    #0f172a 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient-shift 8s ease infinite;
-  padding: 0.05em 0;
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
 }
 
-html.dark .gradient-text {
-    background: linear-gradient(
-      90deg,
-      #00f0ff 0%,
-      #b829dd 33%,
-      #ff006e 66%,
-      #00f0ff 100%
-    );
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* ═══════════════════════════════════════════
-   Shimmer / glimmer effect
-   ═══════════════════════════════════════════ */
-@keyframes shimmer {
-  0% {
-    background-position: -200% center;
-  }
-  100% {
-    background-position: 200% center;
-  }
-}
-
-.shimmer-link {
-  background: linear-gradient(
-    90deg,
-    currentColor 0%,
-    currentColor 40%,
-    var(--neon-magenta) 50%,
-    currentColor 60%,
-    currentColor 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 3s ease-in-out infinite;
-}
-
-.shimmer-link:hover {
-  -webkit-text-fill-color: transparent;
-  background: linear-gradient(
-    90deg,
-    var(--neon-magenta) 0%,
-    var(--neon-purple) 50%,
-    var(--neon-magenta) 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: shimmer 1.5s ease-in-out infinite;
-}
-
-/* ═══════════════════════════════════════════
-   Intersection observer animations
-   ═══════════════════════════════════════════ */
-.fade-in-section {
-  opacity: 0;
-  filter: blur(4px);
-  transition:
-    opacity 0.6s ease-out,
-    filter 0.6s ease-out,
-    transform 0.6s ease-out;
-  transform: translateY(20px);
-}
-
-.fade-in-section.is-visible {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}
-
-/* ═══════════════════════════════════════════
+/* ===================================================
    Reduced motion
-   ═══════════════════════════════════════════ */
+   =================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .gradient-text {
-    animation: none;
-    background: currentColor;
-    -webkit-text-fill-color: currentColor;
-  }
-
-  .fade-in-section {
-    opacity: 1;
-    filter: none;
-    transform: none;
-    transition: none;
-  }
-
-  .glass-card:hover {
-    transform: none;
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

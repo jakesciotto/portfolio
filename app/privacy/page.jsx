@@ -6,7 +6,7 @@ export const metadata = {
 export default function PrivacyPage() {
   return (
     <div className="mt-12 max-w-3xl mx-auto">
-      <h1 className="font-semibold text-6xl mb-4 tracking-tighter gradient-text">
+      <h1 className="font-semibold text-6xl mb-4 tracking-tighter text-foreground">
         privacy policy
       </h1>
       <p className="text-sm text-muted-foreground mb-8">
@@ -24,7 +24,7 @@ export default function PrivacyPage() {
               href="https://posthog.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="shimmer-link"
+              className="underline decoration-accent-primary/40 hover:decoration-accent-primary transition-colors"
             >
               posthog
             </a>{' '}
@@ -67,7 +67,7 @@ export default function PrivacyPage() {
               href="https://vercel.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="shimmer-link"
+              className="underline decoration-accent-primary/40 hover:decoration-accent-primary transition-colors"
             >
               vercel
             </a>
@@ -86,7 +86,7 @@ export default function PrivacyPage() {
             request its deletion. reach out at{' '}
             <a
               href="mailto:jake.sciotto@gmail.com"
-              className="shimmer-link"
+              className="underline decoration-accent-primary/40 hover:decoration-accent-primary transition-colors"
             >
               jake.sciotto@gmail.com
             </a>

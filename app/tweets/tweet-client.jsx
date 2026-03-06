@@ -32,7 +32,7 @@ export default function TweetClient({ image, index }) {
   return (
     <div
       ref={ref}
-      className="glass-card glow-purple overflow-hidden"
+      className="card overflow-hidden"
     >
       <div className="relative w-full aspect-auto">
         <Image

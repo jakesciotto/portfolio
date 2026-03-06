@@ -12,7 +12,7 @@ export default function TweetsPage() {
 
   return (
     <div className="mt-12 max-w-5xl mx-auto px-4">
-      <h1 className="font-semibold text-6xl mb-4 tracking-tighter gradient-text">
+      <h1 className="font-sans font-bold text-7xl md:text-8xl mb-4 tracking-tighter text-foreground">
         when i was online
       </h1>
       <p className="text-sm text-muted-foreground mb-8">
@@ -30,7 +30,7 @@ export default function TweetsPage() {
       <div className="mt-12 text-center">
         <a
           href="/"
-          className="text-sm text-muted-foreground hover:text-neon-cyan transition-colors"
+          className="text-sm text-muted-foreground hover:text-accent-primary transition-colors"
         >
           &larr; back to reality
         </a>

@@ -74,10 +74,10 @@ export default function GitHubStats() {
     <StatCard
       title="commits (last 7 days)"
       value={stats.commits7d}
-      glowColor="cyan"
+      accent="primary"
       animateNumber={typeof stats.commits7d === 'number'}
       sparklineData={stats.daily}
-      sparklineColor="cyan"
+      sparklineColor="primary"
       compact
     />
   )

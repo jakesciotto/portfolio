@@ -23,7 +23,7 @@ export function Navbar() {
   }
 
   return (
-    <aside className="-ml-[8px] mb-16 tracking-tight">
+    <aside className="-ml-[8px] mb-16 tracking-tight" style={{ viewTransitionName: 'nav' }}>
       <div className="lg:sticky lg:top-20">
         <nav
           className="flex flex-row items-start relative px-0 pb-0 fade md:overflow-auto scroll-pr-6 md:relative"
@@ -50,14 +50,14 @@ export function Navbar() {
                   className={cn(
                     "relative flex align-middle py-1 px-2 m-1 transition-all",
                     isActive
-                      ? "text-neon-cyan"
+                      ? "text-foreground font-semibold"
                       : "text-muted-foreground hover:text-foreground"
                   )}
                   onClick={() => handleNavClick(path, name)}
                 >
                   {name}
                   {isActive && (
-                    <span className="absolute bottom-0 left-2 right-2 h-px bg-neon-cyan" />
+                    <span className="absolute bottom-0 left-2 right-2 h-px bg-foreground" />
                   )}
                 </Link>
               )

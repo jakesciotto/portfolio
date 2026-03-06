@@ -6,10 +6,10 @@ import AnimatedSection from './animated-section'
 import { Badge } from './ui/badge'
 
 const verdictConfig = {
-  WOOF: { variant: 'neonMagenta', subtitle: 'thoughts and prayers' },
-  OK: { variant: 'neonAmber', subtitle: 'could be worse' },
-  WOW: { variant: 'neonGreen', subtitle: 'well rested and dangerous' },
-  'NO DATA': { variant: 'neonPurple', subtitle: 'ring is charging or i am dead' },
+  WOOF: { variant: 'primary', subtitle: 'thoughts and prayers' },
+  OK: { variant: 'tertiary', subtitle: 'could be worse' },
+  WOW: { variant: 'secondaryAccent', subtitle: 'well rested and dangerous' },
+  'NO DATA': { variant: 'muted', subtitle: 'ring is charging or i am dead' },
 }
 
 const emptyState = {
@@ -78,11 +78,11 @@ export default function OuraStats({ delayStart = 0, compact = false }) {
         <StatCard
           title="hours slept last night"
           value={sleep.current.hours ?? '---'}
-          glowColor="cyan"
+          accent="primary"
           animateNumber={typeof sleep.current.hours === 'number'}
           subtitle={verdictCfg.subtitle}
           sparklineData={sleep.trend.hours}
-          sparklineColor="cyan"
+          sparklineColor="primary"
           compact={compact}
           badge={
             <Badge variant={verdictCfg.variant}>
@@ -96,11 +96,11 @@ export default function OuraStats({ delayStart = 0, compact = false }) {
         <StatCard
           title="sleep score"
           value={sleep.current.score ?? '---'}
-          glowColor="purple"
+          accent="tertiary"
           animateNumber={typeof sleep.current.score === 'number'}
           subtitle="out of 100"
           sparklineData={sleep.trend.scores}
-          sparklineColor="purple"
+          sparklineColor="tertiary"
           compact={compact}
         />
       </AnimatedSection>
@@ -109,11 +109,11 @@ export default function OuraStats({ delayStart = 0, compact = false }) {
         <StatCard
           title="readiness score"
           value={readiness.current ?? '---'}
-          glowColor="green"
+          accent="secondary"
           animateNumber={typeof readiness.current === 'number'}
           subtitle="how ready i am to do stuff"
           sparklineData={readiness.trend}
-          sparklineColor="green"
+          sparklineColor="secondary"
           compact={compact}
         />
       </AnimatedSection>

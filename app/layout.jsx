@@ -12,6 +12,7 @@ import { GeistMono } from 'geist/font/mono'
 import { Navbar } from './components/nav'
 import Footer from './components/footer'
 import StatsBar from './components/stats-bar'
+import ScrollProvider from './components/scroll-provider'
 import { TooltipProvider } from '@/app/components/ui/tooltip'
 
 export default function RootLayout({ children }) {
@@ -28,15 +29,17 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className="antialiased max-w-3xl mx-4 mt-8 md:mx-auto min-h-screen flex flex-col">
-        <TooltipProvider>
-          <StatsBar />
-          <main className="flex-auto min-w-0 mt-6 flex flex-col px-2 md:px-0 flex-grow">
-            <Navbar />
-            {children}
-            <Footer />
-          </main>
-        </TooltipProvider>
+      <body className="antialiased mt-8 min-h-screen flex flex-col">
+        <ScrollProvider>
+          <TooltipProvider>
+            <StatsBar />
+            <main className="flex-auto min-w-0 mt-6 flex flex-col flex-grow max-w-3xl mx-auto w-full px-4 md:px-0">
+              <Navbar />
+              {children}
+              <Footer />
+            </main>
+          </TooltipProvider>
+        </ScrollProvider>
       </body>
     </html>
   )

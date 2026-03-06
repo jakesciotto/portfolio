@@ -33,7 +33,7 @@ export default function Footer() {
     <footer className="mt-auto mb-8">
       <div className="mt-8 flex items-center gap-3 text-xs text-muted-foreground">
         <a
-          className="transition-all hover:text-neon-cyan"
+          className="transition-all hover:text-accent-primary"
           rel="noopener noreferrer"
           target="_blank"
           href="https://github.com/jakesciotto"
@@ -48,7 +48,7 @@ export default function Footer() {
         </a>
         <span className="text-muted-foreground/40">|</span>
         <a
-          className="transition-all hover:text-neon-cyan"
+          className="transition-all hover:text-accent-primary"
           href="mailto:jake.sciotto@gmail.com"
           onClick={() =>
             handleExternalLinkClick(
@@ -62,14 +62,14 @@ export default function Footer() {
         <span className="text-muted-foreground/40">|</span>
         <Link
           href="/privacy"
-          className="transition-all hover:text-neon-cyan"
+          className="transition-all hover:text-accent-primary"
         >
           privacy
         </Link>
         <span className="text-muted-foreground/40">|</span>
         <Link
           href="/terms"
-          className="transition-all hover:text-neon-cyan"
+          className="transition-all hover:text-accent-primary"
         >
           terms
         </Link>

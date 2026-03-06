@@ -3,18 +3,17 @@
 import { AreaChart, Area, ResponsiveContainer } from 'recharts'
 
 const colorMap = {
-  cyan: 'var(--neon-cyan)',
-  magenta: 'var(--neon-magenta)',
-  green: 'var(--neon-green)',
-  amber: 'var(--neon-amber)',
-  purple: 'var(--neon-purple)',
+  primary: 'var(--accent-primary)',
+  secondary: 'var(--accent-secondary)',
+  tertiary: 'var(--accent-tertiary)',
+  muted: 'var(--muted-foreground)',
 }
 
-export default function Sparkline({ data = [], color = 'cyan', height = 40 }) {
+export default function Sparkline({ data = [], color = 'primary', height = 40 }) {
   if (!data || data.length < 2) return null
 
   const chartData = data.map((value, i) => ({ i, v: value }))
-  const strokeColor = colorMap[color] || colorMap.cyan
+  const strokeColor = colorMap[color] || colorMap.primary
 
   return (
     <div style={{ width: '100%', height }} className="mt-2 opacity-70">

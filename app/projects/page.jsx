@@ -1,9 +1,10 @@
 import Image from 'next/image'
 import AnimatedSection from '../components/animated-section'
+import SectionTitle from '../components/section-title'
 import ProjectItem from '../components/project-item'
 import WorkProjectItem from '../components/work-project-item'
 import { Separator } from '@/app/components/ui/separator'
-import { GlassCard } from '@/app/components/ui/glass-card'
+import { Card } from '@/app/components/ui/card'
 import { Badge } from '@/app/components/ui/badge'
 
 export const metadata = {
@@ -94,12 +95,12 @@ const connectorLogos = [
 export default function Page() {
   return (
     <div className="mt-12 max-w-5xl px-4">
-      <h1 className="font-semibold text-6xl mb-2 tracking-tighter gradient-text">
-        projects
-      </h1>
-      <p className="text-sm text-muted-foreground mb-8">
-        some things here that i work on
-      </p>
+      <SectionTitle text="projects" />
+      <div className="relative z-10 mb-8">
+        <p className="text-sm text-muted-foreground">
+          some things here that i work on
+        </p>
+      </div>
 
       <AnimatedSection delay={60}>
         <h2 className="text-2xl font-semibold tracking-tight text-foreground mb-2">
@@ -134,7 +135,7 @@ export default function Page() {
       </ul>
 
       <AnimatedSection delay={360}>
-      <GlassCard glowColor="cyan" className="mt-4">
+      <Card accent="primary" className="mt-4">
         <div className="grid grid-col-2 md:grid-cols-2 gap-3">
           <AnimatedSection delay={380} className="flex items-center">
             <span className="text-xs font-semibold italic text-muted-foreground">
@@ -154,7 +155,7 @@ export default function Page() {
               delay={500 + index * 60}
               className="h-full"
             >
-              <div className="glass-card glow-cyan p-3 flex flex-col items-center text-center h-full">
+              <div className="card p-3 flex flex-col items-center text-center h-full">
                 <div className="flex-1 flex flex-col items-center justify-center gap-2">
                   <Image
                     src={connector.logo}
@@ -167,14 +168,14 @@ export default function Page() {
                     {connector.name}
                   </span>
                 </div>
-                <Badge variant="neonPurple" className="mt-2">
+                <Badge variant="tertiary" className="mt-2">
                   {connector.pill}
                 </Badge>
               </div>
             </AnimatedSection>
           ))}
         </div>
-      </GlassCard>
+      </Card>
       </AnimatedSection>
     </div>
   )

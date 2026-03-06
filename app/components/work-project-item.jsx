@@ -5,11 +5,11 @@ import posthog from 'posthog-js'
 import { Badge } from '@/app/components/ui/badge'
 
 const pillVariantMap = {
-  green: 'neonGreen',
-  blue: 'neonCyan',
-  yellow: 'neonAmber',
-  red: 'neonMagenta',
-  purple: 'neonPurple',
+  green: 'secondaryAccent',
+  blue: 'primary',
+  yellow: 'tertiary',
+  red: 'primary',
+  purple: 'tertiary',
   default: 'outline',
 }
 
@@ -28,7 +28,7 @@ export default function WorkProjectItem({ project }) {
 
   return (
     <div
-      className="relative group glass-card glow-cyan p-4"
+      className="relative group card card-accent-left p-4"
       onMouseEnter={handleMouseEnter}
     >
       <h4 className="mb-2 text-card-foreground text-l font-semibold cursor-default flex items-center gap-3">
@@ -38,7 +38,7 @@ export default function WorkProjectItem({ project }) {
               href={project.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-neon-cyan transition-colors"
+              className="hover:text-accent-primary transition-colors"
             >
               {project.name}
             </a>
@@ -46,7 +46,7 @@ export default function WorkProjectItem({ project }) {
             project.name
           )}
           <span className="ml-2 text-xs font-normal text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            {project.link ? '↗' : project.preview ? 'preview' : ''}
+            {project.link ? '\u2197' : project.preview ? 'preview' : ''}
           </span>
         </span>
         {project.pill && (

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import StatCard from './stat-card'
 import AnimatedSection from './animated-section'
-import { GlassCard } from './ui/glass-card'
+import { Card } from './ui/card'
 import { cn } from '@/app/lib/utils'
 
 const emptyState = {
@@ -77,10 +77,10 @@ export default function SpotifyStats({ delayStart = 0, compact = false }) {
           <StatCard
             title="hours listened"
             value={overview?.totalHours ? Math.round(overview.totalHours).toLocaleString() : '---'}
-            glowColor="purple"
+            accent="tertiary"
             subtitle={overview ? `since ${overview.firstStream?.slice(0, 4)}` : undefined}
             sparklineData={yearlySparkline.length >= 2 ? yearlySparkline : null}
-            sparklineColor="purple"
+            sparklineColor="tertiary"
             compact={compact}
           />
         </AnimatedSection>
@@ -89,7 +89,7 @@ export default function SpotifyStats({ delayStart = 0, compact = false }) {
           <StatCard
             title="total streams"
             value={overview?.totalStreams ? overview.totalStreams.toLocaleString() : '---'}
-            glowColor="green"
+            accent="secondary"
             compact={compact}
           />
         </AnimatedSection>
@@ -98,7 +98,7 @@ export default function SpotifyStats({ delayStart = 0, compact = false }) {
           <StatCard
             title="unique artists"
             value={overview?.uniqueArtists ? overview.uniqueArtists.toLocaleString() : '---'}
-            glowColor="cyan"
+            accent="primary"
             compact={compact}
           />
         </AnimatedSection>
@@ -107,7 +107,7 @@ export default function SpotifyStats({ delayStart = 0, compact = false }) {
       {/* Row 2: 2-col top lists */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mt-3 md:mt-4">
         <AnimatedSection delay={delayStart + 150}>
-          <GlassCard glowColor="purple" className={compact ? '!p-3 md:!p-4' : ''}>
+          <Card accent="tertiary" className={compact ? '!p-3 md:!p-4' : ''}>
             <h4 className={cn(
               'font-semibold tracking-tight text-muted-foreground mb-3',
               compact ? 'text-xs md:text-sm' : 'text-sm'
@@ -118,7 +118,7 @@ export default function SpotifyStats({ delayStart = 0, compact = false }) {
               {topArtists.slice(0, 5).map((artist, i) => (
                 <div key={artist.name} className="flex items-baseline justify-between gap-2">
                   <div className="flex items-baseline gap-2 min-w-0">
-                    <span className="text-neon-purple font-semibold text-sm shrink-0">
+                    <span className="text-accent-tertiary font-semibold text-sm shrink-0">
                       {i + 1}.
                     </span>
                     <span className="text-foreground text-sm truncate">
@@ -131,11 +131,11 @@ export default function SpotifyStats({ delayStart = 0, compact = false }) {
                 </div>
               ))}
             </div>
-          </GlassCard>
+          </Card>
         </AnimatedSection>
 
         <AnimatedSection delay={delayStart + 200}>
-          <GlassCard glowColor="green" className={compact ? '!p-3 md:!p-4' : ''}>
+          <Card accent="secondary" className={compact ? '!p-3 md:!p-4' : ''}>
             <h4 className={cn(
               'font-semibold tracking-tight text-muted-foreground mb-3',
               compact ? 'text-xs md:text-sm' : 'text-sm'
@@ -146,7 +146,7 @@ export default function SpotifyStats({ delayStart = 0, compact = false }) {
               {topTracks.slice(0, 5).map((track, i) => (
                 <div key={`${track.name}-${track.artist}`} className="flex items-baseline justify-between gap-2">
                   <div className="flex items-baseline gap-2 min-w-0">
-                    <span className="text-neon-green font-semibold text-sm shrink-0">
+                    <span className="text-accent-secondary font-semibold text-sm shrink-0">
                       {i + 1}.
                     </span>
                     <span className="text-foreground text-sm truncate">
@@ -162,7 +162,7 @@ export default function SpotifyStats({ delayStart = 0, compact = false }) {
                 </div>
               ))}
             </div>
-          </GlassCard>
+          </Card>
         </AnimatedSection>
       </div>
 
@@ -172,7 +172,7 @@ export default function SpotifyStats({ delayStart = 0, compact = false }) {
           <StatCard
             title={`#1 track: ${funFacts?.mostPlayedTrack || '---'}`}
             value={funFacts?.mostPlayedTrackPlays ? `${funFacts.mostPlayedTrackPlays.toLocaleString()} plays` : '---'}
-            glowColor="magenta"
+            accent="primary"
             compact={compact}
           />
         </AnimatedSection>
@@ -182,7 +182,7 @@ export default function SpotifyStats({ delayStart = 0, compact = false }) {
             title={`top artist: ${funFacts?.topArtistName || '---'}`}
             value={funFacts?.topArtistPercent ? `${funFacts.topArtistPercent}%` : '---'}
             subtitle="of all listening time"
-            glowColor="amber"
+            accent="tertiary"
             compact={compact}
           />
         </AnimatedSection>
@@ -192,7 +192,7 @@ export default function SpotifyStats({ delayStart = 0, compact = false }) {
             title="peak listening day"
             value={funFacts?.peakDayHours ? `${funFacts.peakDayHours} hrs` : '---'}
             subtitle={funFacts?.peakDay || undefined}
-            glowColor="cyan"
+            accent="secondary"
             compact={compact}
           />
         </AnimatedSection>

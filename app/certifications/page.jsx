@@ -1,12 +1,15 @@
 import Image from 'next/image'
 import AnimatedSection from '../components/animated-section'
-import { GlassCard } from '@/app/components/ui/glass-card'
+import SectionTitle from '../components/section-title'
+import { Card } from '@/app/components/ui/card'
 import { Badge } from '@/app/components/ui/badge'
 
 export const metadata = {
   title: 'certifications',
   description: 'professional certifications',
 }
+
+const accentCycle = ['primary', 'secondary', 'tertiary']
 
 const certifications = [
   {
@@ -16,7 +19,6 @@ const certifications = [
     expires: null,
     image: '/img/image7.png',
     credly: 'https://www.credly.com/users/jake-sciotto',
-    glowColor: 'magenta',
   },
   {
     name: 'FinOps for AI Trained: Level 3',
@@ -25,7 +27,6 @@ const certifications = [
     expires: null,
     image: '/img/image8.png',
     credly: 'https://www.credly.com/users/jake-sciotto',
-    glowColor: 'cyan',
   },
   {
     name: 'FinOps for AI Trained: Level 2',
@@ -34,7 +35,6 @@ const certifications = [
     expires: null,
     image: '/img/image1.png',
     credly: 'https://www.credly.com/users/jake-sciotto',
-    glowColor: 'cyan',
   },
   {
     name: 'FinOps Certified FOCUS Analyst',
@@ -43,7 +43,6 @@ const certifications = [
     expires: 'Oct 2027',
     image: '/img/image2.png',
     credly: 'https://www.credly.com/users/jake-sciotto',
-    glowColor: 'green',
   },
   {
     name: 'FinOps for AI Trained: Level 1',
@@ -52,7 +51,6 @@ const certifications = [
     expires: null,
     image: '/img/image3.png',
     credly: 'https://www.credly.com/users/jake-sciotto',
-    glowColor: 'amber',
   },
   {
     name: 'FinOps Certified Engineer',
@@ -61,7 +59,6 @@ const certifications = [
     expires: 'Dec 2026',
     image: '/img/image4.png',
     credly: 'https://www.credly.com/users/jake-sciotto',
-    glowColor: 'green',
   },
   {
     name: 'FinOps Certified Practitioner',
@@ -70,7 +67,6 @@ const certifications = [
     expires: null,
     image: '/img/image5.png',
     credly: 'https://www.credly.com/users/jake-sciotto',
-    glowColor: 'purple',
   },
   {
     name: 'AWS Certified Cloud Practitioner',
@@ -79,17 +75,16 @@ const certifications = [
     expires: null,
     image: '/img/image6.png',
     credly: 'https://www.credly.com/users/jake-sciotto',
-    glowColor: 'amber',
   },
 ]
 
 export default function CertificationsPage() {
   return (
     <div className="mt-12 max-w-5xl px-4">
-      <h1 className="font-semibold text-6xl mb-4 tracking-tighter gradient-text">
-        certifications
-      </h1>
-      <p className="text-sm text-muted-foreground mb-8">if you even care</p>
+      <SectionTitle text="certs" />
+      <div className="relative z-10 mb-8">
+        <p className="text-sm text-muted-foreground">if you even care</p>
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {certifications.map((cert, index) => (
@@ -100,8 +95,8 @@ export default function CertificationsPage() {
               rel="noopener noreferrer"
               className="block h-full"
             >
-              <GlassCard
-                glowColor={cert.glowColor}
+              <Card
+                accent={accentCycle[index % 3]}
                 className="h-full flex flex-col items-start text-left"
               >
                 <Image
@@ -119,12 +114,12 @@ export default function CertificationsPage() {
                   {cert.issuer}
                 </p>
                 <div className="mt-auto flex flex-wrap gap-2">
-                  <Badge variant="neonCyan">earned {cert.earned}</Badge>
+                  <Badge variant="primary">earned {cert.earned}</Badge>
                   {cert.expires && (
                     <Badge variant="outline">expires {cert.expires}</Badge>
                   )}
                 </div>
-              </GlassCard>
+              </Card>
             </a>
           </AnimatedSection>
         ))}
@@ -135,7 +130,7 @@ export default function CertificationsPage() {
           href="https://www.credly.com/users/jake-sciotto"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-sm text-muted-foreground hover:text-neon-cyan transition-colors"
+          className="text-sm text-muted-foreground hover:text-accent-primary transition-colors"
         >
           verify on credly &rarr;
         </a>

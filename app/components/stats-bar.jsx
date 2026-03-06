@@ -34,7 +34,7 @@ function GitHubActivity() {
   return (
     <span className="flex items-center gap-1.5 whitespace-nowrap">
       <span
-        className={`w-2 h-2 rounded-full shrink-0 ${isActive ? 'bg-neon-green shadow-[0_0_6px_var(--neon-green)]' : 'bg-muted-foreground'}`}
+        className={`w-2 h-2 rounded-full shrink-0 ${isActive ? 'bg-accent-secondary' : 'bg-muted-foreground'}`}
       />
       {commits7d != null && (
         <span className="flex items-center gap-1">
@@ -42,14 +42,14 @@ function GitHubActivity() {
           {typeof commits7d === 'number' &&
             typeof prevCommits7d === 'number' &&
             commits7d > prevCommits7d && (
-              <span className="text-neon-green text-[15px] leading-none relative -top-[0.9 px] pb-1">
+              <span className="text-accent-secondary text-[15px] leading-none relative -top-[0.9px] pb-1">
                 &#8599;
               </span>
             )}
           {typeof commits7d === 'number' &&
             typeof prevCommits7d === 'number' &&
             commits7d < prevCommits7d && (
-              <span className="text-neon-magenta text-[15px] leading-none relative -top-[0.9px] pb-1">
+              <span className="text-accent-primary text-[15px] leading-none relative -top-[0.9px] pb-1">
                 &#8600;
               </span>
             )}
@@ -150,7 +150,7 @@ export default function StatsBar() {
   return (
     <div
       className={cn(
-        'fixed top-0 left-0 right-0 glass px-4 py-2 z-50 transition-transform duration-300',
+        'fixed top-0 left-0 right-0 bg-background/95 border-b border-border px-4 py-2 z-50 transition-transform duration-300',
         visible ? 'translate-y-0' : '-translate-y-full',
       )}
     >
