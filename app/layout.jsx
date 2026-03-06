@@ -13,6 +13,7 @@ import { Navbar } from './components/nav'
 import Footer from './components/footer'
 import StatsBar from './components/stats-bar'
 import { TooltipProvider } from '@/app/components/ui/tooltip'
+import ChatButton from './components/chat-button'
 
 export default function RootLayout({ children }) {
   return (
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
             <Footer />
           </main>
         </TooltipProvider>
+        <ChatButton />
       </body>
     </html>
   )
