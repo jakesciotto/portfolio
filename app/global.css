@@ -35,75 +35,75 @@
 }
 
 /* ===================================================
-   Light mode
+   Light mode -- cyberpunk (hot neon on cool gray)
    =================================================== */
 :root {
-  --background: #f5f0eb;
-  --foreground: #1a1a1a;
-  --card: #ede8e2;
-  --card-foreground: #1a1a1a;
-  --popover: #f0ebe5;
-  --popover-foreground: #1a1a1a;
-  --primary: #c2654a;
+  --background: #e4e6ee;
+  --foreground: #0a0a18;
+  --card: #d6d8e4;
+  --card-foreground: #0a0a18;
+  --popover: #dadce8;
+  --popover-foreground: #0a0a18;
+  --primary: #e6005c;
   --primary-foreground: #ffffff;
-  --secondary: #eae5df;
-  --secondary-foreground: #1a1a1a;
-  --muted: #e5e0da;
-  --muted-foreground: #6b6560;
-  --accent: #eae5df;
-  --accent-foreground: #1a1a1a;
-  --destructive: #c2654a;
-  --border: #d5cfc8;
-  --input: #d5cfc8;
-  --ring: #c2654a;
+  --secondary: #cecede;
+  --secondary-foreground: #0a0a18;
+  --muted: #c6c6d8;
+  --muted-foreground: #4a4a68;
+  --accent: #cecede;
+  --accent-foreground: #0a0a18;
+  --destructive: #e6005c;
+  --border: #aaaac4;
+  --input: #aaaac4;
+  --ring: #00c2e0;
   --radius: 0.5rem;
 
-  --accent-primary: #b34f35;
-  --accent-secondary: #5f7a63;
-  --accent-tertiary: #b5932e;
+  --accent-primary: #00a0b8;
+  --accent-secondary: #d00058;
+  --accent-tertiary: #8a20e0;
 
-  --sh-class: #2d5e9d;
-  --sh-identifier: #354150;
-  --sh-sign: #8996a3;
-  --sh-string: #007f7a;
-  --sh-keyword: #e02518;
-  --sh-comment: #a19595;
-  --sh-jsxliterals: #6266d1;
-  --sh-property: #e25a1c;
-  --sh-entity: #e25a1c;
+  --sh-class: #00a0b8;
+  --sh-identifier: #0a0a18;
+  --sh-sign: #5a5a7a;
+  --sh-string: #00c9a7;
+  --sh-keyword: #e6005c;
+  --sh-comment: #7878a0;
+  --sh-jsxliterals: #8a20e0;
+  --sh-property: #00c2e0;
+  --sh-entity: #00c2e0;
 }
 
 /* ===================================================
-   Dark mode
+   Dark mode -- cyberpunk (full neon on void)
    =================================================== */
 html.dark {
-  --background: #0c0c0e;
-  --foreground: #e8e6e3;
-  --card: #161618;
-  --card-foreground: #e8e6e3;
-  --popover: #1a1a1d;
-  --popover-foreground: #e8e6e3;
-  --primary: #c2654a;
-  --primary-foreground: #0c0c0e;
-  --secondary: #1e1e21;
-  --secondary-foreground: #e8e6e3;
-  --muted: #1e1e21;
-  --muted-foreground: #8a8683;
-  --accent: #1e1e21;
-  --accent-foreground: #e8e6e3;
-  --destructive: #c2654a;
-  --border: #2a2a2d;
-  --input: #2a2a2d;
-  --ring: #c2654a;
+  --background: #06060c;
+  --foreground: #eeeeff;
+  --card: #0c0c1a;
+  --card-foreground: #eeeeff;
+  --popover: #10101e;
+  --popover-foreground: #eeeeff;
+  --primary: #ff1070;
+  --primary-foreground: #06060c;
+  --secondary: #121228;
+  --secondary-foreground: #eeeeff;
+  --muted: #121228;
+  --muted-foreground: #6e6e96;
+  --accent: #121228;
+  --accent-foreground: #eeeeff;
+  --destructive: #ff1070;
+  --border: #1a1a3a;
+  --input: #1a1a3a;
+  --ring: #00fff0;
 
-  --accent-primary: #c2654a;
-  --accent-secondary: #7a917e;
-  --accent-tertiary: #c9a84c;
+  --accent-primary: #00fff0;
+  --accent-secondary: #ff1070;
+  --accent-tertiary: #bf5fff;
 
-  --sh-class: #4c97f8;
-  --sh-identifier: white;
-  --sh-keyword: #f47067;
-  --sh-string: #0fa295;
+  --sh-class: #00fff0;
+  --sh-identifier: #eeeeff;
+  --sh-keyword: #ff1070;
+  --sh-string: #00ffaa;
 
   color-scheme: dark;
 }
