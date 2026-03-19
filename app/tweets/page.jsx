@@ -1,7 +1,6 @@
 import { readdirSync } from 'fs'
 import { join } from 'path'
 import TweetClient from './tweet-client'
-import AnimatedSection from '../components/animated-section'
 
 export default function TweetsPage() {
   const imgDir = join(process.cwd(), 'public', 'img')
@@ -21,9 +20,13 @@ export default function TweetsPage() {
 
       <div className="grid grid-cols-1 gap-4">
         {tweetImages.map((image, index) => (
-          <AnimatedSection key={image} delay={100 + index * 100}>
+          <div
+            key={image}
+            className="animate-fade-in"
+            style={{ animationDelay: `${100 + index * 100}ms` }}
+          >
             <TweetClient image={image} index={index} />
-          </AnimatedSection>
+          </div>
         ))}
       </div>
 

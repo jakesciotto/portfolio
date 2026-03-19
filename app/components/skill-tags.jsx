@@ -28,6 +28,12 @@ const skills = [
   { label: 'finops', weight: 5 },
   { label: 'rag/cag', weight: 3 },
   { label: 'vercel', weight: 3 },
+  { label: 'k8s', weight: 3 },
+  { label: 'statistical analysis', weight: 4 },
+  { label: 'predictive modeling', weight: 3 },
+  { label: 'prompt engineering', weight: 4 },
+  { label: 'genai', weight: 4 },
+  { label: 'agentic ai', weight: 4 },
 ]
 
 function StaticGrid() {
@@ -83,7 +89,7 @@ function PhysicsCanvas() {
       const width = container.offsetWidth
       const height = 320
 
-      const engine = Engine.create({ gravity: { x: 0, y: 0.3 } })
+      const engine = Engine.create({ gravity: { x: 0, y: 0.15 } })
       const runner = Runner.create()
       engineRef.current = engine
       runnerRef.current = runner
@@ -113,9 +119,9 @@ function PhysicsCanvas() {
 
         const body = Bodies.rectangle(x, y, w, h, {
           mass: skill.weight * 0.8,
-          restitution: 0.4,
-          friction: 0.1,
-          frictionAir: 0.02,
+          restitution: 0.3,
+          friction: 0.15,
+          frictionAir: 0.05,
           render: { width: w, height: h },
         })
 
@@ -206,9 +212,9 @@ export default function SkillTags() {
         {showJumble ? (
           <span />
         ) : (
-          <h4 className="text-2xl font-semibold text-card-foreground transition-opacity duration-300">
+          <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground transition-opacity duration-300">
             technical capabilities
-          </h4>
+          </h3>
         )}
         <button
           onClick={() => setShowJumble((v) => !v)}

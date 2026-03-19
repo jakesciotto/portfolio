@@ -31,7 +31,7 @@ export default function Footer() {
 
   return (
     <footer className="mt-auto mb-8">
-      <div className="mt-8 flex items-center gap-3 text-xs text-muted-foreground">
+      <div className="max-w-6xl mx-auto w-full px-4 mt-8 flex items-center gap-3 text-xs text-muted-foreground">
         <a
           className="transition-all hover:text-accent-primary"
           rel="noopener noreferrer"

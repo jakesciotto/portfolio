@@ -9,6 +9,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
+  --color-card-glass: var(--card-glass);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
@@ -35,75 +36,77 @@
 }
 
 /* ===================================================
-   Light mode -- cyberpunk (hot neon on cool gray)
+   Light mode -- warm teal on off-white
    =================================================== */
 :root {
-  --background: #e4e6ee;
-  --foreground: #0a0a18;
-  --card: #d6d8e4;
-  --card-foreground: #0a0a18;
-  --popover: #dadce8;
-  --popover-foreground: #0a0a18;
-  --primary: #e6005c;
+  --background: #f4f3f0;
+  --foreground: #0a0b12;
+  --card: #ffffff;
+  --card-glass: rgba(255, 255, 255, 0.6);
+  --card-foreground: #0a0b12;
+  --popover: #ffffff;
+  --popover-foreground: #0a0b12;
+  --primary: #0d9e8a;
   --primary-foreground: #ffffff;
-  --secondary: #cecede;
-  --secondary-foreground: #0a0a18;
-  --muted: #c6c6d8;
-  --muted-foreground: #4a4a68;
-  --accent: #cecede;
-  --accent-foreground: #0a0a18;
-  --destructive: #e6005c;
-  --border: #aaaac4;
-  --input: #aaaac4;
-  --ring: #00c2e0;
+  --secondary: #e8e7e4;
+  --secondary-foreground: #0a0b12;
+  --muted: #e8e7e4;
+  --muted-foreground: #5a5b68;
+  --accent: #e8e7e4;
+  --accent-foreground: #0a0b12;
+  --destructive: #d04535;
+  --border: #d4d3d0;
+  --input: #d4d3d0;
+  --ring: #0d9e8a;
   --radius: 0.5rem;
 
-  --accent-primary: #00a0b8;
-  --accent-secondary: #d00058;
-  --accent-tertiary: #8a20e0;
+  --accent-primary: #0d9e8a;
+  --accent-secondary: #d04535;
+  --accent-tertiary: #7c5cbf;
 
-  --sh-class: #00a0b8;
-  --sh-identifier: #0a0a18;
-  --sh-sign: #5a5a7a;
-  --sh-string: #00c9a7;
-  --sh-keyword: #e6005c;
+  --sh-class: #0d9e8a;
+  --sh-identifier: #0a0b12;
+  --sh-sign: #5a5b68;
+  --sh-string: #0d9e8a;
+  --sh-keyword: #d04535;
   --sh-comment: #7878a0;
-  --sh-jsxliterals: #8a20e0;
-  --sh-property: #00c2e0;
-  --sh-entity: #00c2e0;
+  --sh-jsxliterals: #7c5cbf;
+  --sh-property: #0d9e8a;
+  --sh-entity: #0d9e8a;
 }
 
 /* ===================================================
-   Dark mode -- cyberpunk (full neon on void)
+   Dark mode -- warm accents on void
    =================================================== */
 html.dark {
-  --background: #06060c;
-  --foreground: #eeeeff;
+  --background: #08090e;
+  --foreground: #e8e8f0;
   --card: #0c0c1a;
-  --card-foreground: #eeeeff;
-  --popover: #10101e;
-  --popover-foreground: #eeeeff;
-  --primary: #ff1070;
-  --primary-foreground: #06060c;
-  --secondary: #121228;
-  --secondary-foreground: #eeeeff;
-  --muted: #121228;
-  --muted-foreground: #6e6e96;
-  --accent: #121228;
-  --accent-foreground: #eeeeff;
-  --destructive: #ff1070;
-  --border: #1a1a3a;
-  --input: #1a1a3a;
-  --ring: #00fff0;
+  --card-glass: rgba(14, 15, 24, 0.7);
+  --card-foreground: #e8e8f0;
+  --popover: #0c0c1a;
+  --popover-foreground: #e8e8f0;
+  --primary: #3df0d0;
+  --primary-foreground: #08090e;
+  --secondary: #1a1c2e;
+  --secondary-foreground: #e8e8f0;
+  --muted: #1a1c2e;
+  --muted-foreground: #6b6d80;
+  --accent: #1a1c2e;
+  --accent-foreground: #e8e8f0;
+  --destructive: #f05545;
+  --border: #1a1c2e;
+  --input: #1a1c2e;
+  --ring: #3df0d0;
 
-  --accent-primary: #00fff0;
-  --accent-secondary: #ff1070;
-  --accent-tertiary: #bf5fff;
+  --accent-primary: #3df0d0;
+  --accent-secondary: #f05545;
+  --accent-tertiary: #a78bfa;
 
-  --sh-class: #00fff0;
-  --sh-identifier: #eeeeff;
-  --sh-keyword: #ff1070;
-  --sh-string: #00ffaa;
+  --sh-class: #3df0d0;
+  --sh-identifier: #e8e8f0;
+  --sh-keyword: #f05545;
+  --sh-string: #3df0d0;
 
   color-scheme: dark;
 }
@@ -146,6 +149,108 @@ html {
   border-left: 2px solid var(--accent-tertiary);
 }
 
+/* ===================================================
+   Tile -- glassmorphism surface for bento grid
+   =================================================== */
+.tile {
+  background: var(--card-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.tile:hover {
+  border-color: color-mix(in srgb, var(--tile-accent, var(--accent-primary)) 40%, var(--border));
+  box-shadow: 0 4px 24px color-mix(in srgb, var(--tile-accent, var(--accent-primary)) 15%, transparent);
+}
+
+@supports not (backdrop-filter: blur(1px)) {
+  .tile {
+    background: var(--card);
+  }
+}
+
+@media (max-width: 768px) {
+  .tile {
+    padding: 20px;
+  }
+}
+
+/* ===================================================
+   Bento grid -- 4-col desktop, 2-col tablet, 1-col mobile
+   =================================================== */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: 16px;
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.tile-hero       { grid-column: 1 / 3; grid-row: 1 / 3; }
+.tile-github     { grid-column: 3 / 5; grid-row: 1 / 2; }
+.tile-experience { grid-column: 3 / 5; grid-row: 2 / 3; }
+.tile-skills     { grid-column: 1 / 3; grid-row: 3 / 5; }
+.tile-work       { grid-column: 3 / 5; grid-row: 3 / 5; }
+.tile-about      { grid-column: 1 / 3; grid-row: 5 / 6; }
+.tile-oura       { grid-column: 3 / 4; grid-row: 5 / 6; }
+.tile-wakatime   { grid-column: 4 / 5; grid-row: 5 / 6; }
+.tile-education  { grid-column: 1 / 2; grid-row: 6 / 7; }
+.tile-certs      { grid-column: 2 / 4; grid-row: 6 / 7; }
+.tile-spotify    { grid-column: 4 / 5; grid-row: 6 / 7; }
+.tile-projects   { grid-column: 1 / 3; grid-row: 7 / 9; }
+.tile-funstats   { grid-column: 3 / 5; grid-row: 7 / 9; }
+
+@media (max-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .bento-grid > * {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .tile-hero,
+  .tile-skills,
+  .tile-certs,
+  .tile-projects,
+  .tile-funstats,
+  .tile-about,
+  .tile-work {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+  .bento-grid > * {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+/* ===================================================
+   Grain texture overlay
+   =================================================== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
 input[type='text'],
 input[type='email'] {
   -webkit-appearance: none;
@@ -162,7 +267,7 @@ input[type='email'] {
 }
 
 .animate-fade-in {
-  animation: fade-in 0.3s ease-out;
+  animation: fade-in 0.3s ease-out both;
 }
 
 /* ===================================================

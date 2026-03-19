@@ -1,17 +1,25 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { createContext, useContext, useEffect, useRef } from 'react'
 import Lenis from 'lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+const LenisContext = createContext(null)
+
+export function useLenis() {
+  return useContext(LenisContext)
+}
+
 export default function ScrollProvider({ children }) {
   const lenisRef = useRef(null)
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const prefersReduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches
     if (prefersReduced) return
 
     const lenis = new Lenis({
@@ -23,18 +31,23 @@ export default function ScrollProvider({ children }) {
 
     lenis.on('scroll', ScrollTrigger.update)
 
-    gsap.ticker.add((time) => {
+    const tickerCallback = (time) => {
       lenis.raf(time * 1000)
-    })
+    }
+    gsap.ticker.add(tickerCallback)
     gsap.ticker.lagSmoothing(0)
 
     return () => {
       lenis.destroy()
       lenisRef.current = null
-      gsap.ticker.remove(lenis.raf)
+      gsap.ticker.remove(tickerCallback)
       ScrollTrigger.getAll().forEach((t) => t.kill())
     }
   }, [])
 
-  return children
+  return (
+    <LenisContext.Provider value={lenisRef}>
+      {children}
+    </LenisContext.Provider>
+  )
 }
