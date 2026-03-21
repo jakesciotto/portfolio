@@ -28,7 +28,7 @@ export default function FixedHeader() {
           onClick={scrollToTop}
           className="text-sm font-mono tracking-tight text-foreground"
         >
-          js
+          jake sciotto dot com
         </button>
         <div className="flex items-center gap-3">
           <a

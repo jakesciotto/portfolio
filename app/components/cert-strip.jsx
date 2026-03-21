@@ -2,11 +2,7 @@
 
 import Image from 'next/image'
 import posthog from 'posthog-js'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from './ui/tooltip'
+import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 const certifications = [
   { name: 'FinOps Certified: FinOps for AI', image: '/img/image7.png' },
@@ -28,9 +24,12 @@ export default function CertStrip() {
 
   return (
     <div>
-      <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-3">
+      <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-1">
         certifications
       </h3>
+      <p className="text-[12px] lowercase tracking-tight text-muted-foreground mb-1">
+        if you even care
+      </p>
       <div className="flex gap-3 overflow-x-auto pb-2">
         {certifications.map((cert) => (
           <Tooltip key={cert.name}>
@@ -39,7 +38,7 @@ export default function CertStrip() {
                 <Image
                   src={cert.image}
                   alt={cert.name}
-                  width={48}
+                  width={52}
                   height={48}
                   className="object-contain rounded"
                   unoptimized
@@ -56,6 +55,7 @@ export default function CertStrip() {
         <span className="text-xs text-muted-foreground">
           {certifications.length} certifications
         </span>
+
         <a
           href="https://www.credly.com/users/jake-sciotto"
           target="_blank"

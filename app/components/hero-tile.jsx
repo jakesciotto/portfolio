@@ -5,9 +5,7 @@ export default function HeroTile() {
   return (
     <div className="flex flex-col justify-center h-full">
       <HeroName />
-      <p className="text-sm font-semibold tracking-tighter">
-        boulder, co
-      </p>
+      <p className="text-sm font-semibold tracking-tighter">boulder, co</p>
       <p className="text-xs text-muted-foreground mt-1">
         engineer by training, problem solver by trade,{' '}
         <TrackedLink

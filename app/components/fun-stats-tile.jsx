@@ -1,5 +1,7 @@
 'use client'
 
+import { useState, useEffect } from 'react'
+
 function daysSince(dateStr) {
   return Math.floor(
     (Date.now() - new Date(dateStr)) / (24 * 60 * 60 * 1000)
@@ -29,33 +31,59 @@ function energyDrinksThisMonth() {
   return total
 }
 
-const funStats = [
-  {
-    label: 'days since pushing secrets to prod',
-    value: daysSince('2023-02-10'),
-  },
-  {
-    label: 'energy drinks this month',
-    value: energyDrinksThisMonth(),
-  },
-  {
-    label: 'meetings survived this week',
-    value: meetingsThisWeek(),
-  },
-  { label: 'pets in my house', value: 5 },
-  { label: 'years of student loan debt', value: '\u221E' },
-  { label: 'knee surgeries', value: 5 },
-  {
-    label: 'days as #1 wife guy',
-    value: daysSince('2021-09-25'),
-  },
-  {
-    label: 'days suffering as a blue belt',
-    value: daysSince('2024-10-24'),
-  },
-]
+function buildStats() {
+  return [
+    {
+      label: 'days since pushing secrets to prod',
+      value: daysSince('2023-02-10'),
+    },
+    {
+      label: 'energy drinks this month',
+      value: energyDrinksThisMonth(),
+    },
+    {
+      label: 'meetings survived this week',
+      value: meetingsThisWeek(),
+    },
+    { label: 'pets in my house', value: 5 },
+    { label: 'years of student loan debt', value: '\u221E' },
+    { label: 'knee surgeries', value: 5 },
+    {
+      label: 'days as #1 wife guy',
+      value: daysSince('2021-09-25'),
+    },
+    {
+      label: 'days suffering as a blue belt',
+      value: daysSince('2024-10-24'),
+    },
+  ]
+}
 
 export default function FunStatsTile() {
+  const [funStats, setFunStats] = useState(null)
+
+  useEffect(() => {
+    setFunStats(buildStats())
+  }, [])
+
+  if (!funStats) {
+    return (
+      <div>
+        <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-3">
+          other stats
+        </h3>
+        <div className="grid grid-cols-2 gap-2">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div
+              key={i}
+              className="bg-background/50 rounded-lg p-2 h-14"
+            />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div>
       <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-3">
@@ -70,7 +98,7 @@ export default function FunStatsTile() {
             <span className="text-lg font-bold font-mono tracking-tighter text-accent-tertiary">
               {stat.value}
             </span>
-            <p className="text-[10px] text-muted-foreground leading-tight mt-0.5">
+            <p className="text-xs text-muted-foreground leading-tight mt-0.5">
               {stat.label}
             </p>
           </div>

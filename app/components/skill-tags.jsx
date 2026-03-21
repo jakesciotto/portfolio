@@ -197,6 +197,8 @@ function PhysicsCanvas() {
 export default function SkillTags() {
   const [canPhysics, setCanPhysics] = useState(false)
   const [showJumble, setShowJumble] = useState(true)
+  const [transitioning, setTransitioning] = useState(false)
+  const [rendered, setRendered] = useState('physics')
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -204,30 +206,39 @@ export default function SkillTags() {
     setCanPhysics(!prefersReduced && !lowPerf)
   }, [])
 
+  const toggle = useCallback(() => {
+    setTransitioning(true)
+    setTimeout(() => {
+      setShowJumble((v) => !v)
+      setRendered((v) => (v === 'physics' ? 'grid' : 'physics'))
+      setTimeout(() => setTransitioning(false), 50)
+    }, 300)
+  }, [])
+
   if (!canPhysics) return <StaticGrid />
 
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        {showJumble ? (
-          <span />
-        ) : (
-          <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground transition-opacity duration-300">
-            technical capabilities
-          </h3>
-        )}
+        <h3
+          className="text-lg font-semibold font-mono tracking-tight text-foreground transition-opacity duration-300"
+          style={{ opacity: showJumble ? 0 : 1 }}
+        >
+          technical capabilities
+        </h3>
         <button
-          onClick={() => setShowJumble((v) => !v)}
-          className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded border border-border"
+          onClick={toggle}
+          disabled={transitioning}
+          className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded border border-border disabled:opacity-50"
         >
           {showJumble ? 'organize' : 'jumble'}
         </button>
       </div>
       <div
-        key={showJumble ? 'physics' : 'grid'}
-        className="animate-fade-in"
+        className="transition-opacity duration-300 ease-in-out"
+        style={{ opacity: transitioning ? 0 : 1 }}
       >
-        {showJumble ? <PhysicsCanvas /> : <StaticGrid />}
+        {rendered === 'physics' ? <PhysicsCanvas /> : <StaticGrid />}
       </div>
     </div>
   )
