@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useId } from 'react'
+import { useState, useId, useRef, useCallback } from 'react'
+import gsap from 'gsap'
 import posthog from 'posthog-js'
 
 const roles = [
@@ -81,12 +82,61 @@ const accentDot = {
 export default function WorkAccordion() {
   const [expandedIndex, setExpandedIndex] = useState(null)
   const id = useId()
+  const panelRefs = useRef([])
+  const contentRefs = useRef([])
+
+  const setPanelRef = useCallback((el, index) => {
+    panelRefs.current[index] = el
+  }, [])
+
+  const setContentRef = useCallback((el, index) => {
+    contentRefs.current[index] = el
+  }, [])
 
   const toggle = (index) => {
-    if (expandedIndex === index) {
+    const prevIndex = expandedIndex
+
+    if (prevIndex === index) {
       setExpandedIndex(null)
+      const panel = panelRefs.current[index]
+      if (panel) {
+        gsap.killTweensOf(panel)
+        gsap.to(panel, {
+          height: 0,
+          opacity: 0,
+          duration: 0.3,
+          ease: 'power2.in',
+        })
+      }
     } else {
       setExpandedIndex(index)
+
+      if (prevIndex != null) {
+        const prevPanel = panelRefs.current[prevIndex]
+        if (prevPanel) {
+          gsap.killTweensOf(prevPanel)
+          gsap.to(prevPanel, {
+            height: 0,
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.in',
+          })
+        }
+      }
+
+      const panel = panelRefs.current[index]
+      const content = contentRefs.current[index]
+      if (panel && content) {
+        gsap.killTweensOf(panel)
+        const measuredHeight = content.scrollHeight
+        gsap.to(panel, {
+          height: measuredHeight,
+          opacity: 1,
+          duration: 0.4,
+          ease: 'power2.out',
+        })
+      }
+
       if (typeof posthog?.capture === 'function') {
         posthog.capture('work_accordion_expand', {
           role: roles[index].title,
@@ -103,9 +153,9 @@ export default function WorkAccordion() {
       </h3>
       <div className="space-y-1">
         {roles.map((role, index) => {
-          const isExpanded = expandedIndex === index
           const buttonId = `${id}-btn-${index}`
           const panelId = `${id}-panel-${index}`
+          const isExpanded = expandedIndex === index
 
           return (
             <div key={`${role.company}-${role.title}`}>
@@ -132,15 +182,13 @@ export default function WorkAccordion() {
                 id={panelId}
                 role="region"
                 aria-labelledby={buttonId}
-                style={{
-                  maxHeight: isExpanded ? '200px' : '0',
-                  opacity: isExpanded ? 1 : 0,
-                  overflow: 'hidden',
-                  transition:
-                    'max-height 0.3s ease, opacity 0.2s ease',
-                }}
+                ref={(el) => setPanelRef(el, index)}
+                style={{ height: 0, opacity: 0, overflow: 'hidden' }}
               >
-                <div className="pl-5 pb-2">
+                <div
+                  ref={(el) => setContentRef(el, index)}
+                  className="pl-5 pb-2"
+                >
                   {role.priorTitle && (
                     <p className="text-xs text-muted-foreground italic mb-1">
                       {role.priorTitle}

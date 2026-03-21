@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
+import gsap from 'gsap'
 
 const skills = [
   { label: 'python', weight: 5 },
@@ -197,8 +198,7 @@ function PhysicsCanvas() {
 export default function SkillTags() {
   const [canPhysics, setCanPhysics] = useState(false)
   const [showJumble, setShowJumble] = useState(true)
-  const [transitioning, setTransitioning] = useState(false)
-  const [rendered, setRendered] = useState('physics')
+  const containerRef = useRef(null)
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -206,14 +206,27 @@ export default function SkillTags() {
     setCanPhysics(!prefersReduced && !lowPerf)
   }, [])
 
-  const toggle = useCallback(() => {
-    setTransitioning(true)
-    setTimeout(() => {
+  const handleToggle = () => {
+    const container = containerRef.current
+    if (!container) {
       setShowJumble((v) => !v)
-      setRendered((v) => (v === 'physics' ? 'grid' : 'physics'))
-      setTimeout(() => setTransitioning(false), 50)
-    }, 300)
-  }, [])
+      return
+    }
+
+    gsap.to(container, {
+      opacity: 0,
+      duration: 0.2,
+      ease: 'power2.in',
+      onComplete: () => {
+        setShowJumble((v) => !v)
+        gsap.to(container, {
+          opacity: 1,
+          duration: 0.3,
+          ease: 'power2.out',
+        })
+      },
+    })
+  }
 
   if (!canPhysics) return <StaticGrid />
 
@@ -227,18 +240,18 @@ export default function SkillTags() {
           technical capabilities
         </h3>
         <button
-          onClick={toggle}
-          disabled={transitioning}
-          className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded border border-border disabled:opacity-50"
+          onClick={handleToggle}
+          className="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded border border-border"
         >
           {showJumble ? 'organize' : 'jumble'}
         </button>
       </div>
-      <div
-        className="transition-opacity duration-300 ease-in-out"
-        style={{ opacity: transitioning ? 0 : 1 }}
-      >
-        {rendered === 'physics' ? <PhysicsCanvas /> : <StaticGrid />}
+      <div ref={containerRef}>
+        {showJumble ? (
+          <PhysicsCanvas key="physics" />
+        ) : (
+          <StaticGrid key="grid" />
+        )}
       </div>
     </div>
   )

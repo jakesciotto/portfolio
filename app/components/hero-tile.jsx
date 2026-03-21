@@ -1,5 +1,6 @@
 import HeroName from './hero-name'
 import TrackedLink from './tracked-link'
+import MagneticLink from './magnetic-link'
 
 export default function HeroTile() {
   return (
@@ -22,12 +23,12 @@ export default function HeroTile() {
         by choice
       </p>
       <div className="flex items-center gap-4 mt-3">
-        <a
+        <MagneticLink
           href="mailto:jake.sciotto@gmail.com"
           className="text-xs font-mono text-accent-primary hover:underline"
         >
           get in touch
-        </a>
+        </MagneticLink>
       </div>
     </div>
   )

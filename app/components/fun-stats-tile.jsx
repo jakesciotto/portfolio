@@ -1,6 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { ScrambleTextPlugin } from 'gsap/ScrambleTextPlugin'
+import { useGSAP } from '@gsap/react'
+
+gsap.registerPlugin(ScrollTrigger, ScrambleTextPlugin)
 
 function daysSince(dateStr) {
   return Math.floor(
@@ -61,10 +67,46 @@ function buildStats() {
 
 export default function FunStatsTile() {
   const [funStats, setFunStats] = useState(null)
+  const gridRef = useRef(null)
 
   useEffect(() => {
     setFunStats(buildStats())
   }, [])
+
+  useGSAP(
+    () => {
+      if (!funStats || !gridRef.current) return
+
+      const prefersReduced = window.matchMedia(
+        '(prefers-reduced-motion: reduce)'
+      ).matches
+      if (prefersReduced) return
+
+      const valueEls = gridRef.current.querySelectorAll('.stat-value')
+      if (!valueEls.length) return
+
+      valueEls.forEach((el) => {
+        const text = el.textContent
+        const isNumeric = /^\d+$/.test(text)
+
+        gsap.from(el, {
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 95%',
+            once: true,
+          },
+          duration: 0.8,
+          scrambleText: {
+            text,
+            chars: isNumeric ? '0123456789' : 'upperCase',
+            revealDelay: 0.3,
+            speed: 0.4,
+          },
+        })
+      })
+    },
+    { scope: gridRef, dependencies: [funStats] },
+  )
 
   if (!funStats) {
     return (
@@ -89,13 +131,13 @@ export default function FunStatsTile() {
       <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-3">
         other stats
       </h3>
-      <div className="grid grid-cols-2 gap-2">
+      <div ref={gridRef} className="grid grid-cols-2 gap-2">
         {funStats.map((stat) => (
           <div
             key={stat.label}
             className="bg-background/50 rounded-lg p-2"
           >
-            <span className="text-lg font-bold font-mono tracking-tighter text-accent-tertiary">
+            <span className="stat-value text-lg font-bold font-mono tracking-tighter text-accent-tertiary">
               {stat.value}
             </span>
             <p className="text-xs text-muted-foreground leading-tight mt-0.5">

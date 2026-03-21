@@ -1,6 +1,7 @@
 'use client'
 
 import ThemeToggle from './theme-toggle'
+import MagneticLink from './magnetic-link'
 import { useLenis } from './scroll-provider'
 
 export default function FixedHeader() {
@@ -31,12 +32,12 @@ export default function FixedHeader() {
           jake sciotto dot com
         </button>
         <div className="flex items-center gap-3">
-          <a
+          <MagneticLink
             href="mailto:jake.sciotto@gmail.com"
             className="text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
             get in touch
-          </a>
+          </MagneticLink>
           <ThemeToggle />
         </div>
       </div>
