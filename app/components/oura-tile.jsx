@@ -12,11 +12,7 @@ export default function OuraTile() {
       const cached = localStorage.getItem('oura_stats')
       const cacheTime = localStorage.getItem('oura_stats_time')
 
-      if (
-        cached &&
-        cacheTime &&
-        Date.now() - parseInt(cacheTime) < 900000
-      ) {
+      if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 900000) {
         setStats(JSON.parse(cached))
         return
       }
@@ -26,14 +22,8 @@ export default function OuraTile() {
 
       setStats(data)
       if (data.sleep?.current?.hours !== null) {
-        localStorage.setItem(
-          'oura_stats',
-          JSON.stringify(data)
-        )
-        localStorage.setItem(
-          'oura_stats_time',
-          Date.now().toString()
-        )
+        localStorage.setItem('oura_stats', JSON.stringify(data))
+        localStorage.setItem('oura_stats_time', Date.now().toString())
       }
     } catch (err) {
       const cached = localStorage.getItem('oura_stats')
@@ -51,17 +41,11 @@ export default function OuraTile() {
     const handleVisibility = () => {
       if (!document.hidden) fetchStats()
     }
-    document.addEventListener(
-      'visibilitychange',
-      handleVisibility
-    )
+    document.addEventListener('visibilitychange', handleVisibility)
 
     return () => {
       clearInterval(interval)
-      document.removeEventListener(
-        'visibilitychange',
-        handleVisibility
-      )
+      document.removeEventListener('visibilitychange', handleVisibility)
     }
   }, [])
 
@@ -91,7 +75,7 @@ export default function OuraTile() {
             {score ?? '---'}
           </span>
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            sleep
+            sleep score
           </p>
         </div>
         <div>
@@ -99,16 +83,12 @@ export default function OuraTile() {
             {readiness ?? '---'}
           </span>
           <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            ready
+            readiness score
           </p>
         </div>
       </div>
       {sleepTrend && sleepTrend.length >= 2 && (
-        <Sparkline
-          data={sleepTrend}
-          color="tertiary"
-          height={32}
-        />
+        <Sparkline data={sleepTrend} color="tertiary" height={32} />
       )}
     </div>
   )

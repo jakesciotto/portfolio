@@ -24,7 +24,6 @@ const skills = [
   { label: 'scikit-learn', weight: 3 },
   { label: 'xgboost', weight: 2 },
   { label: 'tailwind', weight: 4 },
-  { label: 'github actions', weight: 3 },
   { label: 'aws', weight: 3 },
   { label: 'finops', weight: 5 },
   { label: 'rag/cag', weight: 3 },
@@ -82,7 +81,8 @@ function PhysicsCanvas() {
 
     const init = async () => {
       Matter = (await import('matter-js')).default
-      const { Engine, Runner, Bodies, Composite, Mouse, MouseConstraint } = Matter
+      const { Engine, Runner, Bodies, Composite, Mouse, MouseConstraint } =
+        Matter
 
       const container = containerRef.current
       if (!container) return
@@ -201,8 +201,11 @@ export default function SkillTags() {
   const containerRef = useRef(null)
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const lowPerf = navigator.hardwareConcurrency != null && navigator.hardwareConcurrency < 4
+    const prefersReduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    const lowPerf =
+      navigator.hardwareConcurrency != null && navigator.hardwareConcurrency < 4
     setCanPhysics(!prefersReduced && !lowPerf)
   }, [])
 
@@ -237,7 +240,7 @@ export default function SkillTags() {
           className="text-lg font-semibold font-mono tracking-tight text-foreground transition-opacity duration-300"
           style={{ opacity: showJumble ? 0 : 1 }}
         >
-          technical capabilities
+          technical skillz
         </h3>
         <button
           onClick={handleToggle}

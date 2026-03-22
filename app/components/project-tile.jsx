@@ -5,7 +5,7 @@ import posthog from 'posthog-js'
 
 const projects = [
   {
-    name: 'todoist dashboard',
+    name: 'the jake tracker',
     description:
       "what do you mean it's weird to visualize your task tracking data",
     pill: 'live',
@@ -14,22 +14,19 @@ const projects = [
   },
   {
     name: 'easton+',
-    description:
-      'drag and drop curriculum builder for jiu jitsu',
+    description: 'drag and drop curriculum builder for jiu jitsu',
     pill: 'in beta',
     pillVariant: 'tertiary',
   },
   {
     name: 'easton mat lab',
-    description:
-      'internal video review platform for jiu jitsu coaches',
+    description: 'internal video review platform for jiu jitsu coaches',
     pill: 'in beta',
     pillVariant: 'tertiary',
   },
   {
     name: 'cloudzero-date-filter',
-    description:
-      "chrome extension for product functionality we don't have yet",
+    description: "chrome extension for product functionality we don't have yet",
     pill: 'live',
     pillVariant: 'primary',
     link: 'https://chromewebstore.google.com/detail/gejpbillcbkknkgbpjdglcjallnhjloh',
@@ -82,10 +79,7 @@ export default function ProjectTile() {
                 {project.description}
               </p>
             </div>
-            <Badge
-              variant={project.pillVariant}
-              className="shrink-0"
-            >
+            <Badge variant={project.pillVariant} className="shrink-0">
               {project.pill}
             </Badge>
           </div>

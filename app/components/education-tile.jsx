@@ -17,9 +17,7 @@ export default function EducationTile() {
           <p className="text-sm font-semibold text-foreground">
             m.s. information technology
           </p>
-          <p className="text-xs text-muted-foreground">
-            kennesaw state (2019)
-          </p>
+          <p className="text-xs text-muted-foreground">kennesaw state (2019)</p>
         </div>
         <div>
           <p className="text-sm font-semibold text-foreground">

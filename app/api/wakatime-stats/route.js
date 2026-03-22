@@ -44,6 +44,7 @@ export async function GET(request) {
 
     const totalSeconds = allTime?.data?.total_seconds || 0
     const totalHours = totalSeconds > 0 ? Math.round(totalSeconds / 3600) : null
+    const sinceDate = allTime?.data?.range?.start_date || null
 
     // Try multiple field names for daily average
     const dailyAvg = stats?.data?.human_readable_daily_average
@@ -66,9 +67,9 @@ export async function GET(request) {
     posthog.capture({ distinctId, event: 'wakatime_stats_fetched', properties: { totalHours } })
     await posthog.flush()
 
-    return NextResponse.json({ totalHours, dailyAverage: dailyAvg, languages, editors })
+    return NextResponse.json({ totalHours, sinceDate, dailyAverage: dailyAvg, languages, editors })
   } catch (error) {
     console.error('WakaTime API error:', error)
-    return NextResponse.json({ totalHours: null, dailyAverage: null, languages: [], editors: [] })
+    return NextResponse.json({ totalHours: null, sinceDate: null, dailyAverage: null, languages: [], editors: [] })
   }
 }

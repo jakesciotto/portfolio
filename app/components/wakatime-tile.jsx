@@ -25,15 +25,9 @@ export default function WakaTimeTile() {
   const fetchStats = async () => {
     try {
       const cached = localStorage.getItem('wakatime_stats')
-      const cacheTime = localStorage.getItem(
-        'wakatime_stats_time'
-      )
+      const cacheTime = localStorage.getItem('wakatime_stats_time')
 
-      if (
-        cached &&
-        cacheTime &&
-        Date.now() - parseInt(cacheTime) < 900000
-      ) {
+      if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 900000) {
         setStats(JSON.parse(cached))
         return
       }
@@ -43,14 +37,8 @@ export default function WakaTimeTile() {
 
       setStats(data)
       if (data.totalHours != null) {
-        localStorage.setItem(
-          'wakatime_stats',
-          JSON.stringify(data)
-        )
-        localStorage.setItem(
-          'wakatime_stats_time',
-          Date.now().toString()
-        )
+        localStorage.setItem('wakatime_stats', JSON.stringify(data))
+        localStorage.setItem('wakatime_stats_time', Date.now().toString())
       }
     } catch (err) {
       const cached = localStorage.getItem('wakatime_stats')
@@ -68,28 +56,20 @@ export default function WakaTimeTile() {
     const handleVisibility = () => {
       if (!document.hidden) fetchStats()
     }
-    document.addEventListener(
-      'visibilitychange',
-      handleVisibility
-    )
+    document.addEventListener('visibilitychange', handleVisibility)
 
     return () => {
       clearInterval(interval)
-      document.removeEventListener(
-        'visibilitychange',
-        handleVisibility
-      )
+      document.removeEventListener('visibilitychange', handleVisibility)
     }
   }, [])
 
   if (!stats) return <TileSkeleton accent="primary" />
 
-  const languages = (stats.languages?.slice(0, 5) || []).map(
-    (lang) => ({
-      name: lang.name,
-      percent: lang.percent,
-    })
-  )
+  const languages = (stats.languages?.slice(0, 6) || []).map((lang) => ({
+    name: lang.name,
+    percent: lang.percent,
+  }))
 
   return (
     <div className="flex flex-col h-full">
@@ -97,16 +77,18 @@ export default function WakaTimeTile() {
         dev
       </h3>
       <span className="text-4xl font-bold font-mono tracking-tighter text-accent-primary">
-        {stats.totalHours != null
-          ? stats.totalHours.toLocaleString()
-          : '---'}
+        {stats.totalHours != null ? stats.totalHours.toLocaleString() : '---'}
       </span>
-      <span className="text-[10px] text-muted-foreground mt-0.5">
-        coding hrs &middot; {stats.dailyAverage || '---'}/day avg &middot; all time
+      <span className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground mt-0.5">
+        coding hrs
+        {/*{stats.dailyAverage || '---'}/day avg */}
+        {stats.sinceDate
+          ? ` · since ${new Date(stats.sinceDate + 'T00:00:00').toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}`
+          : ' · all time'}
       </span>
 
       {languages.length > 0 && (
-        <div className="mt-auto pt-3">
+        <div className="mt-auto pt-1">
           <div style={{ width: '100%', height: languages.length * 24 }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
@@ -121,7 +103,7 @@ export default function WakaTimeTile() {
                   dataKey="name"
                   width={70}
                   tick={{
-                    fontSize: 10,
+                    fontSize: 11,
                     fill: 'var(--muted-foreground)',
                   }}
                   axisLine={false}
@@ -139,10 +121,7 @@ export default function WakaTimeTile() {
                   }}
                 >
                   {languages.map((_, i) => (
-                    <Cell
-                      key={i}
-                      fill={barColors[i] || barColors[4]}
-                    />
+                    <Cell key={i} fill={barColors[i] || barColors[4]} />
                   ))}
                 </Bar>
               </BarChart>
