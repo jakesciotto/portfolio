@@ -3,7 +3,7 @@
 import { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 
-export default function MagneticLink({ href, children, className = '' }) {
+export default function MagneticLink({ href, children, className = '', ...props }) {
   const ref = useRef(null)
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function MagneticLink({ href, children, className = '' }) {
   }, [])
 
   return (
-    <a ref={ref} href={href} className={className} style={{ display: 'inline-block' }}>
+    <a ref={ref} href={href} className={className} style={{ display: 'inline-block' }} {...props}>
       {children}
     </a>
   )

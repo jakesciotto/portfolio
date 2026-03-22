@@ -1,5 +1,6 @@
 'use client'
 
+import { Instagram, Mail, Github } from 'lucide-react'
 import ThemeToggle from './theme-toggle'
 import MagneticLink from './magnetic-link'
 import { useLenis } from './scroll-provider'
@@ -33,10 +34,26 @@ export default function FixedHeader() {
         </button>
         <div className="flex items-center gap-3">
           <MagneticLink
-            href="mailto:jake.sciotto@gmail.com"
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            href="https://instagram.com/jakesciotto"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
           >
-            get in touch
+            <Instagram size={16} />
+          </MagneticLink>
+          <MagneticLink
+            href="mailto:jake.sciotto@gmail.com"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <Mail size={16} />
+          </MagneticLink>
+          <MagneticLink
+            href="https://github.com/jakesciotto"
+            className="text-muted-foreground hover:text-foreground transition-colors"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Github size={16} />
           </MagneticLink>
           <ThemeToggle />
         </div>

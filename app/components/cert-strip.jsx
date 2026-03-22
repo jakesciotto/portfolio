@@ -30,11 +30,11 @@ export default function CertStrip() {
       <p className="text-[12px] lowercase tracking-tight text-muted-foreground mb-1">
         if you even care
       </p>
-      <div className="flex gap-3 overflow-x-auto pb-2">
+      <div className="flex flex-wrap gap-3 pb-2">
         {certifications.map((cert) => (
           <Tooltip key={cert.name}>
             <TooltipTrigger asChild>
-              <div className="shrink-0">
+              <div>
                 <Image
                   src={cert.image}
                   alt={cert.name}
