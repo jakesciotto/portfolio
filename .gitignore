@@ -43,6 +43,8 @@ next-env.d.ts
 .claude/
 
 /docs/plans
+/docs/superpowers
+/docs/voice-profiles
 scripts/
 /data
 .env*.local

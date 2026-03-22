@@ -6,7 +6,7 @@ export const metadata = {
 export default function TermsPage() {
   return (
     <div className="mt-12 max-w-3xl mx-auto">
-      <h1 className="font-semibold text-6xl mb-4 tracking-tighter gradient-text">
+      <h1 className="font-semibold text-6xl mb-4 tracking-tighter text-foreground">
         terms of service
       </h1>
       <p className="text-sm text-muted-foreground mb-8">
@@ -35,7 +35,7 @@ export default function TermsPage() {
               href="https://github.com/jakesciotto/portfolio"
               target="_blank"
               rel="noopener noreferrer"
-              className="shimmer-link"
+              className="underline decoration-accent-primary/40 hover:decoration-accent-primary transition-colors"
             >
               mit licensed
             </a>
@@ -96,7 +96,7 @@ export default function TermsPage() {
             questions? concerns? existential dread?{' '}
             <a
               href="mailto:jake.sciotto@gmail.com"
-              className="shimmer-link"
+              className="underline decoration-accent-primary/40 hover:decoration-accent-primary transition-colors"
             >
               jake.sciotto@gmail.com
             </a>

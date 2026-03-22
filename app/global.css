@@ -1,14 +1,15 @@
 @import 'tailwindcss';
 
-/* ═══════════════════════════════════════════
-   Theme tokens — registers with Tailwind v4
+/* ===================================================
+   Theme tokens -- registers with Tailwind v4
    so utilities like bg-background, text-foreground,
-   border-neon-cyan etc. all work automatically
-   ═══════════════════════════════════════════ */
+   border-accent-primary etc. all work automatically
+   =================================================== */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
+  --color-card-glass: var(--card-glass);
   --color-card-foreground: var(--card-foreground);
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
@@ -25,106 +26,96 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  --color-neon-cyan: var(--neon-cyan);
-  --color-neon-magenta: var(--neon-magenta);
-  --color-neon-green: var(--neon-green);
-  --color-neon-amber: var(--neon-amber);
-  --color-neon-purple: var(--neon-purple);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-secondary: var(--accent-secondary);
+  --color-accent-tertiary: var(--accent-tertiary);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
 }
 
-/* ═══════════════════════════════════════════
-   Light mode
-   ═══════════════════════════════════════════ */
+/* ===================================================
+   Light mode -- warm teal on off-white
+   =================================================== */
 :root {
-  --background: #f8f9fa;
-  --foreground: #0f172a;
-  --card: rgba(255, 255, 255, 0.7);
-  --card-foreground: #0f172a;
-  --popover: rgba(255, 255, 255, 0.85);
-  --popover-foreground: #0f172a;
-  --primary: #0891b2;
+  --background: #f4f3f0;
+  --foreground: #0a0b12;
+  --card: #ffffff;
+  --card-glass: rgba(255, 255, 255, 0.6);
+  --card-foreground: #0a0b12;
+  --popover: #ffffff;
+  --popover-foreground: #0a0b12;
+  --primary: #0d9e8a;
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #0f172a;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #f1f5f9;
-  --accent-foreground: #0f172a;
-  --destructive: #ef4444;
-  --border: rgba(0, 0, 0, 0.08);
-  --input: #e2e8f0;
-  --ring: #0891b2;
-  --radius: 0.75rem;
+  --secondary: #e8e7e4;
+  --secondary-foreground: #0a0b12;
+  --muted: #e8e7e4;
+  --muted-foreground: #5a5b68;
+  --accent: #e8e7e4;
+  --accent-foreground: #0a0b12;
+  --destructive: #d04535;
+  --border: #d4d3d0;
+  --input: #d4d3d0;
+  --ring: #0d9e8a;
+  --radius: 0.5rem;
 
-  --neon-cyan: #0891b2;
-  --neon-magenta: #db2777;
-  --neon-green: #16a34a;
-  --neon-amber: #d97706;
-  --neon-purple: #9333ea;
+  --accent-primary: #0d9e8a;
+  --accent-secondary: #d04535;
+  --accent-tertiary: #7c5cbf;
 
-  --glass-bg: rgba(255, 255, 255, 0.6);
-  --glass-border: rgba(0, 0, 0, 0.08);
-
-  --sh-class: #2d5e9d;
-  --sh-identifier: #354150;
-  --sh-sign: #8996a3;
-  --sh-string: #007f7a;
-  --sh-keyword: #e02518;
-  --sh-comment: #a19595;
-  --sh-jsxliterals: #6266d1;
-  --sh-property: #e25a1c;
-  --sh-entity: #e25a1c;
+  --sh-class: #0d9e8a;
+  --sh-identifier: #0a0b12;
+  --sh-sign: #5a5b68;
+  --sh-string: #0d9e8a;
+  --sh-keyword: #d04535;
+  --sh-comment: #7878a0;
+  --sh-jsxliterals: #7c5cbf;
+  --sh-property: #0d9e8a;
+  --sh-entity: #0d9e8a;
 }
 
-/* ═══════════════════════════════════════════
-   Dark mode
-   ═══════════════════════════════════════════ */
+/* ===================================================
+   Dark mode -- warm accents on void
+   =================================================== */
 html.dark {
-    --background: #121215;
-    --foreground: #f8fafc;
-    --card: rgba(255, 255, 255, 0.05);
-    --card-foreground: #f8fafc;
-    --popover: rgba(30, 30, 50, 0.9);
-    --popover-foreground: #f8fafc;
-    --primary: #00f0ff;
-    --primary-foreground: #0f172a;
-    --secondary: rgba(255, 255, 255, 0.08);
-    --secondary-foreground: #f8fafc;
-    --muted: rgba(255, 255, 255, 0.06);
-    --muted-foreground: #94a3b8;
-    --accent: rgba(255, 255, 255, 0.08);
-    --accent-foreground: #f8fafc;
-    --destructive: #ef4444;
-    --border: rgba(255, 255, 255, 0.1);
-    --input: rgba(255, 255, 255, 0.15);
-    --ring: #00f0ff;
+  --background: #08090e;
+  --foreground: #e8e8f0;
+  --card: #0c0c1a;
+  --card-glass: rgba(14, 15, 24, 0.7);
+  --card-foreground: #e8e8f0;
+  --popover: #0c0c1a;
+  --popover-foreground: #e8e8f0;
+  --primary: #3df0d0;
+  --primary-foreground: #08090e;
+  --secondary: #1a1c2e;
+  --secondary-foreground: #e8e8f0;
+  --muted: #1a1c2e;
+  --muted-foreground: #6b6d80;
+  --accent: #1a1c2e;
+  --accent-foreground: #e8e8f0;
+  --destructive: #f05545;
+  --border: #1a1c2e;
+  --input: #1a1c2e;
+  --ring: #3df0d0;
 
-    --neon-cyan: #00f0ff;
-    --neon-magenta: #ff006e;
-    --neon-green: #39ff14;
-    --neon-amber: #ffbe0b;
-    --neon-purple: #b829dd;
+  --accent-primary: #3df0d0;
+  --accent-secondary: #f05545;
+  --accent-tertiary: #a78bfa;
 
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
+  --sh-class: #3df0d0;
+  --sh-identifier: #e8e8f0;
+  --sh-keyword: #f05545;
+  --sh-string: #3df0d0;
 
-    --sh-class: #4c97f8;
-    --sh-identifier: white;
-    --sh-keyword: #f47067;
-    --sh-string: #0fa295;
-
-    color-scheme: dark;
+  color-scheme: dark;
 }
 
-/* ═══════════════════════════════════════════
+/* ===================================================
    Base
-   ═══════════════════════════════════════════ */
+   =================================================== */
 ::selection {
-  background-color: var(--neon-cyan);
+  background-color: var(--accent-primary);
   color: #fefefe;
 }
 
@@ -132,30 +123,133 @@ html {
   min-width: 360px;
 }
 
-/* ═══════════════════════════════════════════
-   Glass card
-   ═══════════════════════════════════════════ */
-.glass-card {
+/* ===================================================
+   Card -- solid background, optional left accent
+   =================================================== */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  transition: border-color 0.2s ease;
+}
+
+.card:hover {
+  border-color: color-mix(in srgb, var(--accent-primary) 40%, var(--border));
+}
+
+.card-accent-left {
+  border-left: 2px solid var(--accent-primary);
+}
+
+.card-accent-secondary {
+  border-left: 2px solid var(--accent-secondary);
+}
+
+.card-accent-tertiary {
+  border-left: 2px solid var(--accent-tertiary);
+}
+
+/* ===================================================
+   Tile -- glassmorphism surface for bento grid
+   =================================================== */
+.tile {
+  background: var(--card-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius);
-  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform;
 }
 
-.glass-card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--glow-color, var(--neon-cyan)) 40%, transparent);
-  box-shadow: 0 0 24px color-mix(in srgb, var(--glow-color, var(--neon-cyan)) 15%, transparent),
-              0 8px 32px rgba(0, 0, 0, 0.12);
+.tile:hover {
+  border-color: color-mix(in srgb, var(--tile-accent, var(--accent-primary)) 40%, var(--border));
+  box-shadow: 0 4px 24px color-mix(in srgb, var(--tile-accent, var(--accent-primary)) 15%, transparent);
 }
 
-.glow-cyan { --glow-color: var(--neon-cyan); }
-.glow-magenta { --glow-color: var(--neon-magenta); }
-.glow-green { --glow-color: var(--neon-green); }
-.glow-amber { --glow-color: var(--neon-amber); }
-.glow-purple { --glow-color: var(--neon-purple); }
+@supports not (backdrop-filter: blur(1px)) {
+  .tile {
+    background: var(--card);
+  }
+}
+
+@media (max-width: 768px) {
+  .tile {
+    padding: 20px;
+  }
+}
+
+/* ===================================================
+   Bento grid -- 4-col desktop, 2-col tablet, 1-col mobile
+   =================================================== */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: 16px;
+  max-width: 1152px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.tile-hero       { grid-column: 1 / 3; grid-row: 1 / 3; }
+.tile-github     { grid-column: 3 / 5; grid-row: 1 / 2; }
+.tile-experience { grid-column: 3 / 5; grid-row: 2 / 3; }
+.tile-skills     { grid-column: 1 / 3; grid-row: 3 / 5; }
+.tile-work       { grid-column: 3 / 5; grid-row: 3 / 5; }
+.tile-about      { grid-column: 1 / 3; grid-row: 5 / 6; }
+.tile-oura       { grid-column: 3 / 4; grid-row: 5 / 6; }
+.tile-wakatime   { grid-column: 4 / 5; grid-row: 5 / 6; }
+.tile-education  { grid-column: 1 / 2; grid-row: 6 / 7; }
+.tile-certs      { grid-column: 2 / 4; grid-row: 6 / 7; }
+.tile-spotify    { grid-column: 4 / 5; grid-row: 6 / 7; }
+.tile-projects   { grid-column: 1 / 3; grid-row: 7 / 9; }
+.tile-funstats   { grid-column: 3 / 5; grid-row: 7 / 9; }
+
+@media (max-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .bento-grid > * {
+    grid-column: auto;
+    grid-row: auto;
+  }
+  .tile-hero,
+  .tile-skills,
+  .tile-certs,
+  .tile-projects,
+  .tile-funstats,
+  .tile-about,
+  .tile-work {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+  .bento-grid > * {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+/* ===================================================
+   Grain texture overlay
+   =================================================== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
 
 input[type='text'],
 input[type='email'] {
@@ -164,129 +258,26 @@ input[type='email'] {
   appearance: none;
 }
 
-/* ═══════════════════════════════════════════
-   Animated gradient for name
-   ═══════════════════════════════════════════ */
-@keyframes gradient-shift {
-  0%,
-  100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+/* ===================================================
+   Animations
+   =================================================== */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.gradient-text {
-  background: linear-gradient(
-    90deg,
-    #0f172a 0%,
-    #334155 25%,
-    #0f172a 50%,
-    #334155 75%,
-    #0f172a 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: gradient-shift 8s ease infinite;
-  padding: 0.05em 0;
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out both;
 }
 
-html.dark .gradient-text {
-    background: linear-gradient(
-      90deg,
-      #00f0ff 0%,
-      #b829dd 33%,
-      #ff006e 66%,
-      #00f0ff 100%
-    );
-    background-size: 200% 100%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-/* ═══════════════════════════════════════════
-   Shimmer / glimmer effect
-   ═══════════════════════════════════════════ */
-@keyframes shimmer {
-  0% {
-    background-position: -200% center;
-  }
-  100% {
-    background-position: 200% center;
-  }
-}
-
-.shimmer-link {
-  background: linear-gradient(
-    90deg,
-    currentColor 0%,
-    currentColor 40%,
-    var(--neon-magenta) 50%,
-    currentColor 60%,
-    currentColor 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 3s ease-in-out infinite;
-}
-
-.shimmer-link:hover {
-  -webkit-text-fill-color: transparent;
-  background: linear-gradient(
-    90deg,
-    var(--neon-magenta) 0%,
-    var(--neon-purple) 50%,
-    var(--neon-magenta) 100%
-  );
-  background-size: 200% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-  animation: shimmer 1.5s ease-in-out infinite;
-}
-
-/* ═══════════════════════════════════════════
-   Intersection observer animations
-   ═══════════════════════════════════════════ */
-.fade-in-section {
-  opacity: 0;
-  filter: blur(4px);
-  transition:
-    opacity 0.6s ease-out,
-    filter 0.6s ease-out,
-    transform 0.6s ease-out;
-  transform: translateY(20px);
-}
-
-.fade-in-section.is-visible {
-  opacity: 1;
-  filter: blur(0);
-  transform: translateY(0);
-}
-
-/* ═══════════════════════════════════════════
+/* ===================================================
    Reduced motion
-   ═══════════════════════════════════════════ */
+   =================================================== */
 @media (prefers-reduced-motion: reduce) {
-  .gradient-text {
-    animation: none;
-    background: currentColor;
-    -webkit-text-fill-color: currentColor;
-  }
-
-  .fade-in-section {
-    opacity: 1;
-    filter: none;
-    transform: none;
-    transition: none;
-  }
-
-  .glass-card:hover {
-    transform: none;
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
