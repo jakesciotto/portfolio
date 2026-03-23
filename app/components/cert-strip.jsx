@@ -30,7 +30,7 @@ export default function CertStrip() {
       <p className="text-[12px] lowercase tracking-tight text-muted-foreground mb-1">
         if you even care
       </p>
-      <div className="flex flex-wrap gap-3 pb-2">
+      <div className="grid grid-cols-4 grid-rows-2 gap-3 pb-2 justify-items-center">
         {certifications.map((cert) => (
           <Tooltip key={cert.name}>
             <TooltipTrigger asChild>
