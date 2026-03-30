@@ -6,14 +6,21 @@ import posthog from 'posthog-js'
 
 const roles = [
   {
+    title: 'technical customer success manager',
+    company: 'posthog',
+    dates: 'mar 2026. - present',
+    description: [''],
+    accent: 'secondary',
+  },
+  {
     title: 'staff technical account manager',
     company: 'cloudzero',
-    dates: 'jan 2026 - present',
+    dates: 'jan 2026 - mar 2026',
     priorTitle: 'senior, dec 2024 - dec 2025',
     description: [
       'nicknamed "mr figure shit out"',
-      'building bleeding edge finops solutions as the linchpin between'
-        + ' business and technology (trademark pending on this phrase)',
+      'building bleeding edge finops solutions as the linchpin between' +
+        ' business and technology (trademark pending on this phrase)',
     ],
     accent: 'primary',
   },
@@ -22,9 +29,9 @@ const roles = [
     company: 'arcadia',
     dates: 'dec 2022 - dec 2024',
     description: [
-      'implemented healthcare software, coordinated cross-functional'
-        + ' teams, led training and change management at big boy scale'
-        + " - what's the deal with healthcare",
+      'implemented healthcare software, coordinated cross-functional' +
+        ' teams, led training and change management at big boy scale' +
+        " - what's the deal with healthcare",
     ],
     accent: 'secondary',
   },
@@ -33,9 +40,9 @@ const roles = [
     company: 'carevalidate',
     dates: 'dec 2020 - dec 2022',
     description: [
-      'led covid-19 solution implementations for hundreds of'
-        + ' thousands of users, designed creative solutions for'
-        + ' evolving requirements - should have invested in zoom',
+      'led covid-19 solution implementations for hundreds of' +
+        ' thousands of users, designed creative solutions for' +
+        ' evolving requirements - should have invested in zoom',
     ],
     accent: 'secondary',
   },
@@ -44,9 +51,9 @@ const roles = [
     company: 'kennesaw state university',
     dates: 'aug 2020 - dec 2022',
     description: [
-      'taught computing infrastructure and networking, consulted'
-        + ' for healthcare research - they gave me a podium and'
-        + ' students showed up',
+      'taught computing infrastructure and networking, consulted' +
+        ' for healthcare research - they gave me a podium and' +
+        ' students showed up',
     ],
     accent: 'tertiary',
   },
@@ -55,9 +62,9 @@ const roles = [
     company: 'vestra logistics',
     dates: 'aug 2018 - dec 2019',
     description: [
-      'built power bi dashboards, developed transparent pricing'
-        + ' strategy, performed statistical analysis - made pretty'
-        + ' charts so people felt informed',
+      'built power bi dashboards, developed transparent pricing' +
+        ' strategy, performed statistical analysis - made pretty' +
+        ' charts so people felt informed',
     ],
     accent: 'tertiary',
   },
@@ -66,8 +73,8 @@ const roles = [
     company: 'rednax llc',
     dates: '2014 - 2017 (the before times)',
     description: [
-      'helped 10 small businesses launch websites - if you are'
-        + ' reading this i miss php',
+      'helped 10 small businesses launch websites - if you are' +
+        ' reading this i miss php',
     ],
     accent: 'primary',
   },
@@ -195,13 +202,8 @@ export default function WorkAccordion() {
                     </p>
                   )}
                   {role.description.map((line, j) => (
-                    <p
-                      key={j}
-                      className="text-xs text-muted-foreground"
-                    >
-                      {role.description.length > 1
-                        ? `- ${line}`
-                        : line}
+                    <p key={j} className="text-xs text-muted-foreground">
+                      {role.description.length > 1 ? `- ${line}` : line}
                     </p>
                   ))}
                 </div>
