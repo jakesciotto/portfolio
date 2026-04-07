@@ -8,7 +8,7 @@ const roles = [
   {
     title: 'technical customer success manager',
     company: 'posthog',
-    dates: 'mar 2026. - present',
+    dates: 'mar 2026 - present',
     description: [''],
     accent: 'secondary',
   },
