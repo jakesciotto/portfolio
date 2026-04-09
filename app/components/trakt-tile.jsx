@@ -95,30 +95,35 @@ export default function TraktTile() {
         <p className="text-sm text-muted-foreground">---</p>
       )}
 
-      <div className="flex gap-4 mt-auto">
-        <div>
-          <span className="text-2xl font-bold font-mono tracking-tighter text-accent-tertiary">
-            {allTime?.hours?.toLocaleString() ?? '---'}
-          </span>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            hours
-          </p>
-        </div>
-        <div>
-          <span className="text-2xl font-bold font-mono tracking-tighter text-accent-primary">
-            {allTime?.movies?.toLocaleString() ?? '---'}
-          </span>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            movies
-          </p>
-        </div>
-        <div>
-          <span className="text-2xl font-bold font-mono tracking-tighter text-accent-secondary">
-            {allTime?.episodes?.toLocaleString() ?? '---'}
-          </span>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            episodes
-          </p>
+      <div className="border-t border-border pt-3 mt-auto">
+        <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
+          all time
+        </p>
+        <div className="flex gap-4">
+          <div>
+            <span className="text-2xl font-bold font-mono tracking-tighter text-accent-tertiary">
+              {allTime?.hours?.toLocaleString() ?? '---'}
+            </span>
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              hours
+            </p>
+          </div>
+          <div>
+            <span className="text-2xl font-bold font-mono tracking-tighter text-accent-primary">
+              {allTime?.movies?.toLocaleString() ?? '---'}
+            </span>
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              movies
+            </p>
+          </div>
+          <div>
+            <span className="text-2xl font-bold font-mono tracking-tighter text-accent-secondary">
+              {allTime?.episodes?.toLocaleString() ?? '---'}
+            </span>
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              episodes
+            </p>
+          </div>
         </div>
       </div>
     </div>

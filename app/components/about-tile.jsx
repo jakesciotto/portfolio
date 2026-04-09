@@ -61,24 +61,24 @@ export default function AboutTile() {
       <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground">
         about
       </h3>
-      <p className="text-[11px] lowercase tracking-tight text-muted-foreground mb-4">
+      <p className="text-xs lowercase tracking-tight text-muted-foreground mb-4">
         in order of importance
       </p>
 
       <ol className="flex flex-col gap-3">
         {facts.map((fact, i) => (
           <li key={fact.label} className="flex items-baseline gap-2.5">
-            <span className="text-[10px] font-mono text-muted-foreground/50 shrink-0 tabular-nums">
+            <span className="text-xs font-mono text-muted-foreground/50 shrink-0 tabular-nums">
               {String(i + 1).padStart(2, '0')}
             </span>
             <div>
-              <p className="text-[13px] font-semibold tracking-tight text-foreground leading-tight inline">
+              <p className="text-sm font-semibold tracking-tight text-foreground leading-tight inline">
                 {fact.label}
                 {fact.label === 'bjj blue belt' && (
                   <span className="ml-1.5 align-middle"><BeltIcon /></span>
                 )}
               </p>
-              <span className="text-[11px] text-muted-foreground ml-1.5">
+              <span className="text-xs text-muted-foreground ml-1.5">
                 -- {fact.detail}
               </span>
             </div>
@@ -88,7 +88,7 @@ export default function AboutTile() {
 
       <div className="mt-auto pt-4">
         <div className="border-l border-accent-primary/20 pl-3">
-          <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-muted-foreground/70 mb-1">
+          <p className="text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground/70 mb-1">
             wife review
           </p>
           <p className="text-sm italic text-foreground/90 leading-snug">

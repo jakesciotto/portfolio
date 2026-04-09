@@ -76,7 +76,7 @@ export default function WakaTimeTile() {
       <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-1">
         programmin'
       </h3>
-      <span className="text-4xl font-bold font-mono tracking-tighter text-accent-primary">
+      <span className="text-3xl font-bold font-mono tracking-tighter text-accent-primary">
         {stats.totalHours != null ? stats.totalHours.toLocaleString() : '---'}
       </span>
       <span className="text-[10px] text-muted-foreground mt-0.5">

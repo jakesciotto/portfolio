@@ -126,7 +126,13 @@ export default function StravaTile() {
   const totalHours = stats?.movingTime ? Math.floor(stats.movingTime / 3600) : null
   const totalActivities = stats?.count
   const totalMiles = stats?.distance
-  const breakdown = stats?.breakdown || []
+  const rawBreakdown = stats?.breakdown || []
+  const sorted = [...rawBreakdown].sort((a, b) => b.count - a.count)
+  const top8 = sorted.slice(0, 8)
+  const rest = sorted.slice(8)
+  const breakdown = rest.length > 0
+    ? [...top8, { type: 'Other', count: rest.reduce((sum, t) => sum + t.count, 0) }]
+    : top8
   const maxCount = breakdown.length > 0 ? Math.max(...breakdown.map((t) => t.count)) : 0
 
   const contentOpacity = transitioning || loading ? 'opacity-0' : 'opacity-100'
@@ -191,7 +197,7 @@ export default function StravaTile() {
           <div className="flex flex-col gap-1.5 mt-3">
             {breakdown.map((t) => (
               <div key={t.type} className="flex items-center gap-2">
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground w-20 shrink-0 truncate" title={t.type}>
+                <span className="text-[10px] uppercase tracking-widest text-muted-foreground w-24 shrink-0 truncate" title={t.type}>
                   {t.type}
                 </span>
                 <div className="flex-1 h-2 rounded-full bg-muted/30 overflow-hidden">
