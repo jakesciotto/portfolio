@@ -1,6 +1,6 @@
 export default function EducationTile() {
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-3">
         education
       </h3>

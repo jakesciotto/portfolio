@@ -11,8 +11,10 @@ import SpotifyTile from './components/spotify-tile'
 import EducationTile from './components/education-tile'
 import CertStrip from './components/cert-strip'
 import ProjectTile from './components/project-tile'
-import FunStatsTile from './components/fun-stats-tile'
+import StravaTile from './components/strava-tile'
 import AboutTile from './components/about-tile'
+import TodoistTile from './components/todoist-tile'
+import TraktTile from './components/trakt-tile'
 
 export default function Page() {
   return (
@@ -22,23 +24,23 @@ export default function Page() {
           <HeroTile />
         </Tile>
 
-        <Tile accent="primary" gridClass="tile-github">
+        <Tile accent="secondary" gridClass="tile-github">
           <GitHubTile />
         </Tile>
 
-        <Tile accent="secondary" gridClass="tile-experience">
+        <Tile accent="tertiary" gridClass="tile-experience">
           <ExperienceTile />
-        </Tile>
-
-        <Tile accent="secondary" gridClass="tile-skills">
-          <SkillTags />
         </Tile>
 
         <Tile accent="primary" gridClass="tile-work">
           <WorkAccordion />
         </Tile>
 
-        <Tile accent="tertiary" gridClass="tile-about">
+        <Tile accent="tertiary" gridClass="tile-skills">
+          <SkillTags />
+        </Tile>
+
+        <Tile accent="secondary" gridClass="tile-about">
           <AboutTile />
         </Tile>
 
@@ -50,11 +52,11 @@ export default function Page() {
           <WakaTimeTile />
         </Tile>
 
-        <Tile accent="tertiary" gridClass="tile-education">
+        <Tile accent="primary" gridClass="tile-education">
           <EducationTile />
         </Tile>
 
-        <Tile accent="secondary" gridClass="tile-certs">
+        <Tile accent="tertiary" gridClass="tile-certs">
           <CertStrip />
         </Tile>
 
@@ -62,12 +64,20 @@ export default function Page() {
           <SpotifyTile />
         </Tile>
 
-        <Tile accent="primary" gridClass="tile-projects">
+        <Tile accent="primary" gridClass="tile-todoist">
+          <TodoistTile />
+        </Tile>
+
+        <Tile accent="tertiary" gridClass="tile-trakt">
+          <TraktTile />
+        </Tile>
+
+        <Tile accent="secondary" gridClass="tile-projects">
           <ProjectTile />
         </Tile>
 
-        <Tile accent="tertiary" gridClass="tile-funstats">
-          <FunStatsTile />
+        <Tile accent="primary" gridClass="tile-strava">
+          <StravaTile />
         </Tile>
       </BentoGrid>
     </div>

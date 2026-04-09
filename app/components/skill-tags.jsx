@@ -12,7 +12,6 @@ const skills = [
   { label: 'r', weight: 2 },
   { label: 'next.js', weight: 4 },
   { label: 'react', weight: 4 },
-  { label: 'node.js', weight: 4 },
   { label: 'terraform', weight: 3 },
   { label: 'docker', weight: 3 },
   { label: 'graphql', weight: 3 },
@@ -21,11 +20,8 @@ const skills = [
   { label: 'snowflake', weight: 3 },
   { label: 'bigquery', weight: 2 },
   { label: 'pytorch', weight: 2 },
-  { label: 'scikit-learn', weight: 3 },
   { label: 'xgboost', weight: 2 },
   { label: 'tailwind', weight: 4 },
-  { label: 'github actions', weight: 3 },
-  { label: 'aws', weight: 3 },
   { label: 'finops', weight: 5 },
   { label: 'rag/cag', weight: 3 },
   { label: 'vercel', weight: 3 },
@@ -82,7 +78,8 @@ function PhysicsCanvas() {
 
     const init = async () => {
       Matter = (await import('matter-js')).default
-      const { Engine, Runner, Bodies, Composite, Mouse, MouseConstraint } = Matter
+      const { Engine, Runner, Bodies, Composite, Mouse, MouseConstraint } =
+        Matter
 
       const container = containerRef.current
       if (!container) return
@@ -201,8 +198,11 @@ export default function SkillTags() {
   const containerRef = useRef(null)
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const lowPerf = navigator.hardwareConcurrency != null && navigator.hardwareConcurrency < 4
+    const prefersReduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    const lowPerf =
+      navigator.hardwareConcurrency != null && navigator.hardwareConcurrency < 4
     setCanPhysics(!prefersReduced && !lowPerf)
   }, [])
 
@@ -228,10 +228,16 @@ export default function SkillTags() {
     })
   }
 
-  if (!canPhysics) return <StaticGrid />
+  if (!canPhysics) {
+    return (
+      <div className="h-full flex flex-col">
+        <StaticGrid />
+      </div>
+    )
+  }
 
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <div className="flex items-center justify-between mb-3">
         <h3
           className="text-lg font-semibold font-mono tracking-tight text-foreground transition-opacity duration-300"

@@ -159,13 +159,25 @@ html {
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px;
-  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   will-change: transform;
 }
 
 .tile:hover {
-  border-color: color-mix(in srgb, var(--tile-accent, var(--accent-primary)) 40%, var(--border));
-  box-shadow: 0 4px 24px color-mix(in srgb, var(--tile-accent, var(--accent-primary)) 15%, transparent);
+  border-color: color-mix(
+    in srgb,
+    var(--tile-accent, var(--accent-primary)) 40%,
+    var(--border)
+  );
+  box-shadow: 0 4px 24px
+    color-mix(
+      in srgb,
+      var(--tile-accent, var(--accent-primary)) 15%,
+      transparent
+    );
 }
 
 @supports not (backdrop-filter: blur(1px)) {
@@ -185,7 +197,7 @@ html {
    =================================================== */
 .bento-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   grid-template-rows: auto;
   gap: 16px;
   max-width: 1152px;
@@ -193,19 +205,77 @@ html {
   padding: 0 16px;
 }
 
-.tile-hero       { grid-column: 1 / 3; grid-row: 1 / 3; }
-.tile-github     { grid-column: 3 / 5; grid-row: 1 / 2; }
-.tile-experience { grid-column: 3 / 5; grid-row: 2 / 3; }
-.tile-skills     { grid-column: 1 / 3; grid-row: 3 / 5; }
-.tile-work       { grid-column: 3 / 5; grid-row: 3 / 5; }
-.tile-about      { grid-column: 1 / 3; grid-row: 5 / 6; }
-.tile-oura       { grid-column: 3 / 4; grid-row: 5 / 6; }
-.tile-wakatime   { grid-column: 4 / 5; grid-row: 5 / 6; }
-.tile-education  { grid-column: 1 / 2; grid-row: 6 / 7; }
-.tile-certs      { grid-column: 2 / 4; grid-row: 6 / 7; }
-.tile-spotify    { grid-column: 4 / 5; grid-row: 6 / 7; }
-.tile-projects   { grid-column: 1 / 3; grid-row: 7 / 9; }
-.tile-funstats   { grid-column: 3 / 5; grid-row: 7 / 9; }
+/* ROW 1 */
+.tile-hero {
+  grid-column: 1 / 5;
+  grid-row: 1 / 3;
+}
+.tile-github {
+  grid-column: 5 / 7;
+  grid-row: 1 / 2;
+}
+.tile-experience {
+  grid-column: 5 / 7;
+  grid-row: 2 / 3;
+}
+
+/* ROW 2 */
+.tile-work {
+  grid-column: 1 / 4;
+  grid-row: 3 / 4;
+}
+.tile-skills {
+  grid-column: 4 / 7;
+  grid-row: 3 / 4;
+}
+
+/* ROW 3 */
+.tile-about {
+  grid-column: 1 / 5;
+  grid-row: 4 / 6;
+}
+.tile-certs {
+  grid-column: 5 / 7;
+  grid-row: 4 / 5;
+}
+
+/* ROW 4 */
+.tile-education {
+  grid-column: 5 / 7;
+  grid-row: 5 / 6;
+}
+
+/* ROW 5 */
+.tile-oura {
+  grid-column: 1 / 3;
+  grid-row: 6 / 7;
+}
+.tile-todoist {
+  grid-column: 3 / 4;
+  grid-row: 6 / 7;
+}
+.tile-wakatime {
+  grid-column: 4 / 6;
+  grid-row: 6 / 7;
+}
+.tile-trakt {
+  grid-column: 6 / 7;
+  grid-row: 6 / 7;
+}
+
+.tile-projects {
+  grid-column: 1 / 7;
+  grid-row: 7 / 8;
+}
+
+.tile-spotify {
+  grid-column: 1 / 4;
+  grid-row: 8 / 9;
+}
+.tile-strava {
+  grid-column: 4 / 7;
+  grid-row: 8 / 10;
+}
 
 @media (max-width: 1024px) {
   .bento-grid {
@@ -219,9 +289,13 @@ html {
   .tile-skills,
   .tile-certs,
   .tile-projects,
-  .tile-funstats,
+  .tile-strava,
   .tile-about,
-  .tile-work {
+  .tile-work,
+  .tile-education,
+  .tile-spotify,
+  .tile-todoist,
+  .tile-trakt {
     grid-column: 1 / -1;
   }
 }
@@ -262,8 +336,12 @@ input[type='email'] {
    Animations
    =================================================== */
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .animate-fade-in {
@@ -274,7 +352,9 @@ input[type='email'] {
    Reduced motion
    =================================================== */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
