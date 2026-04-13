@@ -79,7 +79,7 @@ export default function WakaTimeTile() {
       <span className="text-3xl font-bold font-mono tracking-tighter text-accent-primary">
         {stats.totalHours != null ? stats.totalHours.toLocaleString() : '---'}
       </span>
-      <span className="text-[10px] text-muted-foreground mt-0.5">
+      <span className="text-[12px] text-muted-foreground mt-1">
         coding hrs &middot; {stats.dailyAverage || '---'}/day avg &middot; all
         time
       </span>

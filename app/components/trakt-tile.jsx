@@ -79,10 +79,10 @@ export default function TraktTile() {
         </div>
       ) : lastWatched ? (
         <div className="min-w-0">
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-3">
             last watched
           </p>
-          <p className="text-sm font-semibold font-mono text-foreground truncate">
+          <p className="text-sm font-semibold font-mono text-foreground truncate mt-0.5 mb-0.5">
             {lastWatched.title}
           </p>
           {lastWatched.episodeTitle && (
