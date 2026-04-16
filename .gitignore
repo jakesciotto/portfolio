@@ -40,7 +40,7 @@ next-env.d.ts
 
 # archive
 /archive
-.claude/
+.claude
 
 /docs/plans
 /docs/superpowers
