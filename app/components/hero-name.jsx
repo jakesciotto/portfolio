@@ -32,7 +32,7 @@ export default function HeroName() {
   return (
     <h1
       ref={containerRef}
-      className="font-sans font-bold text-7xl md:text-8xl mb-4 tracking-tighter text-foreground relative"
+      className="font-sans font-bold text-6xl md:text-8xl mb-2 tracking-tightest text-foreground relative whitespace-nowrap"
     >
       {letters.map((char, i) => (
         <span

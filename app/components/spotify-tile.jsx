@@ -1,16 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-  Cell,
-  Tooltip,
-} from 'recharts'
 import TileSkeleton from './tile-skeleton'
+import AnimatedNumber from './animated-number'
 
 const barColors = [
   'var(--accent-secondary)',
@@ -40,7 +32,7 @@ export default function SpotifyTile() {
         localStorage.setItem('spotify_stats', JSON.stringify(data))
         localStorage.setItem('spotify_stats_time', Date.now().toString())
       }
-    } catch (err) {
+    } catch {
       const cached = localStorage.getItem('spotify_stats')
       if (cached) setStats(JSON.parse(cached))
     }
@@ -64,86 +56,84 @@ export default function SpotifyTile() {
     }
   }, [])
 
-  if (!stats) return <TileSkeleton accent="secondary" />
+  if (!stats) return <TileSkeleton accent="tertiary" lines={4} />
 
-  const hours = stats.overview?.totalHours
-    ? Math.round(stats.overview.totalHours).toLocaleString()
-    : '---'
+  const totalHours = stats.overview?.totalHours
+    ? Math.round(stats.overview.totalHours)
+    : null
   const topArtist = stats.topArtists?.[0]?.name
+  const topTrack = stats.topTracks?.[0]?.name
+  const yearlyHours = Array.isArray(stats.yearlyHours) ? stats.yearlyHours : []
+  const maxHours = yearlyHours.length > 0
+    ? Math.max(...yearlyHours.map((y) => y.hours || 0))
+    : 0
 
-  const currentYear = String(new Date().getFullYear())
-  const yearlyData = (stats.yearlyHours || [])
-    .filter((entry) => String(entry.year) !== currentYear)
-    .map((entry) => ({
-      year: String(entry.year),
-      hours: Math.round(entry.hours || entry.totalHours || 0),
-    }))
-    .sort((a, b) => a.year.localeCompare(b.year))
+  const firstYear = stats.overview?.firstStream?.slice(0, 4)
+  const currentYear = new Date().getFullYear()
+  const span = firstYear
+    ? `${currentYear - parseInt(firstYear)} years of data`
+    : null
 
   return (
-    <div className="flex flex-col h-full">
-      <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-1">
+    <div className="flex flex-col justify-between h-full gap-3">
+      <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground">
         spotify
       </h3>
-      <span className="text-4xl font-bold font-mono tracking-tighter text-accent-secondary">
-        {hours}
-      </span>
-      <span className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground mt-0.5">
-        hours listened{topArtist ? ` · top: ${topArtist}` : ''}
-      </span>
 
-      {yearlyData.length > 0 && (
-        <div className="mt-auto pt-3">
-          <div style={{ width: '100%', height: 120 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart
-                data={yearlyData}
-                margin={{ top: 16, right: 4, bottom: 0, left: 4 }}
-                barCategoryGap="20%"
-              >
-                <XAxis
-                  dataKey="year"
-                  tick={{
-                    fontSize: 10,
-                    fill: 'var(--muted-foreground)',
-                  }}
-                  axisLine={false}
-                  tickLine={false}
-                />
-                <YAxis hide domain={[0, 'auto']} />
-                <Tooltip
-                  cursor={false}
-                  content={({ active, payload }) => {
-                    if (!active || !payload?.length) return null
-                    return (
-                      <div className="bg-card border border-border rounded px-2 py-1 text-xs text-foreground font-mono shadow-md">
-                        {payload[0].value.toLocaleString()} hrs
-                      </div>
-                    )
-                  }}
-                />
-                <Bar
-                  dataKey="hours"
-                  radius={[3, 3, 0, 0]}
-                  isAnimationActive={false}
-                  label={{
-                    position: 'top',
-                    fontSize: 9,
-                    fill: 'var(--muted-foreground)',
-                    formatter: (v) => v.toLocaleString(),
-                  }}
-                >
-                  {yearlyData.map((_, i) => (
-                    <Cell
-                      key={i}
-                      fill={barColors[i % barColors.length]}
-                    />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+      <div>
+        <AnimatedNumber
+          value={totalHours}
+          className="text-3xl font-bold font-mono tracking-tighter text-accent-tertiary"
+        />
+        <p className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground">
+          hours listened
+        </p>
+      </div>
+
+      {(topArtist || topTrack) && (
+        <div className="flex gap-4">
+          {topArtist && (
+            <div>
+              <p className="text-sm font-semibold text-foreground truncate">{topArtist}</p>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                top artist
+              </p>
+            </div>
+          )}
+          {topTrack && (
+            <div>
+              <p className="text-sm font-semibold text-foreground truncate">{topTrack}</p>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                top track
+              </p>
+            </div>
+          )}
         </div>
+      )}
+
+      {yearlyHours.length > 0 && (
+        <div className="flex flex-col gap-1.5">
+          {yearlyHours.map((y) => (
+            <div key={y.year} className="flex items-center gap-2">
+              <span className="text-[10px] uppercase tracking-widest text-muted-foreground w-10 shrink-0">
+                {y.year}
+              </span>
+              <div className="flex-1 h-2 rounded-full bg-muted/30 overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-accent-tertiary/60 transition-all duration-500 ease-out"
+                  style={{ width: maxHours > 0 ? `${((y.hours || 0) / maxHours) * 100}%` : '0%' }}
+                />
+              </div>
+              <span className="text-xs font-mono font-medium text-accent-tertiary w-10 text-right">
+                {Math.round(y.hours || 0)}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {span && (
+        <p className="text-[10px] text-muted-foreground mt-auto">{span}</p>
       )}
     </div>
   )

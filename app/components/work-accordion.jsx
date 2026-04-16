@@ -9,7 +9,7 @@ const roles = [
     title: 'technical customer success manager',
     company: 'posthog',
     dates: 'mar 2026 - present',
-    description: [''],
+    description: ['#hoglife'],
     accent: 'secondary',
   },
   {
@@ -154,7 +154,7 @@ export default function WorkAccordion() {
   }
 
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-3">
         work
       </h3>
@@ -180,8 +180,8 @@ export default function WorkAccordion() {
                   <span className="text-sm font-semibold text-foreground leading-snug">
                     {role.title}
                   </span>
-                  <span className="text-[11px] text-muted-foreground">
-                    {role.company} &middot; {role.dates}
+                  <span className="text-[12px] text-muted-foreground">
+                    {role.company} &middot; [{role.dates}]
                   </span>
                 </div>
               </button>

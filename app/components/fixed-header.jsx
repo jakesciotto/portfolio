@@ -3,6 +3,7 @@
 import { Instagram, Mail, Github } from 'lucide-react'
 import ThemeToggle from './theme-toggle'
 import MagneticLink from './magnetic-link'
+import HeaderNowPlaying from './header-now-playing'
 import { useLenis } from './scroll-provider'
 
 export default function FixedHeader() {
@@ -28,10 +29,11 @@ export default function FixedHeader() {
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 h-12">
         <button
           onClick={scrollToTop}
-          className="text-sm font-mono tracking-tight text-foreground"
+          className="text-sm font-mono tracking-tighter text-foreground"
         >
           jake sciotto dot com
         </button>
+        <HeaderNowPlaying />
         <div className="flex items-center gap-3">
           <MagneticLink
             href="https://instagram.com/jakesciotto"

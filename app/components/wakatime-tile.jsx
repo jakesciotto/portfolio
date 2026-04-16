@@ -66,7 +66,7 @@ export default function WakaTimeTile() {
 
   if (!stats) return <TileSkeleton accent="primary" />
 
-  const languages = (stats.languages?.slice(0, 6) || []).map((lang) => ({
+  const languages = (stats.languages?.slice(0, 5) || []).map((lang) => ({
     name: lang.name,
     percent: lang.percent,
   }))
@@ -74,17 +74,14 @@ export default function WakaTimeTile() {
   return (
     <div className="flex flex-col h-full">
       <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-1">
-        dev
+        programmin'
       </h3>
-      <span className="text-4xl font-bold font-mono tracking-tighter text-accent-primary">
+      <span className="text-3xl font-bold font-mono tracking-tighter text-accent-primary">
         {stats.totalHours != null ? stats.totalHours.toLocaleString() : '---'}
       </span>
-      <span className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground mt-0.5">
-        coding hrs
-        {/*{stats.dailyAverage || '---'}/day avg */}
-        {stats.sinceDate
-          ? ` · since ${new Date(stats.sinceDate + 'T00:00:00').toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}`
-          : ' · all time'}
+      <span className="text-[12px] text-muted-foreground mt-1">
+        coding hrs &middot; {stats.dailyAverage || '---'}/day avg &middot; all
+        time
       </span>
 
       {languages.length > 0 && (

@@ -23,7 +23,7 @@ export default function CertStrip() {
   }
 
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-1">
         certifications
       </h3>
@@ -34,13 +34,13 @@ export default function CertStrip() {
         {certifications.map((cert) => (
           <Tooltip key={cert.name}>
             <TooltipTrigger asChild>
-              <div>
+              <div className="w-[52px] h-[48px] flex items-center justify-center">
                 <Image
                   src={cert.image}
                   alt={cert.name}
                   width={52}
                   height={48}
-                  className="object-contain rounded"
+                  className="object-contain rounded max-w-full max-h-full"
                   unoptimized
                 />
               </div>
