@@ -5,7 +5,8 @@ const facts = [
   },
   {
     label: 'problem solver',
-    detail: 'semi-neurotic, highly technical',
+    detail:
+      'semi-neurotic, highly technical. burdened by knowing a little bit about everything',
   },
   {
     label: 'coach',
@@ -13,13 +14,13 @@ const facts = [
       'lacrosse & bjj since 2009 - the nick saban of youth sports (self-appointed)',
   },
   {
-    label: 'yoga teacher',
-    detail: '200-hour certified (for no reason)',
-  },
-  {
     label: 'over-educated',
     detail:
-      "the debt from these two master's degrees is not going to pay for itself",
+      "the debt from these 2 master's degrees is not going to pay for itself",
+  },
+  {
+    label: 'sweaty',
+    detail: 'wherever we are i am going to be wearing shorts',
   },
 ]
 
@@ -75,7 +76,9 @@ export default function AboutTile() {
               <p className="text-sm font-semibold tracking-tight text-foreground leading-tight inline">
                 {fact.label}
                 {fact.label === 'bjj blue belt' && (
-                  <span className="ml-1.5 align-middle"><BeltIcon /></span>
+                  <span className="ml-1.5 align-middle">
+                    <BeltIcon />
+                  </span>
                 )}
               </p>
               <span className="text-xs text-muted-foreground ml-1.5">

@@ -231,17 +231,15 @@ html {
 
 /* ROW 3 */
 .tile-about {
-  grid-column: 1 / 5;
+  grid-column: 1 / 4;
   grid-row: 4 / 6;
 }
 .tile-certs {
-  grid-column: 5 / 7;
+  grid-column: 4 / 7;
   grid-row: 4 / 5;
 }
-
-/* ROW 4 */
 .tile-education {
-  grid-column: 5 / 7;
+  grid-column: 4 / 7;
   grid-row: 5 / 6;
 }
 
@@ -270,7 +268,7 @@ html {
 
 .tile-spotify {
   grid-column: 1 / 4;
-  grid-row: 8 / 9;
+  grid-row: 8 / 10;
 }
 .tile-strava {
   grid-column: 4 / 7;

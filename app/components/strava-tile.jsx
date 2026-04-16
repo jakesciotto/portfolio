@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import TileSkeleton from './tile-skeleton'
+import AnimatedNumber from './animated-number'
 
 const PERIODS = [
   { key: 'week', label: '7d' },
@@ -22,37 +23,6 @@ function cacheKey(period) {
 
 function cacheTimeKey(period) {
   return `strava_stats_time_${period}`
-}
-
-function AnimatedNumber({ value, className }) {
-  const [display, setDisplay] = useState(value)
-  const prevRef = useRef(value)
-
-  useEffect(() => {
-    if (prevRef.current === value) return
-    const from = prevRef.current || 0
-    const to = value || 0
-    prevRef.current = value
-
-    if (typeof from !== 'number' || typeof to !== 'number') {
-      setDisplay(value)
-      return
-    }
-
-    const duration = 400
-    const start = performance.now()
-
-    function step(now) {
-      const t = Math.min((now - start) / duration, 1)
-      const eased = 1 - Math.pow(1 - t, 3)
-      setDisplay(Math.round(from + (to - from) * eased))
-      if (t < 1) requestAnimationFrame(step)
-    }
-
-    requestAnimationFrame(step)
-  }, [value])
-
-  return <span className={className}>{typeof display === 'number' ? display.toLocaleString() : display}</span>
 }
 
 export default function StravaTile() {
@@ -138,7 +108,7 @@ export default function StravaTile() {
   const contentOpacity = transitioning || loading ? 'opacity-0' : 'opacity-100'
 
   return (
-    <div className="flex flex-col justify-between h-full gap-3">
+    <div className="flex flex-col h-full gap-3">
       <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground">
         strava
       </h3>
@@ -148,10 +118,10 @@ export default function StravaTile() {
           <button
             key={p.key}
             onClick={() => handlePeriodChange(p.key)}
-            className={`px-2 py-0.5 text-[10px] uppercase font-mono font-medium tracking-widest rounded transition-all duration-200 ${
+            className={`px-2 py-0.5 text-[10px] uppercase font-mono font-medium tracking-widest rounded border transition-all duration-200 ${
               period === p.key
-                ? 'bg-accent-secondary/20 text-accent-secondary'
-                : 'text-muted-foreground hover:text-foreground'
+                ? 'bg-accent-secondary/20 text-accent-secondary border-accent-secondary/40'
+                : 'text-muted-foreground border-border hover:text-foreground hover:border-muted-foreground'
             }`}
           >
             {p.label}
@@ -160,17 +130,16 @@ export default function StravaTile() {
       </div>
 
       <div className={`transition-opacity duration-200 ease-in-out ${contentOpacity}`}>
-        <div>
-          <AnimatedNumber
-            value={totalHours}
-            className="text-3xl font-bold font-mono tracking-tighter text-accent-secondary"
-          />
-          <p className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground">
-            hours active
-          </p>
-        </div>
-
-        <div className="flex gap-4 mt-2">
+        <div className="flex gap-4">
+          <div>
+            <AnimatedNumber
+              value={totalHours}
+              className="text-2xl font-bold font-mono tracking-tighter text-accent-secondary"
+            />
+            <p className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground">
+              hours
+            </p>
+          </div>
           <div>
             <AnimatedNumber
               value={totalActivities}
