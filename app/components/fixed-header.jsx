@@ -29,9 +29,10 @@ export default function FixedHeader() {
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 h-12">
         <button
           onClick={scrollToTop}
-          className="text-sm font-mono tracking-tighter text-foreground"
+          className="text-sm font-mono tracking-tighter text-foreground shrink-0"
         >
-          jake sciotto dot com
+          <span className="sm:hidden">js</span>
+          <span className="hidden sm:inline">jake sciotto dot com</span>
         </button>
         <HeaderNowPlaying />
         <div className="flex items-center gap-3">
