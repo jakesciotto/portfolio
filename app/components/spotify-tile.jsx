@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCachedFetch } from '../lib/use-cached-fetch'
 import TileSkeleton from './tile-skeleton'
 import AnimatedNumber from './animated-number'
 
@@ -12,49 +12,9 @@ const barColors = [
 ]
 
 export default function SpotifyTile() {
-  const [stats, setStats] = useState(null)
-
-  const fetchStats = async () => {
-    try {
-      const cached = localStorage.getItem('spotify_stats')
-      const cacheTime = localStorage.getItem('spotify_stats_time')
-
-      if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 900000) {
-        setStats(JSON.parse(cached))
-        return
-      }
-
-      const res = await fetch('/api/spotify-stats')
-      const data = await res.json()
-
-      setStats(data)
-      if (data.overview) {
-        localStorage.setItem('spotify_stats', JSON.stringify(data))
-        localStorage.setItem('spotify_stats_time', Date.now().toString())
-      }
-    } catch {
-      const cached = localStorage.getItem('spotify_stats')
-      if (cached) setStats(JSON.parse(cached))
-    }
-  }
-
-  useEffect(() => {
-    fetchStats()
-
-    const interval = setInterval(() => {
-      if (!document.hidden) fetchStats()
-    }, 900000)
-
-    const handleVisibility = () => {
-      if (!document.hidden) fetchStats()
-    }
-    document.addEventListener('visibilitychange', handleVisibility)
-
-    return () => {
-      clearInterval(interval)
-      document.removeEventListener('visibilitychange', handleVisibility)
-    }
-  }, [])
+  const stats = useCachedFetch('/api/spotify-stats', 'spotify_stats', {
+    shouldCache: (data) => !!data.overview,
+  })
 
   if (!stats) return <TileSkeleton accent="tertiary" lines={4} />
 

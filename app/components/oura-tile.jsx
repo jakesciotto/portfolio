@@ -1,53 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCachedFetch } from '../lib/use-cached-fetch'
 import TileSkeleton from './tile-skeleton'
 import Sparkline from './ui/sparkline'
 
 export default function OuraTile() {
-  const [stats, setStats] = useState(null)
-
-  const fetchStats = async () => {
-    try {
-      const cached = localStorage.getItem('oura_stats')
-      const cacheTime = localStorage.getItem('oura_stats_time')
-
-      if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 900000) {
-        setStats(JSON.parse(cached))
-        return
-      }
-
-      const res = await fetch('/api/oura-stats')
-      const data = await res.json()
-
-      setStats(data)
-      if (data.sleep?.current?.hours !== null) {
-        localStorage.setItem('oura_stats', JSON.stringify(data))
-        localStorage.setItem('oura_stats_time', Date.now().toString())
-      }
-    } catch (err) {
-      const cached = localStorage.getItem('oura_stats')
-      if (cached) setStats(JSON.parse(cached))
-    }
-  }
-
-  useEffect(() => {
-    fetchStats()
-
-    const interval = setInterval(() => {
-      if (!document.hidden) fetchStats()
-    }, 900000)
-
-    const handleVisibility = () => {
-      if (!document.hidden) fetchStats()
-    }
-    document.addEventListener('visibilitychange', handleVisibility)
-
-    return () => {
-      clearInterval(interval)
-      document.removeEventListener('visibilitychange', handleVisibility)
-    }
-  }, [])
+  const stats = useCachedFetch('/api/oura-stats', 'oura_stats', {
+    shouldCache: (data) => data.sleep?.current?.hours !== null,
+  })
 
   if (!stats) return <TileSkeleton accent="tertiary" />
 

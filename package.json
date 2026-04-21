@@ -6,18 +6,9 @@
     "start": "next start"
   },
   "dependencies": {
-    "@dnd-kit/core": "^6.3.1",
-    "@dnd-kit/sortable": "^10.0.0",
-    "@dnd-kit/utilities": "^3.2.2",
-    "@formkit/auto-animate": "^0.9.0",
     "@gsap/react": "^2.1.2",
     "@tailwindcss/postcss": "4.2.1",
-    "@types/node": "25.3.5",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
     "@upstash/redis": "^1.36.4",
-    "@vercel/analytics": "^1.6.1",
-    "@vercel/speed-insights": "^1.3.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "geist": "1.7.0",
@@ -26,7 +17,6 @@
     "lucide-react": "^0.577.0",
     "matter-js": "^0.20.0",
     "next": "^16.1.6",
-    "next-mdx-remote": "^6.0.0",
     "postcss": "^8.5.8",
     "posthog-js": "^1.360.0",
     "posthog-node": "^5.28.0",
@@ -35,10 +25,8 @@
     "react-dom": "^19.2.4",
     "react-parallax-tilt": "^1.7.320",
     "recharts": "^3.8.0",
-    "sugar-high": "^0.9.5",
     "tailwind-merge": "^3.5.0",
-    "tailwindcss": "4.2.1",
-    "typescript": "^5.9.3"
+    "tailwindcss": "4.2.1"
   },
   "devDependencies": {
     "prettier": "^3.8.1"

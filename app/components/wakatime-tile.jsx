@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import {
   BarChart,
   Bar,
@@ -9,6 +8,7 @@ import {
   ResponsiveContainer,
   Cell,
 } from 'recharts'
+import { useCachedFetch } from '../lib/use-cached-fetch'
 import TileSkeleton from './tile-skeleton'
 
 const barColors = [
@@ -20,49 +20,9 @@ const barColors = [
 ]
 
 export default function WakaTimeTile() {
-  const [stats, setStats] = useState(null)
-
-  const fetchStats = async () => {
-    try {
-      const cached = localStorage.getItem('wakatime_stats')
-      const cacheTime = localStorage.getItem('wakatime_stats_time')
-
-      if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 900000) {
-        setStats(JSON.parse(cached))
-        return
-      }
-
-      const res = await fetch('/api/wakatime-stats')
-      const data = await res.json()
-
-      setStats(data)
-      if (data.totalHours != null) {
-        localStorage.setItem('wakatime_stats', JSON.stringify(data))
-        localStorage.setItem('wakatime_stats_time', Date.now().toString())
-      }
-    } catch (err) {
-      const cached = localStorage.getItem('wakatime_stats')
-      if (cached) setStats(JSON.parse(cached))
-    }
-  }
-
-  useEffect(() => {
-    fetchStats()
-
-    const interval = setInterval(() => {
-      if (!document.hidden) fetchStats()
-    }, 900000)
-
-    const handleVisibility = () => {
-      if (!document.hidden) fetchStats()
-    }
-    document.addEventListener('visibilitychange', handleVisibility)
-
-    return () => {
-      clearInterval(interval)
-      document.removeEventListener('visibilitychange', handleVisibility)
-    }
-  }, [])
+  const stats = useCachedFetch('/api/wakatime-stats', 'wakatime_stats', {
+    shouldCache: (data) => data.totalHours != null,
+  })
 
   if (!stats) return <TileSkeleton accent="primary" />
 

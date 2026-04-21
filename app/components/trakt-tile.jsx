@@ -1,52 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCachedFetch } from '../lib/use-cached-fetch'
 import TileSkeleton from './tile-skeleton'
 
 export default function TraktTile() {
-  const [stats, setStats] = useState(null)
-
-  const fetchStats = async () => {
-    try {
-      const cached = localStorage.getItem('trakt_stats')
-      const cacheTime = localStorage.getItem('trakt_stats_time')
-
-      if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 120000) {
-        setStats(JSON.parse(cached))
-        return
-      }
-
-      const res = await fetch('/api/trakt-stats')
-      const data = await res.json()
-
-      setStats(data)
-      if (data.nowWatching !== undefined) {
-        localStorage.setItem('trakt_stats', JSON.stringify(data))
-        localStorage.setItem('trakt_stats_time', Date.now().toString())
-      }
-    } catch {
-      const cached = localStorage.getItem('trakt_stats')
-      if (cached) setStats(JSON.parse(cached))
-    }
-  }
-
-  useEffect(() => {
-    fetchStats()
-
-    const interval = setInterval(() => {
-      if (!document.hidden) fetchStats()
-    }, 120000)
-
-    const handleVisibility = () => {
-      if (!document.hidden) fetchStats()
-    }
-    document.addEventListener('visibilitychange', handleVisibility)
-
-    return () => {
-      clearInterval(interval)
-      document.removeEventListener('visibilitychange', handleVisibility)
-    }
-  }, [])
+  const stats = useCachedFetch('/api/trakt-stats', 'trakt_stats', {
+    ttl: 120000,
+    shouldCache: (data) => data.nowWatching !== undefined,
+  })
 
   if (!stats) return <TileSkeleton accent="tertiary" />
 

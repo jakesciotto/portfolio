@@ -1,52 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useCachedFetch } from '../lib/use-cached-fetch'
 import TileSkeleton from './tile-skeleton'
 
 export default function TodoistTile() {
-  const [stats, setStats] = useState(null)
-
-  const fetchStats = async () => {
-    try {
-      const cached = localStorage.getItem('todoist_stats')
-      const cacheTime = localStorage.getItem('todoist_stats_time')
-
-      if (cached && cacheTime && Date.now() - parseInt(cacheTime) < 900000) {
-        setStats(JSON.parse(cached))
-        return
-      }
-
-      const res = await fetch('/api/todoist-stats')
-      const data = await res.json()
-
-      setStats(data)
-      if (data.active !== null) {
-        localStorage.setItem('todoist_stats', JSON.stringify(data))
-        localStorage.setItem('todoist_stats_time', Date.now().toString())
-      }
-    } catch {
-      const cached = localStorage.getItem('todoist_stats')
-      if (cached) setStats(JSON.parse(cached))
-    }
-  }
-
-  useEffect(() => {
-    fetchStats()
-
-    const interval = setInterval(() => {
-      if (!document.hidden) fetchStats()
-    }, 900000)
-
-    const handleVisibility = () => {
-      if (!document.hidden) fetchStats()
-    }
-    document.addEventListener('visibilitychange', handleVisibility)
-
-    return () => {
-      clearInterval(interval)
-      document.removeEventListener('visibilitychange', handleVisibility)
-    }
-  }, [])
+  const stats = useCachedFetch('/api/todoist-stats', 'todoist_stats', {
+    shouldCache: (data) => data.active !== null,
+  })
 
   if (!stats) return <TileSkeleton accent="primary" />
 

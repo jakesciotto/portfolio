@@ -1,11 +1,10 @@
-import { NextResponse } from 'next/server'
 import PostHogClient from '../../posthog'
 
 export async function GET(request) {
   try {
     if (!process.env.WAKATIME_API_KEY) {
-      return NextResponse.json({
-        totalHours: null, dailyAverage: null, languages: [], editors: []
+      return Response.json({
+        totalHours: null, dailyAverage: null, languages: []
       })
     }
 
@@ -36,7 +35,6 @@ export async function GET(request) {
       stats = await statsRes.value.json()
     } else if (statsRes.status === 'fulfilled') {
       const statusCode = statsRes.value.status
-      // 202 means WakaTime is still computing stats -- not an error
       if (statusCode !== 202) {
         console.error('WakaTime stats response:', statusCode, await statsRes.value.text().catch(() => ''))
       }
@@ -44,9 +42,7 @@ export async function GET(request) {
 
     const totalSeconds = allTime?.data?.total_seconds || 0
     const totalHours = totalSeconds > 0 ? Math.round(totalSeconds / 3600) : null
-    const sinceDate = allTime?.data?.range?.start_date || null
 
-    // Try multiple field names for daily average
     const dailyAvg = stats?.data?.human_readable_daily_average
       || stats?.data?.human_readable_daily_average_including_other_language
       || null
@@ -57,19 +53,14 @@ export async function GET(request) {
       hours: Math.round((l.total_seconds || 0) / 3600 * 10) / 10,
     }))
 
-    const editors = (stats?.data?.editors || []).slice(0, 4).map(e => ({
-      name: e.name,
-      percent: e.percent,
-    }))
-
     const posthog = PostHogClient()
-    const distinctId = request.headers.get('x-forwarded-for') || 'server'
+    const distinctId = request.headers.get('x-posthog-distinct-id') || 'server_anonymous'
     posthog.capture({ distinctId, event: 'wakatime_stats_fetched', properties: { totalHours } })
     await posthog.flush()
 
-    return NextResponse.json({ totalHours, sinceDate, dailyAverage: dailyAvg, languages, editors })
+    return Response.json({ totalHours, dailyAverage: dailyAvg, languages })
   } catch (error) {
     console.error('WakaTime API error:', error)
-    return NextResponse.json({ totalHours: null, sinceDate: null, dailyAverage: null, languages: [], editors: [] })
+    return Response.json({ totalHours: null, dailyAverage: null, languages: [] })
   }
 }

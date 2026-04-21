@@ -29,13 +29,12 @@ export async function GET(request) {
   try {
     if (!redis) throw new Error('Redis not configured')
 
-    const [overview, topArtists, topTracks, yearlyHours, funFacts] =
+    const [overview, topArtists, topTracks, yearlyHours] =
       await Promise.all([
         redis.get('spotify:overview'),
         redis.get('spotify:top_artists'),
         redis.get('spotify:top_tracks'),
         redis.get('spotify:yearly_hours'),
-        redis.get('spotify:fun_facts'),
       ])
 
     const result = {
@@ -43,7 +42,6 @@ export async function GET(request) {
       topArtists: parseValue(topArtists) || [],
       topTracks: parseValue(topTracks) || [],
       yearlyHours: parseValue(yearlyHours) || [],
-      funFacts: parseValue(funFacts),
     }
 
     posthog.capture({
@@ -65,7 +63,6 @@ export async function GET(request) {
       topArtists: [],
       topTracks: [],
       yearlyHours: [],
-      funFacts: null,
     })
   }
 }
