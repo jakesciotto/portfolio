@@ -18,7 +18,7 @@ export default function HeroTile() {
           }}
           className="underline decoration-accent-primary/40 hover:decoration-accent-primary transition-colors cursor-pointer"
         >
-          terminally online millenial
+          terminally online millennial
         </TrackedLink>{' '}
         by choice
       </p>
