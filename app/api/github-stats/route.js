@@ -24,6 +24,7 @@ export async function GET(request) {
           viewer {
             current: contributionsCollection(from: "${sevenDaysAgo}", to: "${now}") {
               totalCommitContributions
+              restrictedContributionsCount
               contributionCalendar {
                 weeks {
                   contributionDays {
@@ -35,6 +36,7 @@ export async function GET(request) {
             }
             previous: contributionsCollection(from: "${fourteenDaysAgo}", to: "${sevenDaysAgo}") {
               totalCommitContributions
+              restrictedContributionsCount
             }
           }
         }`,
@@ -45,8 +47,8 @@ export async function GET(request) {
     if (!res.ok) throw new Error(`GitHub API error: ${res.status}`)
 
     const { data } = await res.json()
-    const commits7d = data.viewer.current.totalCommitContributions
-    const prevCommits7d = data.viewer.previous.totalCommitContributions
+    const commits7d = data.viewer.current.totalCommitContributions + data.viewer.current.restrictedContributionsCount
+    const prevCommits7d = data.viewer.previous.totalCommitContributions + data.viewer.previous.restrictedContributionsCount
 
     // Extract daily breakdown from contribution calendar
     const allDays = data.viewer.current.contributionCalendar.weeks
