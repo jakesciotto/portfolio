@@ -5,28 +5,24 @@ import posthog from 'posthog-js'
 
 const projects = [
   {
-    name: 'the jake tracker',
-    description:
-      "what do you mean it's weird to visualize your task tracking data",
+    name: 'ok-peter',
+    description: 'when your friend asks you to work in webflow you say no',
     pill: 'live',
     pillVariant: 'primary',
-    link: 'https://tasks.jakesciotto.com',
+    link: 'https://www.ok-peter.com',
   },
   {
-    name: 'easton+',
-    description: 'drag and drop curriculum builder for jiu jitsu',
-    pill: 'in beta',
-    pillVariant: 'tertiary',
-  },
-  {
-    name: 'easton mat lab',
-    description: 'internal video review platform for jiu jitsu coaches',
-    pill: 'in beta',
-    pillVariant: 'tertiary',
+    name: 'easton leaderboard',
+    description:
+      'kids bjj program leaderboard and dashboarding tool (admins only)',
+    pill: 'live',
+    pillVariant: 'primary',
+    link: 'https://eastonpodium.com',
   },
   {
     name: 'cloudzero-date-filter',
-    description: "chrome extension for product functionality we don't have yet",
+    description:
+      'chrome extension for product functionality we did not have at the time',
     pill: 'live',
     pillVariant: 'primary',
     link: 'https://chromewebstore.google.com/detail/gejpbillcbkknkgbpjdglcjallnhjloh',
@@ -38,6 +34,18 @@ const projects = [
     pill: 'live',
     pillVariant: 'primary',
     link: 'https://aidatasucks.com',
+  },
+  {
+    name: 'easton mat lab',
+    description: 'internal video review platform for jiu jitsu coaches',
+    pill: 'in beta',
+    pillVariant: 'tertiary',
+  },
+  {
+    name: 'easton+',
+    description: 'drag and drop jiu jitsu curriculum builder',
+    pill: 'in beta',
+    pillVariant: 'tertiary',
   },
 ]
 
