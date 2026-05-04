@@ -1,5 +1,6 @@
 'use client'
 
+import { useState, useEffect, useRef } from 'react'
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts'
 
 const colorMap = {
@@ -13,15 +14,25 @@ export default function Sparkline({
   data = [],
   color = 'primary',
   height = 40,
+  tooltipLabel = 'commits',
 }) {
+  const containerRef = useRef(null)
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    if (!containerRef.current) return
+    const { width } = containerRef.current.getBoundingClientRect()
+    if (width > 0) setReady(true)
+  }, [])
+
   if (!data || data.length < 2) return null
 
   const chartData = data.map((value, i) => ({ i, v: value }))
   const strokeColor = colorMap[color] || colorMap.primary
 
   return (
-    <div style={{ width: '100%', height }} className="mt-2 opacity-70">
-      <ResponsiveContainer width="100%" height="100%">
+    <div ref={containerRef} style={{ width: '100%', height }} className="mt-2 opacity-70">
+      {ready && <ResponsiveContainer width="100%" height="100%">
         <AreaChart
           data={chartData}
           margin={{ top: 2, right: 2, bottom: 2, left: 2 }}
@@ -44,7 +55,7 @@ export default function Sparkline({
               if (!active || !payload?.length) return null
               return (
                 <div className="bg-card border border-border rounded px-2 py-1 text-xs text-foreground font-mono shadow-md">
-                  {payload[0].value} {payload[0].value === 1 ? 'commit' : 'commits'}
+                  {payload[0].value} {tooltipLabel}
                 </div>
               )
             }}
@@ -59,7 +70,7 @@ export default function Sparkline({
             isAnimationActive={true}
           />
         </AreaChart>
-      </ResponsiveContainer>
+      </ResponsiveContainer>}
     </div>
   )
 }

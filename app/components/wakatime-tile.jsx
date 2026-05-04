@@ -1,12 +1,13 @@
 'use client'
 
+import { useState, useEffect, useRef } from 'react'
 import {
   BarChart,
   Bar,
   XAxis,
   YAxis,
+  Rectangle,
   ResponsiveContainer,
-  Cell,
 } from 'recharts'
 import { useCachedFetch } from '../lib/use-cached-fetch'
 import TileSkeleton from './tile-skeleton'
@@ -20,9 +21,17 @@ const barColors = [
 ]
 
 export default function WakaTimeTile() {
+  const containerRef = useRef(null)
+  const [ready, setReady] = useState(false)
   const stats = useCachedFetch('/api/wakatime-stats', 'wakatime_stats', {
     shouldCache: (data) => data.totalHours != null,
   })
+
+  useEffect(() => {
+    if (!containerRef.current) return
+    const { width } = containerRef.current.getBoundingClientRect()
+    if (width > 0) setReady(true)
+  }, [stats])
 
   if (!stats) return <TileSkeleton accent="primary" />
 
@@ -46,8 +55,8 @@ export default function WakaTimeTile() {
 
       {languages.length > 0 && (
         <div className="mt-auto pt-1">
-          <div style={{ width: '100%', height: languages.length * 24 }}>
-            <ResponsiveContainer width="100%" height="100%">
+          <div ref={containerRef} style={{ width: '100%', height: languages.length * 24 }}>
+            {ready && <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={languages}
                 layout="vertical"
@@ -76,13 +85,12 @@ export default function WakaTimeTile() {
                     fill: 'var(--muted-foreground)',
                     formatter: (v) => `${v}%`,
                   }}
-                >
-                  {languages.map((_, i) => (
-                    <Cell key={i} fill={barColors[i] || barColors[4]} />
-                  ))}
-                </Bar>
+                  shape={(props) => (
+                    <Rectangle {...props} fill={barColors[props.index] || barColors[4]} />
+                  )}
+                />
               </BarChart>
-            </ResponsiveContainer>
+            </ResponsiveContainer>}
           </div>
         </div>
       )}
