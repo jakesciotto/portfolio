@@ -3,20 +3,20 @@
 import { useCachedFetch } from '../lib/use-cached-fetch'
 import TileSkeleton from './tile-skeleton'
 import Sparkline from './ui/sparkline'
+import { Badge } from './ui/badge'
 
-function TopSection({ label, artists = [], tracks = [] }) {
+function TopSection({ label, labelVariant = 'muted', artists = [], tracks = [] }) {
   if (!artists.length && !tracks.length) return null
 
   return (
-    <div className="flex flex-col gap-1.5 min-w-0">
-      <p className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground">
-        {label}
-      </p>
+    <div className="flex flex-col gap-2 min-w-0">
+      <Badge variant={labelVariant}>{label}</Badge>
       {artists.length > 0 && (
-        <div className="flex flex-col gap-0.5">
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">artists</p>
+        <div className="flex flex-wrap gap-1">
           {artists.map((a, i) => (
-            <p key={i} className="text-xs font-medium text-foreground truncate">{a.name}</p>
+            <Badge key={i} variant="outline" className="normal-case tracking-tight text-xs font-medium">
+              {a.name}
+            </Badge>
           ))}
         </div>
       )}
@@ -68,11 +68,13 @@ export default function SpotifyTile() {
         <div className="grid grid-cols-2 gap-3">
           <TopSection
             label="recent favorites"
+            labelVariant="secondaryAccent"
             artists={topItems.shortTerm?.artists || []}
             tracks={topItems.shortTerm?.tracks || []}
           />
           <TopSection
             label="all-time favorites"
+            labelVariant="tertiary"
             artists={topItems.longTerm?.artists || []}
             tracks={topItems.longTerm?.tracks || []}
           />

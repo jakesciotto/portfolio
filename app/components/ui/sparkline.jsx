@@ -66,7 +66,8 @@ export default function Sparkline({
             stroke={strokeColor}
             strokeWidth={1.5}
             fill={`url(#sparkGrad-${color})`}
-            dot={false}
+            dot={{ r: 1.5, fill: strokeColor, stroke: strokeColor, strokeWidth: 0 }}
+            activeDot={{ r: 3, fill: strokeColor, stroke: strokeColor, strokeWidth: 0 }}
             isAnimationActive={true}
           />
         </AreaChart>

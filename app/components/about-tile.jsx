@@ -11,7 +11,7 @@ const facts = [
   {
     label: 'coach',
     detail:
-      'lacrosse & bjj since 2009 - the nick saban of youth sports (self-appointed)',
+      'lacrosse & bjj since 2009 - have been called the nick saban of youth sports',
   },
   {
     label: 'over-educated',
@@ -21,6 +21,14 @@ const facts = [
   {
     label: 'sweaty',
     detail: 'wherever we are i am going to be wearing shorts',
+  },
+  {
+    label: 'horrible bowler',
+    detail: 'just one of the things i am bad at. golf as well',
+  },
+  {
+    label: 'afraid of horses',
+    detail: 'too big to be trusted',
   },
 ]
 

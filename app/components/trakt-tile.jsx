@@ -56,7 +56,7 @@ export default function TraktTile() {
         <p className="text-sm text-muted-foreground">---</p>
       )}
 
-      <div className="md:border-t md:border-border md:pt-3 mt-auto">
+      <div className="md:border-t md:border-border md:pt-4 mt-auto md:mt-6">
         <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
           all time
         </p>
