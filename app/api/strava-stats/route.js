@@ -65,10 +65,10 @@ function metersToMiles(m) {
 
 // Redis cache TTLs per period (seconds)
 const CACHE_TTL = {
-  week: 900,    // 15 min
-  month: 1800,  // 30 min
-  year: 3600,   // 1 hour
-  all: 3600,    // 1 hour
+  week: 900, // 15 min
+  month: 1800, // 30 min
+  year: 3600, // 1 hour
+  all: 3600, // 1 hour
 }
 
 function redisCacheKey(period) {
@@ -98,9 +98,7 @@ function getPeriodStart(period) {
     case 'month':
       return Math.floor(new Date(now - 30 * 86400000).getTime() / 1000)
     case 'year':
-      return Math.floor(
-        new Date(now.getFullYear(), 0, 1).getTime() / 1000
-      )
+      return Math.floor(new Date(now.getFullYear(), 0, 1).getTime() / 1000)
     default:
       return 0
   }
@@ -161,13 +159,48 @@ function displayType(raw) {
   return raw.replace(/([a-z])([A-Z])/g, '$1 $2')
 }
 
+// Strava forces non-enum activity types (e.g. Garmin-synced strength/yoga/HIIT)
+// into the generic "Workout" bucket. Infer a finer label from the activity name.
+const WORKOUT_KEYWORDS = [
+  { match: /\b(hiit|tabata|interval|amrap|emom)\b/i, label: 'HIIT' },
+  { match: /\b(crossfit|wod)\b/i, label: 'CrossFit' },
+  { match: /\b(yoga|vinyasa|hatha)\b/i, label: 'Yoga' },
+  { match: /\b(pilates|reformer)\b/i, label: 'Pilates' },
+  { match: /\b(mobility|stretch|recovery|foam roll)\b/i, label: 'Mobility' },
+  { match: /\b(teep|mt||muay thai)\b/i, label: 'Muay Thai' },
+  { match: /\b(spin|peloton)\b/i, label: 'Spin' },
+  { match: /\b(row(ing)?|erg)\b/i, label: 'Rowing' },
+  {
+    match:
+      /\b(strength|lifting|lift|push|pull|legs?|upper|lower|chest|back|squat|deadlift|bench)\b/i,
+    label: 'Strength',
+  },
+  { match: /\b(cardio|conditioning)\b/i, label: 'Cardio' },
+  { match: /\b(bodyweight|calisthenics)\b/i, label: 'Bodyweight' },
+  { match: /\b(bjj|jiu jitsu|randori)\b/i, label: 'BJJ' },
+]
+
+function inferWorkoutType(name) {
+  if (!name) return 'Workout'
+  for (const { match, label } of WORKOUT_KEYWORDS) {
+    if (match.test(name)) return label
+  }
+  return 'Workout'
+}
+
+function bucketKey(activity) {
+  const raw = activity.sport_type || activity.type || 'Other'
+  if (raw === 'Workout') return inferWorkoutType(activity.name)
+  return raw
+}
+
 function aggregateActivities(activities) {
   let totalDistance = 0
   let totalMovingTime = 0
   const byType = {}
 
   for (const a of activities) {
-    const type = a.sport_type || a.type || 'Other'
+    const type = bucketKey(a)
     totalDistance += a.distance || 0
     totalMovingTime += a.moving_time || 0
 
@@ -240,9 +273,17 @@ export async function GET(request) {
     })
   } catch (error) {
     // Fallback: if activity:read scope missing, use athlete stats endpoint
-    if (error.message?.includes('scope required') || error.message?.includes('401')) {
+    if (
+      error.message?.includes('scope required') ||
+      error.message?.includes('401')
+    ) {
       try {
-        return await fallbackToAthleteStats(request, posthog, distinctId, period)
+        return await fallbackToAthleteStats(
+          request,
+          posthog,
+          distinctId,
+          period,
+        )
       } catch (fallbackError) {
         // Fall through to error response
       }
@@ -271,17 +312,19 @@ async function fallbackToAthleteStats(request, posthog, distinctId, period) {
   const athleteRes = await fetch('https://www.strava.com/api/v3/athlete', {
     headers: { Authorization: `Bearer ${accessToken}` },
   })
-  if (!athleteRes.ok) throw new Error(`Athlete fetch failed: ${athleteRes.status}`)
+  if (!athleteRes.ok)
+    throw new Error(`Athlete fetch failed: ${athleteRes.status}`)
   const athlete = await athleteRes.json()
 
   const statsRes = await fetch(
     `https://www.strava.com/api/v3/athletes/${athlete.id}/stats`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
+    { headers: { Authorization: `Bearer ${accessToken}` } },
   )
   if (!statsRes.ok) throw new Error(`Stats fetch failed: ${statsRes.status}`)
   const stats = await statsRes.json()
 
-  const prefix = period === 'year' ? 'ytd' : period === 'month' ? 'recent' : 'all'
+  const prefix =
+    period === 'year' ? 'ytd' : period === 'month' ? 'recent' : 'all'
   const rideKey = `${prefix}_ride_totals`
   const runKey = `${prefix}_run_totals`
   const swimKey = `${prefix}_swim_totals`
@@ -290,14 +333,28 @@ async function fallbackToAthleteStats(request, posthog, distinctId, period) {
   const run = stats[runKey] || stats.all_run_totals || {}
   const swim = stats[swimKey] || stats.all_swim_totals || {}
 
-  const totalDistance = (ride.distance || 0) + (run.distance || 0) + (swim.distance || 0)
+  const totalDistance =
+    (ride.distance || 0) + (run.distance || 0) + (swim.distance || 0)
   const totalCount = (ride.count || 0) + (run.count || 0) + (swim.count || 0)
-  const totalTime = (ride.moving_time || 0) + (run.moving_time || 0) + (swim.moving_time || 0)
+  const totalTime =
+    (ride.moving_time || 0) + (run.moving_time || 0) + (swim.moving_time || 0)
 
   const breakdown = [
-    { type: 'Ride', count: ride.count || 0, distance: metersToMiles(ride.distance || 0) },
-    { type: 'Run', count: run.count || 0, distance: metersToMiles(run.distance || 0) },
-    { type: 'Swim', count: swim.count || 0, distance: metersToMiles(swim.distance || 0) },
+    {
+      type: 'Ride',
+      count: ride.count || 0,
+      distance: metersToMiles(ride.distance || 0),
+    },
+    {
+      type: 'Run',
+      count: run.count || 0,
+      distance: metersToMiles(run.distance || 0),
+    },
+    {
+      type: 'Swim',
+      count: swim.count || 0,
+      distance: metersToMiles(swim.distance || 0),
+    },
   ]
     .filter((t) => t.count > 0)
     .sort((a, b) => b.count - a.count)
