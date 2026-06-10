@@ -52,8 +52,7 @@ const roles = [
     dates: 'aug 2020 - dec 2022',
     description: [
       'taught computing infrastructure and networking, consulted' +
-        ' for healthcare research - they gave me a podium and' +
-        ' students showed up',
+        ' for healthcare research',
     ],
     accent: 'tertiary',
   },
@@ -141,6 +140,7 @@ export default function WorkAccordion() {
           opacity: 1,
           duration: 0.4,
           ease: 'power2.out',
+          onComplete: () => gsap.set(panel, { height: 'auto' }),
         })
       }
 
@@ -171,19 +171,20 @@ export default function WorkAccordion() {
                 aria-expanded={isExpanded}
                 aria-controls={panelId}
                 onClick={() => toggle(index)}
-                className="w-full text-left flex items-start gap-2 py-2 px-1 rounded hover:bg-secondary/50 transition-colors"
+                className="w-full text-left flex items-baseline gap-2 py-1.5 px-1 rounded hover:bg-secondary/50 transition-colors"
               >
                 <span
-                  className={`w-2 h-2 rounded-full shrink-0 mt-1.5 ${accentDot[role.accent] || accentDot.primary}`}
+                  className={`w-2 h-2 rounded-full shrink-0 self-center ${accentDot[role.accent] || accentDot.primary}`}
                 />
-                <div className="min-w-0 flex flex-col">
-                  <span className="text-sm font-semibold text-foreground leading-snug">
-                    {role.title}
-                  </span>
-                  <span className="text-[12px] text-muted-foreground">
-                    {role.company} &middot; [{role.dates}]
-                  </span>
-                </div>
+                <span className="text-[13px] font-semibold text-foreground truncate">
+                  {role.title}
+                </span>
+                <span className="text-[12px] text-muted-foreground truncate">
+                  &middot; {role.company}
+                </span>
+                <span className="text-[10px] font-mono text-muted-foreground border border-border rounded px-1.5 py-0.5 ml-auto shrink-0 self-center hidden sm:block">
+                  {role.dates}
+                </span>
               </button>
               <div
                 id={panelId}
@@ -196,6 +197,11 @@ export default function WorkAccordion() {
                   ref={(el) => setContentRef(el, index)}
                   className="pl-5 pb-2"
                 >
+                  <p className="sm:hidden mb-1">
+                    <span className="text-[10px] font-mono text-muted-foreground border border-border rounded px-1.5 py-0.5">
+                      {role.dates}
+                    </span>
+                  </p>
                   {role.priorTitle && (
                     <p className="text-xs text-muted-foreground italic mb-1">
                       {role.priorTitle}

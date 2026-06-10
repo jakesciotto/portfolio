@@ -23,23 +23,17 @@ export default function CertStrip() {
   }
 
   return (
-    <div className="h-full flex flex-col">
-      <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-1">
-        certifications
-      </h3>
-      <p className="text-[12px] lowercase tracking-tight text-muted-foreground mb-1">
-        if you even care
-      </p>
-      <div className="grid grid-cols-4 grid-rows-2 gap-3 pb-2 justify-items-center">
+    <div className="border-t border-border mt-auto pt-3 flex items-center justify-between gap-3">
+      <div className="flex items-center gap-1.5 flex-wrap">
         {certifications.map((cert) => (
           <Tooltip key={cert.name}>
             <TooltipTrigger asChild>
-              <div className="w-[52px] h-[48px] flex items-center justify-center">
+              <div className="w-[30px] h-[28px] flex items-center justify-center">
                 <Image
                   src={cert.image}
                   alt={cert.name}
-                  width={52}
-                  height={48}
+                  width={30}
+                  height={28}
                   className="object-contain rounded max-w-full max-h-full"
                   unoptimized
                 />
@@ -51,21 +45,15 @@ export default function CertStrip() {
           </Tooltip>
         ))}
       </div>
-      <div className="flex items-center justify-between mt-2">
-        <span className="text-xs text-muted-foreground">
-          {certifications.length} certifications
-        </span>
-
-        <a
-          href="https://www.credly.com/users/jake-sciotto"
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={handleCredlyClick}
-          className="text-xs text-muted-foreground hover:text-accent-primary transition-colors"
-        >
-          verify on credly
-        </a>
-      </div>
+      <a
+        href="https://www.credly.com/users/jake-sciotto"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={handleCredlyClick}
+        className="text-xs text-muted-foreground hover:text-accent-primary transition-colors shrink-0"
+      >
+        credly
+      </a>
     </div>
   )
 }

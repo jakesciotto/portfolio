@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import TileSkeleton from './tile-skeleton'
 import AnimatedNumber from './animated-number'
 
@@ -11,10 +11,12 @@ const PERIODS = [
   { key: 'all', label: 'all' },
 ]
 
-function formatHours(seconds) {
-  if (!seconds) return '---'
-  const hrs = Math.floor(seconds / 3600)
-  return hrs.toLocaleString()
+function syncedAgo(iso) {
+  if (!iso) return null
+  const hrs = Math.floor((Date.now() - new Date(iso).getTime()) / 3600000)
+  if (hrs < 1) return 'synced just now'
+  if (hrs < 24) return `synced ${hrs}h ago`
+  return `synced ${Math.floor(hrs / 24)}d ago`
 }
 
 function cacheKey(period) {
@@ -30,8 +32,9 @@ export default function StravaTile() {
   const [period, setPeriod] = useState('all')
   const [loading, setLoading] = useState(false)
   const [transitioning, setTransitioning] = useState(false)
+  const transitionRef = useRef(null)
 
-  const fetchStats = async (p) => {
+  const fetchStats = async (p, isStale = () => false) => {
     try {
       const cached = localStorage.getItem(cacheKey(p))
       const cacheTime = localStorage.getItem(cacheTimeKey(p))
@@ -41,13 +44,18 @@ export default function StravaTile() {
         cacheTime &&
         Date.now() - parseInt(cacheTime) < 900000
       ) {
-        setStats(JSON.parse(cached))
-        return
+        const parsed = JSON.parse(cached)
+        // payloads from the pre-snapshot API era lack lastSync; refetch
+        if (parsed.lastSync) {
+          if (!isStale()) setStats(parsed)
+          return
+        }
       }
 
       setLoading(true)
       const res = await fetch(`/api/strava-stats?period=${p}`, { cache: 'no-store' })
       const data = await res.json()
+      if (isStale()) return
 
       setStats(data)
       if (data.count != null) {
@@ -55,37 +63,47 @@ export default function StravaTile() {
         localStorage.setItem(cacheTimeKey(p), Date.now().toString())
       }
     } catch (err) {
+      if (isStale()) return
       const cached = localStorage.getItem(cacheKey(p))
       if (cached) setStats(JSON.parse(cached))
     } finally {
-      setLoading(false)
+      if (!isStale()) setLoading(false)
     }
   }
 
   const handlePeriodChange = (p) => {
     if (p === period) return
     setTransitioning(true)
-    setTimeout(() => {
+    clearTimeout(transitionRef.current)
+    transitionRef.current = setTimeout(() => {
       setPeriod(p)
       setTransitioning(false)
     }, 200)
   }
 
+  useEffect(() => () => clearTimeout(transitionRef.current), [])
+
   useEffect(() => {
-    fetchStats(period)
+    let ignore = false
+    fetchStats(period, () => ignore)
+    return () => {
+      ignore = true
+    }
   }, [period])
 
   useEffect(() => {
+    let ignore = false
     const interval = setInterval(() => {
-      if (!document.hidden) fetchStats(period)
+      if (!document.hidden) fetchStats(period, () => ignore)
     }, 900000)
 
     const handleVisibility = () => {
-      if (!document.hidden) fetchStats(period)
+      if (!document.hidden) fetchStats(period, () => ignore)
     }
     document.addEventListener('visibilitychange', handleVisibility)
 
     return () => {
+      ignore = true
       clearInterval(interval)
       document.removeEventListener('visibilitychange', handleVisibility)
     }
@@ -183,6 +201,12 @@ export default function StravaTile() {
           </div>
         )}
       </div>
+
+      {stats?.lastSync && (
+        <p className="text-[10px] font-mono text-muted-foreground mt-auto">
+          {syncedAgo(stats.lastSync)}
+        </p>
+      )}
     </div>
   )
 }

@@ -11,6 +11,7 @@ import {
 } from 'recharts'
 import { useCachedFetch } from '../lib/use-cached-fetch'
 import TileSkeleton from './tile-skeleton'
+import { Badge } from './ui/badge'
 
 const barColors = [
   'var(--accent-primary)',
@@ -47,11 +48,14 @@ export default function WakaTimeTile() {
       </h3>
       <span className="text-3xl font-bold font-mono tracking-tighter text-accent-primary">
         {stats.totalHours != null ? stats.totalHours.toLocaleString() : '---'}
+        <span className="text-sm font-semibold text-muted-foreground ml-1.5">
+          hrs
+        </span>
       </span>
-      <span className="text-[12px] text-muted-foreground mt-1">
-        coding hrs &middot; {stats.dailyAverage || '---'}/day avg &middot; all
-        time
-      </span>
+      <div className="flex flex-wrap gap-1.5 mt-2">
+        <Badge variant="primary">all time</Badge>
+        <Badge variant="muted">{stats.dailyAverage || '---'}/day</Badge>
+      </div>
 
       {languages.length > 0 && (
         <div className="mt-auto pt-1">
