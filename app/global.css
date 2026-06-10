@@ -36,63 +36,63 @@
 }
 
 /* ===================================================
-   Light mode -- aurora frost on pale sky
+   Light mode -- warm teal on off-white
    =================================================== */
 :root {
-  --background: #eef2f9;
-  --foreground: #0c1222;
+  --background: #f4f3f0;
+  --foreground: #0a0b12;
   --card: #ffffff;
-  --card-glass: rgba(255, 255, 255, 0.45);
-  --card-foreground: #0c1222;
+  --card-glass: rgba(255, 255, 255, 0.6);
+  --card-foreground: #0a0b12;
   --popover: #ffffff;
-  --popover-foreground: #0c1222;
-  --primary: #0d9488;
+  --popover-foreground: #0a0b12;
+  --primary: #0d9e8a;
   --primary-foreground: #ffffff;
-  --secondary: #e2e8f2;
-  --secondary-foreground: #0c1222;
-  --muted: #e2e8f2;
-  --muted-foreground: #5b6478;
-  --accent: #e2e8f2;
-  --accent-foreground: #0c1222;
-  --destructive: #e11d48;
-  --border: rgba(12, 18, 34, 0.12);
-  --input: rgba(12, 18, 34, 0.12);
-  --ring: #0d9488;
+  --secondary: #e8e7e4;
+  --secondary-foreground: #0a0b12;
+  --muted: #e8e7e4;
+  --muted-foreground: #5a5b68;
+  --accent: #e8e7e4;
+  --accent-foreground: #0a0b12;
+  --destructive: #d04535;
+  --border: #d4d3d0;
+  --input: #d4d3d0;
+  --ring: #0d9e8a;
   --radius: 0.5rem;
 
-  --accent-primary: #0d9488;
-  --accent-secondary: #db2777;
-  --accent-tertiary: #7c3aed;
+  --accent-primary: #0d9e8a;
+  --accent-secondary: #d04535;
+  --accent-tertiary: #7c5cbf;
 
 }
 
 /* ===================================================
-   Dark mode -- aurora glass on deep navy void
+   Dark mode -- warm accents on void
    =================================================== */
 html.dark {
-  --background: #060912;
-  --foreground: #e9ecf6;
-  --card: #0b0f1c;
-  --card-glass: rgba(255, 255, 255, 0.06);
-  --card-foreground: #e9ecf6;
-  --popover: #0b0f1c;
-  --popover-foreground: #e9ecf6;
-  --primary: #2dd4bf;
-  --primary-foreground: #060912;
-  --secondary: #181c2c;
-  --secondary-foreground: #e9ecf6;
-  --muted: #181c2c;
-  --muted-foreground: #949bb2;
-  --accent: #181c2c;
-  --accent-foreground: #e9ecf6;
-  --destructive: #f87171;
-  --border: rgba(255, 255, 255, 0.1);
-  --input: rgba(255, 255, 255, 0.1);
-  --ring: #2dd4bf;
+  --background: #08090e;
+  --foreground: #e8e8f0;
+  --card: #0c0c1a;
+  --card-glass: rgba(14, 15, 24, 0.7);
+  --card-foreground: #e8e8f0;
+  --popover: #0c0c1a;
+  --popover-foreground: #e8e8f0;
+  --primary: #3df0d0;
+  --primary-foreground: #08090e;
+  --secondary: #1a1c2e;
+  --secondary-foreground: #e8e8f0;
+  --muted: #1a1c2e;
+  --muted-foreground: #8b8da0;
+  --accent: #1a1c2e;
+  --accent-foreground: #e8e8f0;
+  --destructive: #f05545;
+  --border: #1a1c2e;
+  --input: #1a1c2e;
+  --ring: #3df0d0;
 
-  --accent-primary: #2dd4bf;
-  --accent-secondary: #e879a0;
-  --accent-tertiary: #8b5cf6;
+  --accent-primary: #3df0d0;
+  --accent-secondary: #f05545;
+  --accent-tertiary: #a78bfa;
 
   color-scheme: dark;
 }
@@ -107,33 +107,6 @@ html.dark {
 
 html {
   min-width: 360px;
-}
-
-/* Aurora wash behind the glass -- big soft accent blobs */
-body {
-  background-color: var(--background);
-  background-image:
-    radial-gradient(
-      640px circle at 12% 6%,
-      color-mix(in srgb, var(--accent-primary) 26%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      760px circle at 88% 28%,
-      color-mix(in srgb, var(--accent-tertiary) 24%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      820px circle at 35% 75%,
-      color-mix(in srgb, var(--accent-secondary) 18%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      560px circle at 70% 98%,
-      color-mix(in srgb, var(--accent-primary) 16%, transparent),
-      transparent 70%
-    );
-  background-attachment: fixed;
 }
 
 /* ===================================================
@@ -155,8 +128,8 @@ body {
    =================================================== */
 .tile {
   background: var(--card-glass);
-  backdrop-filter: blur(20px) saturate(150%);
-  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 24px;
