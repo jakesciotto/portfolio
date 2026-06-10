@@ -11,10 +11,12 @@ const PERIODS = [
   { key: 'all', label: 'all' },
 ]
 
-function formatHours(seconds) {
-  if (!seconds) return '---'
-  const hrs = Math.floor(seconds / 3600)
-  return hrs.toLocaleString()
+function syncedAgo(iso) {
+  if (!iso) return null
+  const hrs = Math.floor((Date.now() - new Date(iso).getTime()) / 3600000)
+  if (hrs < 1) return 'synced just now'
+  if (hrs < 24) return `synced ${hrs}h ago`
+  return `synced ${Math.floor(hrs / 24)}d ago`
 }
 
 function cacheKey(period) {
@@ -183,6 +185,12 @@ export default function StravaTile() {
           </div>
         )}
       </div>
+
+      {stats?.lastSync && (
+        <p className="text-[10px] font-mono text-muted-foreground mt-auto">
+          {syncedAgo(stats.lastSync)}
+        </p>
+      )}
     </div>
   )
 }
