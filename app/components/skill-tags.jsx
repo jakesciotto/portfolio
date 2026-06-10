@@ -23,23 +23,38 @@ const TIER_LABELS = {
   2: 'learning',
   1: 'sucks',
 }
-const TIER_COLORS = {
-  5: 'bg-accent-primary',
-  4: 'bg-accent-secondary',
-  3: 'bg-accent-tertiary',
-  2: 'bg-muted-foreground/60',
-  1: 'bg-muted-foreground/20',
+const TIER_TEXT = {
+  5: 'text-accent-primary',
+  4: 'text-accent-secondary',
+  3: 'text-accent-tertiary',
+  2: 'text-muted-foreground/80',
+  1: 'text-muted-foreground/50',
 }
 
 const sorted = [...skills].sort((a, b) => b.weight - a.weight)
 const INITIAL_COUNT = 12
+const BAR_WIDTH = 16
 
 function Prompt() {
   return (
     <>
       <span className="text-accent-primary">jake@portfolio</span>
-      <span className="text-muted-foreground"> ~ % </span>
+      <span className="text-muted-foreground">:</span>
+      <span className="text-accent-tertiary">~</span>
+      <span className="text-muted-foreground">$ </span>
     </>
+  )
+}
+
+function AsciiBar({ weight }) {
+  const filled = Math.round((weight / 5) * BAR_WIDTH)
+  return (
+    <span className="text-[11px] leading-none select-none whitespace-nowrap">
+      <span className={TIER_TEXT[weight]}>{'█'.repeat(filled)}</span>
+      <span className="text-muted-foreground/25">
+        {'░'.repeat(BAR_WIDTH - filled)}
+      </span>
+    </span>
   )
 }
 
@@ -87,53 +102,66 @@ export default function SkillTags() {
   const visible = expanded ? sorted : sorted.slice(0, INITIAL_COUNT)
 
   return (
-    <div className="flex flex-col h-full font-mono">
-      <p className="text-xs mb-3">
-        <Prompt />
-        <span className="text-foreground">skills --sort=level</span>
-      </p>
-
-      <div className="flex flex-col gap-1.5">
-        {visible.map((skill) => (
-          <div
-            key={skill.label}
-            className="grid grid-cols-[11.5rem_1fr_3.5rem] items-center gap-2"
-          >
-            <span className="text-[11px] text-foreground">{skill.label}</span>
-            <div className="h-1.5 rounded-full bg-muted/30 overflow-hidden">
-              <div
-                className={`h-full rounded-full ${TIER_COLORS[skill.weight]} transition-all duration-500 ease-out`}
-                style={{ width: `${(skill.weight / 5) * 100}%` }}
-              />
-            </div>
-            <span className="text-[10px] text-muted-foreground text-right">
-              {TIER_LABELS[skill.weight]}
-            </span>
-          </div>
-        ))}
+    <div className="flex flex-col h-full font-mono -m-6 max-md:-m-5">
+      {/* window chrome */}
+      <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-border bg-muted/40 rounded-t-[15px]">
+        <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+        <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+        <span className="text-[10px] text-muted-foreground mx-auto pr-8">
+          jake@portfolio: ~
+        </span>
       </div>
 
-      {sorted.length > INITIAL_COUNT ? (
-        <button
-          onClick={runCommand}
-          className="text-xs text-left mt-3 cursor-pointer group"
-        >
+      <div className="flex flex-col flex-1 p-4 pt-3">
+        <p className="text-xs mb-3">
           <Prompt />
-          <span className="text-foreground">{typed}</span>
-          <span className="terminal-cursor text-accent-primary">&#9613;</span>
-          {!typing && (
-            <span className="text-muted-foreground/50 ml-2 group-hover:text-muted-foreground transition-colors">
-              # run:{' '}
-              {expanded ? 'skills --top' : `skills --all (${skills.length})`}
-            </span>
-          )}
-        </button>
-      ) : (
-        <p className="text-xs mt-3">
-          <Prompt />
-          <span className="terminal-cursor text-accent-primary">&#9613;</span>
+          <span className="text-foreground">skills --sort=level</span>
         </p>
-      )}
+
+        <div className="flex flex-col gap-1.5">
+          {visible.map((skill) => (
+            <div
+              key={skill.label}
+              className="grid grid-cols-[minmax(0,11.5rem)_auto_1fr] items-center gap-2"
+            >
+              <span className="text-[11px] text-foreground">
+                {skill.label}
+              </span>
+              <AsciiBar weight={skill.weight} />
+              <span className="text-[10px] text-muted-foreground">
+                {TIER_LABELS[skill.weight]}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {sorted.length > INITIAL_COUNT ? (
+          <button
+            onClick={runCommand}
+            className="text-xs text-left mt-3 cursor-pointer group"
+          >
+            <Prompt />
+            <span className="text-foreground">{typed}</span>
+            <span className="terminal-cursor text-accent-primary">
+              &#9613;
+            </span>
+            {!typing && (
+              <span className="text-muted-foreground/50 ml-2 group-hover:text-muted-foreground transition-colors">
+                # run:{' '}
+                {expanded ? 'skills --top' : `skills --all (${skills.length})`}
+              </span>
+            )}
+          </button>
+        ) : (
+          <p className="text-xs mt-3">
+            <Prompt />
+            <span className="terminal-cursor text-accent-primary">
+              &#9613;
+            </span>
+          </p>
+        )}
+      </div>
     </div>
   )
 }
