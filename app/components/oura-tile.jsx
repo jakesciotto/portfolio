@@ -3,6 +3,7 @@
 import { useCachedFetch } from '../lib/use-cached-fetch'
 import TileSkeleton from './tile-skeleton'
 import Sparkline from './ui/sparkline'
+import { Badge } from './ui/badge'
 
 export default function OuraTile() {
   const stats = useCachedFetch('/api/oura-stats', 'oura_stats', {
@@ -27,6 +28,18 @@ export default function OuraTile() {
       <p className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground">
         hours slept
       </p>
+      {hours != null && (
+        <div>
+          {hours < 2 ? (
+            <Badge variant="destructive">woof</Badge>
+          ) : hours < 7 ? (
+            <Badge variant="secondary">alright</Badge>
+          ) : (
+            <Badge variant="primary">lets go</Badge>
+          )}
+        </div>
+      )}
+
       <div className="flex gap-4 mt-auto">
         <div>
           <span className="text-2xl font-bold font-mono tracking-tighter text-accent-primary">
