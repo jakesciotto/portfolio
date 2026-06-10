@@ -6,7 +6,7 @@ import posthog from 'posthog-js'
 
 const roles = [
   {
-    title: 'technical customer success manager',
+    title: 'customer success engineer',
     company: 'posthog',
     dates: 'mar 2026 - present',
     description: ['#hoglife'],
@@ -15,7 +15,7 @@ const roles = [
   {
     title: 'staff technical account manager',
     company: 'cloudzero',
-    dates: 'jan 2026 - mar 2026',
+    dates: 'jan 2024 - mar 2026',
     priorTitle: 'senior, dec 2024 - dec 2025',
     description: [
       'nicknamed "mr figure shit out"',
@@ -179,7 +179,7 @@ export default function WorkAccordion() {
                 <span className="text-[13px] font-semibold text-foreground truncate">
                   {role.title}
                 </span>
-                <span className="text-[12px] text-muted-foreground truncate">
+                <span className="text-[12px] text-muted-foreground align-middle tracking-tighter truncate">
                   &middot; {role.company}
                 </span>
                 <span className="text-[10px] font-mono text-muted-foreground border border-border rounded px-1.5 py-0.5 ml-auto shrink-0 self-center hidden sm:block">
