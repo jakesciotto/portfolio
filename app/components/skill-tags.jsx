@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 
 const skills = [
   { label: 'saying "great question"', weight: 5 },
@@ -63,7 +63,10 @@ function Prompt() {
 function SegmentBar({ weight }) {
   return (
     <div className="relative h-2.5 w-full">
-      <div className="absolute inset-0 bg-muted-foreground/15" style={SEGMENTS} />
+      <div
+        className="absolute inset-0 bg-muted-foreground/15"
+        style={SEGMENTS}
+      />
       <div
         className={`absolute inset-y-0 left-0 ${TIER_BG[weight]} transition-all duration-500 ease-out`}
         style={{ ...SEGMENTS, width: `${(weight / 5) * 100}%` }}
@@ -130,22 +133,19 @@ export default function SkillTags() {
           <span className="text-foreground">skills --sort=level</span>
         </p>
 
-        <div className="flex flex-col gap-1.5">
+        <div className="grid grid-cols-[minmax(0,11.5rem)_1fr_auto] items-center gap-x-3 gap-y-1.5">
           {visible.map((skill) => (
-            <div
-              key={skill.label}
-              className="grid grid-cols-[minmax(0,11.5rem)_1fr_auto] items-center gap-3"
-            >
-              <span className="text-[12px] font-medium text-foreground">
+            <Fragment key={skill.label}>
+              <span className="text-[10.5px] font-medium text-foreground">
                 {skill.label}
               </span>
               <SegmentBar weight={skill.weight} />
               <span
-                className={`text-[11px] font-semibold text-right ${TIER_TEXT[skill.weight]}`}
+                className={`text-[11px] font-semibold text-left ${TIER_TEXT[skill.weight]}`}
               >
                 {TIER_LABELS[skill.weight]}
               </span>
-            </div>
+            </Fragment>
           ))}
         </div>
 
@@ -156,9 +156,7 @@ export default function SkillTags() {
           >
             <Prompt />
             <span className="text-foreground">{typed}</span>
-            <span className="terminal-cursor text-accent-primary">
-              &#9613;
-            </span>
+            <span className="terminal-cursor text-accent-primary">&#9613;</span>
             {!typing && (
               <span className="text-muted-foreground/50 ml-2 group-hover:text-muted-foreground transition-colors">
                 # run:{' '}
@@ -169,9 +167,7 @@ export default function SkillTags() {
         ) : (
           <p className="text-xs mt-3">
             <Prompt />
-            <span className="terminal-cursor text-accent-primary">
-              &#9613;
-            </span>
+            <span className="terminal-cursor text-accent-primary">&#9613;</span>
           </p>
         )}
       </div>
