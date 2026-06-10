@@ -1,3 +1,5 @@
+import CertStrip from './cert-strip'
+
 const DEGREES = [
   {
     title: 'm.s. data science',
@@ -66,6 +68,7 @@ export default function EducationTile() {
           ))}
         </div>
       </div>
+      <CertStrip />
     </div>
   )
 }
