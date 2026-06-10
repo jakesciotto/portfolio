@@ -181,7 +181,7 @@ export default function WorkAccordion() {
                 <span className="text-[12px] text-muted-foreground truncate">
                   &middot; {role.company}
                 </span>
-                <span className="text-[11px] font-mono text-muted-foreground ml-auto shrink-0 pl-2 hidden sm:block">
+                <span className="text-[10px] font-mono text-muted-foreground border border-border rounded px-1.5 py-0.5 ml-auto shrink-0 hidden sm:block">
                   {role.dates}
                 </span>
               </button>
@@ -196,8 +196,10 @@ export default function WorkAccordion() {
                   ref={(el) => setContentRef(el, index)}
                   className="pl-5 pb-2"
                 >
-                  <p className="text-[11px] font-mono text-muted-foreground sm:hidden">
-                    [{role.dates}]
+                  <p className="sm:hidden mb-1">
+                    <span className="text-[10px] font-mono text-muted-foreground border border-border rounded px-1.5 py-0.5">
+                      {role.dates}
+                    </span>
                   </p>
                   {role.priorTitle && (
                     <p className="text-xs text-muted-foreground italic mb-1">
