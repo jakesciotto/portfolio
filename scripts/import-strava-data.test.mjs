@@ -28,6 +28,10 @@ test('classify: muay thai variants land in Muay Thai', () => {
   assert.equal(classify(activity('muay thai & sparring', 'Workout')), 'Muay Thai')
 })
 
+test('classify: standalone sparring classifies as Muay Thai', () => {
+  assert.equal(classify(activity('sparring rounds', 'Workout')), 'Muay Thai')
+})
+
 test('classify: name rules override mislogged WeightTraining', () => {
   assert.equal(
     classify(activity('muay thai teep defense & coaching bjj fundamentals', 'WeightTraining')),
