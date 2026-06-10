@@ -90,7 +90,7 @@ export default function AboutTile() {
                 )}
               </p>
               <span className="text-xs text-muted-foreground ml-1.5">
-                -- {fact.detail}
+                &rarr; {fact.detail}
               </span>
             </div>
           </li>
@@ -99,7 +99,7 @@ export default function AboutTile() {
 
       <div className="mt-auto pt-4">
         <div className="border-l border-accent-primary/20 pl-3">
-          <p className="text-xs font-mono uppercase tracking-[0.15em] text-muted-foreground/70 mb-1">
+          <p className="text-xs font-mono uppercase tracking-tight text-muted-foreground mb-1">
             wife review
           </p>
           <p className="text-sm italic text-foreground/90 leading-snug">
