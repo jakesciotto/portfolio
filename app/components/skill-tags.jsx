@@ -3,13 +3,16 @@
 import { useEffect, useRef, useState } from 'react'
 
 const skills = [
-  { label: 'programming', weight: 5 },
+  { label: 'saying "great question"', weight: 5 },
   { label: 'statistics', weight: 5 },
   { label: 'wasting salad greens', weight: 4 },
   { label: 'building web apps', weight: 4 },
-  { label: 'working with ai agents', weight: 4 },
+  { label: 'pretending to understand sql', weight: 4 },
   { label: 'finops', weight: 5 },
+  { label: 'naming variables', weight: 3 },
+  { label: 'databases', weight: 3 },
   { label: 'sleeping', weight: 2 },
+  { label: 'being on time', weight: 2 },
   { label: 'martial arts', weight: 1 },
 ]
 
@@ -29,7 +32,7 @@ const TIER_COLORS = {
 }
 
 const sorted = [...skills].sort((a, b) => b.weight - a.weight)
-const INITIAL_COUNT = 10
+const INITIAL_COUNT = 12
 
 function Prompt() {
   return (
@@ -87,7 +90,7 @@ export default function SkillTags() {
         {visible.map((skill) => (
           <div
             key={skill.label}
-            className="grid grid-cols-[10rem_1fr_3.5rem] items-center gap-2"
+            className="grid grid-cols-[11.5rem_1fr_3.5rem] items-center gap-2"
           >
             <span className="text-[11px] text-foreground">{skill.label}</span>
             <div className="h-1.5 rounded-full bg-muted/30 overflow-hidden">

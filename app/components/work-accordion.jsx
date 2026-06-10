@@ -52,8 +52,7 @@ const roles = [
     dates: 'aug 2020 - dec 2022',
     description: [
       'taught computing infrastructure and networking, consulted' +
-        ' for healthcare research - they gave me a podium and' +
-        ' students showed up',
+        ' for healthcare research',
     ],
     accent: 'tertiary',
   },
@@ -171,19 +170,20 @@ export default function WorkAccordion() {
                 aria-expanded={isExpanded}
                 aria-controls={panelId}
                 onClick={() => toggle(index)}
-                className="w-full text-left flex items-start gap-2 py-2 px-1 rounded hover:bg-secondary/50 transition-colors"
+                className="w-full text-left flex items-center gap-2 py-1.5 px-1 rounded hover:bg-secondary/50 transition-colors"
               >
                 <span
-                  className={`w-2 h-2 rounded-full shrink-0 mt-1.5 ${accentDot[role.accent] || accentDot.primary}`}
+                  className={`w-2 h-2 rounded-full shrink-0 ${accentDot[role.accent] || accentDot.primary}`}
                 />
-                <div className="min-w-0 flex flex-col">
-                  <span className="text-sm font-semibold text-foreground leading-snug">
-                    {role.title}
-                  </span>
-                  <span className="text-[12px] text-muted-foreground">
-                    {role.company} &middot; [{role.dates}]
-                  </span>
-                </div>
+                <span className="text-[13px] font-semibold text-foreground truncate">
+                  {role.title}
+                </span>
+                <span className="text-[12px] text-muted-foreground truncate">
+                  &middot; {role.company}
+                </span>
+                <span className="text-[11px] font-mono text-muted-foreground ml-auto shrink-0 pl-2 hidden sm:block">
+                  {role.dates}
+                </span>
               </button>
               <div
                 id={panelId}
@@ -196,6 +196,9 @@ export default function WorkAccordion() {
                   ref={(el) => setContentRef(el, index)}
                   className="pl-5 pb-2"
                 >
+                  <p className="text-[11px] font-mono text-muted-foreground sm:hidden">
+                    [{role.dates}]
+                  </p>
                   {role.priorTitle && (
                     <p className="text-xs text-muted-foreground italic mb-1">
                       {role.priorTitle}
