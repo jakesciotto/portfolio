@@ -63,6 +63,37 @@ test('classify: Workout with workout keywords refines', () => {
   assert.equal(classify(activity('HIIT intervals', 'Workout')), 'HIIT')
 })
 
+test('classify: BJJ gym vocabulary on Workout-typed activities lands in BJJ', () => {
+  assert.equal(classify(activity('open mat', 'Workout')), 'BJJ')
+  assert.equal(classify(activity('Randori', 'Workout')), 'BJJ')
+  assert.equal(classify(activity('coaching and training', 'Workout')), 'BJJ')
+  assert.equal(classify(activity('2 hours coaching 90 min training (nogi)', 'Workout')), 'BJJ')
+  assert.equal(classify(activity('advanced gi', 'Workout')), 'BJJ')
+  assert.equal(classify(activity('comp class', 'Workout')), 'BJJ')
+  assert.equal(classify(activity('6 am class', 'Workout')), 'BJJ')
+  assert.equal(classify(activity('morning rolls in cape cod', 'Workout')), 'BJJ')
+  assert.equal(classify(activity('coaches training / drilling', 'Workout')), 'BJJ')
+  assert.equal(classify(activity('wrestling @ tiger style mma', 'Workout')), 'BJJ')
+  assert.equal(classify(activity('fundies / kickboxing', 'Workout')), 'BJJ')
+})
+
+test('classify: BJJ gym vocabulary does NOT apply outside Workout sport_type', () => {
+  assert.equal(classify(activity('Quick 5K before coaching', 'Run')), 'Run')
+  assert.equal(classify(activity('working on becoming a menace on the mats', 'WeightTraining')), 'Weights')
+})
+
+test('classify: gym-vocab earliest mention still loses to earlier strong keyword', () => {
+  assert.equal(classify(activity('kickboxing and coaching', 'Workout')), 'Muay Thai')
+  assert.equal(classify(activity('coaching and kickboxing', 'Workout')), 'BJJ')
+})
+
+test('classify: sport name keywords refine generic Workouts', () => {
+  assert.equal(classify(activity('Box Lacrosse', 'Workout')), 'Lacrosse')
+  assert.equal(classify(activity('tennis', 'Workout')), 'Tennis')
+  assert.equal(classify(activity('stairs and sauna', 'Workout')), 'Stairs')
+  assert.equal(classify(activity('sauna', 'Workout')), 'Sauna')
+})
+
 test('classify: unmatched Workout stays Workout', () => {
   assert.equal(classify(activity('Afternoon Workout', 'Workout')), 'Workout')
 })

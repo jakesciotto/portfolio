@@ -28,6 +28,17 @@ const NAME_RULES = [
   { pattern: /muay.?thai|\bmt\b|kickbox|sparring/i, label: 'Muay Thai' },
 ]
 
+// Gym vocabulary that means BJJ in this athlete's logs, but only when Strava
+// already bucketed the session as a generic Workout -- a Run named "5K before
+// coaching" must stay a Run.
+const WORKOUT_NAME_RULES = [
+  {
+    pattern:
+      /randori|open mat|\brolls\b|\brolling\b|no.?gi|\bgi\b|comp class|coach|drilling|fundies|fundamentals|wrestl|\btraining\b|\bclass\b/i,
+    label: 'BJJ',
+  },
+]
+
 // Strava forces non-enum activity types (e.g. Garmin-synced strength/yoga)
 // into the generic "Workout" bucket. Infer a finer label from the name.
 const WORKOUT_KEYWORDS = [
@@ -45,6 +56,10 @@ const WORKOUT_KEYWORDS = [
   },
   { pattern: /\b(cardio|conditioning)\b/i, label: 'Cardio' },
   { pattern: /\b(bodyweight|calisthenics)\b/i, label: 'Bodyweight' },
+  { pattern: /lacrosse/i, label: 'Lacrosse' },
+  { pattern: /tennis/i, label: 'Tennis' },
+  { pattern: /\bstairs?\b|stairmaster/i, label: 'Stairs' },
+  { pattern: /\bsauna\b/i, label: 'Sauna' },
 ]
 
 const TYPE_LABELS = {
@@ -70,9 +85,9 @@ function displayType(raw) {
   return raw.replace(/([a-z])([A-Z])/g, '$1 $2')
 }
 
-function martialBucket(name) {
+function martialBucket(name, rules) {
   let best = null
-  for (const { pattern, label } of NAME_RULES) {
+  for (const { pattern, label } of rules) {
     const m = name.match(pattern)
     if (m && (best === null || m.index < best.index)) {
       best = { index: m.index, label }
@@ -83,11 +98,14 @@ function martialBucket(name) {
 
 export function classify(activity) {
   const name = activity.name || ''
-  const martial = martialBucket(name)
+  const raw = activity.sport_type || activity.type || 'Other'
+  const isWorkout = raw === 'Workout'
+
+  const rules = isWorkout ? [...NAME_RULES, ...WORKOUT_NAME_RULES] : NAME_RULES
+  const martial = martialBucket(name, rules)
   if (martial) return martial
 
-  const raw = activity.sport_type || activity.type || 'Other'
-  if (raw === 'Workout') {
+  if (isWorkout) {
     for (const { pattern, label } of WORKOUT_KEYWORDS) {
       if (pattern.test(name)) return label
     }
