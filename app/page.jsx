@@ -9,7 +9,6 @@ import OuraTile from './components/oura-tile'
 import WakaTimeTile from './components/wakatime-tile'
 import SpotifyTile from './components/spotify-tile'
 import EducationTile from './components/education-tile'
-import CertStrip from './components/cert-strip'
 import ProjectTile from './components/project-tile'
 import StravaTile from './components/strava-tile'
 import AboutTile from './components/about-tile'
@@ -54,10 +53,6 @@ export default function Page() {
 
         <Tile accent="primary" gridClass="tile-education">
           <EducationTile />
-        </Tile>
-
-        <Tile accent="tertiary" gridClass="tile-certs">
-          <CertStrip />
         </Tile>
 
         <Tile accent="secondary" gridClass="tile-spotify">

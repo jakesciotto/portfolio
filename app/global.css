@@ -208,13 +208,9 @@ html {
   grid-column: 1 / 4;
   grid-row: 4 / 6;
 }
-.tile-certs {
-  grid-column: 4 / 7;
-  grid-row: 4 / 5;
-}
 .tile-education {
   grid-column: 4 / 7;
-  grid-row: 5 / 6;
+  grid-row: 4 / 6;
 }
 
 /* ROW 5 */
@@ -259,7 +255,6 @@ html {
   }
   .tile-hero,
   .tile-skills,
-  .tile-certs,
   .tile-projects,
   .tile-strava,
   .tile-about,

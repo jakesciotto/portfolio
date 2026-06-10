@@ -7,31 +7,25 @@ const skills = [
   { label: 'statistics', weight: 5 },
   { label: 'wasting salad greens', weight: 4 },
   { label: 'building web apps', weight: 4 },
-  { label: 'ai agents', weight: 4 },
-  { label: 'docker', weight: 3 },
-  { label: 'graphql', weight: 3 },
-  { label: 'postgres', weight: 3 },
-  { label: 'redis', weight: 3 },
-  { label: 'snowflake', weight: 3 },
-  { label: 'bigquery', weight: 2 },
-  { label: 'pytorch', weight: 2 },
-  { label: 'xgboost', weight: 2 },
-  { label: 'tailwind', weight: 4 },
+  { label: 'working with ai agents', weight: 4 },
   { label: 'finops', weight: 5 },
-  { label: 'rag/cag', weight: 3 },
-  { label: 'vercel', weight: 3 },
-  { label: 'predictive modeling', weight: 3 },
-  { label: 'prompt engineering', weight: 4 },
-  { label: 'genai', weight: 4 },
-  { label: 'agentic ai', weight: 4 },
+  { label: 'sleeping', weight: 2 },
+  { label: 'martial arts', weight: 1 },
 ]
 
-const TIER_LABELS = { 5: 'expert', 4: 'advanced', 3: 'solid', 2: 'learning' }
+const TIER_LABELS = {
+  5: 'expert',
+  4: 'advanced',
+  3: 'solid',
+  2: 'learning',
+  1: 'sucks',
+}
 const TIER_COLORS = {
   5: 'bg-accent-primary',
   4: 'bg-accent-secondary',
   3: 'bg-accent-tertiary',
   2: 'bg-muted-foreground/60',
+  1: 'bg-muted-foreground/20',
 }
 
 const sorted = [...skills].sort((a, b) => b.weight - a.weight)
@@ -57,7 +51,9 @@ export default function SkillTags() {
   const runCommand = () => {
     if (typing) return
     const cmd = expanded ? 'skills --top' : 'skills --all'
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const reduced = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
     if (reduced) {
       setExpanded((e) => !e)
       return
@@ -107,19 +103,27 @@ export default function SkillTags() {
         ))}
       </div>
 
-      <button
-        onClick={runCommand}
-        className="text-xs text-left mt-3 cursor-pointer group"
-      >
-        <Prompt />
-        <span className="text-foreground">{typed}</span>
-        <span className="terminal-cursor text-accent-primary">&#9613;</span>
-        {!typing && (
-          <span className="text-muted-foreground/50 ml-2 group-hover:text-muted-foreground transition-colors">
-            # run: {expanded ? 'skills --top' : `skills --all (${skills.length})`}
-          </span>
-        )}
-      </button>
+      {sorted.length > INITIAL_COUNT ? (
+        <button
+          onClick={runCommand}
+          className="text-xs text-left mt-3 cursor-pointer group"
+        >
+          <Prompt />
+          <span className="text-foreground">{typed}</span>
+          <span className="terminal-cursor text-accent-primary">&#9613;</span>
+          {!typing && (
+            <span className="text-muted-foreground/50 ml-2 group-hover:text-muted-foreground transition-colors">
+              # run:{' '}
+              {expanded ? 'skills --top' : `skills --all (${skills.length})`}
+            </span>
+          )}
+        </button>
+      ) : (
+        <p className="text-xs mt-3">
+          <Prompt />
+          <span className="terminal-cursor text-accent-primary">&#9613;</span>
+        </p>
+      )}
     </div>
   )
 }
