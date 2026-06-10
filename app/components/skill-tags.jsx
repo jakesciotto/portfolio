@@ -108,9 +108,6 @@ export default function SkillTags() {
         <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
         <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
-        <span className="text-[10px] text-muted-foreground mx-auto pr-8">
-          jake@portfolio: ~
-        </span>
       </div>
 
       <div className="flex flex-col flex-1 p-4 pt-3">
@@ -125,11 +122,13 @@ export default function SkillTags() {
               key={skill.label}
               className="grid grid-cols-[minmax(0,11.5rem)_auto_1fr] items-center gap-2"
             >
-              <span className="text-[11px] text-foreground">
+              <span className="text-[12px] font-medium text-foreground">
                 {skill.label}
               </span>
               <AsciiBar weight={skill.weight} />
-              <span className="text-[10px] text-muted-foreground">
+              <span
+                className={`text-[11px] font-semibold text-right ${TIER_TEXT[skill.weight]}`}
+              >
                 {TIER_LABELS[skill.weight]}
               </span>
             </div>
