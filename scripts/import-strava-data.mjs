@@ -25,7 +25,7 @@ import { pathToFileURL } from 'node:url'
 // mention in the name wins; ties go to BJJ (listed first).
 const NAME_RULES = [
   { pattern: /bjj|jiu.?jitsu|grappl/i, label: 'BJJ' },
-  { pattern: /muay.?thai|\bmt\b|kickbox|sparring/i, label: 'Muay Thai' },
+  { pattern: /muay.?thai|kickbox/i, label: 'Muay Thai' },
 ]
 
 // Gym vocabulary that means BJJ in this athlete's logs, but only when Strava
@@ -37,6 +37,9 @@ const WORKOUT_NAME_RULES = [
       /randori|open mat|\brolls\b|\brolling\b|no.?gi|\bgi\b|comp class|coach|drilling|fundies|fundamentals|wrestl|\btraining\b|\bclass\b/i,
     label: 'BJJ',
   },
+  // Ambiguous outside the gym: "mt" collides with mountain abbreviations on
+  // runs/hikes, "sparring" could ride along anywhere.
+  { pattern: /\bmt\b|sparring/i, label: 'Muay Thai' },
 ]
 
 // Strava forces non-enum activity types (e.g. Garmin-synced strength/yoga)

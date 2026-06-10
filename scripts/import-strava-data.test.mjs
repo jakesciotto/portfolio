@@ -48,6 +48,12 @@ test('classify: mt does not match inside other words', () => {
   assert.equal(classify(activity('Mtn repeats', 'Run')), 'Run')
 })
 
+test('classify: mt and sparring only apply to Workout-typed activities', () => {
+  assert.equal(classify(activity('Mt Washington Hike', 'Hike')), 'Hike')
+  assert.equal(classify(activity('Mt. Tam loop', 'Run')), 'Run')
+  assert.equal(classify(activity('sparring footwork', 'Run')), 'Run')
+})
+
 test('classify: plain WeightTraining stays Weights', () => {
   assert.equal(classify(activity('Evening Weight Training', 'WeightTraining')), 'Weights')
 })

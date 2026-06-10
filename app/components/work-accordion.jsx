@@ -140,6 +140,7 @@ export default function WorkAccordion() {
           opacity: 1,
           duration: 0.4,
           ease: 'power2.out',
+          onComplete: () => gsap.set(panel, { height: 'auto' }),
         })
       }
 

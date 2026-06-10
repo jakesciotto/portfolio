@@ -48,8 +48,15 @@ export default function SkillTags() {
   const [typed, setTyped] = useState('')
   const [typing, setTyping] = useState(false)
   const intervalRef = useRef(null)
+  const timeoutRef = useRef(null)
 
-  useEffect(() => () => clearInterval(intervalRef.current), [])
+  useEffect(
+    () => () => {
+      clearInterval(intervalRef.current)
+      clearTimeout(timeoutRef.current)
+    },
+    [],
+  )
 
   const runCommand = () => {
     if (typing) return
@@ -68,7 +75,7 @@ export default function SkillTags() {
       setTyped(cmd.slice(0, i))
       if (i >= cmd.length) {
         clearInterval(intervalRef.current)
-        setTimeout(() => {
+        timeoutRef.current = setTimeout(() => {
           setExpanded((e) => !e)
           setTyped('')
           setTyping(false)

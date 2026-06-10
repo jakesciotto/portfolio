@@ -63,6 +63,7 @@ export async function GET(request) {
         source: 'redis_snapshot',
       },
     })
+    await posthog.flush().catch(() => {})
 
     return Response.json(parsed, {
       headers: { 'Cache-Control': 'no-store, max-age=0' },
@@ -73,6 +74,7 @@ export async function GET(request) {
       event: 'strava_stats_error',
       properties: { error_message: error?.message, period, source: 'redis_snapshot' },
     })
+    await posthog.flush().catch(() => {})
     return Response.json(EMPTY(period), {
       headers: { 'Cache-Control': 'no-store, max-age=0' },
     })
