@@ -336,6 +336,13 @@ body::before {
   animation: terminal-blink 1.1s step-end infinite;
 }
 
+/* CRT phosphor glow -- inherits the element's text color */
+.tier-glow {
+  text-shadow:
+    0 0 6px color-mix(in srgb, currentColor 70%, transparent),
+    0 0 16px color-mix(in srgb, currentColor 35%, transparent);
+}
+
 /* ===================================================
    Reduced motion
    =================================================== */
