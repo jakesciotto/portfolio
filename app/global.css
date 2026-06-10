@@ -36,63 +36,63 @@
 }
 
 /* ===================================================
-   Light mode -- sunset ink on warm cream
+   Light mode -- arctic ink on pale frost
    =================================================== */
 :root {
-  --background: #faf6ef;
-  --foreground: #1c1210;
+  --background: #eef3f8;
+  --foreground: #0d1525;
   --card: #ffffff;
   --card-glass: rgba(255, 255, 255, 0.6);
-  --card-foreground: #1c1210;
+  --card-foreground: #0d1525;
   --popover: #ffffff;
-  --popover-foreground: #1c1210;
-  --primary: #b45309;
+  --popover-foreground: #0d1525;
+  --primary: #0e7490;
   --primary-foreground: #ffffff;
-  --secondary: #efe7da;
-  --secondary-foreground: #1c1210;
-  --muted: #efe7da;
-  --muted-foreground: #6f6258;
-  --accent: #efe7da;
-  --accent-foreground: #1c1210;
+  --secondary: #dfe7f0;
+  --secondary-foreground: #0d1525;
+  --muted: #dfe7f0;
+  --muted-foreground: #5a6b80;
+  --accent: #dfe7f0;
+  --accent-foreground: #0d1525;
   --destructive: #dc2626;
-  --border: #ddd2c2;
-  --input: #ddd2c2;
-  --ring: #b45309;
+  --border: #cdd9e5;
+  --input: #cdd9e5;
+  --ring: #0e7490;
   --radius: 0.5rem;
 
-  --accent-primary: #b45309;
-  --accent-secondary: #dc2626;
-  --accent-tertiary: #be185d;
+  --accent-primary: #0e7490;
+  --accent-secondary: #1d4ed8;
+  --accent-tertiary: #6d5fc7;
 
 }
 
 /* ===================================================
-   Dark mode -- sunset embers on charcoal plum
+   Dark mode -- arctic glow on deep ice
    =================================================== */
 html.dark {
-  --background: #120a10;
-  --foreground: #f2e9e4;
-  --card: #1a1016;
-  --card-glass: rgba(26, 16, 22, 0.7);
-  --card-foreground: #f2e9e4;
-  --popover: #1a1016;
-  --popover-foreground: #f2e9e4;
-  --primary: #fbbf24;
-  --primary-foreground: #120a10;
-  --secondary: #281a22;
-  --secondary-foreground: #f2e9e4;
-  --muted: #281a22;
-  --muted-foreground: #a89099;
-  --accent: #281a22;
-  --accent-foreground: #f2e9e4;
-  --destructive: #f87171;
-  --border: #2a1c24;
-  --input: #2a1c24;
-  --ring: #fbbf24;
+  --background: #0a0f1a;
+  --foreground: #e6ecf6;
+  --card: #0e1422;
+  --card-glass: rgba(14, 20, 34, 0.7);
+  --card-foreground: #e6ecf6;
+  --popover: #0e1422;
+  --popover-foreground: #e6ecf6;
+  --primary: #22d3ee;
+  --primary-foreground: #0a0f1a;
+  --secondary: #182234;
+  --secondary-foreground: #e6ecf6;
+  --muted: #182234;
+  --muted-foreground: #8b9bb4;
+  --accent: #182234;
+  --accent-foreground: #e6ecf6;
+  --destructive: #ef4444;
+  --border: #1c2940;
+  --input: #1c2940;
+  --ring: #22d3ee;
 
-  --accent-primary: #fbbf24;
-  --accent-secondary: #f87171;
-  --accent-tertiary: #fb7185;
+  --accent-primary: #22d3ee;
+  --accent-secondary: #3b82f6;
+  --accent-tertiary: #a5b4fc;
 
   color-scheme: dark;
 }

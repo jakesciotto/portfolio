@@ -31,9 +31,23 @@ const TIER_TEXT = {
   1: 'text-muted-foreground/50',
 }
 
+const TIER_BG = {
+  5: 'bg-accent-primary',
+  4: 'bg-accent-secondary',
+  3: 'bg-accent-tertiary',
+  2: 'bg-muted-foreground/70',
+  1: 'bg-muted-foreground/40',
+}
+
 const sorted = [...skills].sort((a, b) => b.weight - a.weight)
 const INITIAL_COUNT = 12
-const BAR_WIDTH = 16
+
+const SEGMENTS = {
+  maskImage:
+    'repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 13px)',
+  WebkitMaskImage:
+    'repeating-linear-gradient(90deg, #000 0 10px, transparent 10px 13px)',
+}
 
 function Prompt() {
   return (
@@ -46,15 +60,15 @@ function Prompt() {
   )
 }
 
-function AsciiBar({ weight }) {
-  const filled = Math.round((weight / 5) * BAR_WIDTH)
+function SegmentBar({ weight }) {
   return (
-    <span className="text-[11px] leading-none select-none whitespace-nowrap">
-      <span className={TIER_TEXT[weight]}>{'█'.repeat(filled)}</span>
-      <span className="text-muted-foreground/25">
-        {'░'.repeat(BAR_WIDTH - filled)}
-      </span>
-    </span>
+    <div className="relative h-2.5 w-full">
+      <div className="absolute inset-0 bg-muted-foreground/15" style={SEGMENTS} />
+      <div
+        className={`absolute inset-y-0 left-0 ${TIER_BG[weight]} transition-all duration-500 ease-out`}
+        style={{ ...SEGMENTS, width: `${(weight / 5) * 100}%` }}
+      />
+    </div>
   )
 }
 
@@ -120,12 +134,12 @@ export default function SkillTags() {
           {visible.map((skill) => (
             <div
               key={skill.label}
-              className="grid grid-cols-[minmax(0,11.5rem)_auto_1fr] items-center gap-2"
+              className="grid grid-cols-[minmax(0,11.5rem)_1fr_auto] items-center gap-3"
             >
               <span className="text-[12px] font-medium text-foreground">
                 {skill.label}
               </span>
-              <AsciiBar weight={skill.weight} />
+              <SegmentBar weight={skill.weight} />
               <span
                 className={`text-[11px] font-semibold text-right ${TIER_TEXT[skill.weight]}`}
               >
