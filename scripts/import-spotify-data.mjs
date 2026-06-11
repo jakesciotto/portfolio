@@ -2,7 +2,7 @@
  * import-spotify-data.mjs
  *
  * One-time script that reads Spotify Extended Streaming History JSON files,
- * computes aggregated stats, and writes 5 Redis keys to Upstash.
+ * computes aggregated stats, and writes 6 Redis keys to Upstash.
  *
  * Usage:
  *   node scripts/import-spotify-data.mjs <path-to-spotify-export-folder>
@@ -70,11 +70,21 @@ console.log(`Total raw entries: ${allEntries.length}`)
 // 3. Process entries
 // ---------------------------------------------------------------------------
 
+// Returns the UTC Monday (YYYY-MM-DD) of the week containing the timestamp
+function weekStart(ts) {
+  const d = new Date(`${ts.slice(0, 10)}T00:00:00Z`)
+  const day = d.getUTCDay()
+  const diff = day === 0 ? -6 : 1 - day
+  d.setUTCDate(d.getUTCDate() + diff)
+  return d.toISOString().slice(0, 10)
+}
+
 // Accumulators
 const artistMs = new Map()       // artist -> total ms
 const trackMs = new Map()        // "track|||artist" -> total ms
 const trackPlayCount = new Map() // "track|||artist" -> play count (ms > 30000)
 const yearMs = new Map()         // year -> total ms
+const weekMs = new Map()         // "YYYY-MM-DD" (UTC Monday) -> total ms
 
 let totalMs = 0
 let totalStreams = 0
@@ -120,6 +130,10 @@ for (const entry of allEntries) {
   // Yearly hours
   const year = ts.slice(0, 4)
   yearMs.set(year, (yearMs.get(year) || 0) + ms)
+
+  // Weekly hours (bucket by UTC Monday week-start)
+  const week = weekStart(ts)
+  weekMs.set(week, (weekMs.get(week) || 0) + ms)
 
   // Peak day
   const day = ts.slice(0, 10)
@@ -172,6 +186,14 @@ const yearlyHours = [...yearMs.entries()]
     hours: Math.round((ms / 3_600_000) * 10) / 10,
   }))
 
+// -- Weekly hours (full history; tile renders the trailing 52) --
+const weeklyHours = [...weekMs.entries()]
+  .sort((a, b) => a[0].localeCompare(b[0]))
+  .map(([week, ms]) => ({
+    week,
+    hours: Math.round((ms / 3_600_000) * 10) / 10,
+  }))
+
 // -- Fun facts --
 
 // Most played track by play count (ms > 30000)
@@ -211,6 +233,7 @@ const keys = {
   'spotify:top_artists': topArtists,
   'spotify:top_tracks': topTracks,
   'spotify:yearly_hours': yearlyHours,
+  'spotify:weekly_hours': weeklyHours,
   'spotify:fun_facts': funFacts,
 }
 
@@ -236,4 +259,7 @@ console.log(`\nYearly hours:`)
 for (const yh of yearlyHours) {
   console.log(`  ${yh.year}: ${yh.hours} hrs`)
 }
-console.log('\nDone. 5 Redis keys written successfully.')
+console.log(
+  `\nWeekly buckets: ${weeklyHours.length} (latest: ${weeklyHours.at(-1)?.week || 'n/a'})`,
+)
+console.log('\nDone. 6 Redis keys written successfully.')

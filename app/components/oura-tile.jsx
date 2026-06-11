@@ -44,7 +44,7 @@ export default function OuraTile() {
           <span className="text-2xl font-bold font-mono tracking-tighter text-accent-primary">
             {score ?? '---'}
           </span>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
             sleep score
           </p>
         </div>
@@ -52,7 +52,7 @@ export default function OuraTile() {
           <span className="text-2xl font-bold font-mono tracking-tighter text-accent-secondary">
             {readiness ?? '---'}
           </span>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
             readiness score
           </p>
         </div>

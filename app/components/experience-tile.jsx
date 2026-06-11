@@ -22,7 +22,7 @@ export default function ExperienceTile() {
       <span className="text-xs uppercase font-medium tracking-widest text-muted-foreground mt-1">
         years in tech
       </span>
-      <span className="text-xs lowercase tracking-narrowest text-muted-foreground mt-2">
+      <span className="text-xs lowercase tracking-narrowest text-muted-foreground font-medium mt-2">
         but i put linux on the family computer when i was 16 so
       </span>
     </div>

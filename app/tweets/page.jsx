@@ -14,7 +14,7 @@ export default function TweetsPage() {
       <h1 className="font-sans font-bold text-7xl md:text-8xl mb-4 tracking-tighter text-foreground">
         when i was online
       </h1>
-      <p className="text-sm text-muted-foreground mb-8">
+      <p className="text-sm font-medium text-muted-foreground mb-8">
         a collection of moments from the timeline
       </p>
 
@@ -33,7 +33,7 @@ export default function TweetsPage() {
       <div className="mt-12 text-center">
         <a
           href="/"
-          className="text-sm text-muted-foreground hover:text-accent-primary transition-colors"
+          className="text-sm font-medium text-muted-foreground hover:text-accent-primary transition-colors"
         >
           &larr; back to reality
         </a>
