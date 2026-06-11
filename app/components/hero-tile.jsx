@@ -7,7 +7,7 @@ export default function HeroTile() {
     <div className="flex flex-col justify-center h-full">
       <HeroName />
       <p className="text-sm font-semibold tracking-tighter mt-2">boulder, co</p>
-      <p className="text-xs text-muted-foreground mt-1">
+      <p className="text-xs text-muted-foreground font-medium mt-1">
         engineer by training, problem solver by trade,{' '}
         <TrackedLink
           href="/tweets"

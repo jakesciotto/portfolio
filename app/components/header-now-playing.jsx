@@ -56,7 +56,7 @@ export default function HeaderNowPlaying() {
         <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-accent-secondary" />
       </span>
       <div className="overflow-hidden flex-1 items-stretch">
-        <span className="inline-block min-w-full whitespace-nowrap text-xs font-mono text-muted-foreground animate-marquee">
+        <span className="inline-block min-w-full whitespace-nowrap text-xs font-mono text-muted-foreground font-medium animate-marquee">
           {label}
         </span>
       </div>

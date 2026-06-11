@@ -50,7 +50,7 @@ export default function CertStrip() {
         target="_blank"
         rel="noopener noreferrer"
         onClick={handleCredlyClick}
-        className="text-xs text-muted-foreground hover:text-accent-primary transition-colors shrink-0"
+        className="text-xs text-muted-foreground font-medium hover:text-accent-primary transition-colors shrink-0"
       >
         credly
       </a>

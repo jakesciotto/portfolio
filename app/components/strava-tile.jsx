@@ -139,7 +139,7 @@ export default function StravaTile() {
             className={`px-2 py-0.5 text-[10px] uppercase font-mono font-medium tracking-widest rounded border transition-all duration-200 ${
               period === p.key
                 ? 'bg-accent-secondary/20 text-accent-secondary border-accent-secondary/40'
-                : 'text-muted-foreground border-border hover:text-foreground hover:border-muted-foreground'
+                : 'text-muted-foreground font-medium border-border hover:text-foreground hover:border-muted-foreground'
             }`}
           >
             {p.label}
@@ -163,7 +163,7 @@ export default function StravaTile() {
               value={totalActivities}
               className="text-2xl font-bold font-mono tracking-tighter text-accent-primary"
             />
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
               activities
             </p>
           </div>
@@ -173,7 +173,7 @@ export default function StravaTile() {
                 value={Math.round(totalMiles)}
                 className="text-2xl font-bold font-mono tracking-tighter text-accent-tertiary"
               />
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
                 miles
               </p>
             </div>
@@ -184,7 +184,7 @@ export default function StravaTile() {
           <div className="flex flex-col gap-1.5 mt-3">
             {breakdown.map((t) => (
               <div key={t.type} className="flex items-center gap-2">
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground w-24 shrink-0 truncate" title={t.type}>
+                <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium w-24 shrink-0 truncate" title={t.type}>
                   {t.type}
                 </span>
                 <div className="flex-1 h-2 rounded-full bg-muted/30 overflow-hidden">
@@ -203,7 +203,7 @@ export default function StravaTile() {
       </div>
 
       {stats?.lastSync && (
-        <p className="text-[10px] font-mono text-muted-foreground mt-auto">
+        <p className="text-[10px] font-mono text-muted-foreground font-medium mt-auto">
           {syncedAgo(stats.lastSync)}
         </p>
       )}

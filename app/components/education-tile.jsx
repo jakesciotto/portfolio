@@ -42,7 +42,7 @@ export default function EducationTile() {
       <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-3">
         education
       </h3>
-      <div className="relative pl-4">
+      <div className="relative pl-4 mb-5">
         <div className="absolute left-[3px] top-1 bottom-1 w-px bg-border" />
         <div className="space-y-4">
           {DEGREES.map((d) => (
@@ -51,14 +51,14 @@ export default function EducationTile() {
               <p className="text-sm font-semibold text-foreground">
                 {d.title}
               </p>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-muted-foreground font-medium">
                 {d.school}
               </p>
               <div className="flex flex-wrap gap-1 mt-1.5">
                 {d.coursework.map((c) => (
                   <span
                     key={c}
-                    className="text-[10px] font-mono text-muted-foreground border border-border rounded px-1.5 py-0.5"
+                    className="text-[10px] font-mono text-muted-foreground font-medium border border-border rounded px-1.5 py-0.5"
                   >
                     {c}
                   </span>

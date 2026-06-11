@@ -9,7 +9,7 @@ export default function PrivacyPage() {
       <h1 className="font-semibold text-6xl mb-4 tracking-tighter text-foreground">
         privacy policy
       </h1>
-      <p className="text-sm text-muted-foreground mb-8">
+      <p className="text-sm font-medium text-muted-foreground mb-8">
         last updated: february 2026
       </p>
 

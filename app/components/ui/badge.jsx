@@ -13,11 +13,11 @@ const badgeVariants = cva(
         secondary: "bg-secondary text-secondary-foreground border-transparent",
         destructive: "bg-destructive text-white border-transparent",
         outline: "border-border text-foreground",
-        ghost: "border-transparent text-muted-foreground",
+        ghost: "border-transparent text-muted-foreground font-medium",
         primary: "text-accent-primary border-accent-primary/40 bg-accent-primary/10",
         secondaryAccent: "text-accent-secondary border-accent-secondary/40 bg-accent-secondary/10",
         tertiary: "text-accent-tertiary border-accent-tertiary/40 bg-accent-tertiary/10",
-        muted: "text-muted-foreground border-border bg-muted",
+        muted: "text-muted-foreground border-border bg-muted font-medium",
       },
     },
     defaultVariants: {

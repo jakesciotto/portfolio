@@ -53,9 +53,9 @@ function Prompt() {
   return (
     <>
       <span className="text-accent-primary">jake@portfolio</span>
-      <span className="text-muted-foreground">:</span>
+      <span className="text-muted-foreground font-medium">:</span>
       <span className="text-accent-tertiary">~</span>
-      <span className="text-muted-foreground">$ </span>
+      <span className="text-muted-foreground font-medium">$ </span>
     </>
   )
 }
@@ -158,7 +158,7 @@ export default function SkillTags() {
             <span className="text-foreground">{typed}</span>
             <span className="terminal-cursor text-accent-primary">&#9613;</span>
             {!typing && (
-              <span className="text-muted-foreground/50 ml-2 group-hover:text-muted-foreground transition-colors">
+              <span className="text-muted-foreground/50 ml-2 group-hover:text-muted-foreground transition-colors font-medium">
                 # run:{' '}
                 {expanded ? 'skills --top' : `skills --all (${skills.length})`}
               </span>

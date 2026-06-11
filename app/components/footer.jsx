@@ -14,7 +14,7 @@ export default function Footer() {
 
   return (
     <footer className="mt-auto mb-8">
-      <div className="max-w-6xl mx-auto w-full px-4 mt-8 flex items-center gap-3 text-xs text-muted-foreground">
+      <div className="max-w-6xl mx-auto w-full px-4 mt-8 flex items-center gap-3 text-xs text-muted-foreground font-medium">
         <a
           className="transition-all hover:text-accent-primary"
           rel="noopener noreferrer"
@@ -29,7 +29,7 @@ export default function Footer() {
         >
           github
         </a>
-        <span className="text-muted-foreground/40">|</span>
+        <span className="text-muted-foreground/40 font-medium">|</span>
         <a
           className="transition-all hover:text-accent-primary"
           href="mailto:jake.sciotto@gmail.com"
@@ -42,14 +42,14 @@ export default function Footer() {
         >
           contact
         </a>
-        <span className="text-muted-foreground/40">|</span>
+        <span className="text-muted-foreground/40 font-medium">|</span>
         <Link
           href="/privacy"
           className="transition-all hover:text-accent-primary"
         >
           privacy
         </Link>
-        <span className="text-muted-foreground/40">|</span>
+        <span className="text-muted-foreground/40 font-medium">|</span>
         <Link
           href="/terms"
           className="transition-all hover:text-accent-primary"

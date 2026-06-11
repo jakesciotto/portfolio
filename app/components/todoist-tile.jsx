@@ -26,7 +26,7 @@ export default function TodoistTile() {
           <span className="text-2xl font-bold font-mono tracking-tighter text-accent-secondary">
             {stats.overdue ?? '---'}
           </span>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
             overdue
           </p>
         </div>
@@ -34,7 +34,7 @@ export default function TodoistTile() {
           <span className="text-2xl font-bold font-mono tracking-tighter text-accent-tertiary">
             {stats.completedToday ?? '---'}
           </span>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
             today
           </p>
         </div>
@@ -42,7 +42,7 @@ export default function TodoistTile() {
           <span className="text-2xl font-bold font-mono tracking-tighter text-accent-primary">
             {stats.completedThisWeek ?? '---'}
           </span>
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
             this week
           </p>
         </div>

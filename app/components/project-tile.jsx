@@ -83,7 +83,7 @@ export default function ProjectTile() {
                   {project.name}
                 </span>
               )}
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-muted-foreground font-medium">
                 {project.description}
               </p>
             </div>

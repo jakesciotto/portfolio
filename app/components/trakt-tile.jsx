@@ -32,7 +32,7 @@ export default function TraktTile() {
               {nowWatching.title}
             </p>
             {nowWatching.episodeTitle && (
-              <p className="text-xs text-muted-foreground truncate">
+              <p className="text-xs text-muted-foreground font-medium truncate">
                 {nowWatching.episodeTitle}
               </p>
             )}
@@ -40,24 +40,24 @@ export default function TraktTile() {
         </div>
       ) : lastWatched ? (
         <div className="min-w-0">
-          <p className="text-[10px] uppercase tracking-widest text-muted-foreground mt-3">
+          <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium mt-3">
             last watched
           </p>
           <p className="text-sm font-semibold font-mono text-foreground truncate mt-0.5 mb-0.5">
             {lastWatched.title}
           </p>
           {lastWatched.episodeTitle && (
-            <p className="text-xs text-muted-foreground truncate">
+            <p className="text-xs text-muted-foreground font-medium truncate">
               {lastWatched.episodeTitle}
             </p>
           )}
         </div>
       ) : (
-        <p className="text-sm text-muted-foreground">---</p>
+        <p className="text-sm text-muted-foreground font-medium">---</p>
       )}
 
       <div className="md:border-t md:border-border md:pt-4 mt-auto md:mt-6">
-        <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-1">
+        <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium mb-1">
           all time
         </p>
         <div className="flex gap-4">
@@ -65,7 +65,7 @@ export default function TraktTile() {
             <span className="text-2xl font-bold font-mono tracking-tighter text-accent-tertiary">
               {allTime?.hours?.toLocaleString() ?? '---'}
             </span>
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
               hours
             </p>
           </div>
@@ -73,7 +73,7 @@ export default function TraktTile() {
             <span className="text-2xl font-bold font-mono tracking-tighter text-accent-primary">
               {allTime?.movies?.toLocaleString() ?? '---'}
             </span>
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
               movies
             </p>
           </div>
@@ -81,7 +81,7 @@ export default function TraktTile() {
             <span className="text-2xl font-bold font-mono tracking-tighter text-accent-secondary">
               {allTime?.episodes?.toLocaleString() ?? '---'}
             </span>
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground">
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
               episodes
             </p>
           </div>

@@ -79,7 +79,7 @@ export default function FixedHeader() {
         <div className="flex items-center gap-3">
           <MagneticLink
             href="https://instagram.com/jakesciotto"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors font-medium"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -87,13 +87,13 @@ export default function FixedHeader() {
           </MagneticLink>
           <MagneticLink
             href="mailto:jake.sciotto@gmail.com"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors font-medium"
           >
             <Mail size={16} />
           </MagneticLink>
           <MagneticLink
             href="https://meet.jakesciotto.com"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors font-medium"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -101,7 +101,7 @@ export default function FixedHeader() {
           </MagneticLink>
           <MagneticLink
             href="https://github.com/jakesciotto"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            className="text-muted-foreground hover:text-foreground transition-colors font-medium"
             target="_blank"
             rel="noopener noreferrer"
           >
