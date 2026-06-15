@@ -20,14 +20,6 @@ const projects = [
     link: 'https://eastonpodium.com',
   },
   {
-    name: 'cloudzero-date-filter',
-    description:
-      'chrome extension for product functionality we did not have at the time',
-    pill: 'live',
-    pillVariant: 'primary',
-    link: 'https://chromewebstore.google.com/detail/gejpbillcbkknkgbpjdglcjallnhjloh',
-  },
-  {
     name: 'aidatasucks.com',
     description:
       'vendor comparison site grading AI providers on financial data transparency',
