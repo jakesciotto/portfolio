@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { classify, aggregate } from './import-strava-data.mjs'
+import { classify, aggregate, mapApiActivity } from './import-strava-data.mjs'
 
 function activity(name, sportType, startLocal = '2026-06-01T10:00:00', movingTime = 3600, distance = 0) {
   return {
@@ -151,4 +151,21 @@ test('aggregate: distance converts meters to miles with 1 decimal', () => {
   const { month } = aggregate(activities, now)
   assert.equal(month.distance, 5)
   assert.equal(month.breakdown[0].distance, 5)
+})
+
+test('mapApiActivity maps Strava API fields to aggregate shape', () => {
+  const raw = {
+    name: 'Morning Roll',
+    sport_type: 'Workout',
+    type: 'Workout',
+    start_date_local: '2026-06-20T07:00:00Z',
+    distance: 0,
+    moving_time: 3600,
+  }
+  assert.deepEqual(mapApiActivity(raw), {
+    name: 'Morning Roll',
+    sport_type: 'Workout',
+    start_local: '2026-06-20T07:00:00Z',
+    summary: { distance: 0, moving_time: 3600 },
+  })
 })
