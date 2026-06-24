@@ -121,6 +121,21 @@ function metersToMiles(m) {
   return +(m * 0.000621371).toFixed(1)
 }
 
+// Maps a raw Strava API v3 activity to the shape `aggregate` consumes. Keeps the
+// API front-end decoupled from the classification/aggregation logic so the MCP
+// dump format and the API format converge on one schema.
+export function mapApiActivity(a) {
+  return {
+    name: a.name || '',
+    sport_type: a.sport_type || a.type || 'Other',
+    start_local: a.start_date_local || a.start_date,
+    summary: {
+      distance: a.distance ?? 0,
+      moving_time: a.moving_time ?? 0,
+    },
+  }
+}
+
 const PERIOD_FILTERS = {
   week: (date, now) => date >= new Date(now.getTime() - 7 * 86400000),
   month: (date, now) => date >= new Date(now.getTime() - 30 * 86400000),
@@ -178,9 +193,63 @@ export function aggregate(activities, now = new Date()) {
   return result
 }
 
-async function main() {
-  const dumpPath = process.argv[2] || 'scripts/strava-activities.json'
+// Exchanges the stored refresh token for a fresh access token. Strava rotates
+// refresh tokens, so the new one is persisted back to Redis (preferred over the
+// env value on the next run) -- same token-persistence pattern the Oura/Todoist
+// routes use.
+async function refreshAccessToken(redis) {
+  const clientId = process.env.STRAVA_CLIENT_ID
+  const clientSecret = process.env.STRAVA_SECRET
+  const stored = redis ? await redis.get('strava:refresh_token').catch(() => null) : null
+  const refreshToken = stored || process.env.STRAVA_REFRESH_TOKEN
+  if (!clientId || !clientSecret || !refreshToken) {
+    throw new Error('Missing Strava creds (STRAVA_CLIENT_ID, STRAVA_SECRET, STRAVA_REFRESH_TOKEN).')
+  }
+  const res = await fetch('https://www.strava.com/oauth/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams({
+      client_id: clientId,
+      client_secret: clientSecret,
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+    }),
+  })
+  const data = await res.json()
+  if (!res.ok) {
+    throw new Error(`Strava token refresh failed (${res.status}): ${JSON.stringify(data)}`)
+  }
+  if (redis && data.refresh_token) {
+    await redis.set('strava:refresh_token', data.refresh_token).catch(() => {})
+  }
+  return data.access_token
+}
 
+async function fetchAllActivities(token) {
+  const all = []
+  let page = 1
+  for (;;) {
+    const url = new URL('https://www.strava.com/api/v3/athlete/activities')
+    url.searchParams.set('per_page', '200')
+    url.searchParams.set('page', String(page))
+    const res = await fetch(url.toString(), { headers: { Authorization: `Bearer ${token}` } })
+    if (res.status === 401) {
+      throw new Error(
+        'Strava activities fetch returned 401. The refresh token lacks the ' +
+          'activity:read_all scope -- re-authorize the app with that scope and ' +
+          'update STRAVA_REFRESH_TOKEN (see .claude/plans/2026-06-24-obsidian-task-tile-plan.md).',
+      )
+    }
+    if (!res.ok) throw new Error(`Strava activities fetch failed (${res.status})`)
+    const batch = await res.json()
+    if (!Array.isArray(batch) || batch.length === 0) break
+    all.push(...batch.map(mapApiActivity))
+    page++
+  }
+  return all
+}
+
+async function main() {
   const redisUrl = process.env.KV_REST_API_URL
   const redisToken = process.env.KV_REST_API_TOKEN
 
@@ -189,20 +258,34 @@ async function main() {
     process.exit(1)
   }
 
+  const redis = new Redis({ url: redisUrl, token: redisToken })
+
+  // Dump-file mode (manual fallback) when a path arg is given; otherwise fetch
+  // live from the Strava API (the mode launchd uses).
+  const dumpArg = process.argv[2]
   let activities
-  try {
-    activities = JSON.parse(await readFile(dumpPath, 'utf8'))
-  } catch (err) {
-    console.error(`Cannot read dump at ${dumpPath}: ${err.message}`)
-    process.exit(1)
+  if (dumpArg) {
+    try {
+      activities = JSON.parse(await readFile(dumpArg, 'utf8'))
+    } catch (err) {
+      console.error(`Cannot read dump at ${dumpArg}: ${err.message}`)
+      process.exit(1)
+    }
+    if (!Array.isArray(activities) || activities.length === 0) {
+      console.error('Dump is empty or not a JSON array. Aborting.')
+      process.exit(1)
+    }
+    console.log(`Read ${activities.length} activities from ${dumpArg}`)
+  } else {
+    console.log('Fetching activities from Strava API...')
+    const token = await refreshAccessToken(redis)
+    activities = await fetchAllActivities(token)
+    console.log(`Fetched ${activities.length} activities from Strava API`)
+    if (activities.length === 0) {
+      console.error('No activities returned. Aborting (keeping existing snapshot).')
+      process.exit(1)
+    }
   }
-
-  if (!Array.isArray(activities) || activities.length === 0) {
-    console.error('Dump is empty or not a JSON array. Aborting.')
-    process.exit(1)
-  }
-
-  console.log(`Read ${activities.length} activities from ${dumpPath}`)
 
   const unclassified = activities.filter(
     (a) => (a.sport_type || a.type) === 'Workout' && classify(a) === 'Workout',
@@ -215,8 +298,6 @@ async function main() {
   }
 
   const results = aggregate(activities)
-
-  const redis = new Redis({ url: redisUrl, token: redisToken })
 
   console.log('\nWriting to Redis...')
   for (const [period, value] of Object.entries(results)) {

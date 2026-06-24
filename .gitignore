@@ -49,3 +49,6 @@ scripts/
 /data
 .env*.local
 .env.local
+
+# tile refresh cron log
+.refresh-tiles.log
