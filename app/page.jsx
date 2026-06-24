@@ -12,7 +12,7 @@ import EducationTile from './components/education-tile'
 import ProjectTile from './components/project-tile'
 import StravaTile from './components/strava-tile'
 import AboutTile from './components/about-tile'
-import TodoistTile from './components/todoist-tile'
+import ObsidianTile from './components/obsidian-tile'
 import TraktTile from './components/trakt-tile'
 
 export default function Page() {
@@ -59,8 +59,8 @@ export default function Page() {
           <SpotifyTile />
         </Tile>
 
-        <Tile accent="primary" gridClass="tile-todoist">
-          <TodoistTile />
+        <Tile accent="primary" gridClass="tile-obsidian">
+          <ObsidianTile />
         </Tile>
 
         <Tile accent="tertiary" gridClass="tile-trakt">
