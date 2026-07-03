@@ -36,17 +36,14 @@ export default function ObsidianTile() {
         )}
       </p>
 
-      <div className="grid grid-cols-2 gap-2 mt-auto pt-4">
+      <div className="flex flex-col gap-1.5 mt-auto pt-4">
         {TIERS.map(({ key, label, accent }) => (
-          <div
-            key={key}
-            className="rounded-lg border border-border bg-foreground/[0.03] px-3 py-2"
-          >
-            <span className={`block text-xl font-bold font-mono tracking-tighter ${accent}`}>
-              {tiers[key] ?? '---'}
-            </span>
+          <div key={key} className="flex items-baseline justify-between">
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
               {label}
+            </span>
+            <span className={`text-lg font-bold font-mono tracking-tighter ${accent}`}>
+              {tiers[key] ?? '---'}
             </span>
           </div>
         ))}

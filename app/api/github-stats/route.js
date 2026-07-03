@@ -1,93 +1,81 @@
 import PostHogClient from '../../posthog'
 
+const GH_USER = 'jakesciotto'
+
 export async function GET(request) {
   const posthog = PostHogClient()
-  const token = process.env.GITHUB_TOKEN
-
-  // Get a distinct ID from headers if available, otherwise use anonymous
   const distinctId =
     request.headers.get('x-posthog-distinct-id') || 'server_anonymous'
 
   try {
-    const now = new Date().toISOString()
-    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString()
-    const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString()
-
-    const res = await fetch('https://api.github.com/graphql', {
-      method: 'POST',
-      headers: {
-        Authorization: `bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        query: `query {
-          viewer {
-            current: contributionsCollection(from: "${sevenDaysAgo}", to: "${now}") {
-              totalCommitContributions
-              restrictedContributionsCount
-              contributionCalendar {
-                weeks {
-                  contributionDays {
-                    date
-                    contributionCount
-                  }
-                }
-              }
-            }
-            previous: contributionsCollection(from: "${fourteenDaysAgo}", to: "${sevenDaysAgo}") {
-              totalCommitContributions
-              restrictedContributionsCount
-            }
-          }
-        }`,
-      }),
+    // Public contribution calendar - no token, so it isn't subject to org PAT
+    // policy (PostHog forbids classic PATs). Includes private contributions as
+    // anonymized daily counts, matching what the profile graph shows.
+    const res = await fetch(`https://github.com/users/${GH_USER}/contributions`, {
+      headers: { 'User-Agent': 'Mozilla/5.0 (portfolio github-tile)' },
       next: { revalidate: 300 },
     })
+    if (!res.ok) throw new Error(`GitHub contributions error: ${res.status}`)
+    const html = await res.text()
 
-    if (!res.ok) throw new Error(`GitHub API error: ${res.status}`)
+    // Join each day cell (id -> date) to its tooltip (id -> "N contributions on ...").
+    const dateById = {}
+    for (const [tag] of html.matchAll(
+      /<td[^>]*class="ContributionCalendar-day"[^>]*>/g
+    )) {
+      const date = tag.match(/data-date="(\d{4}-\d{2}-\d{2})"/)?.[1]
+      const id = tag.match(/id="([^"]+)"/)?.[1]
+      if (date && id) dateById[id] = date
+    }
 
-    const { data } = await res.json()
-    const commits7d = data.viewer.current.totalCommitContributions + data.viewer.current.restrictedContributionsCount
-    const prevCommits7d = data.viewer.previous.totalCommitContributions + data.viewer.previous.restrictedContributionsCount
+    const countByDate = {}
+    for (const [, id, text] of html.matchAll(
+      /<tool-tip[^>]*for="([^"]+)"[^>]*>([^<]*)<\/tool-tip>/g
+    )) {
+      const date = dateById[id]
+      if (!date) continue
+      countByDate[date] = /^No contributions/i.test(text)
+        ? 0
+        : parseInt(text.replace(/,/g, '').match(/\d+/)?.[0] ?? '0', 10)
+    }
 
-    // Extract daily breakdown from contribution calendar
-    const allDays = data.viewer.current.contributionCalendar.weeks
-      .flatMap((w) => w.contributionDays)
-      .filter((d) => d.date >= sevenDaysAgo.split('T')[0])
-      .sort((a, b) => a.date.localeCompare(b.date))
+    const series = Object.keys(countByDate)
+      .sort()
+      .map((date) => ({ date, count: countByDate[date] }))
+    const recent = series.slice(-14)
+    const last7 = recent.slice(-7)
+    const prev7 = recent.slice(0, recent.length - 7)
 
-    const daily = allDays.map((d) => d.contributionCount)
-
-    // Check if active in last 24 hours (any contributions today or yesterday)
-    const todayStr = now.split('T')[0]
-    const yesterdayStr = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-    const isActive = allDays.some(
-      (d) => (d.date === todayStr || d.date === yesterdayStr) && d.contributionCount > 0
-    )
+    const sum = (arr) => arr.reduce((s, d) => s + d.count, 0)
+    const activity7d = sum(last7)
+    const prevActivity7d = sum(prev7)
+    const daily = last7.map((d) => d.count)
+    const isActive = daily.slice(-2).some((c) => c > 0)
 
     posthog.capture({
-      distinctId: distinctId,
+      distinctId,
       event: 'github_stats_fetched',
       properties: {
-        commits_7d: commits7d,
-        prev_commits_7d: prevCommits7d,
-        source: 'api',
+        activity_7d: activity7d,
+        prev_activity_7d: prevActivity7d,
+        source: 'public-calendar',
       },
     })
 
-    return Response.json({ commits7d, prevCommits7d, daily, isActive })
+    return Response.json({ activity7d, prevActivity7d, daily, isActive })
   } catch (error) {
-    // Track error
     posthog.capture({
-      distinctId: distinctId,
+      distinctId,
       event: 'github_stats_error',
       properties: {
         error_message: error?.message || 'Unknown error',
-        source: 'api',
+        source: 'public-calendar',
       },
     })
 
-
-    return Response.json({ commits7d: 0 }, { status: 500 })
+    return Response.json(
+      { activity7d: 0, prevActivity7d: 0, daily: [], isActive: false },
+      { status: 500 }
+    )
   }
 }

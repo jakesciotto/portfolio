@@ -9,8 +9,8 @@ export default function GitHubTile() {
   const stats = useCachedFetch('/api/github-stats', 'gh_stats', {
     ttl: 300000,
     transform: (data) => ({
-      commits7d: data.commits7d,
-      prevCommits7d: data.prevCommits7d,
+      activity7d: data.activity7d,
+      prevActivity7d: data.prevActivity7d,
       daily: data.daily || [],
       isActive: data.isActive ?? false,
     }),
@@ -33,8 +33,8 @@ export default function GitHubTile() {
         </span>
       </div>
       <StatTile
-        value={stats.commits7d}
-        label="commits this week"
+        value={stats.activity7d}
+        label="things this week"
         accent="primary"
       >
         {stats.daily && stats.daily.length > 0 && (
