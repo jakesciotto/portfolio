@@ -62,7 +62,7 @@ export async function GET(request) {
       },
     })
 
-    return Response.json({ activity7d, prevActivity7d, daily, isActive })
+    return Response.json({ activity7d, prevActivity7d, daily, isActive, days: countByDate })
   } catch (error) {
     posthog.capture({
       distinctId,
@@ -74,7 +74,7 @@ export async function GET(request) {
     })
 
     return Response.json(
-      { activity7d: 0, prevActivity7d: 0, daily: [], isActive: false },
+      { activity7d: 0, prevActivity7d: 0, daily: [], isActive: false, days: {} },
       { status: 500 }
     )
   }
