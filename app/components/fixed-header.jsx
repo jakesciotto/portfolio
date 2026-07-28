@@ -1,6 +1,6 @@
 'use client'
 
-import { Mail, Calendar } from 'lucide-react'
+import { Mail, Calendar, Newspaper } from 'lucide-react'
 import ThemeToggle from './theme-toggle'
 import MagneticLink from './magnetic-link'
 import HeaderNowPlaying from './header-now-playing'
@@ -77,6 +77,13 @@ export default function FixedHeader() {
         </button>
         <HeaderNowPlaying />
         <div className="flex items-center gap-3">
+          <MagneticLink
+            href="/blog"
+            aria-label="Blog"
+            className="text-muted-foreground hover:text-foreground transition-colors font-medium"
+          >
+            <Newspaper size={16} />
+          </MagneticLink>
           <MagneticLink
             href="https://instagram.com/jakesciotto"
             className="text-muted-foreground hover:text-foreground transition-colors font-medium"

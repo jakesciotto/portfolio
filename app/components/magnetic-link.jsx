@@ -1,10 +1,12 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
+import Link from 'next/link'
 import gsap from 'gsap'
 
 export default function MagneticLink({ href, children, className = '', ...props }) {
   const ref = useRef(null)
+  const isInternal = typeof href === 'string' && href.startsWith('/')
 
   useEffect(() => {
     const el = ref.current
@@ -46,8 +48,18 @@ export default function MagneticLink({ href, children, className = '', ...props 
     }
   }, [])
 
+  const style = { display: 'inline-block' }
+
+  if (isInternal) {
+    return (
+      <Link ref={ref} href={href} className={className} style={style} {...props}>
+        {children}
+      </Link>
+    )
+  }
+
   return (
-    <a ref={ref} href={href} className={className} style={{ display: 'inline-block' }} {...props}>
+    <a ref={ref} href={href} className={className} style={style} {...props}>
       {children}
     </a>
   )

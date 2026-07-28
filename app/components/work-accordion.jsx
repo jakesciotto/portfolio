@@ -6,10 +6,12 @@ import posthog from 'posthog-js'
 
 const roles = [
   {
-    title: 'customer success engineer',
+    title: 'technical csm & handsome genius',
     company: 'posthog',
     dates: 'mar 2026 - present',
-    description: ['#hoglife'],
+    description: [
+      'doing my best to bankrupt the company by giving away merch. also i work with customers',
+    ],
     accent: 'secondary',
   },
   {
@@ -208,7 +210,10 @@ export default function WorkAccordion() {
                     </p>
                   )}
                   {role.description.map((line, j) => (
-                    <p key={j} className="text-xs text-muted-foreground font-medium">
+                    <p
+                      key={j}
+                      className="text-xs text-muted-foreground font-medium"
+                    >
                       {role.description.length > 1 ? `- ${line}` : line}
                     </p>
                   ))}
