@@ -1,5 +1,6 @@
 'use client'
 
+import { usePathname, useRouter } from 'next/navigation'
 import { Mail, Calendar, Newspaper } from 'lucide-react'
 import ThemeToggle from './theme-toggle'
 import MagneticLink from './magnetic-link'
@@ -49,8 +50,14 @@ function GithubIcon({ size = 16 }) {
 
 export default function FixedHeader() {
   const lenisRef = useLenis()
+  const pathname = usePathname()
+  const router = useRouter()
 
-  const scrollToTop = () => {
+  const handleBrandClick = () => {
+    if (pathname !== '/') {
+      router.push('/')
+      return
+    }
     if (lenisRef?.current) {
       lenisRef.current.scrollTo(0)
     } else {
@@ -69,7 +76,7 @@ export default function FixedHeader() {
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between px-4 h-12">
         <button
-          onClick={scrollToTop}
+          onClick={handleBrandClick}
           className="text-sm font-mono tracking-tighter text-foreground shrink-0"
         >
           <span className="sm:hidden">js</span>
