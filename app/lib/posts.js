@@ -24,7 +24,7 @@ function readPost(slug) {
   }
 }
 
-export function getPostSlugs() {
+function getPostSlugs() {
   if (!fs.existsSync(POSTS_DIR)) return []
   return fs
     .readdirSync(POSTS_DIR)

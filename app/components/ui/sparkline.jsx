@@ -14,7 +14,7 @@ export default function Sparkline({
   data = [],
   color = 'primary',
   height = 40,
-  tooltipLabel = 'commits',
+  tooltipLabel = '',
 }) {
   const containerRef = useRef(null)
   const [ready, setReady] = useState(false)
@@ -55,7 +55,8 @@ export default function Sparkline({
               if (!active || !payload?.length) return null
               return (
                 <div className="bg-card border border-border rounded px-2 py-1 text-xs text-foreground font-mono shadow-md">
-                  {payload[0].value} {tooltipLabel}
+                  {payload[0].value}
+                  {tooltipLabel && ` ${tooltipLabel}`}
                 </div>
               )
             }}

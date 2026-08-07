@@ -1,6 +1,5 @@
 'use client'
 
-import { useRef } from 'react'
 import Tilt from 'react-parallax-tilt'
 
 const accentMap = {
@@ -16,11 +15,8 @@ export default function Tile({
   tilt = false,
   gridClass = '',
 }) {
-  const ref = useRef(null)
-
   const inner = (
     <div
-      ref={ref}
       className={`tile ${gridClass} ${className}`.trim()}
       style={{
         '--tile-accent': accentMap[accent] || accentMap.primary,
@@ -48,7 +44,6 @@ export default function Tile({
       style={{ borderRadius: '16px' }}
     >
       <div
-        ref={ref}
         className={`tile ${className}`.trim()}
         style={{
           '--tile-accent': accentMap[accent] || accentMap.primary,

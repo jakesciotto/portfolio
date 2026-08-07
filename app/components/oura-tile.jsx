@@ -58,7 +58,12 @@ export default function OuraTile() {
         </div>
       </div>
       {sleepTrend && sleepTrend.length >= 2 && (
-        <Sparkline data={sleepTrend} color="tertiary" height={32} />
+        <Sparkline
+          data={sleepTrend}
+          color="tertiary"
+          height={32}
+          tooltipLabel="hours"
+        />
       )}
     </div>
   )
