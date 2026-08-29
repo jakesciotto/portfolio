@@ -23,11 +23,11 @@ export default function Page() {
           <HeroTile />
         </Tile>
 
-        <Tile accent="secondary" gridClass="tile-github">
+        <Tile accent="primary" gridClass="tile-github">
           <GitHubTile />
         </Tile>
 
-        <Tile accent="tertiary" gridClass="tile-experience">
+        <Tile accent="secondary" gridClass="tile-experience">
           <ExperienceTile />
         </Tile>
 
@@ -35,44 +35,44 @@ export default function Page() {
           <WorkAccordion />
         </Tile>
 
-        <Tile accent="tertiary" gridClass="tile-skills">
+        <Tile accent="primary" gridClass="tile-skills">
           <SkillTags />
         </Tile>
 
-        <Tile accent="secondary" gridClass="tile-about">
+        <Tile accent="violet" gridClass="tile-about">
           <AboutTile />
-        </Tile>
-
-        <Tile accent="tertiary" gridClass="tile-oura">
-          <OuraTile />
-        </Tile>
-
-        <Tile accent="primary" gridClass="tile-wakatime">
-          <WakaTimeTile />
         </Tile>
 
         <Tile accent="primary" gridClass="tile-education">
           <EducationTile />
         </Tile>
 
-        <Tile accent="secondary" gridClass="tile-spotify">
-          <SpotifyTile />
-        </Tile>
-
         <Tile accent="primary" gridClass="tile-obsidian">
           <ObsidianTile />
         </Tile>
 
-        <Tile accent="tertiary" gridClass="tile-trakt">
+        <Tile accent="amber" gridClass="tile-trakt">
           <TraktTile />
         </Tile>
 
-        <Tile accent="secondary" gridClass="tile-projects">
+        <Tile accent="primary" gridClass="tile-wakatime">
+          <WakaTimeTile />
+        </Tile>
+
+        <Tile accent="tertiary" gridClass="tile-spotify">
+          <SpotifyTile />
+        </Tile>
+
+        <Tile accent="secondary" gridClass="tile-strava">
+          <StravaTile />
+        </Tile>
+
+        <Tile accent="tertiary" gridClass="tile-projects">
           <ProjectTile />
         </Tile>
 
-        <Tile accent="primary" gridClass="tile-strava">
-          <StravaTile />
+        <Tile accent="violet" gridClass="tile-oura">
+          <OuraTile />
         </Tile>
       </BentoGrid>
     </div>
