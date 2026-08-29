@@ -19,16 +19,8 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
-      suppressHydrationWarning
       className={`bg-background text-foreground ${GeistSans.variable} ${GeistMono.variable}`}
     >
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme:dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})()`,
-          }}
-        />
-      </head>
       <body className="antialiased pt-14 min-h-screen flex flex-col">
         <ScrollProvider>
           <TooltipProvider>

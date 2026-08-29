@@ -2,7 +2,6 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import { Mail, Calendar, Newspaper } from 'lucide-react'
-import ThemeToggle from './theme-toggle'
 import MagneticLink from './magnetic-link'
 import HeaderNowPlaying from './header-now-playing'
 import { useLenis } from './scroll-provider'
@@ -121,7 +120,6 @@ export default function FixedHeader() {
           >
             <GithubIcon size={16} />
           </MagneticLink>
-          <ThemeToggle />
         </div>
       </div>
     </header>

@@ -141,7 +141,7 @@ export default function SkillTags() {
               </span>
               <SegmentBar weight={skill.weight} />
               <span
-                className={`text-[11px] font-semibold text-left tier-glow ${TIER_TEXT[skill.weight]}`}
+                className={`text-[11px] font-semibold text-left ${TIER_TEXT[skill.weight]}`}
               >
                 {TIER_LABELS[skill.weight]}
               </span>

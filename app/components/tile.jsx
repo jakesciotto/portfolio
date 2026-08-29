@@ -6,6 +6,9 @@ const accentMap = {
   primary: 'var(--accent-primary)',
   secondary: 'var(--accent-secondary)',
   tertiary: 'var(--accent-tertiary)',
+  amber: 'var(--accent-amber)',
+  violet: 'var(--accent-violet)',
+  red: 'var(--accent-red)',
 }
 
 export default function Tile({
@@ -33,15 +36,12 @@ export default function Tile({
     <Tilt
       tiltMaxAngleX={5}
       tiltMaxAngleY={5}
-      glareEnable={true}
-      glareMaxOpacity={0.08}
-      glareColor="var(--accent-primary)"
-      glareBorderRadius="16px"
+      glareEnable={false}
       scale={1.01}
       perspective={800}
       transitionSpeed={400}
       className={gridClass}
-      style={{ borderRadius: '16px' }}
+      style={{ borderRadius: '14px' }}
     >
       <div
         className={`tile ${className}`.trim()}
