@@ -220,6 +220,34 @@ body::after {
 }
 
 /* ===================================================
+   Obsidian KPI row -- summary card plus six tier cards
+   =================================================== */
+.obsidian-row {
+  display: grid;
+  grid-template-columns: 1.35fr repeat(6, 1fr);
+  gap: 14px;
+}
+
+.obsidian-row > .tile {
+  min-height: 136px;
+}
+
+@media (max-width: 1024px) {
+  .obsidian-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .obsidian-row > .tile:first-child {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .obsidian-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===================================================
    Grain texture overlay
    =================================================== */
 body::before {

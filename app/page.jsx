@@ -12,7 +12,7 @@ import EducationTile from './components/education-tile'
 import ProjectTile from './components/project-tile'
 import StravaTile from './components/strava-tile'
 import AboutTile from './components/about-tile'
-import ObsidianTile from './components/obsidian-tile'
+import ObsidianRow from './components/obsidian-row'
 import TraktTile from './components/trakt-tile'
 
 export default function Page() {
@@ -47,9 +47,7 @@ export default function Page() {
           <EducationTile />
         </Tile>
 
-        <Tile accent="primary" gridClass="tile-obsidian">
-          <ObsidianTile />
-        </Tile>
+        <ObsidianRow />
 
         <Tile accent="amber" gridClass="tile-trakt">
           <TraktTile />
