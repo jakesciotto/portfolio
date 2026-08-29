@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import TileSkeleton from './tile-skeleton'
 import AnimatedNumber from './animated-number'
+import PeriodPills from './ui/period-pills'
+import { agoLabel } from '../lib/format.mjs'
 
 const PERIODS = [
   { key: 'week', label: '7d' },
@@ -10,14 +12,6 @@ const PERIODS = [
   { key: 'year', label: 'ytd' },
   { key: 'all', label: 'all' },
 ]
-
-function syncedAgo(iso) {
-  if (!iso) return null
-  const hrs = Math.floor((Date.now() - new Date(iso).getTime()) / 3600000)
-  if (hrs < 1) return 'synced just now'
-  if (hrs < 24) return `synced ${hrs}h ago`
-  return `synced ${Math.floor(hrs / 24)}d ago`
-}
 
 function cacheKey(period) {
   return `strava_stats_${period}`
@@ -131,21 +125,7 @@ export default function StravaTile() {
         strava
       </h3>
 
-      <div className="flex gap-1">
-        {PERIODS.map((p) => (
-          <button
-            key={p.key}
-            onClick={() => handlePeriodChange(p.key)}
-            className={`px-2 py-0.5 text-[10px] uppercase font-mono font-medium tracking-widest rounded border transition-all duration-200 ${
-              period === p.key
-                ? 'bg-accent-secondary/20 text-accent-secondary border-accent-secondary/40'
-                : 'text-muted-foreground font-medium border-border hover:text-foreground hover:border-muted-foreground'
-            }`}
-          >
-            {p.label}
-          </button>
-        ))}
-      </div>
+      <PeriodPills options={PERIODS} value={period} onChange={handlePeriodChange} accent="secondary" label="Strava period" />
 
       <div className={`transition-opacity duration-200 ease-in-out ${contentOpacity}`}>
         <div className="flex gap-4">
@@ -187,13 +167,13 @@ export default function StravaTile() {
                 <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium w-24 shrink-0 truncate" title={t.type}>
                   {t.type}
                 </span>
-                <div className="flex-1 h-2 rounded-full bg-muted/30 overflow-hidden">
+                <div className="flex-1 h-2 rounded-full bg-border-strong overflow-hidden">
                   <div
-                    className="h-full rounded-full bg-accent-secondary/60 transition-all duration-500 ease-out"
+                    className="h-full rounded-full bg-accent-secondary/70 transition-all duration-500 ease-out"
                     style={{ width: `${(t.count / maxCount) * 100}%` }}
                   />
                 </div>
-                <span className="text-xs font-mono font-medium text-accent-secondary w-8 text-right">
+                <span className="text-xs font-mono font-medium text-muted-foreground w-8 text-right">
                   {t.count}
                 </span>
               </div>
@@ -204,7 +184,7 @@ export default function StravaTile() {
 
       {stats?.lastSync && (
         <p className="text-[10px] font-mono text-muted-foreground font-medium mt-auto">
-          {syncedAgo(stats.lastSync)}
+          {agoLabel(stats.lastSync, 'synced')}
         </p>
       )}
     </div>

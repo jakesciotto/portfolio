@@ -184,7 +184,7 @@ export default function WorkAccordion() {
                 <span className="text-[11px] lowercase font-mono align-middle tracking-tight">
                   {role.company}
                 </span>
-                <span className="text-[10px] font-mono text-muted-foreground font-medium border border-border rounded px-1.5 py-0.5 ml-auto shrink-0 self-center hidden sm:block">
+                <span className="text-[10px] font-mono text-muted-foreground font-medium border border-border-strong rounded px-1.5 py-0.5 ml-auto shrink-0 self-center hidden sm:block">
                   {role.dates}
                 </span>
               </button>
@@ -200,7 +200,7 @@ export default function WorkAccordion() {
                   className="pl-5 pb-2"
                 >
                   <p className="sm:hidden mb-1">
-                    <span className="text-[10px] font-mono text-muted-foreground font-medium border border-border rounded px-1.5 py-0.5">
+                    <span className="text-[10px] font-mono text-muted-foreground font-medium border border-border-strong rounded px-1.5 py-0.5">
                       {role.dates}
                     </span>
                   </p>

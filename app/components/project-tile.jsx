@@ -8,35 +8,35 @@ const projects = [
     name: "recall",
     description: "templated rag setup for all your data w/ embedding engine",
     pill: "beta",
-    pillVariant: "tertiary",
+    pillVariant: "amber",
     link: "https://github.com/jakesciotto/recall",
   },
   {
     name: "easton leaderboard",
     description: "kids bjj program leaderboard and dashboarding tool",
     pill: "live",
-    pillVariant: "primary",
+    pillVariant: "tertiary",
     link: "https://eastonpodium.com",
   },
   {
     name: "aidatasucks.com",
     description: "working with ai vendors made me mad so i did this",
     pill: "live",
-    pillVariant: "primary",
+    pillVariant: "tertiary",
     link: "https://aidatasucks.com",
   },
   {
     name: "easton+",
     description: "drag and drop jiu jitsu curriculum builder",
     pill: "beta",
-    pillVariant: "tertiary",
+    pillVariant: "amber",
     link: "https://eastonplus.com",
   },
   {
     name: "duels app",
     description: "kids jiu jitsu comp sidecar app",
     pill: "pre-release",
-    pillVariant: "secondaryAccent",
+    pillVariant: "violet",
     link: "https://github.com/jakesciotto/easton-duels",
   },
 ];
@@ -53,9 +53,9 @@ export default function ProjectTile() {
       <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-3">
         projects
       </h3>
-      <div className="space-y-3">
+      <div className="grid grid-cols-1 gap-x-6 sm:grid-cols-2">
         {projects.map((project) => (
-          <div key={project.name}>
+          <div key={project.name} className="border-t border-border py-2.5">
             <div className="flex items-center justify-between gap-3">
               {project.link ? (
                 <a

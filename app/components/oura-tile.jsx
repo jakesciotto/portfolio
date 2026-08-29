@@ -10,7 +10,7 @@ export default function OuraTile() {
     shouldCache: (data) => data.sleep?.current?.hours !== null,
   })
 
-  if (!stats) return <TileSkeleton accent="tertiary" />
+  if (!stats) return <TileSkeleton accent="violet" />
 
   const hours = stats.sleep?.current?.hours
   const score = stats.sleep?.current?.score
@@ -27,12 +27,12 @@ export default function OuraTile() {
           (hours < 2 ? (
             <Badge variant="destructive">woof</Badge>
           ) : hours < 7 ? (
-            <Badge variant="secondary">alright</Badge>
+            <Badge variant="muted">alright</Badge>
           ) : (
-            <Badge variant="primary">lets go</Badge>
+            <Badge variant="violet">lets go</Badge>
           ))}
       </div>
-      <span className="text-3xl font-bold font-mono tracking-tighter text-accent-tertiary">
+      <span className="text-3xl font-bold font-mono tracking-tighter text-accent-violet">
         {hours ?? '---'}
       </span>
       <p className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground">
@@ -60,7 +60,7 @@ export default function OuraTile() {
       {sleepTrend && sleepTrend.length >= 2 && (
         <Sparkline
           data={sleepTrend}
-          color="tertiary"
+          color="violet"
           height={32}
           tooltipLabel="hours"
         />

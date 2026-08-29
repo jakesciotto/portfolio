@@ -64,7 +64,7 @@ function SegmentBar({ weight }) {
   return (
     <div className="relative h-2.5 w-full">
       <div
-        className="absolute inset-0 bg-muted-foreground/15"
+        className="absolute inset-0 bg-border-strong"
         style={SEGMENTS}
       />
       <div
@@ -121,10 +121,10 @@ export default function SkillTags() {
   return (
     <div className="flex flex-col h-full font-mono -m-6 max-md:-m-5">
       {/* window chrome */}
-      <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-border bg-muted/40 rounded-t-[15px]">
-        <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-        <span className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-        <span className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+      <div className="flex items-center gap-1.5 px-4 py-2.5 border-b border-border bg-muted rounded-t-[15px]">
+        <span className="w-2.5 h-2.5 rounded-full bg-border-strong" />
+        <span className="w-2.5 h-2.5 rounded-full bg-border-strong" />
+        <span className="w-2.5 h-2.5 rounded-full bg-border-strong" />
       </div>
 
       <div className="flex flex-col flex-1 p-4 pt-3">

@@ -98,7 +98,7 @@ export default function AboutTile() {
       </ol>
 
       <div className="mt-auto pt-4">
-        <div className="border-l border-accent-primary/20 pl-3">
+        <div className="border-l border-accent-violet/40 pl-3">
           <p className="text-xs font-mono font-medium uppercase tracking-tight text-muted-foreground mb-1">
             wife review
           </p>
