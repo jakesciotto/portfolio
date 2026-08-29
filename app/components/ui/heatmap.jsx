@@ -6,6 +6,9 @@ const accentVar = {
   primary: 'var(--accent-primary)',
   secondary: 'var(--accent-secondary)',
   tertiary: 'var(--accent-tertiary)',
+  amber: 'var(--accent-amber)',
+  violet: 'var(--accent-violet)',
+  red: 'var(--accent-red)',
 }
 
 // Opacity per intensity level 0..4. Level 0 renders as a faint track cell.

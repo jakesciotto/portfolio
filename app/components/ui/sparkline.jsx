@@ -7,6 +7,9 @@ const colorMap = {
   primary: 'var(--accent-primary)',
   secondary: 'var(--accent-secondary)',
   tertiary: 'var(--accent-tertiary)',
+  amber: 'var(--accent-amber)',
+  violet: 'var(--accent-violet)',
+  red: 'var(--accent-red)',
   muted: 'var(--muted-foreground)',
 }
 

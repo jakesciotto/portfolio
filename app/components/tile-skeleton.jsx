@@ -2,6 +2,9 @@ const accentBgMap = {
   primary: 'bg-accent-primary/10',
   secondary: 'bg-accent-secondary/10',
   tertiary: 'bg-accent-tertiary/10',
+  amber: 'bg-accent-amber/10',
+  violet: 'bg-accent-violet/10',
+  red: 'bg-accent-red/10',
 }
 
 const lineWidths = ['85%', '70%', '95%', '75%', '90%']
