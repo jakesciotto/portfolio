@@ -9,11 +9,8 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground border-transparent",
-        secondary: "bg-secondary text-secondary-foreground border-transparent",
         destructive: "bg-destructive text-white border-transparent",
         outline: "border-border-strong text-foreground",
-        ghost: "border-transparent text-muted-foreground font-medium",
         primary: "text-accent-primary border-accent-primary/40 bg-accent-primary/10",
         secondaryAccent: "text-accent-secondary border-accent-secondary/40 bg-accent-secondary/10",
         tertiary: "text-accent-tertiary border-accent-tertiary/40 bg-accent-tertiary/10",
@@ -24,14 +21,14 @@ const badgeVariants = cva(
       },
     },
     defaultVariants: {
-      variant: "default",
+      variant: "outline",
     },
   }
 )
 
 function Badge({
   className,
-  variant = "default",
+  variant = "outline",
   asChild = false,
   ...props
 }) {

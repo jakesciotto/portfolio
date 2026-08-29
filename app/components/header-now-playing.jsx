@@ -15,9 +15,7 @@ export default function HeaderNowPlaying() {
         const data = await res.json()
         if (ignore) return
         setNowPlaying(data)
-      } catch {
-        // Network failure -- keep previous state
-      }
+      } catch {}
     }
 
     fetchNowPlaying()

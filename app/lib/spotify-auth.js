@@ -8,7 +8,6 @@ const redis =
       })
     : null
 
-// In-memory token cache
 let cachedAccessToken = null
 let tokenExpiresAt = 0
 
@@ -53,7 +52,6 @@ export async function getAccessToken() {
   cachedAccessToken = data.access_token
   tokenExpiresAt = Date.now() + (data.expires_in || 3600) * 1000
 
-  // Persist rotated refresh token if returned
   if (data.refresh_token && redis) {
     await redis.set('spotify_live_refresh_token', data.refresh_token).catch(() => {})
   }

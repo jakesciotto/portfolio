@@ -1,3 +1,5 @@
+import { pct } from './format.mjs'
+
 export const TIERS = [
   { key: 'now', accent: 'secondary' },
   { key: 'next', accent: 'primary' },
@@ -13,6 +15,6 @@ export function tierCards(stats) {
   return TIERS.map(({ key, accent }) => {
     const count = Number(tiers[key]) || 0
     const share = active > 0 ? count / active : 0
-    return { key, accent, count, share, pct: Math.round(share * 100), zero: count === 0 }
+    return { key, accent, count, share, pct: pct(count, active), zero: count === 0 }
   })
 }

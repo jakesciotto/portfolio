@@ -11,7 +11,6 @@ const accentVar = {
   red: 'var(--accent-red)',
 }
 
-// Opacity per intensity level 0..4. Level 0 renders as a faint track cell.
 const LEVEL_OPACITY = [0.06, 0.28, 0.5, 0.72, 1]
 
 function levelFor(count, max) {
@@ -24,12 +23,9 @@ function dayKey(d) {
   return d.toISOString().slice(0, 10)
 }
 
-// Builds `weeks` columns of 7 days each, ending on the current week. Columns are
-// oldest-to-newest left-to-right; rows are Sun..Sat top-to-bottom.
 function buildGrid(weeks) {
   const today = new Date()
   const end = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()))
-  // Walk back to the Sunday of the oldest column.
   const start = new Date(end)
   start.setUTCDate(start.getUTCDate() - (weeks - 1) * 7 - end.getUTCDay())
   const columns = []
