@@ -1,5 +1,6 @@
 import { Redis } from '@upstash/redis'
 import PostHogClient from '../../posthog'
+import { mapTraktStats } from '../../lib/trakt-stats.mjs'
 
 const redis =
   process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
@@ -158,29 +159,51 @@ export async function GET(request) {
   }
 }
 
+const STATS_KEY = 'trakt_alltime_stats_v2'
+const MAX_HISTORY_PAGES = 5
+
+async function fetchHistorySince(accessToken, sinceIso) {
+  const items = []
+  let page = 1
+  let pages = 1
+  do {
+    const res = await traktFetch(
+      `/users/me/history?start_at=${encodeURIComponent(sinceIso)}&limit=1000&page=${page}`,
+      accessToken,
+    )
+    if (!res.ok) break
+    pages = Number(res.headers.get('x-pagination-page-count') || 1)
+    items.push(...(await res.json()))
+    page++
+  } while (page <= pages && page <= MAX_HISTORY_PAGES)
+  return items
+}
+
 async function getCachedStats(accessToken) {
-  // Try Redis cache first (1hr TTL)
   if (redis) {
-    const cached = await redis.get('trakt_alltime_stats').catch(() => null)
+    const cached = await redis.get(STATS_KEY).catch(() => null)
     if (cached) {
       return typeof cached === 'string' ? JSON.parse(cached) : cached
     }
   }
 
-  const res = await traktFetch('/users/me/stats', accessToken)
-  if (!res.ok) return null
+  const since = new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString()
+  const [statsRes, watchedRes, history] = await Promise.all([
+    traktFetch('/users/me/stats', accessToken),
+    traktFetch('/users/me/watched/shows?extended=noseasons', accessToken),
+    fetchHistorySince(accessToken, since),
+  ])
 
-  const data = await res.json()
-  const stats = {
-    movies: data.movies?.watched || 0,
-    episodes: data.episodes?.watched || 0,
-    hours: Math.round(((data.movies?.minutes || 0) + (data.episodes?.minutes || 0)) / 60),
-  }
+  if (!statsRes.ok) return null
+
+  const stats = mapTraktStats({
+    stats: await statsRes.json(),
+    watchedShows: watchedRes.ok ? await watchedRes.json() : [],
+    history,
+  })
 
   if (redis) {
-    await redis
-      .set('trakt_alltime_stats', JSON.stringify(stats), { ex: 3600 })
-      .catch(() => {})
+    await redis.set(STATS_KEY, JSON.stringify(stats), { ex: 3600 }).catch(() => {})
   }
 
   return stats
