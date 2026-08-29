@@ -67,6 +67,7 @@ function SummaryCard({ active, overdue, lastSync }) {
 
 export default function ObsidianRow() {
   const stats = useCachedFetch('/api/obsidian-stats', 'obsidian_stats', {
+    ttl: 3600000,
     shouldCache: (data) => data.active !== null,
   })
   const cards = tierCards(stats)

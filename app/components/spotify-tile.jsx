@@ -98,9 +98,11 @@ export default function SpotifyTile() {
   const [tab, setTab] = useState('alltime')
 
   const stats = useCachedFetch('/api/spotify-stats', 'spotify_stats_v2', {
+    ttl: 3600000,
     shouldCache: (data) => !!data.overview,
   })
   const topItems = useCachedFetch('/api/spotify-top', 'spotify_top', {
+    ttl: 3600000,
     shouldCache: (data) => !!(data.shortTerm || data.longTerm),
   })
 

@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useCachedFetch } from '../lib/use-cached-fetch'
+import { agoLabel } from '../lib/format.mjs'
 import TileSkeleton from './tile-skeleton'
 import AnimatedNumber from './animated-number'
 import PeriodPills from './ui/period-pills'
-import { agoLabel } from '../lib/format.mjs'
 
 const PERIODS = [
   { key: 'week', label: '7d' },
@@ -13,57 +14,15 @@ const PERIODS = [
   { key: 'all', label: 'all' },
 ]
 
-function cacheKey(period) {
-  return `strava_stats_${period}`
-}
-
-function cacheTimeKey(period) {
-  return `strava_stats_time_${period}`
-}
-
 export default function StravaTile() {
-  const [stats, setStats] = useState(null)
   const [period, setPeriod] = useState('all')
-  const [loading, setLoading] = useState(false)
   const [transitioning, setTransitioning] = useState(false)
   const transitionRef = useRef(null)
 
-  const fetchStats = async (p, isStale = () => false) => {
-    try {
-      const cached = localStorage.getItem(cacheKey(p))
-      const cacheTime = localStorage.getItem(cacheTimeKey(p))
-
-      if (
-        cached &&
-        cacheTime &&
-        Date.now() - parseInt(cacheTime) < 900000
-      ) {
-        const parsed = JSON.parse(cached)
-        // payloads from the pre-snapshot API era lack lastSync; refetch
-        if (parsed.lastSync) {
-          if (!isStale()) setStats(parsed)
-          return
-        }
-      }
-
-      setLoading(true)
-      const res = await fetch(`/api/strava-stats?period=${p}`, { cache: 'no-store' })
-      const data = await res.json()
-      if (isStale()) return
-
-      setStats(data)
-      if (data.count != null) {
-        localStorage.setItem(cacheKey(p), JSON.stringify(data))
-        localStorage.setItem(cacheTimeKey(p), Date.now().toString())
-      }
-    } catch (err) {
-      if (isStale()) return
-      const cached = localStorage.getItem(cacheKey(p))
-      if (cached) setStats(JSON.parse(cached))
-    } finally {
-      if (!isStale()) setLoading(false)
-    }
-  }
+  const stats = useCachedFetch(`/api/strava-stats?period=${period}`, `strava_stats_${period}`, {
+    ttl: 3600000,
+    shouldCache: (data) => data.count != null && !!data.lastSync,
+  })
 
   const handlePeriodChange = (p) => {
     if (p === period) return
@@ -77,47 +36,18 @@ export default function StravaTile() {
 
   useEffect(() => () => clearTimeout(transitionRef.current), [])
 
-  useEffect(() => {
-    let ignore = false
-    fetchStats(period, () => ignore)
-    return () => {
-      ignore = true
-    }
-  }, [period])
+  if (!stats) return <TileSkeleton accent="secondary" lines={4} />
 
-  useEffect(() => {
-    let ignore = false
-    const interval = setInterval(() => {
-      if (!document.hidden) fetchStats(period, () => ignore)
-    }, 900000)
-
-    const handleVisibility = () => {
-      if (!document.hidden) fetchStats(period, () => ignore)
-    }
-    document.addEventListener('visibilitychange', handleVisibility)
-
-    return () => {
-      ignore = true
-      clearInterval(interval)
-      document.removeEventListener('visibilitychange', handleVisibility)
-    }
-  }, [period])
-
-  if (!stats && !loading) return <TileSkeleton accent="secondary" lines={4} />
-
-  const totalHours = stats?.movingTime ? Math.floor(stats.movingTime / 3600) : null
-  const totalActivities = stats?.count
-  const totalMiles = stats?.distance
-  const rawBreakdown = stats?.breakdown || []
-  const sorted = [...rawBreakdown].sort((a, b) => b.count - a.count)
+  const ready = stats.period === period
+  const totalHours = stats.movingTime ? Math.floor(stats.movingTime / 3600) : null
+  const totalMiles = stats.distance
+  const sorted = [...(stats.breakdown || [])].sort((a, b) => b.count - a.count)
   const top8 = sorted.slice(0, 8)
   const rest = sorted.slice(8)
   const breakdown = rest.length > 0
     ? [...top8, { type: 'Other', count: rest.reduce((sum, t) => sum + t.count, 0) }]
     : top8
   const maxCount = breakdown.length > 0 ? Math.max(...breakdown.map((t) => t.count)) : 0
-
-  const contentOpacity = transitioning || loading ? 'opacity-0' : 'opacity-100'
 
   return (
     <div className="flex flex-col h-full gap-3">
@@ -127,7 +57,7 @@ export default function StravaTile() {
 
       <PeriodPills options={PERIODS} value={period} onChange={handlePeriodChange} accent="secondary" label="Strava period" />
 
-      <div className={`transition-opacity duration-200 ease-in-out ${contentOpacity}`}>
+      <div className={`transition-opacity duration-200 ease-in-out ${transitioning || !ready ? 'opacity-0' : 'opacity-100'}`}>
         <div className="flex gap-4">
           <div>
             <AnimatedNumber
@@ -140,7 +70,7 @@ export default function StravaTile() {
           </div>
           <div>
             <AnimatedNumber
-              value={totalActivities}
+              value={stats.count}
               className="text-2xl font-bold font-mono tracking-tighter text-accent-primary"
             />
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
@@ -182,7 +112,7 @@ export default function StravaTile() {
         )}
       </div>
 
-      {stats?.lastSync && (
+      {stats.lastSync && (
         <p className="text-[10px] font-mono text-muted-foreground font-medium mt-auto">
           {agoLabel(stats.lastSync, 'synced')}
         </p>
