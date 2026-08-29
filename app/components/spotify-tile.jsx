@@ -2,165 +2,152 @@
 
 import { useState } from 'react'
 import { useCachedFetch } from '../lib/use-cached-fetch'
+import { spotifyView } from '../lib/spotify-view.mjs'
 import TileSkeleton from './tile-skeleton'
-import BarSpark from './ui/bar-spark'
+import Columns from './ui/columns'
+import PeriodPills from './ui/period-pills'
 import { Badge } from './ui/badge'
 
-const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const LABEL = 'text-[10px] uppercase font-medium tracking-widest text-muted-foreground'
+const TABS = [
+  { key: 'alltime', label: 'all-time' },
+  { key: 'recent', label: 'recent' },
+]
 
-function formatWeek(iso) {
-  if (!iso) return ''
-  const [, m, d] = iso.split('-').map(Number)
-  return `wk of ${MONTHS[m - 1]} ${d}`
+function Lead({ label, name, line }) {
+  return (
+    <div className="pt-1.5">
+      <span className={LABEL}>{label}</span>
+      <p className="mt-1 text-xl font-semibold leading-tight tracking-tight text-foreground">{name}</p>
+      <p className="mt-0.5 font-mono text-xs text-muted-foreground">{line}</p>
+    </div>
+  )
 }
 
-function EraContent({ artists = [], tracks = [] }) {
+function AllTime({ view }) {
   return (
-    <div className="flex flex-col gap-2.5 min-w-0 animate-fade-in">
-      {artists.length > 0 && (
-        <div className="flex flex-wrap gap-1.5">
-          {artists.map((a, i) => (
-            <Badge
-              key={i}
-              variant="outline"
-              className="normal-case tracking-tight text-xs font-medium"
-            >
+    <>
+      {view.lead && (
+        <Lead
+          label="top artist"
+          name={view.lead.name}
+          line={
+            <>
+              <b className="font-semibold text-foreground">{view.lead.hours} hours</b>
+              {view.lead.sharePct != null && ` · ${view.lead.sharePct}% of everything`}
+            </>
+          }
+        />
+      )}
+      <div className="mt-3.5 grid grid-cols-[104px_1fr_42px] items-center gap-x-2.5 gap-y-2">
+        {view.bars.map((a) => (
+          <div key={a.name} className="contents">
+            <span className="truncate text-[12.5px] font-medium text-foreground">{a.name}</span>
+            <div className="h-1 overflow-hidden rounded-sm bg-border-strong">
+              <div className="h-full rounded-sm bg-accent-tertiary/80" style={{ width: `${a.width}%` }} />
+            </div>
+            <span className="text-right font-mono text-[10.5px] tabular-nums text-muted-foreground">{a.hours}h</span>
+          </div>
+        ))}
+      </div>
+      {view.onRepeat && (
+        <div className="mt-4 border-t border-border pt-3">
+          <span className={LABEL}>on repeat</span>
+          <p className="mt-0.5 text-[13px] font-semibold tracking-tight text-foreground">
+            {view.onRepeat.name} <span className="font-medium text-muted-foreground">- {view.onRepeat.artist}</span>
+          </p>
+          <p className="mt-0.5 font-mono text-[10.5px] text-muted-foreground/70">
+            {view.onRepeat.minutes != null && `${view.onRepeat.minutes.toLocaleString('en-US')} minutes.`}
+            {view.onRepeat.plays != null && ` ${view.onRepeat.plays.toLocaleString('en-US')} plays.`}
+          </p>
+        </div>
+      )}
+    </>
+  )
+}
+
+function Recent({ era }) {
+  const artists = era?.artists || []
+  const tracks = era?.tracks || []
+  return (
+    <>
+      {artists[0] && <Lead label="top artist, last 4 weeks" name={artists[0].name} line="live from spotify" />}
+      {artists.length > 1 && (
+        <div className="mt-3.5 flex flex-wrap gap-1.5">
+          {artists.slice(1, 3).map((a) => (
+            <Badge key={a.name} variant="outline" className="text-xs font-medium normal-case tracking-tight">
               {a.name}
             </Badge>
           ))}
         </div>
       )}
       {tracks.length > 0 && (
-        <div className="flex flex-col gap-1">
-          {tracks.map((t, i) => (
-            <p key={i} className="text-sm font-medium text-foreground truncate">
+        <div className="mt-3.5 flex flex-col gap-1">
+          {tracks.slice(0, 3).map((t) => (
+            <p key={`${t.name}-${t.artist}`} className="truncate text-[13px] font-medium text-foreground">
               {t.name} <span className="text-muted-foreground">- {t.artist}</span>
             </p>
           ))}
         </div>
       )}
-    </div>
+    </>
   )
 }
 
 export default function SpotifyTile() {
-  const [tab, setTab] = useState('recent')
+  const [tab, setTab] = useState('alltime')
 
-  const stats = useCachedFetch('/api/spotify-stats', 'spotify_stats', {
+  const stats = useCachedFetch('/api/spotify-stats', 'spotify_stats_v2', {
     shouldCache: (data) => !!data.overview,
   })
-
   const topItems = useCachedFetch('/api/spotify-top', 'spotify_top', {
     shouldCache: (data) => !!(data.shortTerm || data.longTerm),
   })
 
-  if (!stats) return <TileSkeleton accent="tertiary" lines={4} />
+  const view = spotifyView(stats)
+  if (!view) return <TileSkeleton accent="tertiary" lines={4} />
 
-  const weeklyHours = Array.isArray(stats.weeklyHours) ? stats.weeklyHours : []
-  const recentWeeks = weeklyHours.slice(-52)
-
-  const firstYear = stats.overview?.firstStream?.slice(0, 4)
-  const currentYear = new Date().getFullYear()
-  const span = firstYear
-    ? `${currentYear - parseInt(firstYear)} years of data`
-    : null
-
-  // Fall back to Redis-cached top items if live API data hasn't loaded
-  const hasLiveTop = topItems?.shortTerm || topItems?.longTerm
-  const fallbackArtist = stats.topArtists?.[0]?.name
-  const fallbackTrack = stats.topTracks?.[0]?.name
-
-  const TABS = [
-    {
-      key: 'recent',
-      label: 'recent',
-      activeText: 'text-accent-secondary',
-      activeBorder: 'border-accent-secondary',
-      era: topItems?.shortTerm,
-    },
-    {
-      key: 'all-time',
-      label: 'all-time',
-      activeText: 'text-accent-tertiary',
-      activeBorder: 'border-accent-tertiary',
-      era: topItems?.longTerm,
-    },
-  ]
-  const active = TABS.find((t) => t.key === tab) || TABS[0]
+  const hasLive = !!topItems?.shortTerm?.artists?.length
+  const showRecent = hasLive && tab === 'recent'
 
   return (
-    <div className="flex flex-col h-full gap-4">
-      <div className="flex items-center justify-between gap-3">
-        <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground">
-          spotify
-        </h3>
-        {hasLiveTop && (
-          <div className="flex items-center gap-3">
-            {TABS.map((t) => {
-              const isActive = t.key === active.key
-              return (
-                <button
-                  key={t.key}
-                  onClick={() => setTab(t.key)}
-                  className={`text-[11px] font-semibold uppercase tracking-widest pb-0.5 border-b-2 transition-colors cursor-pointer ${
-                    isActive
-                      ? `${t.activeText} ${t.activeBorder}`
-                      : 'text-muted-foreground border-transparent hover:text-foreground'
-                  }`}
-                >
-                  {t.label}
-                </button>
-              )
-            })}
-          </div>
-        )}
+    <div className="flex h-full flex-col">
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className="font-mono text-lg font-semibold tracking-tight text-foreground">spotify</h3>
+        {hasLive && <PeriodPills options={TABS} value={tab} onChange={setTab} accent="tertiary" label="Spotify range" />}
       </div>
 
-      {hasLiveTop ? (
-        <EraContent
-          key={active.key}
-          artists={active.era?.artists || []}
-          tracks={active.era?.tracks || []}
-        />
-      ) : fallbackArtist || fallbackTrack ? (
-        <div className="flex gap-4">
-          {fallbackArtist && (
-            <div>
-              <p className="text-sm font-semibold text-foreground truncate">
-                {fallbackArtist}
-              </p>
-              <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
-                top artist
-              </p>
-            </div>
-          )}
-          {fallbackTrack && (
-            <div>
-              <p className="text-sm font-semibold text-foreground truncate">
-                {fallbackTrack}
-              </p>
-              <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
-                top track
-              </p>
+      <div className="grid flex-1 grid-cols-1 gap-7 md:grid-cols-[1.15fr_1fr]">
+        <div className="flex flex-col">
+          <span className="mt-1 font-mono text-[44px] font-bold leading-none tracking-tighter text-accent-tertiary">
+            {view.hours}
+            <span className="ml-1.5 text-[13px] font-semibold tracking-normal text-muted-foreground">hours</span>
+          </span>
+          <p className="mt-2 text-xs font-medium text-muted-foreground">
+            since {view.since}. that is <b className="font-semibold text-foreground">{view.yearsOfAudio} years</b> of audio, back to back.
+          </p>
+          <div className="mt-4 flex flex-wrap gap-x-4.5 gap-y-2">
+            {view.kpis.map((k) => (
+              <div key={k.l}>
+                <span className="font-mono text-base font-semibold tracking-tight text-foreground">{k.v}</span>
+                <span className={`${LABEL} block`}>{k.l}</span>
+              </div>
+            ))}
+          </div>
+          {view.yearly.length > 1 && (
+            <div className="mt-auto pt-4">
+              <span className={LABEL}>hours per year</span>
+              <Columns items={view.yearly} accent="tertiary" height={92} label="Listening hours per year" className="mt-5" />
             </div>
           )}
         </div>
-      ) : null}
 
-      <div className="mt-auto flex flex-col gap-1.5">
-        {recentWeeks.length > 1 && (
-          <BarSpark
-            data={recentWeeks.map((w) => Math.round(w.hours || 0))}
-            labels={recentWeeks.map((w) => formatWeek(w.week))}
-            color="tertiary"
-            height={72}
-            tooltipLabel="hours"
-          />
-        )}
-
-        {span && (
-          <p className="text-[10px] font-medium text-muted-foreground">{span}</p>
-        )}
+        <div className="flex flex-col">
+          {showRecent ? <Recent era={topItems.shortTerm} /> : <AllTime view={view} />}
+          <p className="mt-auto pt-4 font-mono text-[10px] text-muted-foreground/70">
+            history through {view.through} · top lists live
+          </p>
+        </div>
       </div>
     </div>
   )
