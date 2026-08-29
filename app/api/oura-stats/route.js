@@ -1,5 +1,5 @@
 import { Redis } from '@upstash/redis'
-import PostHogClient from '../../posthog'
+import { captureServer } from '../../posthog'
 
 const redis =
   process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
@@ -9,7 +9,6 @@ const redis =
       })
     : null
 
-// In-memory token cache (persists across requests in the same serverless instance)
 let cachedAccessToken = null
 let tokenExpiresAt = 0
 
@@ -22,7 +21,6 @@ async function getRefreshToken() {
 }
 
 async function getAccessToken() {
-  // Return cached token if still valid (with 60s buffer)
   if (cachedAccessToken && Date.now() < tokenExpiresAt - 60000) {
     return cachedAccessToken
   }
@@ -50,7 +48,6 @@ async function getAccessToken() {
   cachedAccessToken = data.access_token
   tokenExpiresAt = Date.now() + (data.expires_in || 86400) * 1000
 
-  // Persist rotated refresh token to Redis
   if (data.refresh_token && redis) {
     await redis.set('oura_refresh_token', data.refresh_token).catch(() => {})
   }
@@ -72,11 +69,9 @@ function getSleepVerdict(hours) {
   return 'WOW'
 }
 
-export async function GET(request) {
-  const posthog = PostHogClient()
-  const distinctId =
-    request.headers.get('x-posthog-distinct-id') || 'server_anonymous'
+const CACHE = { 'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600' }
 
+export async function GET() {
   try {
     const accessToken = await getAccessToken()
 
@@ -86,21 +81,16 @@ export async function GET(request) {
       .toISOString()
       .split('T')[0]
 
-    // Fetch all endpoints in parallel (use tomorrow as end_date to include today's data)
     const [sleepData, dailySleepData, readinessData] =
       await Promise.all([
         ouraFetch('sleep', accessToken, sevenDaysAgo, tomorrow),
         ouraFetch('daily_sleep', accessToken, sevenDaysAgo, tomorrow),
         ouraFetch('daily_readiness', accessToken, sevenDaysAgo, tomorrow),
       ])
-    // Sum all sleep sessions per day
     const sleepByDay = {}
     for (const session of sleepData.data || []) {
       const day = session.day
-      if (!sleepByDay[day]) {
-        sleepByDay[day] = 0
-      }
-      sleepByDay[day] += session.total_sleep_duration || 0
+      sleepByDay[day] = (sleepByDay[day] || 0) + (session.total_sleep_duration || 0)
     }
 
     const sleepTrend = Object.entries(sleepByDay)
@@ -113,7 +103,6 @@ export async function GET(request) {
     const latestSleep = sleepTrend[sleepTrend.length - 1]
     const currentHours = latestSleep?.hours ?? null
 
-    // Process daily sleep scores
     const sleepScoreTrend = (dailySleepData.data || [])
       .sort((a, b) => a.day.localeCompare(b.day))
       .map((d) => ({ day: d.day, score: d.score }))
@@ -121,7 +110,6 @@ export async function GET(request) {
     const latestSleepScore =
       sleepScoreTrend[sleepScoreTrend.length - 1]?.score ?? null
 
-    // Process readiness
     const readinessTrend = (readinessData.data || [])
       .sort((a, b) => a.day.localeCompare(b.day))
       .map((d) => ({ day: d.day, score: d.score }))
@@ -147,24 +135,16 @@ export async function GET(request) {
       },
     }
 
-    posthog.capture({
-      distinctId,
-      event: 'oura_stats_fetched',
-      properties: {
-        sleep_hours: currentHours,
-        sleep_score: latestSleepScore,
-        readiness: currentReadiness,
-        source: 'api',
-      },
+    captureServer('oura_stats_fetched', {
+      sleep_hours: currentHours,
+      sleep_score: latestSleepScore,
+      readiness: currentReadiness,
+      source: 'api',
     })
 
-    return Response.json(result)
+    return Response.json(result, { headers: CACHE })
   } catch (error) {
-    posthog.capture({
-      distinctId,
-      event: 'oura_stats_error',
-      properties: { error_message: error?.message, source: 'api' },
-    })
+    captureServer('oura_stats_error', { error_message: error?.message, source: 'api' })
 
     return Response.json({
       sleep: { current: { hours: null, score: null, verdict: 'NO DATA' }, trend: { hours: [], scores: [] } },

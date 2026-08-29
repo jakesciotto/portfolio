@@ -1,5 +1,5 @@
 import { Redis } from '@upstash/redis'
-import PostHogClient from '../../posthog'
+import { captureServer } from '../../posthog'
 
 const redis =
   process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
@@ -8,6 +8,9 @@ const redis =
         token: process.env.KV_REST_API_TOKEN,
       })
     : null
+
+const EMPTY = { overview: null, topArtists: [], topTracks: [], yearlyHours: [], funFacts: null }
+const CACHE = { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' }
 
 function parseValue(raw) {
   if (raw == null) return null
@@ -21,54 +24,31 @@ function parseValue(raw) {
   return raw
 }
 
-export async function GET(request) {
-  const posthog = PostHogClient()
-  const distinctId =
-    request.headers.get('x-posthog-distinct-id') || 'server_anonymous'
-
+export async function GET() {
   try {
     if (!redis) throw new Error('Redis not configured')
 
-    const [overview, topArtists, topTracks, yearlyHours, weeklyHours, funFacts] =
-      await Promise.all([
-        redis.get('spotify:overview'),
-        redis.get('spotify:top_artists'),
-        redis.get('spotify:top_tracks'),
-        redis.get('spotify:yearly_hours'),
-        redis.get('spotify:weekly_hours'),
-        redis.get('spotify:fun_facts'),
-      ])
+    const [overview, topArtists, topTracks, yearlyHours, funFacts] = await Promise.all([
+      redis.get('spotify:overview'),
+      redis.get('spotify:top_artists'),
+      redis.get('spotify:top_tracks'),
+      redis.get('spotify:yearly_hours'),
+      redis.get('spotify:fun_facts'),
+    ])
 
     const result = {
       overview: parseValue(overview),
       topArtists: parseValue(topArtists) || [],
       topTracks: parseValue(topTracks) || [],
       yearlyHours: parseValue(yearlyHours) || [],
-      weeklyHours: parseValue(weeklyHours) || [],
       funFacts: parseValue(funFacts),
     }
 
-    posthog.capture({
-      distinctId,
-      event: 'spotify_stats_fetched',
-      properties: { source: 'api' },
-    })
+    captureServer('spotify_stats_fetched', { source: 'api' })
 
-    return Response.json(result)
+    return Response.json(result, { headers: CACHE })
   } catch (error) {
-    posthog.capture({
-      distinctId,
-      event: 'spotify_stats_error',
-      properties: { error_message: error?.message, source: 'api' },
-    })
-
-    return Response.json({
-      overview: null,
-      topArtists: [],
-      topTracks: [],
-      yearlyHours: [],
-      weeklyHours: [],
-      funFacts: null,
-    })
+    captureServer('spotify_stats_error', { error_message: error?.message, source: 'api' })
+    return Response.json(EMPTY, { headers: { 'Cache-Control': 'no-store' } })
   }
 }

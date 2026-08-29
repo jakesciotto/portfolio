@@ -1,5 +1,5 @@
 import { Redis } from '@upstash/redis'
-import PostHogClient from '../../posthog'
+import { captureServer } from '../../posthog'
 import { mapTraktStats } from '../../lib/trakt-stats.mjs'
 
 const redis =
@@ -10,7 +10,6 @@ const redis =
       })
     : null
 
-// In-memory token cache
 let cachedAccessToken = null
 let tokenExpiresAt = 0
 
@@ -54,7 +53,6 @@ async function getAccessToken() {
   cachedAccessToken = data.access_token
   tokenExpiresAt = Date.now() + (data.expires_in || 7776000) * 1000
 
-  // Persist rotated refresh token
   if (data.refresh_token && redis) {
     await redis.set('trakt_refresh_token', data.refresh_token).catch(() => {})
   }
@@ -95,29 +93,24 @@ function formatItem(item) {
   return null
 }
 
-export async function GET(request) {
-  const posthog = PostHogClient()
-  const distinctId =
-    request.headers.get('x-posthog-distinct-id') || 'server_anonymous'
+const CACHE = { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' }
 
+export async function GET() {
   try {
     const accessToken = await getAccessToken()
 
-    // Fetch now-watching and last-watched live, stats from cache if available
     const [watchingRes, historyRes, stats] = await Promise.all([
       traktFetch('/users/me/watching', accessToken),
       traktFetch('/users/me/history?limit=1', accessToken),
       getCachedStats(accessToken),
     ])
 
-    // Now watching: 204 means nothing playing
     let nowWatching = null
     if (watchingRes.status === 200) {
       const watchingData = await watchingRes.json()
       nowWatching = formatItem(watchingData)
     }
 
-    // Last watched
     let lastWatched = null
     if (historyRes.ok) {
       const historyData = await historyRes.json()
@@ -132,24 +125,16 @@ export async function GET(request) {
 
     const result = { nowWatching, lastWatched, stats }
 
-    posthog.capture({
-      distinctId,
-      event: 'trakt_stats_fetched',
-      properties: {
-        now_watching: !!nowWatching,
-        stats_movies: stats?.movies,
-        stats_episodes: stats?.episodes,
-        source: 'api',
-      },
+    captureServer('trakt_stats_fetched', {
+      now_watching: !!nowWatching,
+      stats_movies: stats?.movies,
+      stats_episodes: stats?.episodes,
+      source: 'api',
     })
 
-    return Response.json(result)
+    return Response.json(result, { headers: CACHE })
   } catch (error) {
-    posthog.capture({
-      distinctId,
-      event: 'trakt_stats_error',
-      properties: { error_message: error?.message, source: 'api' },
-    })
+    captureServer('trakt_stats_error', { error_message: error?.message, source: 'api' })
 
     return Response.json({
       nowWatching: null,

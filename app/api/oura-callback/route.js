@@ -28,7 +28,6 @@ export async function GET(request) {
     return Response.json({ error: data }, { status: res.status })
   }
 
-  // Store refresh token in Redis so it survives rotation
   if (data.refresh_token && process.env.KV_REST_API_URL) {
     const redis = new Redis({
       url: process.env.KV_REST_API_URL,

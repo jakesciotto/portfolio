@@ -1,65 +1,45 @@
 import { getAccessToken } from '../../lib/spotify-auth'
-import PostHogClient from '../../posthog'
+import { captureServer } from '../../posthog'
 
-export async function GET(request) {
-  const posthog = PostHogClient()
-  const distinctId =
-    request.headers.get('x-posthog-distinct-id') || 'server_anonymous'
+const IDLE = { isPlaying: false, track: null, artist: null }
+const TTL_MS = 15000
+const CACHE = { 'Cache-Control': 'public, s-maxage=15, stale-while-revalidate=30' }
+
+let cached = null
+let cachedAt = 0
+
+async function fetchNowPlaying() {
+  const accessToken = await getAccessToken()
+  const res = await fetch('https://api.spotify.com/v1/me/player/currently-playing', {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  })
+  if (res.status !== 200) return IDLE
+
+  const data = await res.json()
+  if (!data.is_playing || !data.item) return IDLE
+
+  return {
+    isPlaying: true,
+    track: data.item.name,
+    artist: data.item.artists?.map((a) => a.name).join(', ') || null,
+  }
+}
+
+export async function GET() {
+  const now = Date.now()
+  if (cached && now - cachedAt < TTL_MS) {
+    return Response.json(cached, { headers: CACHE })
+  }
 
   try {
-    const accessToken = await getAccessToken()
-
-    const nowRes = await fetch(
-      'https://api.spotify.com/v1/me/player/currently-playing',
-      { headers: { Authorization: `Bearer ${accessToken}` } }
-    )
-
-    // 204 = nothing playing, or check is_playing
-    if (nowRes.status === 200) {
-      const data = await nowRes.json()
-      if (data.is_playing && data.item) {
-        const result = {
-          isPlaying: true,
-          track: data.item.name,
-          artist: data.item.artists?.map((a) => a.name).join(', ') || null,
-        }
-
-        posthog.capture({
-          distinctId,
-          event: 'spotify_now_playing_fetched',
-          properties: { is_playing: true, source: 'api' },
-        })
-
-        return Response.json(result)
-      }
+    cached = await fetchNowPlaying()
+    cachedAt = now
+    if (cached.isPlaying) {
+      captureServer('spotify_now_playing_fetched', { is_playing: true, source: 'api' })
     }
-
-    // Nothing playing -- try recently played
-    const recentRes = await fetch(
-      'https://api.spotify.com/v1/me/player/recently-played?limit=1',
-      { headers: { Authorization: `Bearer ${accessToken}` } }
-    )
-
-    if (recentRes.ok) {
-      const recentData = await recentRes.json()
-      const item = recentData.items?.[0]?.track
-      if (item) {
-        return Response.json({
-          isPlaying: false,
-          track: item.name,
-          artist: item.artists?.map((a) => a.name).join(', ') || null,
-        })
-      }
-    }
-
-    return Response.json({ isPlaying: false, track: null, artist: null })
+    return Response.json(cached, { headers: CACHE })
   } catch (error) {
-    posthog.capture({
-      distinctId,
-      event: 'spotify_now_playing_error',
-      properties: { error_message: error?.message, source: 'api' },
-    })
-
-    return Response.json({ isPlaying: false, track: null, artist: null })
+    captureServer('spotify_now_playing_error', { error_message: error?.message, source: 'api' })
+    return Response.json(IDLE, { headers: { 'Cache-Control': 'no-store' } })
   }
 }

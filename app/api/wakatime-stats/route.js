@@ -1,7 +1,8 @@
-import PostHogClient from '../../posthog'
+import { captureServer } from '../../posthog'
 import { mapWakaStats } from '../../lib/wakatime-stats.mjs'
 
 const BASE = 'https://wakatime.com/api/v1/users/current'
+const CACHE = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' }
 
 async function readJson(settled, label) {
   if (settled.status !== 'fulfilled') return null
@@ -13,7 +14,7 @@ async function readJson(settled, label) {
   return null
 }
 
-export async function GET(request) {
+export async function GET() {
   const empty = mapWakaStats({})
   try {
     if (!process.env.WAKATIME_API_KEY) return Response.json(empty)
@@ -36,17 +37,9 @@ export async function GET(request) {
     ])
 
     const result = mapWakaStats({ allTime, stats, summaries })
+    captureServer('wakatime_stats_fetched', { totalHours: result.totalHours })
 
-    const posthog = PostHogClient()
-    const distinctId = request.headers.get('x-posthog-distinct-id') || 'server_anonymous'
-    posthog.capture({
-      distinctId,
-      event: 'wakatime_stats_fetched',
-      properties: { totalHours: result.totalHours },
-    })
-    await posthog.flush()
-
-    return Response.json(result)
+    return Response.json(result, { headers: CACHE })
   } catch (error) {
     console.error('WakaTime API error:', error)
     return Response.json(empty)
