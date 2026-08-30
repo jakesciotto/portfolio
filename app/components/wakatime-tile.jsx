@@ -5,6 +5,7 @@ import { shortDuration } from '../lib/format.mjs'
 import TileSkeleton from './tile-skeleton'
 import Columns from './ui/columns'
 import BarList from './ui/bar-list'
+import { Badge } from './ui/badge'
 import { LABEL } from '../lib/accents.mjs'
 
 const DAY_INITIALS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
@@ -71,14 +72,19 @@ export default function WakaTimeTile() {
               />
             </>
           )}
-          {models.length > 0 && modelTotal > 0 && (
-            <p className="mt-4 font-mono text-[10.5px] text-muted-foreground/70">
-              models this week ·{' '}
-              {models.map((m) => `${m.name.toLowerCase()} ${Math.round((m.lines / modelTotal) * 100)}%`).join(' · ')}
-            </p>
-          )}
         </div>
       </div>
+
+      {models.length > 0 && modelTotal > 0 && (
+        <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-5">
+          <span className={`${LABEL} mr-1`}>models this week</span>
+          {models.map((m, i) => (
+            <Badge key={m.name} variant={i === 0 ? 'primary' : 'muted'} className="normal-case tracking-tight">
+              {m.name.toLowerCase()} <span className="ml-1 font-mono">{Math.round((m.lines / modelTotal) * 100)}%</span>
+            </Badge>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
