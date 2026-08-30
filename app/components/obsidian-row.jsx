@@ -50,8 +50,8 @@ function KpiCard({ label, count, accent, pct, zero }) {
 function SummaryCard({ active, overdue, lastSync }) {
   return (
     <Tile accent="primary" className="tile-kpi flex flex-col">
-      <span className={LABEL}>obsidian</span>
-      <span className={`${NUMBER} text-foreground`}>{active ?? '---'}</span>
+      <h3 className="font-mono text-lg font-semibold tracking-tight text-foreground">obsidian</h3>
+      <span className={`${NUMBER} mt-2 text-foreground`}>{active ?? '---'}</span>
       <span className={`${LABEL} mt-1.5`}>active tasks</span>
       {overdue > 0 && (
         <span className="mt-2 font-mono text-xs font-semibold text-accent-red">

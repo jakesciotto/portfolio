@@ -1,17 +1,15 @@
-export function mapWakaStats({ allTime, stats, summaries } = {}) {
+const NOISE = new Set(['Other', 'Diff', 'Text', 'TSConfig', 'CSV', 'JSON', 'INI'])
+
+function pickLanguages(stats) {
+  return (stats?.data?.languages || [])
+    .filter((l) => !NOISE.has(l.name))
+    .slice(0, 6)
+    .map((l) => ({ name: l.name, percent: Math.round(l.percent * 10) / 10 }))
+}
+
+export function mapWakaStats({ allTime, stats, year, summaries } = {}) {
   const totalSeconds = allTime?.data?.total_seconds || 0
   const s = stats?.data || null
-
-  const languages = (s?.languages || []).slice(0, 8).map((l) => ({
-    name: l.name,
-    percent: l.percent,
-    hours: Math.round(((l.total_seconds || 0) / 3600) * 10) / 10,
-  }))
-
-  const projects = [...(s?.projects || [])]
-    .sort((a, b) => (b.total_seconds || 0) - (a.total_seconds || 0))
-    .slice(0, 4)
-    .map((p) => ({ name: p.name, text: p.text, seconds: p.total_seconds || 0 }))
 
   const models = (s?.ai_model_breakdown || [])
     .filter((m) => (m.lines || 0) > 0)
@@ -25,6 +23,8 @@ export function mapWakaStats({ allTime, stats, summaries } = {}) {
     text: d.grand_total?.text || '0 secs',
   }))
 
+  const yearLanguages = pickLanguages(year)
+
   return {
     totalHours: totalSeconds > 0 ? Math.round(totalSeconds / 3600) : null,
     dailyAverage:
@@ -34,8 +34,8 @@ export function mapWakaStats({ allTime, stats, summaries } = {}) {
     weekTotal: s?.human_readable_total || null,
     bestDay: s?.best_day ? { date: s.best_day.date, text: s.best_day.text } : null,
     days,
-    languages,
-    projects,
+    languages: yearLanguages.length ? yearLanguages : pickLanguages(stats),
+    languagesRange: yearLanguages.length ? 'last 12 months' : 'last 7 days',
     models,
   }
 }

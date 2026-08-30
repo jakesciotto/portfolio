@@ -9,21 +9,30 @@ const stats = {
     human_readable_daily_average: '3 hrs 46 mins',
     best_day: { date: '2026-08-28', total_seconds: 38716.8, text: '10 hrs 45 mins' },
     languages: [
-      { name: 'Markdown', percent: 33.94, total_seconds: 28800 },
-      { name: 'Other', percent: 19.54, total_seconds: 16560 },
-    ],
-    projects: [
-      { name: 'hogsitter', percent: 12.75, text: '2 hrs 59 mins', total_seconds: 10740 },
-      { name: 'easton-duels', percent: 34.84, text: '8 hrs 11 mins', total_seconds: 29460 },
-      { name: 'jakesciotto', percent: 31.82, text: '7 hrs 28 mins', total_seconds: 26880 },
-      { name: 'claude-config', percent: 6.99, text: '1 hr 38 mins', total_seconds: 5880 },
-      { name: 'hogpilot', percent: 3.83, text: '53 mins', total_seconds: 3180 },
+      { name: 'Markdown', percent: 33.94 },
+      { name: 'Other', percent: 19.54 },
+      { name: 'HTML', percent: 13.3 },
     ],
     ai_model_breakdown: [
       { name: 'Sonnet', lines: 7136, cost: 22.8 },
       { name: 'Fable', lines: 4890, cost: 140 },
       { name: 'Opus', lines: 3060, cost: 198 },
       { name: 'Claude-Code', lines: 0, cost: 19.7 },
+    ],
+  },
+}
+const year = {
+  data: {
+    languages: [
+      { name: 'Markdown', percent: 39.7 },
+      { name: 'JavaScript', percent: 18.19 },
+      { name: 'Python', percent: 7.03 },
+      { name: 'Other', percent: 6.32 },
+      { name: 'YAML', percent: 6.09 },
+      { name: 'TypeScript', percent: 5.74 },
+      { name: 'JSON', percent: 4.11 },
+      { name: 'HTML', percent: 2.8 },
+      { name: 'Bash', percent: 2.75 },
     ],
   },
 }
@@ -36,7 +45,7 @@ const summaries = {
 }
 
 test('mapWakaStats maps totals and the week', () => {
-  const out = mapWakaStats({ allTime, stats, summaries })
+  const out = mapWakaStats({ allTime, stats, year, summaries })
   assert.equal(out.totalHours, 966)
   assert.equal(out.dailyAverage, '3 hrs 46 mins')
   assert.equal(out.weekTotal, '18 hrs 54 mins')
@@ -45,17 +54,27 @@ test('mapWakaStats maps totals and the week', () => {
   assert.deepEqual(out.days[1], { date: '2026-08-24', seconds: 17460, text: '4 hrs 51 mins' })
 })
 
-test('mapWakaStats sorts projects by time and keeps four', () => {
-  const out = mapWakaStats({ allTime, stats, summaries })
+test('mapWakaStats takes languages from the year, drops noise, keeps six', () => {
+  const out = mapWakaStats({ allTime, stats, year, summaries })
+  assert.equal(out.languagesRange, 'last 12 months')
   assert.deepEqual(
-    out.projects.map((p) => p.name),
-    ['easton-duels', 'jakesciotto', 'hogsitter', 'claude-config'],
+    out.languages.map((l) => l.name),
+    ['Markdown', 'JavaScript', 'Python', 'YAML', 'TypeScript', 'HTML'],
   )
-  assert.equal(out.projects[0].text, '8 hrs 11 mins')
+  assert.equal(out.languages[0].percent, 39.7)
+})
+
+test('mapWakaStats falls back to the week when the year is missing', () => {
+  const out = mapWakaStats({ allTime, stats, year: null, summaries })
+  assert.equal(out.languagesRange, 'last 7 days')
+  assert.deepEqual(
+    out.languages.map((l) => l.name),
+    ['Markdown', 'HTML'],
+  )
 })
 
 test('mapWakaStats drops zero-line models and sorts by lines', () => {
-  const out = mapWakaStats({ allTime, stats, summaries })
+  const out = mapWakaStats({ allTime, stats, year, summaries })
   assert.deepEqual(out.models, [
     { name: 'Sonnet', lines: 7136 },
     { name: 'Fable', lines: 4890 },
@@ -64,12 +83,11 @@ test('mapWakaStats drops zero-line models and sorts by lines', () => {
 })
 
 test('mapWakaStats tolerates missing sources', () => {
-  const out = mapWakaStats({ allTime: null, stats: null, summaries: null })
+  const out = mapWakaStats({})
   assert.equal(out.totalHours, null)
   assert.equal(out.weekTotal, null)
   assert.equal(out.bestDay, null)
   assert.deepEqual(out.days, [])
   assert.deepEqual(out.languages, [])
-  assert.deepEqual(out.projects, [])
   assert.deepEqual(out.models, [])
 })

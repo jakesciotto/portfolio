@@ -24,19 +24,21 @@ export async function GET() {
     }
     const opts = { headers, next: { revalidate: 300 } }
 
-    const [allTimeRes, statsRes, summariesRes] = await Promise.allSettled([
+    const settled = await Promise.allSettled([
       fetch(`${BASE}/all_time_since_today`, opts),
       fetch(`${BASE}/stats/last_7_days`, opts),
+      fetch(`${BASE}/stats/last_year`, opts),
       fetch(`${BASE}/summaries?range=last_7_days`, opts),
     ])
 
-    const [allTime, stats, summaries] = await Promise.all([
-      readJson(allTimeRes, 'all_time'),
-      readJson(statsRes, 'stats'),
-      readJson(summariesRes, 'summaries'),
+    const [allTime, stats, year, summaries] = await Promise.all([
+      readJson(settled[0], 'all_time'),
+      readJson(settled[1], 'stats'),
+      readJson(settled[2], 'last_year'),
+      readJson(settled[3], 'summaries'),
     ])
 
-    const result = mapWakaStats({ allTime, stats, summaries })
+    const result = mapWakaStats({ allTime, stats, year, summaries })
     captureServer('wakatime_stats_fetched', { totalHours: result.totalHours })
 
     return Response.json(result, { headers: CACHE })

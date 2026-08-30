@@ -2,7 +2,6 @@ export function mapTraktStats({ stats, watchedShows, history } = {}) {
   const movies = stats?.movies?.watched || 0
   const episodes = stats?.episodes?.watched || 0
   const minutes = (stats?.movies?.minutes || 0) + (stats?.episodes?.minutes || 0)
-  const showsWatched = stats?.shows?.watched || 0
 
   const topShows = [...(watchedShows || [])]
     .filter((w) => w?.show?.title)
@@ -16,5 +15,5 @@ export function mapTraktStats({ stats, watchedShows, history } = {}) {
     else if (item.type === 'movie') last30.movies++
   }
 
-  return { movies, episodes, hours: Math.round(minutes / 60), showsWatched, topShows, last30 }
+  return { movies, episodes, hours: Math.round(minutes / 60), topShows, last30 }
 }

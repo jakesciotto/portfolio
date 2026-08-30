@@ -22,12 +22,11 @@ const history = [
   { type: 'movie', movie: { title: 'Mission: Impossible' } },
 ]
 
-test('mapTraktStats keeps the all-time trio and adds shows watched', () => {
+test('mapTraktStats keeps the all-time trio', () => {
   const out = mapTraktStats({ stats, watchedShows, history })
   assert.equal(out.movies, 305)
   assert.equal(out.episodes, 2720)
   assert.equal(out.hours, 2279)
-  assert.equal(out.showsWatched, 127)
 })
 
 test('mapTraktStats ranks the top five shows by plays', () => {
@@ -47,12 +46,10 @@ test('mapTraktStats counts the last 30 days by type', () => {
 })
 
 test('mapTraktStats tolerates missing sources', () => {
-  const out = mapTraktStats({})
-  assert.deepEqual(out, {
+  assert.deepEqual(mapTraktStats({}), {
     movies: 0,
     episodes: 0,
     hours: 0,
-    showsWatched: 0,
     topShows: [],
     last30: { episodes: 0, movies: 0 },
   })

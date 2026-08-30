@@ -1,10 +1,9 @@
 'use client'
 
 import { useCachedFetch } from '../lib/use-cached-fetch'
-import { shortDuration, weekdayShort } from '../lib/format.mjs'
+import { shortDuration } from '../lib/format.mjs'
 import TileSkeleton from './tile-skeleton'
 import Columns from './ui/columns'
-import { Badge } from './ui/badge'
 
 const LABEL = 'text-[10px] uppercase font-medium tracking-widest text-muted-foreground'
 const DAY_INITIALS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
@@ -15,17 +14,16 @@ function dayInitial(isoDate) {
 }
 
 export default function WakaTimeTile() {
-  const stats = useCachedFetch('/api/wakatime-stats', 'wakatime_stats_v2', {
+  const stats = useCachedFetch('/api/wakatime-stats', 'wakatime_stats_v3', {
     shouldCache: (data) => data.totalHours != null,
   })
 
   if (!stats) return <TileSkeleton accent="primary" />
 
-  const languages = (stats.languages || []).slice(0, 4)
+  const languages = stats.languages || []
   const topLang = languages[0]?.percent || 0
   const models = stats.models || []
   const modelTotal = models.reduce((sum, m) => sum + m.lines, 0)
-  const lead = models[0]
   const days = (stats.days || []).map((d) => ({
     label: dayInitial(d.date),
     value: d.seconds,
@@ -42,92 +40,48 @@ export default function WakaTimeTile() {
             {stats.totalHours != null ? stats.totalHours.toLocaleString('en-US') : '---'}
             <span className="ml-1.5 text-sm font-semibold tracking-normal text-muted-foreground">hrs</span>
           </span>
-          <div className="mt-2 flex flex-wrap gap-1.5">
-            <Badge variant="muted">all time</Badge>
-            <Badge variant="muted">{shortDuration(stats.dailyAverage)} / day</Badge>
-          </div>
+          <p className="mt-1 font-mono text-[10.5px] text-muted-foreground/70">
+            all time{stats.dailyAverage && ` · ${shortDuration(stats.dailyAverage)} a day`}
+          </p>
 
           {days.length > 1 && (
-            <div className="mt-4">
+            <div className="mt-auto pt-5">
               <div className="flex items-baseline justify-between">
                 <span className={LABEL}>this week</span>
-                <span className="font-mono text-[11px] font-semibold text-foreground">
-                  {shortDuration(stats.weekTotal)}
-                  {stats.bestDay && (
-                    <span className="font-medium text-muted-foreground/70">
-                      {' '}· best {weekdayShort(stats.bestDay.date)}, {shortDuration(stats.bestDay.text)}
-                    </span>
-                  )}
-                </span>
+                <span className="font-mono text-[11px] font-semibold text-foreground">{shortDuration(stats.weekTotal)}</span>
               </div>
-              <Columns items={days} accent="primary" height={40} dim={0.45} label="Coding time per day this week" className="mt-4.5" />
-            </div>
-          )}
-
-          {languages.length > 0 && (
-            <div className="mt-auto pt-4">
-              <span className={LABEL}>languages, last 7 days</span>
-              <div className="mt-2 grid grid-cols-[62px_1fr_28px] items-center gap-x-2 gap-y-1.5">
-                {languages.map((l, i) => (
-                  <div key={l.name} className="contents">
-                    <span className="truncate text-[10.5px] text-muted-foreground">{l.name}</span>
-                    <div className="h-1 overflow-hidden rounded-sm bg-border-strong">
-                      <div
-                        className="h-full rounded-sm bg-accent-primary"
-                        style={{ width: `${topLang ? (l.percent / topLang) * 100 : 0}%`, opacity: i === 0 ? 0.85 : 0.5 }}
-                      />
-                    </div>
-                    <span className="text-right font-mono text-[10px] tabular-nums text-muted-foreground/70">
-                      {Math.round(l.percent)}%
-                    </span>
-                  </div>
-                ))}
-              </div>
+              <Columns items={days} accent="primary" height={44} dim={0.45} label="Coding time per day this week" className="mt-4.5" />
             </div>
           )}
         </div>
 
         <div className="flex flex-col">
-          {lead && (
-            <div className="pt-1.5">
-              <span className={LABEL}>top model, last 7 days</span>
-              <p className="mt-1 text-xl font-semibold leading-tight tracking-tight text-foreground">{lead.name}</p>
-              <p className="mt-0.5 font-mono text-xs text-muted-foreground">
-                <b className="font-semibold text-foreground">{lead.lines.toLocaleString('en-US')} lines</b>
-                {modelTotal > 0 && ` · ${Math.round((lead.lines / modelTotal) * 100)}% of the week`}
-              </p>
-            </div>
-          )}
-          {models.length > 1 && (
-            <div className="mt-3.5 grid grid-cols-[50px_1fr_40px] items-center gap-x-2.5 gap-y-2">
-              {models.slice(1).map((m) => (
-                <div key={m.name} className="contents">
-                  <span className="text-xs font-medium text-foreground">{m.name}</span>
-                  <div className="h-1 overflow-hidden rounded-sm bg-border-strong">
-                    <div className="h-full rounded-sm bg-accent-primary/80" style={{ width: `${(m.lines / lead.lines) * 100}%` }} />
-                  </div>
-                  <span className="text-right font-mono text-[10.5px] tabular-nums text-muted-foreground">
-                    {m.lines.toLocaleString('en-US')}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {stats.projects?.length > 0 && (
-            <div className="mt-auto pt-4">
-              <span className={LABEL}>projects, last 7 days</span>
-              <div className="mt-2 grid grid-cols-[1fr_auto] items-baseline gap-x-2.5 gap-y-1.5">
-                {stats.projects.map((p) => (
-                  <div key={p.name} className="contents">
-                    <span className="truncate text-[11px] font-medium text-foreground">{p.name}</span>
-                    <span className="whitespace-nowrap font-mono text-[10px] tabular-nums text-muted-foreground/70">
-                      {shortDuration(p.text)}
+          {languages.length > 0 && (
+            <>
+              <span className={LABEL}>languages, {stats.languagesRange}</span>
+              <div className="mt-2.5 grid grid-cols-[76px_1fr_34px] items-center gap-x-2.5 gap-y-2">
+                {languages.map((l, i) => (
+                  <div key={l.name} className="contents">
+                    <span className="truncate text-[12px] font-medium text-foreground">{l.name}</span>
+                    <div className="h-1 overflow-hidden rounded-sm bg-border-strong">
+                      <div
+                        className="h-full rounded-sm bg-accent-primary"
+                        style={{ width: `${topLang ? (l.percent / topLang) * 100 : 0}%`, opacity: i === 0 ? 0.85 : 0.55 }}
+                      />
+                    </div>
+                    <span className="text-right font-mono text-[10.5px] tabular-nums text-muted-foreground">
+                      {Math.round(l.percent)}%
                     </span>
                   </div>
                 ))}
               </div>
-            </div>
+            </>
+          )}
+          {models.length > 0 && modelTotal > 0 && (
+            <p className="mt-auto pt-4 font-mono text-[10.5px] text-muted-foreground/70">
+              models this week ·{' '}
+              {models.map((m) => `${m.name.toLowerCase()} ${Math.round((m.lines / modelTotal) * 100)}%`).join(' · ')}
+            </p>
           )}
         </div>
       </div>
