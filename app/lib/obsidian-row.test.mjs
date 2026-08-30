@@ -34,5 +34,5 @@ test('tierCards guards missing data and a zero total', () => {
   assert.ok(empty.every((c) => c.count === 0 && c.pct === 0 && c.zero))
   const zeroActive = tierCards({ active: 0, tiers: { now: 3 } })
   assert.equal(zeroActive[0].count, 3)
-  assert.equal(zeroActive[0].share, 0)
+  assert.equal(zeroActive[0].pct, 0)
 })

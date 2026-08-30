@@ -2,14 +2,7 @@
 
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip'
 
-const accentVar = {
-  primary: 'var(--accent-primary)',
-  secondary: 'var(--accent-secondary)',
-  tertiary: 'var(--accent-tertiary)',
-  amber: 'var(--accent-amber)',
-  violet: 'var(--accent-violet)',
-  red: 'var(--accent-red)',
-}
+import { accentVar } from '../../lib/accents.mjs'
 
 const LEVEL_OPACITY = [0.06, 0.28, 0.5, 0.72, 1]
 

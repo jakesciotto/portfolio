@@ -4,8 +4,9 @@ import { useCachedFetch } from '../lib/use-cached-fetch'
 import { shortDuration } from '../lib/format.mjs'
 import TileSkeleton from './tile-skeleton'
 import Columns from './ui/columns'
+import BarList from './ui/bar-list'
+import { LABEL } from '../lib/accents.mjs'
 
-const LABEL = 'text-[10px] uppercase font-medium tracking-widest text-muted-foreground'
 const DAY_INITIALS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
 function dayInitial(isoDate) {
@@ -58,22 +59,16 @@ export default function WakaTimeTile() {
           {languages.length > 0 && (
             <>
               <span className={LABEL}>languages, {stats.languagesRange}</span>
-              <div className="mt-2.5 grid grid-cols-[76px_1fr_34px] items-center gap-x-2.5 gap-y-2.5">
-                {languages.map((l, i) => (
-                  <div key={l.name} className="contents">
-                    <span className="truncate text-[12px] font-medium text-foreground">{l.name}</span>
-                    <div className="h-1 overflow-hidden rounded-sm bg-border-strong">
-                      <div
-                        className="h-full rounded-sm bg-accent-primary"
-                        style={{ width: `${topLang ? (l.percent / topLang) * 100 : 0}%`, opacity: i === 0 ? 0.85 : 0.55 }}
-                      />
-                    </div>
-                    <span className="text-right font-mono text-[10.5px] tabular-nums text-muted-foreground">
-                      {Math.round(l.percent)}%
-                    </span>
-                  </div>
-                ))}
-              </div>
+              <BarList
+                rows={languages.map((l) => ({
+                  name: l.name,
+                  width: topLang ? (l.percent / topLang) * 100 : 0,
+                  value: `${Math.round(l.percent)}%`,
+                }))}
+                accent="primary"
+                nameWidth={80}
+                className="mt-2.5"
+              />
             </>
           )}
           {models.length > 0 && modelTotal > 0 && (

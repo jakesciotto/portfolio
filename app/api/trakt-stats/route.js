@@ -102,7 +102,7 @@ export async function GET() {
     const [watchingRes, historyRes, stats] = await Promise.all([
       traktFetch('/users/me/watching', accessToken),
       traktFetch('/users/me/history?limit=1', accessToken),
-      getCachedStats(accessToken),
+      getCachedStats(accessToken).catch(() => null),
     ])
 
     let nowWatching = null
@@ -132,7 +132,7 @@ export async function GET() {
       source: 'api',
     })
 
-    return Response.json(result, { headers: CACHE })
+    return Response.json(result, { headers: stats ? CACHE : { 'Cache-Control': 'no-store' } })
   } catch (error) {
     captureServer('trakt_stats_error', { error_message: error?.message, source: 'api' })
 
@@ -145,23 +145,17 @@ export async function GET() {
 }
 
 const STATS_KEY = 'trakt_alltime_stats_v2'
-const MAX_HISTORY_PAGES = 5
+const FULL_TTL = 3600
+const PARTIAL_TTL = 120
 
-async function fetchHistorySince(accessToken, sinceIso) {
-  const items = []
-  let page = 1
-  let pages = 1
-  do {
-    const res = await traktFetch(
-      `/users/me/history?start_at=${encodeURIComponent(sinceIso)}&limit=1000&page=${page}`,
-      accessToken,
-    )
-    if (!res.ok) break
-    pages = Number(res.headers.get('x-pagination-page-count') || 1)
-    items.push(...(await res.json()))
-    page++
-  } while (page <= pages && page <= MAX_HISTORY_PAGES)
-  return items
+async function countSince(accessToken, type, sinceIso) {
+  const res = await traktFetch(
+    `/users/me/history/${type}?start_at=${encodeURIComponent(sinceIso)}&limit=1`,
+    accessToken,
+  )
+  if (!res.ok) return null
+  const count = Number(res.headers.get('x-pagination-item-count'))
+  return Number.isFinite(count) ? count : null
 }
 
 async function getCachedStats(accessToken) {
@@ -173,22 +167,28 @@ async function getCachedStats(accessToken) {
   }
 
   const since = new Date(Date.now() - 30 * 24 * 3600 * 1000).toISOString()
-  const [statsRes, watchedRes, history] = await Promise.all([
+  const [statsRes, watchedRes, episodes, movies] = await Promise.all([
     traktFetch('/users/me/stats', accessToken),
     traktFetch('/users/me/watched/shows?extended=noseasons', accessToken),
-    fetchHistorySince(accessToken, since),
+    countSince(accessToken, 'episodes', since),
+    countSince(accessToken, 'movies', since),
   ])
 
   if (!statsRes.ok) return null
 
+  const watchedShows = watchedRes.ok ? await watchedRes.json() : null
+  const complete = Array.isArray(watchedShows) && episodes != null && movies != null
+
   const stats = mapTraktStats({
     stats: await statsRes.json(),
-    watchedShows: watchedRes.ok ? await watchedRes.json() : [],
-    history,
+    watchedShows,
+    last30: { episodes, movies },
   })
 
   if (redis) {
-    await redis.set(STATS_KEY, JSON.stringify(stats), { ex: 3600 }).catch(() => {})
+    await redis
+      .set(STATS_KEY, JSON.stringify(stats), { ex: complete ? FULL_TTL : PARTIAL_TTL })
+      .catch(() => {})
   }
 
   return stats

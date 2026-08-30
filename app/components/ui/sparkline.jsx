@@ -1,16 +1,9 @@
 'use client'
 
 import { useId, useState } from 'react'
+import { accentVar } from '../../lib/accents.mjs'
 
-const colorMap = {
-  primary: 'var(--accent-primary)',
-  secondary: 'var(--accent-secondary)',
-  tertiary: 'var(--accent-tertiary)',
-  amber: 'var(--accent-amber)',
-  violet: 'var(--accent-violet)',
-  red: 'var(--accent-red)',
-  muted: 'var(--muted-foreground)',
-}
+const colorMap = { ...accentVar, muted: 'var(--muted-foreground)' }
 
 const TOP = 10
 const BOTTOM = 92
@@ -71,7 +64,7 @@ export default function Sparkline({
           onMouseLeave={() => setHover(null)}
         />
       ))}
-      {hover != null && (
+      {hover != null && points[hover] && (
         <span
           className="pointer-events-none absolute -top-1 z-10 -translate-x-1/2 -translate-y-full whitespace-nowrap rounded border border-border-strong bg-card px-1.5 py-0.5 font-mono text-[10px] text-foreground"
           style={{ left: `${points[hover].x}%` }}

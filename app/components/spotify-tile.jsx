@@ -7,8 +7,8 @@ import TileSkeleton from './tile-skeleton'
 import Columns from './ui/columns'
 import PeriodPills from './ui/period-pills'
 import { Badge } from './ui/badge'
-
-const LABEL = 'text-[10px] uppercase font-medium tracking-widest text-muted-foreground'
+import BarList from './ui/bar-list'
+import { LABEL } from '../lib/accents.mjs'
 const TABS = [
   { key: 'alltime', label: 'all-time' },
   { key: 'recent', label: 'recent' },
@@ -39,17 +39,11 @@ function AllTime({ view }) {
           }
         />
       )}
-      <div className="mt-4 grid grid-cols-[104px_1fr_42px] items-center gap-x-2.5 gap-y-2.5">
-        {view.bars.map((a) => (
-          <div key={a.name} className="contents">
-            <span className="truncate text-[12.5px] font-medium text-foreground">{a.name}</span>
-            <div className="h-1 overflow-hidden rounded-sm bg-border-strong">
-              <div className="h-full rounded-sm bg-accent-tertiary/80" style={{ width: `${a.width}%` }} />
-            </div>
-            <span className="text-right font-mono text-[10.5px] tabular-nums text-muted-foreground">{a.hours}h</span>
-          </div>
-        ))}
-      </div>
+      <BarList
+        rows={view.bars.map((a) => ({ name: a.name, width: a.width, value: `${a.hours}h`, opacity: 0.8 }))}
+        accent="tertiary"
+        className="mt-4"
+      />
       {view.onRepeat && (
         <p className="mt-4 font-mono text-[10.5px] text-muted-foreground/70">
           on repeat · {view.onRepeat.name}, {view.onRepeat.artist}
@@ -97,7 +91,7 @@ export default function SpotifyTile() {
   })
   const topItems = useCachedFetch('/api/spotify-top', 'spotify_top', {
     ttl: 3600000,
-    shouldCache: (data) => !!(data.shortTerm || data.longTerm),
+    shouldCache: (data) => !!data.shortTerm,
   })
 
   const view = spotifyView(stats)

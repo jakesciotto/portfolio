@@ -1,7 +1,7 @@
 import { captureServer } from '../../posthog'
 
 const GH_USER = 'jakesciotto'
-const CACHE = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' }
+const CACHE = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' }
 
 function parseCalendar(html) {
   const dateById = {}

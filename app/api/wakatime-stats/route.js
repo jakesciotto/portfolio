@@ -2,7 +2,7 @@ import { captureServer } from '../../posthog'
 import { mapWakaStats } from '../../lib/wakatime-stats.mjs'
 
 const BASE = 'https://wakatime.com/api/v1/users/current'
-const CACHE = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' }
+const CACHE = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' }
 
 async function readJson(settled, label) {
   if (settled.status !== 'fulfilled') return null

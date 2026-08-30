@@ -3,8 +3,8 @@
 import { useCachedFetch } from '../lib/use-cached-fetch'
 import { agoLabel, hoursToDays } from '../lib/format.mjs'
 import TileSkeleton from './tile-skeleton'
-
-const LABEL = 'text-[10px] uppercase font-medium tracking-widest text-muted-foreground'
+import BarList from './ui/bar-list'
+import { LABEL } from '../lib/accents.mjs'
 
 function Stat({ value, label, className }) {
   return (
@@ -72,17 +72,12 @@ export default function TraktTile() {
           {topShows.length > 0 && (
             <>
               <span className={LABEL}>most watched</span>
-              <div className="mt-2.5 grid grid-cols-[118px_1fr_40px] items-center gap-x-2.5 gap-y-2.5">
-                {topShows.map((s) => (
-                  <div key={s.title} className="contents">
-                    <span className="truncate text-[12.5px] font-medium text-foreground">{s.title}</span>
-                    <div className="h-1 overflow-hidden rounded-sm bg-border-strong">
-                      <div className="h-full rounded-sm bg-accent-amber/80" style={{ width: `${maxPlays ? (s.plays / maxPlays) * 100 : 0}%` }} />
-                    </div>
-                    <span className="text-right font-mono text-[10.5px] tabular-nums text-muted-foreground">{s.plays}</span>
-                  </div>
-                ))}
-              </div>
+              <BarList
+                rows={topShows.map((s) => ({ name: s.title, width: maxPlays ? (s.plays / maxPlays) * 100 : 0, value: s.plays, opacity: 0.8 }))}
+                accent="amber"
+                nameWidth={118}
+                className="mt-2.5"
+              />
             </>
           )}
           {all?.last30 && (

@@ -38,7 +38,6 @@ export default function StravaTile() {
 
   if (!stats) return <TileSkeleton accent="secondary" lines={4} />
 
-  const ready = stats.period === period
   const totalHours = stats.movingTime ? Math.floor(stats.movingTime / 3600) : null
   const totalMiles = stats.distance
   const sorted = [...(stats.breakdown || [])].sort((a, b) => b.count - a.count)
@@ -57,7 +56,7 @@ export default function StravaTile() {
 
       <PeriodPills options={PERIODS} value={period} onChange={handlePeriodChange} accent="secondary" label="Strava period" />
 
-      <div className={`transition-opacity duration-200 ease-in-out ${transitioning || !ready ? 'opacity-0' : 'opacity-100'}`}>
+      <div className={`transition-opacity duration-200 ease-in-out ${transitioning ? 'opacity-0' : 'opacity-100'}`}>
         <div className="flex gap-4">
           <div>
             <AnimatedNumber

@@ -1,15 +1,7 @@
 'use client'
 
 import Tilt from 'react-parallax-tilt'
-
-const accentMap = {
-  primary: 'var(--accent-primary)',
-  secondary: 'var(--accent-secondary)',
-  tertiary: 'var(--accent-tertiary)',
-  amber: 'var(--accent-amber)',
-  violet: 'var(--accent-violet)',
-  red: 'var(--accent-red)',
-}
+import { accentVar as accentMap } from '../lib/accents.mjs'
 
 export default function Tile({
   children,

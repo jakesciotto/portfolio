@@ -13,7 +13,7 @@ const redis =
 
 const PERIODS = new Set(['week', 'month', 'year', 'all'])
 
-const CACHE = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=3600' }
+const CACHE = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' }
 const NO_CACHE = { 'Cache-Control': 'no-store' }
 
 const EMPTY = (period) => ({

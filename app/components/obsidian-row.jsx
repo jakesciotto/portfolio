@@ -3,33 +3,15 @@
 import { useCachedFetch } from '../lib/use-cached-fetch'
 import { agoLabel } from '../lib/format.mjs'
 import { tierCards } from '../lib/obsidian-row.mjs'
+import { LABEL, textClass, bgClass } from '../lib/accents.mjs'
 import Tile from './tile'
 import TileSkeleton from './tile-skeleton'
 
-const LABEL = 'text-[10px] uppercase font-medium tracking-widest text-muted-foreground'
 const NUMBER = 'block mt-3 text-[40px] leading-none font-bold font-mono tracking-tighter'
 
-const textClass = {
-  primary: 'text-accent-primary',
-  secondary: 'text-accent-secondary',
-  tertiary: 'text-accent-tertiary',
-  amber: 'text-accent-amber',
-  violet: 'text-accent-violet',
-  red: 'text-accent-red',
-}
-
-const bgClass = {
-  primary: 'bg-accent-primary',
-  secondary: 'bg-accent-secondary',
-  tertiary: 'bg-accent-tertiary',
-  amber: 'bg-accent-amber',
-  violet: 'bg-accent-violet',
-  red: 'bg-accent-red',
-}
-
-function KpiCard({ label, count, accent, pct, zero }) {
+function KpiBody({ label, count, accent, pct, zero }) {
   return (
-    <Tile accent={accent} className="tile-kpi flex flex-col">
+    <>
       <span className={`flex items-center gap-2 ${LABEL}`}>
         <i className={`inline-block h-[7px] w-[7px] rounded-[2px] ${bgClass[accent]}`} />
         {label}
@@ -43,13 +25,13 @@ function KpiCard({ label, count, accent, pct, zero }) {
         </div>
         <span className="mt-1.5 block font-mono text-[10px] text-muted-foreground/70">{pct}%</span>
       </div>
-    </Tile>
+    </>
   )
 }
 
-function SummaryCard({ active, overdue, lastSync }) {
+function SummaryBody({ active, overdue, lastSync }) {
   return (
-    <Tile accent="primary" className="tile-kpi flex flex-col">
+    <>
       <h3 className="font-mono text-lg font-semibold tracking-tight text-foreground">obsidian</h3>
       <span className={`${NUMBER} mt-2 text-foreground`}>{active ?? '---'}</span>
       <span className={`${LABEL} mt-1.5`}>active tasks</span>
@@ -61,7 +43,7 @@ function SummaryCard({ active, overdue, lastSync }) {
       <span className="mt-auto pt-3 font-mono text-[10px] text-muted-foreground/70">
         {agoLabel(lastSync, 'synced')}
       </span>
-    </Tile>
+    </>
   )
 }
 
@@ -74,22 +56,22 @@ export default function ObsidianRow() {
 
   return (
     <div className="tile-obsidian obsidian-row">
-      {stats ? (
-        <SummaryCard active={stats.active} overdue={stats.overdue} lastSync={stats.lastSync} />
-      ) : (
-        <Tile accent="primary" className="tile-kpi">
-          <TileSkeleton accent="primary" lines={2} />
-        </Tile>
-      )}
-      {cards.map((c) =>
-        stats ? (
-          <KpiCard key={c.key} label={c.key} count={c.count} accent={c.accent} pct={c.pct} zero={c.zero} />
+      <Tile accent="primary" className="tile-kpi flex flex-col">
+        {stats ? (
+          <SummaryBody active={stats.active} overdue={stats.overdue} lastSync={stats.lastSync} />
         ) : (
-          <Tile key={c.key} accent={c.accent} className="tile-kpi">
+          <TileSkeleton accent="primary" lines={2} />
+        )}
+      </Tile>
+      {cards.map((c) => (
+        <Tile key={c.key} accent={c.accent} className="tile-kpi flex flex-col">
+          {stats ? (
+            <KpiBody label={c.key} count={c.count} accent={c.accent} pct={c.pct} zero={c.zero} />
+          ) : (
             <TileSkeleton accent={c.accent} lines={1} />
-          </Tile>
-        ),
-      )}
+          )}
+        </Tile>
+      ))}
     </div>
   )
 }

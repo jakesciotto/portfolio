@@ -1,20 +1,31 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+
+function readCache(cacheKey, ttl) {
+  const cached = localStorage.getItem(cacheKey)
+  const cacheTime = localStorage.getItem(`${cacheKey}_time`)
+  if (!cached) return { value: null, fresh: false }
+  const fresh = !!cacheTime && Date.now() - parseInt(cacheTime) < ttl
+  return { value: JSON.parse(cached), fresh }
+}
 
 export function useCachedFetch(endpoint, cacheKey, { ttl = 900000, shouldCache, transform } = {}) {
   const [data, setData] = useState(null)
+  const keyRef = useRef(cacheKey)
 
   useEffect(() => {
     let ignore = false
+    if (keyRef.current !== cacheKey) {
+      keyRef.current = cacheKey
+      setData(null)
+    }
 
     const fetchData = async () => {
       try {
-        const cached = localStorage.getItem(cacheKey)
-        const cacheTime = localStorage.getItem(`${cacheKey}_time`)
-
-        if (cached && cacheTime && Date.now() - parseInt(cacheTime) < ttl) {
-          if (!ignore) setData(JSON.parse(cached))
+        const cache = readCache(cacheKey, ttl)
+        if (cache.fresh) {
+          if (!ignore) setData(cache.value)
           return
         }
 
@@ -26,17 +37,17 @@ export function useCachedFetch(endpoint, cacheKey, { ttl = 900000, shouldCache, 
         if (ignore) return
 
         const result = transform ? transform(json) : json
-        setData(result)
-
         if (!shouldCache || shouldCache(result)) {
+          setData(result)
           localStorage.setItem(cacheKey, JSON.stringify(result))
           localStorage.setItem(`${cacheKey}_time`, Date.now().toString())
+        } else {
+          setData((prev) => prev ?? cache.value ?? result)
         }
       } catch {
-        if (!ignore) {
-          const cached = localStorage.getItem(cacheKey)
-          if (cached) setData(JSON.parse(cached))
-        }
+        if (ignore) return
+        const cache = readCache(cacheKey, ttl)
+        if (cache.value) setData(cache.value)
       }
     }
 

@@ -1,15 +1,7 @@
 'use client'
 
 import { layoutColumns } from '../../lib/columns.mjs'
-
-const accentVar = {
-  primary: 'var(--accent-primary)',
-  secondary: 'var(--accent-secondary)',
-  tertiary: 'var(--accent-tertiary)',
-  amber: 'var(--accent-amber)',
-  violet: 'var(--accent-violet)',
-  red: 'var(--accent-red)',
-}
+import { accentVar } from '../../lib/accents.mjs'
 
 export default function Columns({
   items = [],

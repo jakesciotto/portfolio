@@ -14,7 +14,6 @@ export function tierCards(stats) {
   const tiers = stats?.tiers || {}
   return TIERS.map(({ key, accent }) => {
     const count = Number(tiers[key]) || 0
-    const share = active > 0 ? count / active : 0
-    return { key, accent, count, share, pct: pct(count, active), zero: count === 0 }
+    return { key, accent, count, pct: pct(count, active), zero: count === 0 }
   })
 }
