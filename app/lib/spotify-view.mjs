@@ -6,24 +6,24 @@ function round(n) {
   return Math.round(Number(n) || 0)
 }
 
-export function spotifyView(stats, { now = new Date() } = {}) {
+export function spotifyView(stats) {
   const o = stats?.overview
   if (!o) return null
 
   const totalHours = Number(o.totalHours) || 0
-  const first = o.firstStream ? new Date(o.firstStream) : null
   const last = o.lastStream ? new Date(o.lastStream) : null
   const lastYear = last ? String(last.getUTCFullYear()) : null
   const lastMonth = last ? last.getUTCMonth() : null
 
   const yearly = (stats.yearlyHours || []).map((y) => {
     const partial = y.year === lastYear && lastMonth != null && lastMonth < 11
-    const suffix = partial ? ` (to ${MONTHS[lastMonth]})` : ''
+    const hours = `${round(y.hours).toLocaleString('en-US')}h`
     return {
       label: `'${String(y.year).slice(2)}`,
       value: y.hours,
       partial,
-      text: `${y.year}${suffix} · ${round(y.hours).toLocaleString('en-US')}h`,
+      caption: hours,
+      text: `${y.year}${partial ? ` (to ${MONTHS[lastMonth]})` : ''} · ${hours}`,
     }
   })
 
@@ -48,32 +48,20 @@ export function spotifyView(stats, { now = new Date() } = {}) {
   const track = stats.topTracks?.[0]
   let onRepeat = null
   if (ff?.mostPlayedTrack) {
-    onRepeat = {
-      name: ff.mostPlayedTrack,
-      artist: ff.mostPlayedTrackArtist,
-      plays: ff.mostPlayedTrackPlays ?? null,
-      minutes: track && track.name === ff.mostPlayedTrack ? round(track.minutes) : null,
-    }
+    onRepeat = { name: ff.mostPlayedTrack, artist: ff.mostPlayedTrackArtist, plays: ff.mostPlayedTrackPlays ?? null }
   } else if (track) {
-    onRepeat = { name: track.name, artist: track.artist, plays: null, minutes: round(track.minutes) }
+    onRepeat = { name: track.name, artist: track.artist, plays: null }
   }
-
-  const firstYear = first ? first.getUTCFullYear() : null
 
   return {
     hours: round(totalHours).toLocaleString('en-US'),
+    streams: compact(o.totalStreams),
     since: monthYear(o.firstStream),
+    through: monthYear(o.lastStream),
     yearsOfAudio: Math.round((totalHours / 24 / 365.25) * 10) / 10,
-    kpis: [
-      { v: compact(o.totalStreams), l: 'streams' },
-      { v: compact(o.uniqueArtists), l: 'artists' },
-      { v: compact(o.uniqueTracks), l: 'tracks' },
-      { v: firstYear != null ? String(now.getUTCFullYear() - firstYear) : '---', l: 'years' },
-    ],
     yearly,
     lead,
     bars,
     onRepeat,
-    through: monthYear(o.lastStream),
   }
 }

@@ -34,41 +34,36 @@ const stats = {
     topArtistPercent: 4.4,
   },
 }
-const NOW = new Date('2026-08-29T16:00:00Z')
 
-test('spotifyView builds the hero, since line, and kpis', () => {
-  const v = spotifyView(stats, { now: NOW })
+test('spotifyView builds the hero and the since line', () => {
+  const v = spotifyView(stats)
   assert.equal(v.hours, '13,385')
+  assert.equal(v.streams, '391k')
   assert.equal(v.since, 'sep 2015')
-  assert.equal(v.yearsOfAudio, 1.5)
-  assert.deepEqual(
-    v.kpis.map((k) => k.v),
-    ['391k', '9,436', '41.6k', '11'],
-  )
   assert.equal(v.through, 'feb 2026')
+  assert.equal(v.yearsOfAudio, 1.5)
 })
 
-test('spotifyView marks the last year partial when it ends before december', () => {
-  const v = spotifyView(stats, { now: NOW })
+test('spotifyView marks the last year partial and captions hours', () => {
+  const v = spotifyView(stats)
   assert.equal(v.yearly[1].partial, false)
+  assert.equal(v.yearly[1].caption, '1,827h')
   assert.equal(v.yearly[2].partial, true)
   assert.equal(v.yearly[2].label, "'26")
   assert.match(v.yearly[2].text, /2026 \(to feb\) · 287h/)
-  assert.match(v.yearly[1].text, /2025 · 1,827h/)
 })
 
 test('spotifyView leads with the top artist and bars the next five', () => {
-  const v = spotifyView(stats, { now: NOW })
+  const v = spotifyView(stats)
   assert.deepEqual(v.lead, { name: 'Future', hours: 588, sharePct: 4.4 })
   assert.equal(v.bars.length, 5)
   assert.deepEqual(v.bars[0], { name: 'Lil Baby', hours: 555, width: 94 })
 })
 
-test('spotifyView uses fun facts for on repeat and matches minutes by name', () => {
-  const v = spotifyView(stats, { now: NOW })
-  assert.deepEqual(v.onRepeat, { name: 'March Madness', artist: 'Future', plays: 1098, minutes: 4173 })
-  const noFacts = spotifyView({ ...stats, funFacts: null }, { now: NOW })
-  assert.deepEqual(noFacts.onRepeat, { name: 'March Madness', artist: 'Future', plays: null, minutes: 4173 })
+test('spotifyView uses fun facts for on repeat and falls back to the top track', () => {
+  assert.deepEqual(spotifyView(stats).onRepeat, { name: 'March Madness', artist: 'Future', plays: 1098 })
+  const noFacts = spotifyView({ ...stats, funFacts: null })
+  assert.deepEqual(noFacts.onRepeat, { name: 'March Madness', artist: 'Future', plays: null })
   assert.equal(noFacts.lead.sharePct, 4.4)
 })
 

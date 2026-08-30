@@ -33,12 +33,21 @@ export default function TraktTile() {
 
   return (
     <div className="flex h-full flex-col">
-      <h3 className="mb-1 font-mono text-lg font-semibold tracking-tight text-foreground">trakt</h3>
+      <h3 className="mb-3 font-mono text-lg font-semibold tracking-tight text-foreground">trakt</h3>
 
-      <div className="grid flex-1 grid-cols-1 gap-6.5 md:grid-cols-2">
-        <div className="flex flex-col">
-          {current ? (
-            <div className="min-w-0">
+      <div className="grid grid-cols-1 gap-6.5 md:grid-cols-2">
+        <div>
+          <span className={LABEL}>
+            all time{all?.hours > 0 && ` · ${hoursToDays(all.hours)} days of screen`}
+          </span>
+          <div className="mt-1.5 flex gap-4">
+            <Stat value={all?.hours} label="hours" className="text-accent-amber" />
+            <Stat value={all?.movies} label="movies" className="text-accent-primary" />
+            <Stat value={all?.episodes} label="episodes" className="text-accent-secondary" />
+          </div>
+
+          {current && (
+            <div className="mt-6 min-w-0">
               <span className={`flex items-center gap-2 ${LABEL}`}>
                 {nowWatching && (
                   <span className="relative flex h-2 w-2 shrink-0">
@@ -47,36 +56,23 @@ export default function TraktTile() {
                   </span>
                 )}
                 {nowWatching ? 'watching now' : 'last watched'}
+                {!nowWatching && lastWatched.watchedAt && (
+                  <span className="normal-case tracking-normal text-muted-foreground/70">· {agoLabel(lastWatched.watchedAt)}</span>
+                )}
               </span>
               <p className="mt-1 truncate text-[15px] font-semibold leading-tight tracking-tight text-foreground">{current.title}</p>
               {current.episodeTitle && (
                 <p className="mt-0.5 truncate text-xs text-muted-foreground">{current.episodeTitle}</p>
               )}
-              {!nowWatching && lastWatched.watchedAt && (
-                <p className="mt-1 font-mono text-[10px] text-muted-foreground/70">{agoLabel(lastWatched.watchedAt)}</p>
-              )}
             </div>
-          ) : (
-            <p className="text-sm text-muted-foreground">---</p>
           )}
-
-          <div className="mt-auto pt-5">
-            <span className={LABEL}>
-              all time{all?.hours > 0 && ` · ${hoursToDays(all.hours)} days of screen`}
-            </span>
-            <div className="mt-1.5 flex gap-4">
-              <Stat value={all?.hours} label="hours" className="text-accent-amber" />
-              <Stat value={all?.movies} label="movies" className="text-accent-primary" />
-              <Stat value={all?.episodes} label="episodes" className="text-accent-secondary" />
-            </div>
-          </div>
         </div>
 
-        <div className="flex flex-col">
+        <div>
           {topShows.length > 0 && (
             <>
               <span className={LABEL}>most watched</span>
-              <div className="mt-2.5 grid grid-cols-[118px_1fr_40px] items-center gap-x-2.5 gap-y-2">
+              <div className="mt-2.5 grid grid-cols-[118px_1fr_40px] items-center gap-x-2.5 gap-y-2.5">
                 {topShows.map((s) => (
                   <div key={s.title} className="contents">
                     <span className="truncate text-[12.5px] font-medium text-foreground">{s.title}</span>
@@ -90,7 +86,7 @@ export default function TraktTile() {
             </>
           )}
           {all?.last30 && (
-            <p className="mt-auto pt-4 font-mono text-[10.5px] text-muted-foreground/70">
+            <p className="mt-4 font-mono text-[10.5px] text-muted-foreground/70">
               last 30 days · {all.last30.episodes} episodes · {all.last30.movies} movies
             </p>
           )}
