@@ -50,7 +50,7 @@ export default function WakaTimeTile() {
               <span className={LABEL}>
                 this week{stats.weekTotal && ` · ${shortDuration(stats.weekTotal)}`}
               </span>
-              <Columns items={days} accent="primary" height={72} dim={0.45} barWidth={16} label="Coding time per day this week" className="mt-2" />
+              <Columns items={days} accent="primary" height={72} dim={0.45} barWidth={40} label="Coding time per day this week" className="mt-2" />
             </div>
           )}
         </div>
