@@ -189,13 +189,13 @@ body::after {
 .tile-trakt { grid-column: 1 / 4; grid-row: 7 / 8; }
 .tile-wakatime { grid-column: 4 / 7; grid-row: 7 / 8; }
 
-.tile-spotify { grid-column: 1 / 4; grid-row: 8 / 10; }
-.tile-strava { grid-column: 4 / 7; grid-row: 8 / 10; }
+.tile-spotify-recent { grid-column: 1 / 7; grid-row: 8 / 9; }
 
-.tile-projects { grid-column: 1 / 5; grid-row: 10 / 11; }
-.tile-oura { grid-column: 5 / 7; grid-row: 10 / 11; }
+.tile-spotify { grid-column: 1 / 4; grid-row: 9 / 11; }
+.tile-strava { grid-column: 4 / 7; grid-row: 9 / 11; }
 
-.tile-spotify-recent { grid-column: 1 / 7; grid-row: 11 / 12; }
+.tile-projects { grid-column: 1 / 5; grid-row: 11 / 12; }
+.tile-oura { grid-column: 5 / 7; grid-row: 11 / 12; }
 
 @media (max-width: 1024px) {
   .bento-grid {

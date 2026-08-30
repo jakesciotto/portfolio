@@ -35,22 +35,17 @@ const stats = {
   },
 }
 
-test('spotifyView builds the hero and the since line', () => {
-  const v = spotifyView(stats)
-  assert.equal(v.hours, '13,385')
-  assert.equal(v.streams, '391k')
-  assert.equal(v.since, 'sep 2015')
-  assert.equal(v.through, 'feb 2026')
-  assert.equal(v.yearsOfAudio, 1.5)
+test('spotifyView builds the hero', () => {
+  assert.equal(spotifyView(stats).hours, '13,385')
 })
 
-test('spotifyView marks the last year partial and captions hours', () => {
+test('spotifyView drops the unfinished last year and captions hours', () => {
   const v = spotifyView(stats)
-  assert.equal(v.yearly[1].partial, false)
+  assert.deepEqual(v.yearly.map((y) => y.label), ["'24", "'25"])
   assert.equal(v.yearly[1].caption, '1,827h')
-  assert.equal(v.yearly[2].partial, true)
-  assert.equal(v.yearly[2].label, "'26")
-  assert.match(v.yearly[2].text, /2026 \(to feb\) · 287h/)
+  assert.equal(v.yearly[1].text, '2025 · 1,827h')
+  const december = spotifyView({ ...stats, overview: { ...stats.overview, lastStream: '2026-12-19T00:00:00Z' } })
+  assert.equal(december.yearly.length, 3)
 })
 
 test('spotifyView leads with the top artist and bars the next five', () => {

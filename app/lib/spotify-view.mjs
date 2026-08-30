@@ -1,7 +1,3 @@
-import { compact, monthYear } from './format.mjs'
-
-const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-
 function round(n) {
   return Math.round(Number(n) || 0)
 }
@@ -15,17 +11,12 @@ export function spotifyView(stats) {
   const lastYear = last ? String(last.getUTCFullYear()) : null
   const lastMonth = last ? last.getUTCMonth() : null
 
-  const yearly = (stats.yearlyHours || []).map((y) => {
-    const partial = y.year === lastYear && lastMonth != null && lastMonth < 11
-    const hours = `${round(y.hours).toLocaleString('en-US')}h`
-    return {
-      label: `'${String(y.year).slice(2)}`,
-      value: y.hours,
-      partial,
-      caption: hours,
-      text: `${y.year}${partial ? ` (to ${MONTHS[lastMonth]})` : ''} · ${hours}`,
-    }
-  })
+  const yearly = (stats.yearlyHours || [])
+    .filter((y) => !(y.year === lastYear && lastMonth != null && lastMonth < 11))
+    .map((y) => {
+      const hours = `${round(y.hours).toLocaleString('en-US')}h`
+      return { label: `'${String(y.year).slice(2)}`, value: y.hours, caption: hours, text: `${y.year} · ${hours}` }
+    })
 
   const artists = stats.topArtists || []
   const top = artists[0]
@@ -55,10 +46,6 @@ export function spotifyView(stats) {
 
   return {
     hours: round(totalHours).toLocaleString('en-US'),
-    streams: compact(o.totalStreams),
-    since: monthYear(o.firstStream),
-    through: monthYear(o.lastStream),
-    yearsOfAudio: Math.round((totalHours / 24 / 365.25) * 10) / 10,
     yearly,
     lead,
     bars,

@@ -92,16 +92,10 @@ export default function SpotifyTile() {
       </div>
 
       <div className="flex items-end justify-between gap-6">
-        <div className="min-w-0">
-          <span className="font-mono text-[44px] font-bold leading-none tracking-tighter text-accent-tertiary">
-            {view.hours}
-            <span className="ml-1.5 text-[13px] font-semibold tracking-normal text-muted-foreground">hours</span>
-          </span>
-          <p className="mt-2 max-w-[30ch] text-xs font-medium text-muted-foreground">
-            {view.streams} streams, {view.since} to {view.through}.{' '}
-            <b className="font-semibold text-foreground">{view.yearsOfAudio} years</b> of audio, back to back.
-          </p>
-        </div>
+        <span className="font-mono text-[44px] font-bold leading-none tracking-tighter text-accent-tertiary">
+          {view.hours}
+          <span className="ml-1.5 text-[13px] font-semibold tracking-normal text-muted-foreground">hours</span>
+        </span>
         {lead && <Lead {...lead} />}
       </div>
 

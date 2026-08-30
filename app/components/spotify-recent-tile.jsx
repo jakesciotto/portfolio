@@ -30,7 +30,7 @@ export default function SpotifyRecentTile() {
   const items = data.items || []
   if (!items.length) return null
 
-  const seconds = Math.max(30, items.length * 3.5)
+  const seconds = Math.max(60, items.length * 6)
 
   return (
     <div className="flex h-full flex-col">

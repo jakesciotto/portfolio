@@ -58,6 +58,10 @@ export default function Page() {
           <WakaTimeTile />
         </Tile>
 
+        <Tile accent="tertiary" gridClass="tile-spotify-recent">
+          <SpotifyRecentTile />
+        </Tile>
+
         <Tile accent="tertiary" gridClass="tile-spotify">
           <SpotifyTile />
         </Tile>
@@ -72,10 +76,6 @@ export default function Page() {
 
         <Tile accent="violet" gridClass="tile-oura">
           <OuraTile />
-        </Tile>
-
-        <Tile accent="tertiary" gridClass="tile-spotify-recent">
-          <SpotifyRecentTile />
         </Tile>
       </BentoGrid>
     </div>
