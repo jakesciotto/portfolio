@@ -14,6 +14,7 @@ import StravaTile from './components/strava-tile'
 import AboutTile from './components/about-tile'
 import ObsidianRow from './components/obsidian-row'
 import TraktTile from './components/trakt-tile'
+import SpotifyRecentTile from './components/spotify-recent-tile'
 
 export default function Page() {
   return (
@@ -71,6 +72,10 @@ export default function Page() {
 
         <Tile accent="violet" gridClass="tile-oura">
           <OuraTile />
+        </Tile>
+
+        <Tile accent="tertiary" gridClass="tile-spotify-recent">
+          <SpotifyRecentTile />
         </Tile>
       </BentoGrid>
     </div>
