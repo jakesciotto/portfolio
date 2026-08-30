@@ -108,7 +108,7 @@ export default function SpotifyTile() {
       {view.yearly.length > 1 && (
         <div className="mt-6">
           <span className={LABEL}>hours per year</span>
-          <Columns items={view.yearly} accent="tertiary" height={118} barWidth={22} label="Listening hours per year" className="mt-1" />
+          <Columns items={view.yearly} accent="tertiary" height={118} barWidth={40} label="Listening hours per year" className="mt-1" />
         </div>
       )}
 

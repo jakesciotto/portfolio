@@ -6,6 +6,7 @@ import { agoLabel } from '../lib/format.mjs'
 import TileSkeleton from './tile-skeleton'
 import AnimatedNumber from './animated-number'
 import PeriodPills from './ui/period-pills'
+import BarList from './ui/bar-list'
 
 const PERIODS = [
   { key: 'week', label: '7d' },
@@ -90,24 +91,12 @@ export default function StravaTile() {
         </div>
 
         {breakdown.length > 0 && (
-          <div className="flex flex-col gap-1.5 mt-3">
-            {breakdown.map((t) => (
-              <div key={t.type} className="flex items-center gap-2">
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium w-24 shrink-0 truncate" title={t.type}>
-                  {t.type}
-                </span>
-                <div className="flex-1 h-2 rounded-full bg-border-strong overflow-hidden">
-                  <div
-                    className="h-full rounded-full bg-accent-secondary/70 transition-all duration-500 ease-out"
-                    style={{ width: `${(t.count / maxCount) * 100}%` }}
-                  />
-                </div>
-                <span className="text-xs font-mono font-medium text-muted-foreground w-8 text-right">
-                  {t.count}
-                </span>
-              </div>
-            ))}
-          </div>
+          <BarList
+            rows={breakdown.map((t) => ({ name: t.type, width: (t.count / maxCount) * 100, value: t.count, opacity: 0.7 }))}
+            accent="secondary"
+            nameWidth={104}
+            className="mt-5"
+          />
         )}
       </div>
 
