@@ -40,7 +40,7 @@ export default function SpotifyRecentTile() {
           last {items.length} plays{items[0]?.playedAt && ` · latest ${agoLabel(items[0].playedAt)}`}
         </span>
       </div>
-      <div className="ticker -mx-6 overflow-hidden max-md:-mx-5">
+      <div className="ticker">
         <div className="ticker-track flex w-max" style={{ animationDuration: `${seconds}s` }}>
           <Run items={items} />
           <Run items={items} ariaHidden />
