@@ -43,8 +43,8 @@ const roles = [
     dates: 'dec 2020 - dec 2022',
     description: [
       'led covid-19 solution implementations for hundreds of' +
-        ' thousands of users, designed creative solutions for' +
-        ' evolving requirements - should have invested in zoom',
+        ' thousands of users',
+      'designed creative solutions for' + ' evolving requirements',
     ],
     accent: 'secondary',
   },
@@ -55,6 +55,8 @@ const roles = [
     description: [
       'taught computing infrastructure and networking, consulted' +
         ' for healthcare research',
+
+      'gave every student i could extra time to submit assignments for all the teachers that did not grant me that leniency',
     ],
     accent: 'tertiary',
   },
@@ -74,7 +76,7 @@ const roles = [
     company: 'rednax llc',
     dates: '2014 - 2017 (the before times)',
     description: [
-      'helped 10 small businesses launch websites - if you are' +
+      'helped 10 small businesses launch websites. if you are' +
         ' reading this i miss php',
     ],
     accent: 'primary',
