@@ -6,7 +6,7 @@ export default function ExperienceTile() {
   const [years, setYears] = useState(null)
 
   useEffect(() => {
-    const start = new Date('2012-01-01')
+    const start = new Date('2014-01-01')
     setYears(Math.floor((Date.now() - start) / (365.25 * 24 * 60 * 60 * 1000)))
   }, [])
 
