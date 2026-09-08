@@ -183,7 +183,7 @@ export default function WorkAccordion() {
                 <span className="text-[13px] font-semibold text-foreground truncate pr-2 border-r">
                   {role.title}
                 </span>
-                <span className="text-[11px] lowercase font-mono align-middle tracking-tight">
+                <span className="text-[11px] lowercase font-mono tracking-tight relative top-[-0.55px]">
                   {role.company}
                 </span>
                 <span className="text-[10px] font-mono text-muted-foreground font-medium border border-border-strong rounded px-1.5 py-0.5 ml-auto shrink-0 self-center hidden sm:block">
