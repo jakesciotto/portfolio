@@ -111,6 +111,9 @@ export default function WorkAccordion() {
       const panel = panelRefs.current[index]
       if (panel) {
         gsap.killTweensOf(panel)
+        if (panel.style.height === 'auto') {
+          gsap.set(panel, { height: panel.scrollHeight })
+        }
         gsap.to(panel, {
           height: 0,
           opacity: 0,
@@ -125,6 +128,9 @@ export default function WorkAccordion() {
         const prevPanel = panelRefs.current[prevIndex]
         if (prevPanel) {
           gsap.killTweensOf(prevPanel)
+          if (prevPanel.style.height === 'auto') {
+            gsap.set(prevPanel, { height: prevPanel.scrollHeight })
+          }
           gsap.to(prevPanel, {
             height: 0,
             opacity: 0,
