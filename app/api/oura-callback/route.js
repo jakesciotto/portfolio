@@ -41,6 +41,6 @@ export async function GET(request) {
       <h2>oura authorized</h2>
       <p>refresh token saved to redis. you're all set.</p>
     </body></html>`,
-    { headers: { 'Content-Type': 'text/html' } }
+    { headers: { 'Content-Type': 'text/html' } },
   )
 }

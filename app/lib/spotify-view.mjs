@@ -12,10 +12,17 @@ export function spotifyView(stats) {
   const lastMonth = last ? last.getUTCMonth() : null
 
   const yearly = (stats.yearlyHours || [])
-    .filter((y) => !(y.year === lastYear && lastMonth != null && lastMonth < 11))
+    .filter(
+      (y) => !(y.year === lastYear && lastMonth != null && lastMonth < 11),
+    )
     .map((y) => {
       const hours = `${round(y.hours).toLocaleString('en-US')}h`
-      return { label: `'${String(y.year).slice(2)}`, value: y.hours, caption: hours, text: `${y.year} · ${hours}` }
+      return {
+        label: `'${String(y.year).slice(2)}`,
+        value: y.hours,
+        caption: hours,
+        text: `${y.year} · ${hours}`,
+      }
     })
 
   const artists = stats.topArtists || []
@@ -27,7 +34,9 @@ export function spotifyView(stats) {
         hours: round(top.hours),
         sharePct:
           ff?.topArtistPercent ??
-          (totalHours ? Math.round((top.hours / totalHours) * 1000) / 10 : null),
+          (totalHours
+            ? Math.round((top.hours / totalHours) * 1000) / 10
+            : null),
       }
     : null
   const bars = artists.slice(1, 6).map((a) => ({
@@ -39,7 +48,11 @@ export function spotifyView(stats) {
   const track = stats.topTracks?.[0]
   let onRepeat = null
   if (ff?.mostPlayedTrack) {
-    onRepeat = { name: ff.mostPlayedTrack, artist: ff.mostPlayedTrackArtist, plays: ff.mostPlayedTrackPlays ?? null }
+    onRepeat = {
+      name: ff.mostPlayedTrack,
+      artist: ff.mostPlayedTrackArtist,
+      plays: ff.mostPlayedTrackPlays ?? null,
+    }
   } else if (track) {
     onRepeat = { name: track.name, artist: track.artist, plays: null }
   }

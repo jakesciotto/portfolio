@@ -12,7 +12,9 @@ const redis =
     : null
 
 const EMPTY = { active: null, overdue: null, tiers: null, lastSync: null }
-const CACHE = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' }
+const CACHE = {
+  'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+}
 const NO_CACHE = { 'Cache-Control': 'no-store' }
 
 export async function GET() {
@@ -25,7 +27,9 @@ export async function GET() {
     ])
 
     if (!stats) {
-      console.error('obsidian:stats missing in Redis - run scripts/import-obsidian-data.mjs')
+      console.error(
+        'obsidian:stats missing in Redis - run scripts/import-obsidian-data.mjs',
+      )
       return Response.json(EMPTY, { headers: NO_CACHE })
     }
 
@@ -40,7 +44,10 @@ export async function GET() {
 
     return Response.json(parsed, { headers: CACHE })
   } catch (error) {
-    captureServer('obsidian_stats_error', { error_message: error?.message, source: 'redis_snapshot' })
+    captureServer('obsidian_stats_error', {
+      error_message: error?.message,
+      source: 'redis_snapshot',
+    })
     return Response.json(EMPTY, { headers: NO_CACHE })
   }
 }

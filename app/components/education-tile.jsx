@@ -47,10 +47,10 @@ export default function EducationTile() {
         <div className="space-y-4">
           {DEGREES.map((d) => (
             <div key={d.title} className="relative">
-              <div className={`absolute -left-4 top-[5px] h-2 w-2 rounded-full ${d.accent} ring-2 ring-card`} />
-              <p className="text-sm font-semibold text-foreground">
-                {d.title}
-              </p>
+              <div
+                className={`absolute -left-4 top-[5px] h-2 w-2 rounded-full ${d.accent} ring-2 ring-card`}
+              />
+              <p className="text-sm font-semibold text-foreground">{d.title}</p>
               <p className="text-xs text-muted-foreground font-medium">
                 {d.school}
               </p>

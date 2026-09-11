@@ -4,7 +4,12 @@ import { useRef, useEffect } from 'react'
 import Link from 'next/link'
 import gsap from 'gsap'
 
-export default function MagneticLink({ href, children, className = '', ...props }) {
+export default function MagneticLink({
+  href,
+  children,
+  className = '',
+  ...props
+}) {
   const ref = useRef(null)
   const isInternal = typeof href === 'string' && href.startsWith('/')
 
@@ -13,7 +18,7 @@ export default function MagneticLink({ href, children, className = '', ...props 
     if (!el) return
 
     const prefersReduced = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
+      '(prefers-reduced-motion: reduce)',
     ).matches
     if (prefersReduced) return
 
@@ -52,7 +57,13 @@ export default function MagneticLink({ href, children, className = '', ...props 
 
   if (isInternal) {
     return (
-      <Link ref={ref} href={href} className={className} style={style} {...props}>
+      <Link
+        ref={ref}
+        href={href}
+        className={className}
+        style={style}
+        {...props}
+      >
         {children}
       </Link>
     )

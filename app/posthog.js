@@ -4,7 +4,8 @@ import { after } from 'next/server'
 let client = null
 
 function getClient() {
-  const key = process.env.POSTHOG_SERVER_KEY || process.env.NEXT_PUBLIC_POSTHOG_KEY
+  const key =
+    process.env.POSTHOG_SERVER_KEY || process.env.NEXT_PUBLIC_POSTHOG_KEY
   if (!key) return null
   if (!client) {
     client = new PostHog(key, { host: process.env.NEXT_PUBLIC_POSTHOG_HOST })

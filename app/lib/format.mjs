@@ -1,4 +1,17 @@
-const MONTHS = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+const MONTHS = [
+  'jan',
+  'feb',
+  'mar',
+  'apr',
+  'may',
+  'jun',
+  'jul',
+  'aug',
+  'sep',
+  'oct',
+  'nov',
+  'dec',
+]
 const DAYS = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
 
 export function agoLabel(iso, prefix = '', now = Date.now()) {
@@ -6,7 +19,12 @@ export function agoLabel(iso, prefix = '', now = Date.now()) {
   const ms = now - new Date(iso).getTime()
   if (Number.isNaN(ms)) return null
   const hrs = Math.floor(ms / 3600000)
-  const word = hrs < 1 ? 'just now' : hrs < 24 ? `${hrs}h ago` : `${Math.floor(hrs / 24)}d ago`
+  const word =
+    hrs < 1
+      ? 'just now'
+      : hrs < 24
+        ? `${hrs}h ago`
+        : `${Math.floor(hrs / 24)}d ago`
   return prefix ? `${prefix} ${word}` : word
 }
 

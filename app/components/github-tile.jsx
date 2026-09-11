@@ -32,7 +32,11 @@ export default function GitHubTile() {
           github
         </span>
       </div>
-      <StatTile value={stats.activity7d} label="things this week" accent="primary">
+      <StatTile
+        value={stats.activity7d}
+        label="things this week"
+        accent="primary"
+      >
         <Heatmap data={stats.days} weeks={HEATMAP_WEEKS} accent="primary" />
       </StatTile>
     </div>

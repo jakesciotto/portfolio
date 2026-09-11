@@ -25,15 +25,25 @@ export default function Sparkline({
     x: (i / (data.length - 1)) * 100,
     y: TOP + (1 - (v - min) / span) * (BOTTOM - TOP),
   }))
-  const line = points.map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(2)} ${p.y.toFixed(2)}`).join(' ')
+  const line = points
+    .map((p, i) => `${i ? 'L' : 'M'}${p.x.toFixed(2)} ${p.y.toFixed(2)}`)
+    .join(' ')
   const area = `${line} L100 100 L0 100 Z`
   const stroke = colorMap[color] || colorMap.primary
   const last = points[points.length - 1]
   const slot = 100 / (data.length - 1)
 
   return (
-    <div className="relative mt-2 w-full opacity-80" style={{ height }} aria-hidden="true">
-      <svg viewBox="0 0 100 100" preserveAspectRatio="none" className="absolute inset-0 h-full w-full overflow-visible">
+    <div
+      className="relative mt-2 w-full opacity-80"
+      style={{ height }}
+      aria-hidden="true"
+    >
+      <svg
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        className="absolute inset-0 h-full w-full overflow-visible"
+      >
         <defs>
           <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor={stroke} stopOpacity="0.25" />

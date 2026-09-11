@@ -7,7 +7,11 @@ const stats = {
   data: {
     human_readable_total: '18 hrs 54 mins',
     human_readable_daily_average: '3 hrs 46 mins',
-    best_day: { date: '2026-08-28', total_seconds: 38716.8, text: '10 hrs 45 mins' },
+    best_day: {
+      date: '2026-08-28',
+      total_seconds: 38716.8,
+      text: '10 hrs 45 mins',
+    },
     languages: [
       { name: 'Markdown', percent: 33.94 },
       { name: 'Other', percent: 19.54 },
@@ -38,9 +42,18 @@ const year = {
 }
 const summaries = {
   data: [
-    { range: { date: '2026-08-23' }, grand_total: { total_seconds: 0, text: '0 secs' } },
-    { range: { date: '2026-08-24' }, grand_total: { total_seconds: 17460, text: '4 hrs 51 mins' } },
-    { range: { date: '2026-08-28' }, grand_total: { total_seconds: 38700, text: '10 hrs 45 mins' } },
+    {
+      range: { date: '2026-08-23' },
+      grand_total: { total_seconds: 0, text: '0 secs' },
+    },
+    {
+      range: { date: '2026-08-24' },
+      grand_total: { total_seconds: 17460, text: '4 hrs 51 mins' },
+    },
+    {
+      range: { date: '2026-08-28' },
+      grand_total: { total_seconds: 38700, text: '10 hrs 45 mins' },
+    },
   ],
 }
 
@@ -51,7 +64,11 @@ test('mapWakaStats maps totals and the week', () => {
   assert.equal(out.weekTotal, '18 hrs 54 mins')
   assert.deepEqual(out.bestDay, { date: '2026-08-28', text: '10 hrs 45 mins' })
   assert.equal(out.days.length, 3)
-  assert.deepEqual(out.days[1], { date: '2026-08-24', seconds: 17460, text: '4 hrs 51 mins' })
+  assert.deepEqual(out.days[1], {
+    date: '2026-08-24',
+    seconds: 17460,
+    text: '4 hrs 51 mins',
+  })
 })
 
 test('mapWakaStats takes languages from the year, drops noise, keeps six', () => {

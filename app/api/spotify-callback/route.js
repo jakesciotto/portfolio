@@ -8,9 +8,10 @@ export async function GET(request) {
     return new Response('Missing code parameter', { status: 400 })
   }
 
-  const redirectUri = process.env.SPOTIFY_REDIRECT_URI || `${url.origin}/api/spotify-callback`
+  const redirectUri =
+    process.env.SPOTIFY_REDIRECT_URI || `${url.origin}/api/spotify-callback`
   const credentials = Buffer.from(
-    `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
+    `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`,
   ).toString('base64')
 
   const res = await fetch('https://accounts.spotify.com/api/token', {
@@ -45,6 +46,6 @@ export async function GET(request) {
       <h2>spotify authorized</h2>
       <p>refresh token saved to redis. you're all set.</p>
     </body></html>`,
-    { headers: { 'Content-Type': 'text/html' } }
+    { headers: { 'Content-Type': 'text/html' } },
   )
 }

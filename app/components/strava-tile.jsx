@@ -20,10 +20,14 @@ export default function StravaTile() {
   const [transitioning, setTransitioning] = useState(false)
   const transitionRef = useRef(null)
 
-  const stats = useCachedFetch(`/api/strava-stats?period=${period}`, `strava_stats_${period}`, {
-    ttl: 3600000,
-    shouldCache: (data) => data.count != null && !!data.lastSync,
-  })
+  const stats = useCachedFetch(
+    `/api/strava-stats?period=${period}`,
+    `strava_stats_${period}`,
+    {
+      ttl: 3600000,
+      shouldCache: (data) => data.count != null && !!data.lastSync,
+    },
+  )
 
   const handlePeriodChange = (p) => {
     if (p === period) return
@@ -39,15 +43,22 @@ export default function StravaTile() {
 
   if (!stats) return <TileSkeleton accent="secondary" lines={4} />
 
-  const totalHours = stats.movingTime ? Math.floor(stats.movingTime / 3600) : null
+  const totalHours = stats.movingTime
+    ? Math.floor(stats.movingTime / 3600)
+    : null
   const totalMiles = stats.distance
   const sorted = [...(stats.breakdown || [])].sort((a, b) => b.count - a.count)
   const top8 = sorted.slice(0, 8)
   const rest = sorted.slice(8)
-  const breakdown = rest.length > 0
-    ? [...top8, { type: 'Other', count: rest.reduce((sum, t) => sum + t.count, 0) }]
-    : top8
-  const maxCount = breakdown.length > 0 ? Math.max(...breakdown.map((t) => t.count)) : 0
+  const breakdown =
+    rest.length > 0
+      ? [
+          ...top8,
+          { type: 'Other', count: rest.reduce((sum, t) => sum + t.count, 0) },
+        ]
+      : top8
+  const maxCount =
+    breakdown.length > 0 ? Math.max(...breakdown.map((t) => t.count)) : 0
 
   return (
     <div className="flex flex-col h-full gap-3">
@@ -55,9 +66,17 @@ export default function StravaTile() {
         strava
       </h3>
 
-      <PeriodPills options={PERIODS} value={period} onChange={handlePeriodChange} accent="secondary" label="Strava period" />
+      <PeriodPills
+        options={PERIODS}
+        value={period}
+        onChange={handlePeriodChange}
+        accent="secondary"
+        label="Strava period"
+      />
 
-      <div className={`transition-opacity duration-200 ease-in-out ${transitioning ? 'opacity-0' : 'opacity-100'}`}>
+      <div
+        className={`transition-opacity duration-200 ease-in-out ${transitioning ? 'opacity-0' : 'opacity-100'}`}
+      >
         <div className="flex gap-4">
           <div>
             <AnimatedNumber
@@ -92,7 +111,12 @@ export default function StravaTile() {
 
         {breakdown.length > 0 && (
           <BarList
-            rows={breakdown.map((t) => ({ name: t.type, width: (t.count / maxCount) * 100, value: t.count, opacity: 0.7 }))}
+            rows={breakdown.map((t) => ({
+              name: t.type,
+              width: (t.count / maxCount) * 100,
+              value: t.count,
+              opacity: 0.7,
+            }))}
             accent="secondary"
             nameWidth={104}
             className="mt-5"

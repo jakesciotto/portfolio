@@ -1,4 +1,12 @@
-const NOISE = new Set(['Other', 'Diff', 'Text', 'TSConfig', 'CSV', 'JSON', 'INI'])
+const NOISE = new Set([
+  'Other',
+  'Diff',
+  'Text',
+  'TSConfig',
+  'CSV',
+  'JSON',
+  'INI',
+])
 
 function pickLanguages(stats) {
   return (stats?.data?.languages || [])
@@ -32,7 +40,9 @@ export function mapWakaStats({ allTime, stats, year, summaries } = {}) {
       s?.human_readable_daily_average_including_other_language ||
       null,
     weekTotal: s?.human_readable_total || null,
-    bestDay: s?.best_day ? { date: s.best_day.date, text: s.best_day.text } : null,
+    bestDay: s?.best_day
+      ? { date: s.best_day.date, text: s.best_day.text }
+      : null,
     days,
     languages: yearLanguages.length ? yearLanguages : pickLanguages(stats),
     languagesRange: yearLanguages.length ? 'last 12 months' : 'last 7 days',

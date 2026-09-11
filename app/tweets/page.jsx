@@ -3,11 +3,11 @@ import { join } from 'path'
 import TweetClient from './tweet-client'
 
 export default function TweetsPage() {
-  const imgDir = join(process.cwd(), "public", "img");
-  const allFiles = readdirSync(imgDir);
+  const imgDir = join(process.cwd(), 'public', 'img')
+  const allFiles = readdirSync(imgDir)
   const tweetImages = allFiles
-    .filter((file) => file.toLowerCase().startsWith("tweet"))
-    .sort();
+    .filter((file) => file.toLowerCase().startsWith('tweet'))
+    .sort()
 
   return (
     <div className="mt-12 max-w-5xl mx-auto px-4">
@@ -39,5 +39,5 @@ export default function TweetsPage() {
         </a>
       </div>
     </div>
-  );
+  )
 }

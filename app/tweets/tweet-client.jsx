@@ -19,7 +19,7 @@ export default function TweetClient({ image, index }) {
           hasTrackedRef.current = true
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.5 },
     )
 
     if (ref.current) {
@@ -30,10 +30,7 @@ export default function TweetClient({ image, index }) {
   }, [image, index])
 
   return (
-    <div
-      ref={ref}
-      className="card overflow-hidden"
-    >
+    <div ref={ref} className="card overflow-hidden">
       <div className="relative w-full aspect-auto">
         <Image
           src={`/img/${image}`}

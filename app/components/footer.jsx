@@ -21,10 +21,7 @@ export default function Footer() {
           target="_blank"
           href="https://github.com/jakesciotto"
           onClick={() =>
-            handleExternalLinkClick(
-              'https://github.com/jakesciotto',
-              'github'
-            )
+            handleExternalLinkClick('https://github.com/jakesciotto', 'github')
           }
         >
           github
@@ -34,10 +31,7 @@ export default function Footer() {
           className="transition-all hover:text-accent-primary"
           href="mailto:jake.sciotto@gmail.com"
           onClick={() =>
-            handleExternalLinkClick(
-              'mailto:jake.sciotto@gmail.com',
-              'contact'
-            )
+            handleExternalLinkClick('mailto:jake.sciotto@gmail.com', 'contact')
           }
         >
           contact

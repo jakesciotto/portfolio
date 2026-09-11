@@ -9,10 +9,7 @@ const accentBgMap = {
 
 const lineWidths = ['85%', '70%', '95%', '75%', '90%']
 
-export default function TileSkeleton({
-  accent = 'primary',
-  lines = 3,
-}) {
+export default function TileSkeleton({ accent = 'primary', lines = 3 }) {
   const bg = accentBgMap[accent] || accentBgMap.primary
   return (
     <div className="animate-pulse flex flex-col gap-3">

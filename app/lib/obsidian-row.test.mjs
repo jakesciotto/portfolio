@@ -5,7 +5,14 @@ import { TIERS, tierCards } from './obsidian-row.mjs'
 const live = {
   active: 139,
   overdue: 26,
-  tiers: { now: 20, next: 34, waiting: 18, blocked: 0, someday: 19, backlog: 48 },
+  tiers: {
+    now: 20,
+    next: 34,
+    waiting: 18,
+    blocked: 0,
+    someday: 19,
+    backlog: 48,
+  },
 }
 
 test('TIERS run hot to cold with one hue each', () => {

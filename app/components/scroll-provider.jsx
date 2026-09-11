@@ -18,7 +18,7 @@ export default function ScrollProvider({ children }) {
 
   useEffect(() => {
     const prefersReduced = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
+      '(prefers-reduced-motion: reduce)',
     ).matches
     if (prefersReduced) return
 
@@ -46,8 +46,6 @@ export default function ScrollProvider({ children }) {
   }, [])
 
   return (
-    <LenisContext.Provider value={lenisRef}>
-      {children}
-    </LenisContext.Provider>
+    <LenisContext.Provider value={lenisRef}>{children}</LenisContext.Provider>
   )
 }

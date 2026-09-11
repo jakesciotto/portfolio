@@ -2,7 +2,9 @@ import { getAccessToken } from '../../lib/spotify-auth'
 import { captureServer } from '../../posthog'
 
 const SPOTIFY_TOP_URL = 'https://api.spotify.com/v1/me/top'
-const CACHE = { 'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600' }
+const CACHE = {
+  'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600',
+}
 const NO_STORE = { 'Cache-Control': 'no-store' }
 
 async function fetchTop(accessToken, type, timeRange, limit = 3) {
@@ -40,11 +42,20 @@ export async function GET() {
     ])
     const shortTerm = era(artists, tracks)
 
-    captureServer('spotify_top_items_fetched', { source: 'api', empty: !shortTerm })
+    captureServer('spotify_top_items_fetched', {
+      source: 'api',
+      empty: !shortTerm,
+    })
 
-    return Response.json({ shortTerm }, { headers: shortTerm ? CACHE : NO_STORE })
+    return Response.json(
+      { shortTerm },
+      { headers: shortTerm ? CACHE : NO_STORE },
+    )
   } catch (error) {
-    captureServer('spotify_top_items_error', { error_message: error?.message, source: 'api' })
+    captureServer('spotify_top_items_error', {
+      error_message: error?.message,
+      source: 'api',
+    })
     return Response.json({ shortTerm: null }, { status: 500 })
   }
 }

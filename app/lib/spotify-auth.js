@@ -13,7 +13,9 @@ let tokenExpiresAt = 0
 
 export async function getRefreshToken() {
   if (redis) {
-    const stored = await redis.get('spotify_live_refresh_token').catch(() => null)
+    const stored = await redis
+      .get('spotify_live_refresh_token')
+      .catch(() => null)
     if (stored) return stored
   }
   return process.env.SPOTIFY_LIVE_REFRESH_TOKEN
@@ -28,7 +30,7 @@ export async function getAccessToken() {
   if (!refreshToken) throw new Error('No Spotify live refresh token available')
 
   const credentials = Buffer.from(
-    `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
+    `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`,
   ).toString('base64')
 
   const res = await fetch('https://accounts.spotify.com/api/token', {
@@ -53,7 +55,9 @@ export async function getAccessToken() {
   tokenExpiresAt = Date.now() + (data.expires_in || 3600) * 1000
 
   if (data.refresh_token && redis) {
-    await redis.set('spotify_live_refresh_token', data.refresh_token).catch(() => {})
+    await redis
+      .set('spotify_live_refresh_token', data.refresh_token)
+      .catch(() => {})
   }
 
   return cachedAccessToken

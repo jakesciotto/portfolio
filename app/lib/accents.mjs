@@ -1,6 +1,15 @@
-export const ACCENTS = ['primary', 'secondary', 'tertiary', 'amber', 'violet', 'red']
+export const ACCENTS = [
+  'primary',
+  'secondary',
+  'tertiary',
+  'amber',
+  'violet',
+  'red',
+]
 
-export const accentVar = Object.fromEntries(ACCENTS.map((a) => [a, `var(--accent-${a})`]))
+export const accentVar = Object.fromEntries(
+  ACCENTS.map((a) => [a, `var(--accent-${a})`]),
+)
 
 export const textClass = {
   primary: 'text-accent-primary',
@@ -20,4 +29,5 @@ export const bgClass = {
   red: 'bg-accent-red',
 }
 
-export const LABEL = 'text-[10px] uppercase font-medium tracking-widest text-muted-foreground'
+export const LABEL =
+  'text-[10px] uppercase font-medium tracking-widest text-muted-foreground'

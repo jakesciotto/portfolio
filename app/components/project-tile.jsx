@@ -1,52 +1,52 @@
-"use client";
+'use client'
 
-import { Badge } from "./ui/badge";
-import posthog from "posthog-js";
+import { Badge } from './ui/badge'
+import posthog from 'posthog-js'
 
 const projects = [
   {
-    name: "recall",
-    description: "templated rag setup for all your data w/ embedding engine",
-    pill: "beta",
-    pillVariant: "amber",
-    link: "https://github.com/jakesciotto/recall",
+    name: 'recall',
+    description: 'templated rag setup for all your data w/ embedding engine',
+    pill: 'beta',
+    pillVariant: 'amber',
+    link: 'https://github.com/jakesciotto/recall',
   },
   {
-    name: "easton leaderboard",
-    description: "kids bjj program leaderboard and dashboarding tool",
-    pill: "live",
-    pillVariant: "tertiary",
-    link: "https://eastonpodium.com",
+    name: 'easton leaderboard',
+    description: 'kids bjj program leaderboard and dashboarding tool',
+    pill: 'live',
+    pillVariant: 'tertiary',
+    link: 'https://eastonpodium.com',
   },
   {
-    name: "aidatasucks.com",
-    description: "working with ai vendors made me mad so i did this",
-    pill: "live",
-    pillVariant: "tertiary",
-    link: "https://aidatasucks.com",
+    name: 'aidatasucks.com',
+    description: 'working with ai vendors made me mad so i did this',
+    pill: 'live',
+    pillVariant: 'tertiary',
+    link: 'https://aidatasucks.com',
   },
   {
-    name: "easton+",
-    description: "drag and drop jiu jitsu curriculum builder",
-    pill: "beta",
-    pillVariant: "amber",
-    link: "https://eastonplus.com",
+    name: 'easton+',
+    description: 'drag and drop jiu jitsu curriculum builder',
+    pill: 'beta',
+    pillVariant: 'amber',
+    link: 'https://eastonplus.com',
   },
   {
-    name: "duels app",
-    description: "kids jiu jitsu comp sidecar app",
-    pill: "pre-release",
-    pillVariant: "violet",
-    link: "https://github.com/jakesciotto/easton-duels",
+    name: 'duels app',
+    description: 'kids jiu jitsu comp sidecar app',
+    pill: 'pre-release',
+    pillVariant: 'violet',
+    link: 'https://github.com/jakesciotto/easton-duels',
   },
-];
+]
 
 export default function ProjectTile() {
   const handleClick = (name) => {
-    if (typeof posthog?.capture === "function") {
-      posthog.capture("tile_click", { project: name });
+    if (typeof posthog?.capture === 'function') {
+      posthog.capture('tile_click', { project: name })
     }
-  };
+  }
 
   return (
     <div className="h-full flex flex-col">
@@ -86,5 +86,5 @@ export default function ProjectTile() {
         ))}
       </div>
     </div>
-  );
+  )
 }

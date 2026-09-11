@@ -34,24 +34,41 @@ export default function WakaTimeTile() {
 
   return (
     <div className="flex h-full flex-col">
-      <h3 className="mb-3 font-mono text-lg font-semibold tracking-tight text-foreground">programmin'</h3>
+      <h3 className="mb-3 font-mono text-lg font-semibold tracking-tight text-foreground">
+        programmin'
+      </h3>
 
       <div className="grid grid-cols-1 gap-6.5 md:grid-cols-2">
         <div>
           <span className="font-mono text-3xl font-bold tracking-tighter text-accent-primary">
-            {stats.totalHours != null ? stats.totalHours.toLocaleString('en-US') : '---'}
-            <span className="ml-1.5 text-sm font-semibold tracking-normal text-muted-foreground">hrs</span>
+            {stats.totalHours != null
+              ? stats.totalHours.toLocaleString('en-US')
+              : '---'}
+            <span className="ml-1.5 text-sm font-semibold tracking-normal text-muted-foreground">
+              hrs
+            </span>
           </span>
           <p className="mt-1 font-mono text-[10.5px] text-muted-foreground/70">
-            all time{stats.dailyAverage && ` · ${shortDuration(stats.dailyAverage)} a day`}
+            all time
+            {stats.dailyAverage &&
+              ` · ${shortDuration(stats.dailyAverage)} a day`}
           </p>
 
           {days.length > 1 && (
             <div className="mt-6">
               <span className={LABEL}>
-                this week{stats.weekTotal && ` · ${shortDuration(stats.weekTotal)}`}
+                this week
+                {stats.weekTotal && ` · ${shortDuration(stats.weekTotal)}`}
               </span>
-              <Columns items={days} accent="primary" height={72} dim={0.45} barWidth={40} label="Coding time per day this week" className="mt-2" />
+              <Columns
+                items={days}
+                accent="primary"
+                height={72}
+                dim={0.45}
+                barWidth={40}
+                label="Coding time per day this week"
+                className="mt-2"
+              />
             </div>
           )}
         </div>
@@ -79,8 +96,15 @@ export default function WakaTimeTile() {
         <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-5">
           <span className={`${LABEL} mr-1`}>models this week</span>
           {models.map((m, i) => (
-            <Badge key={m.name} variant={i === 0 ? 'primary' : 'muted'} className="normal-case tracking-tight">
-              {m.name.toLowerCase()} <span className="ml-1 font-mono">{Math.round((m.lines / modelTotal) * 100)}%</span>
+            <Badge
+              key={m.name}
+              variant={i === 0 ? 'primary' : 'muted'}
+              className="normal-case tracking-tight"
+            >
+              {m.name.toLowerCase()}{' '}
+              <span className="ml-1 font-mono">
+                {Math.round((m.lines / modelTotal) * 100)}%
+              </span>
             </Badge>
           ))}
         </div>

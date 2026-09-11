@@ -30,5 +30,9 @@ export default function AnimatedNumber({ value, className }) {
     requestAnimationFrame(step)
   }, [value])
 
-  return <span className={className}>{typeof display === 'number' ? display.toLocaleString() : display}</span>
+  return (
+    <span className={className}>
+      {typeof display === 'number' ? display.toLocaleString() : display}
+    </span>
+  )
 }

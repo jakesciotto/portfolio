@@ -10,7 +10,11 @@ function readCache(cacheKey, ttl) {
   return { value: JSON.parse(cached), fresh }
 }
 
-export function useCachedFetch(endpoint, cacheKey, { ttl = 900000, shouldCache, transform } = {}) {
+export function useCachedFetch(
+  endpoint,
+  cacheKey,
+  { ttl = 900000, shouldCache, transform } = {},
+) {
   const [data, setData] = useState(null)
   const keyRef = useRef(cacheKey)
 

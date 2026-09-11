@@ -2,14 +2,20 @@ import { captureServer } from '../../posthog'
 import { mapWakaStats } from '../../lib/wakatime-stats.mjs'
 
 const BASE = 'https://wakatime.com/api/v1/users/current'
-const CACHE = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' }
+const CACHE = {
+  'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+}
 
 async function readJson(settled, label) {
   if (settled.status !== 'fulfilled') return null
   const res = settled.value
   if (res.ok) return res.json()
   if (res.status !== 202) {
-    console.error(`WakaTime ${label} response:`, res.status, await res.text().catch(() => ''))
+    console.error(
+      `WakaTime ${label} response:`,
+      res.status,
+      await res.text().catch(() => ''),
+    )
   }
   return null
 }

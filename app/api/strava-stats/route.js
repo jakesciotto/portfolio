@@ -13,7 +13,9 @@ const redis =
 
 const PERIODS = new Set(['week', 'month', 'year', 'all'])
 
-const CACHE = { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600' }
+const CACHE = {
+  'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
+}
 const NO_CACHE = { 'Cache-Control': 'no-store' }
 
 const EMPTY = (period) => ({
@@ -39,7 +41,9 @@ export async function GET(request) {
     ])
 
     if (!stats) {
-      console.error(`strava:stats:${period} missing in Redis - run scripts/import-strava-data.mjs`)
+      console.error(
+        `strava:stats:${period} missing in Redis - run scripts/import-strava-data.mjs`,
+      )
       return Response.json(EMPTY(period), { headers: NO_CACHE })
     }
 
@@ -55,7 +59,11 @@ export async function GET(request) {
 
     return Response.json(parsed, { headers: CACHE })
   } catch (error) {
-    captureServer('strava_stats_error', { error_message: error?.message, period, source: 'redis_snapshot' })
+    captureServer('strava_stats_error', {
+      error_message: error?.message,
+      period,
+      source: 'redis_snapshot',
+    })
     return Response.json(EMPTY(period), { headers: NO_CACHE })
   }
 }

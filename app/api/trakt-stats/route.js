@@ -39,7 +39,9 @@ async function getAccessToken() {
       refresh_token: refreshToken,
       client_id: process.env.TRAKT_CLIENT_ID,
       client_secret: process.env.TRAKT_CLIENT_SECRET,
-      redirect_uri: process.env.TRAKT_REDIRECT_URI || 'https://jakesciotto.com/api/trakt-callback',
+      redirect_uri:
+        process.env.TRAKT_REDIRECT_URI ||
+        'https://jakesciotto.com/api/trakt-callback',
       grant_type: 'refresh_token',
     }),
   })
@@ -93,7 +95,9 @@ function formatItem(item) {
   return null
 }
 
-const CACHE = { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120' }
+const CACHE = {
+  'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
+}
 
 export async function GET() {
   try {
@@ -132,9 +136,14 @@ export async function GET() {
       source: 'api',
     })
 
-    return Response.json(result, { headers: stats ? CACHE : { 'Cache-Control': 'no-store' } })
+    return Response.json(result, {
+      headers: stats ? CACHE : { 'Cache-Control': 'no-store' },
+    })
   } catch (error) {
-    captureServer('trakt_stats_error', { error_message: error?.message, source: 'api' })
+    captureServer('trakt_stats_error', {
+      error_message: error?.message,
+      source: 'api',
+    })
 
     return Response.json({
       nowWatching: null,
@@ -177,7 +186,8 @@ async function getCachedStats(accessToken) {
   if (!statsRes.ok) return null
 
   const watchedShows = watchedRes.ok ? await watchedRes.json() : null
-  const complete = Array.isArray(watchedShows) && episodes != null && movies != null
+  const complete =
+    Array.isArray(watchedShows) && episodes != null && movies != null
 
   const stats = mapTraktStats({
     stats: await statsRes.json(),
@@ -187,7 +197,9 @@ async function getCachedStats(accessToken) {
 
   if (redis) {
     await redis
-      .set(STATS_KEY, JSON.stringify(stats), { ex: complete ? FULL_TTL : PARTIAL_TTL })
+      .set(STATS_KEY, JSON.stringify(stats), {
+        ex: complete ? FULL_TTL : PARTIAL_TTL,
+      })
       .catch(() => {})
   }
 

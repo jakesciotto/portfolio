@@ -58,8 +58,10 @@ async function getAccessToken() {
 function ouraFetch(endpoint, accessToken, startDate, endDate) {
   return fetch(
     `https://api.ouraring.com/v2/usercollection/${endpoint}?start_date=${startDate}&end_date=${endDate}`,
-    { headers: { Authorization: `Bearer ${accessToken}` } }
-  ).then((r) => (r.ok ? r.json() : Promise.reject(new Error(`${endpoint}: ${r.status}`))))
+    { headers: { Authorization: `Bearer ${accessToken}` } },
+  ).then((r) =>
+    r.ok ? r.json() : Promise.reject(new Error(`${endpoint}: ${r.status}`)),
+  )
 }
 
 function getSleepVerdict(hours) {
@@ -69,7 +71,9 @@ function getSleepVerdict(hours) {
   return 'WOW'
 }
 
-const CACHE = { 'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600' }
+const CACHE = {
+  'Cache-Control': 'public, s-maxage=900, stale-while-revalidate=3600',
+}
 
 export async function GET() {
   try {
@@ -81,16 +85,16 @@ export async function GET() {
       .toISOString()
       .split('T')[0]
 
-    const [sleepData, dailySleepData, readinessData] =
-      await Promise.all([
-        ouraFetch('sleep', accessToken, sevenDaysAgo, tomorrow),
-        ouraFetch('daily_sleep', accessToken, sevenDaysAgo, tomorrow),
-        ouraFetch('daily_readiness', accessToken, sevenDaysAgo, tomorrow),
-      ])
+    const [sleepData, dailySleepData, readinessData] = await Promise.all([
+      ouraFetch('sleep', accessToken, sevenDaysAgo, tomorrow),
+      ouraFetch('daily_sleep', accessToken, sevenDaysAgo, tomorrow),
+      ouraFetch('daily_readiness', accessToken, sevenDaysAgo, tomorrow),
+    ])
     const sleepByDay = {}
     for (const session of sleepData.data || []) {
       const day = session.day
-      sleepByDay[day] = (sleepByDay[day] || 0) + (session.total_sleep_duration || 0)
+      sleepByDay[day] =
+        (sleepByDay[day] || 0) + (session.total_sleep_duration || 0)
     }
 
     const sleepTrend = Object.entries(sleepByDay)
@@ -144,10 +148,16 @@ export async function GET() {
 
     return Response.json(result, { headers: CACHE })
   } catch (error) {
-    captureServer('oura_stats_error', { error_message: error?.message, source: 'api' })
+    captureServer('oura_stats_error', {
+      error_message: error?.message,
+      source: 'api',
+    })
 
     return Response.json({
-      sleep: { current: { hours: null, score: null, verdict: 'NO DATA' }, trend: { hours: [], scores: [] } },
+      sleep: {
+        current: { hours: null, score: null, verdict: 'NO DATA' },
+        trend: { hours: [], scores: [] },
+      },
       readiness: { current: null, trend: [] },
     })
   }

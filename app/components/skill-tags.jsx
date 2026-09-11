@@ -63,10 +63,7 @@ function Prompt() {
 function SegmentBar({ weight }) {
   return (
     <div className="relative h-2.5 w-full">
-      <div
-        className="absolute inset-0 bg-border-strong"
-        style={SEGMENTS}
-      />
+      <div className="absolute inset-0 bg-border-strong" style={SEGMENTS} />
       <div
         className={`absolute inset-y-0 left-0 ${TIER_BG[weight]} transition-all duration-500 ease-out`}
         style={{ ...SEGMENTS, width: `${(weight / 5) * 100}%` }}

@@ -18,14 +18,22 @@ const watchedShows = [
 ]
 
 test('mapTraktStats keeps the all-time trio', () => {
-  const out = mapTraktStats({ stats, watchedShows, last30: { episodes: 86, movies: 5 } })
+  const out = mapTraktStats({
+    stats,
+    watchedShows,
+    last30: { episodes: 86, movies: 5 },
+  })
   assert.equal(out.movies, 305)
   assert.equal(out.episodes, 2720)
   assert.equal(out.hours, 2279)
 })
 
 test('mapTraktStats ranks the top five shows by plays', () => {
-  const out = mapTraktStats({ stats, watchedShows, last30: { episodes: 86, movies: 5 } })
+  const out = mapTraktStats({
+    stats,
+    watchedShows,
+    last30: { episodes: 86, movies: 5 },
+  })
   assert.deepEqual(out.topShows, [
     { title: "Bob's Burgers", plays: 200 },
     { title: 'The Office', plays: 195 },
@@ -36,7 +44,11 @@ test('mapTraktStats ranks the top five shows by plays', () => {
 })
 
 test('mapTraktStats passes the 30-day counts through as numbers', () => {
-  const out = mapTraktStats({ stats, watchedShows, last30: { episodes: '86', movies: 5 } })
+  const out = mapTraktStats({
+    stats,
+    watchedShows,
+    last30: { episodes: '86', movies: 5 },
+  })
   assert.deepEqual(out.last30, { episodes: 86, movies: 5 })
 })
 
@@ -48,5 +60,8 @@ test('mapTraktStats tolerates missing or malformed sources', () => {
     topShows: [],
     last30: { episodes: 0, movies: 0 },
   })
-  assert.deepEqual(mapTraktStats({ stats, watchedShows: { error: 'nope' } }).topShows, [])
+  assert.deepEqual(
+    mapTraktStats({ stats, watchedShows: { error: 'nope' } }).topShows,
+    [],
+  )
 })

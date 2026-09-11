@@ -41,10 +41,16 @@ test('spotifyView builds the hero', () => {
 
 test('spotifyView drops the unfinished last year and captions hours', () => {
   const v = spotifyView(stats)
-  assert.deepEqual(v.yearly.map((y) => y.label), ["'24", "'25"])
+  assert.deepEqual(
+    v.yearly.map((y) => y.label),
+    ["'24", "'25"],
+  )
   assert.equal(v.yearly[1].caption, '1,827h')
   assert.equal(v.yearly[1].text, '2025 · 1,827h')
-  const december = spotifyView({ ...stats, overview: { ...stats.overview, lastStream: '2026-12-19T00:00:00Z' } })
+  const december = spotifyView({
+    ...stats,
+    overview: { ...stats.overview, lastStream: '2026-12-19T00:00:00Z' },
+  })
   assert.equal(december.yearly.length, 3)
 })
 
@@ -56,9 +62,17 @@ test('spotifyView leads with the top artist and bars the next five', () => {
 })
 
 test('spotifyView uses fun facts for on repeat and falls back to the top track', () => {
-  assert.deepEqual(spotifyView(stats).onRepeat, { name: 'March Madness', artist: 'Future', plays: 1098 })
+  assert.deepEqual(spotifyView(stats).onRepeat, {
+    name: 'March Madness',
+    artist: 'Future',
+    plays: 1098,
+  })
   const noFacts = spotifyView({ ...stats, funFacts: null })
-  assert.deepEqual(noFacts.onRepeat, { name: 'March Madness', artist: 'Future', plays: null })
+  assert.deepEqual(noFacts.onRepeat, {
+    name: 'March Madness',
+    artist: 'Future',
+    plays: null,
+  })
   assert.equal(noFacts.lead.sharePct, 4.4)
 })
 

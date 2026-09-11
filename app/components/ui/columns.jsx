@@ -15,7 +15,9 @@ export default function Columns({
   if (!items.length) return null
   const cols = layoutColumns(items, { dim })
   const color = accentVar[accent] || accentVar.primary
-  const hasCaption = cols.some((c) => c.peak && items.find((it) => it.label === c.label)?.caption)
+  const hasCaption = cols.some(
+    (c) => c.peak && items.find((it) => it.label === c.label)?.caption,
+  )
 
   return (
     <div className={`w-full ${className}`.trim()}>
@@ -46,8 +48,17 @@ export default function Columns({
                 className="mx-auto block w-full rounded-t-[2px]"
                 style={
                   c.zero
-                    ? { height: 2, background: 'var(--border-strong)', maxWidth: barWidth }
-                    : { height: `${c.heightPct}%`, background: color, opacity: c.opacity, maxWidth: barWidth }
+                    ? {
+                        height: 2,
+                        background: 'var(--border-strong)',
+                        maxWidth: barWidth,
+                      }
+                    : {
+                        height: `${c.heightPct}%`,
+                        background: color,
+                        opacity: c.opacity,
+                        maxWidth: barWidth,
+                      }
                 }
               />
             </div>
@@ -56,7 +67,10 @@ export default function Columns({
       </div>
       <div className="mt-1.5 flex gap-1">
         {cols.map((c, i) => (
-          <span key={i} className="flex-1 text-center font-mono text-[9.5px] text-muted-foreground/70">
+          <span
+            key={i}
+            className="flex-1 text-center font-mono text-[9.5px] text-muted-foreground/70"
+          >
             {c.label}
           </span>
         ))}

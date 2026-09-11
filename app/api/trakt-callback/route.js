@@ -8,7 +8,8 @@ export async function GET(request) {
     return new Response('Missing code parameter', { status: 400 })
   }
 
-  const redirectUri = process.env.TRAKT_REDIRECT_URI || `${url.origin}/api/trakt-callback`
+  const redirectUri =
+    process.env.TRAKT_REDIRECT_URI || `${url.origin}/api/trakt-callback`
 
   const res = await fetch('https://api.trakt.tv/oauth/token', {
     method: 'POST',
@@ -33,7 +34,7 @@ export async function GET(request) {
         <h2>trakt auth failed (${res.status})</h2>
         <pre>${text}</pre>
       </body></html>`,
-      { status: res.status, headers: { 'Content-Type': 'text/html' } }
+      { status: res.status, headers: { 'Content-Type': 'text/html' } },
     )
   }
 
@@ -52,6 +53,6 @@ export async function GET(request) {
       <h2>trakt authorized</h2>
       <p>refresh token saved to redis. you're all set.</p>
     </body></html>`,
-    { headers: { 'Content-Type': 'text/html' } }
+    { headers: { 'Content-Type': 'text/html' } },
   )
 }

@@ -60,9 +60,9 @@ export default function TermsPage() {
             external links
           </h2>
           <p>
-            this site links to external websites (github, credly, etc.). i'm
-            not responsible for their content, privacy practices, or
-            availability. clicking those links is on you.
+            this site links to external websites (github, credly, etc.). i'm not
+            responsible for their content, privacy practices, or availability.
+            clicking those links is on you.
           </p>
         </section>
 

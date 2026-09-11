@@ -29,8 +29,8 @@ export default function PrivacyPage() {
               posthog
             </a>{' '}
             for analytics. it collects anonymous usage data like page views,
-            clicks, and general session info. i use this to understand how people
-            navigate the site — not to build a profile on you.
+            clicks, and general session info. i use this to understand how
+            people navigate the site — not to build a profile on you.
           </p>
         </section>
 

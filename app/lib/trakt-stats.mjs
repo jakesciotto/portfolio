@@ -1,7 +1,8 @@
 export function mapTraktStats({ stats, watchedShows, last30 } = {}) {
   const movies = stats?.movies?.watched || 0
   const episodes = stats?.episodes?.watched || 0
-  const minutes = (stats?.movies?.minutes || 0) + (stats?.episodes?.minutes || 0)
+  const minutes =
+    (stats?.movies?.minutes || 0) + (stats?.episodes?.minutes || 0)
 
   const topShows = (Array.isArray(watchedShows) ? [...watchedShows] : [])
     .filter((w) => w?.show?.title)
