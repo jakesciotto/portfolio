@@ -15,6 +15,7 @@ import AboutTile from './components/about-tile'
 import ObsidianRow from './components/obsidian-row'
 import TraktTile from './components/trakt-tile'
 import SpotifyRecentTile from './components/spotify-recent-tile'
+import { flags } from './lib/flags.mjs'
 
 export default function Page() {
   return (
@@ -70,13 +71,18 @@ export default function Page() {
           <StravaTile />
         </Tile>
 
-        <Tile accent="tertiary" gridClass="tile-projects">
+        <Tile
+          accent="tertiary"
+          gridClass={flags.oura ? 'tile-projects' : 'tile-projects-full'}
+        >
           <ProjectTile />
         </Tile>
 
-        <Tile accent="violet" gridClass="tile-oura">
-          <OuraTile />
-        </Tile>
+        {flags.oura && (
+          <Tile accent="violet" gridClass="tile-oura">
+            <OuraTile />
+          </Tile>
+        )}
       </BentoGrid>
     </div>
   )
