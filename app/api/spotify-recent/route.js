@@ -15,7 +15,8 @@ async function liveMinutes() {
   if (!redis) return null
   const raw = await redis.get('spotify:live').catch(() => null)
   const live = typeof raw === 'string' ? JSON.parse(raw) : raw
-  return live?.minutes > 0 ? Math.round(live.minutes) : null
+  if (!(live?.minutes > 0)) return null
+  return { minutes: Math.round(live.minutes), year: live.year ?? null }
 }
 const CACHE = {
   'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
@@ -23,7 +24,7 @@ const CACHE = {
 
 export async function GET() {
   try {
-    const [accessToken, minutes] = await Promise.all([
+    const [accessToken, live] = await Promise.all([
       getAccessToken(),
       liveMinutes(),
     ])
@@ -48,7 +49,7 @@ export async function GET() {
     })
 
     return Response.json(
-      { items, live: minutes == null ? null : { minutes } },
+      { items, live },
       { headers: items.length ? CACHE : { 'Cache-Control': 'no-store' } },
     )
   } catch (error) {

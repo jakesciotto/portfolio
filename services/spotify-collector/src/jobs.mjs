@@ -14,9 +14,15 @@ export async function collect({ db, spotify, log = console }) {
 // The five stats keys hold the full history the site shows. They are
 // overwritten only once the archive is loaded, or on an explicit force,
 // so a fresh collector cannot replace years of history with a day of plays.
-export async function publish({ db, redis, log = console, force = false }) {
+export async function publish({
+  db,
+  redis,
+  log = console,
+  force = false,
+  now = new Date(),
+}) {
   const entries = db.allEntries()
-  const live = liveSummary(entries)
+  const live = liveSummary(entries, now)
   await redis.set(LIVE_KEY, JSON.stringify(live))
   const hasArchive = db.counts().some((c) => c.source === 'archive')
   let stats = null
@@ -29,7 +35,7 @@ export async function publish({ db, redis, log = console, force = false }) {
   const scope = stats ? 'stats and live' : 'live only'
   db.recordRun('publish', true, 0, `${scope}, streams ${live.streams}`)
   log.log(
-    `publish: ${scope}, ${live.streams} streams, ${live.minutes} min, last ${live.lastStream}`,
+    `publish: ${scope}, ${live.streams} streams, ${live.minutes} min in ${live.year}, last ${live.lastStream}`,
   )
   return { stats, live }
 }

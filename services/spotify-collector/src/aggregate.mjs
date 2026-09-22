@@ -97,19 +97,30 @@ export function aggregate(entries) {
   }
 }
 
-export function liveSummary(entries) {
+// Minutes in the current calendar year, in the process time zone (TZ). The
+// archive supplies the base for the year and collected plays add to it.
+export function liveSummary(entries, now = new Date()) {
+  const year = now.getFullYear()
+  const start = new Date(year, 0, 1).toISOString()
   let ms = 0
   let streams = 0
   let since = null
   let lastStream = null
   for (const e of entries) {
     if (!e.artist || !e.track) continue
+    if (new Date(e.ts).toISOString() < start) continue
     ms += e.ms_played || 0
     streams++
     if (!since || e.ts < since) since = e.ts
     if (!lastStream || e.ts > lastStream) lastStream = e.ts
   }
-  return { minutes: Math.round(ms / MINUTE), streams, since, lastStream }
+  return {
+    year,
+    minutes: Math.round(ms / MINUTE),
+    streams,
+    since,
+    lastStream,
+  }
 }
 
 export const LIVE_KEY = 'spotify:live'

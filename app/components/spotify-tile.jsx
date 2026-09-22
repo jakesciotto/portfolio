@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useCachedFetch } from '../lib/use-cached-fetch'
 import { spotifyView } from '../lib/spotify-view.mjs'
+import { Badge } from './ui/badge'
 import { LABEL } from '../lib/accents.mjs'
 import TileSkeleton from './tile-skeleton'
 import Columns from './ui/columns'
@@ -39,6 +40,32 @@ function Strip({ label, items }) {
           </span>
         ))}
       </p>
+    </div>
+  )
+}
+
+const ON_REPEAT_BADGE =
+  'min-w-0 max-w-full font-mono normal-case tracking-tight'
+
+function OnRepeat({ name, artist, plays }) {
+  return (
+    <div className="mt-auto flex min-w-0 flex-col gap-1.5 pt-4">
+      <span className={LABEL}>on repeat</span>
+      <div className="flex min-w-0 flex-wrap items-center gap-1.5">
+        <Badge variant="tertiary" className={ON_REPEAT_BADGE} title={name}>
+          <span className="truncate">{name.toLowerCase()}</span>
+        </Badge>
+        {artist && (
+          <Badge variant="muted" className={ON_REPEAT_BADGE}>
+            <span className="truncate">{artist.toLowerCase()}</span>
+          </Badge>
+        )}
+        {plays != null && (
+          <Badge variant="muted" className={ON_REPEAT_BADGE}>
+            {plays.toLocaleString('en-US')} plays
+          </Badge>
+        )}
+      </div>
     </div>
   )
 }
@@ -93,18 +120,13 @@ export default function SpotifyTile() {
         items: view.bars.map((a) => ({ name: a.name, meta: `${a.hours}h` })),
       }
 
-  const footer = recent
-    ? live.artists.length > 1 &&
-      `also · ${live.artists
-        .slice(1, 3)
-        .map((a) => a.name)
-        .join(' · ')}`
-    : view.onRepeat &&
-      `on repeat · ${view.onRepeat.name}, ${view.onRepeat.artist}${
-        view.onRepeat.plays != null
-          ? ` · ${view.onRepeat.plays.toLocaleString('en-US')} plays`
-          : ''
-      }`
+  const footer =
+    recent &&
+    live.artists.length > 1 &&
+    `also · ${live.artists
+      .slice(1, 3)
+      .map((a) => a.name)
+      .join(' · ')}`
 
   return (
     <div className="flex h-full flex-col">
@@ -156,6 +178,7 @@ export default function SpotifyTile() {
           {footer}
         </p>
       )}
+      {!recent && view.onRepeat && <OnRepeat {...view.onRepeat} />}
     </div>
   )
 }
