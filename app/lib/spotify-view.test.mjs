@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { spotifyView } from './spotify-view.mjs'
+import { liveCounter, spotifyView, withLive } from './spotify-view.mjs'
 
 const stats = {
   overview: {
@@ -65,22 +65,51 @@ test('spotifyView leads with the top artist and bars the next five', () => {
   assert.deepEqual(v.bars[0], { name: 'Lil Baby', hours: 555, width: 94 })
 })
 
-test('spotifyView uses fun facts for on repeat and falls back to the top track', () => {
-  assert.deepEqual(spotifyView(stats).onRepeat, {
-    name: 'March Madness',
-    artist: 'Future',
-    plays: 1098,
-  })
-  const noFacts = spotifyView({ ...stats, funFacts: null })
-  assert.deepEqual(noFacts.onRepeat, {
-    name: 'March Madness',
-    artist: 'Future',
-    plays: null,
-  })
-  assert.equal(noFacts.lead.sharePct, 4.4)
-})
-
 test('spotifyView returns null without an overview', () => {
   assert.equal(spotifyView({ overview: null }), null)
   assert.equal(spotifyView(null), null)
 })
+
+test('withLive grows the current year and the total by the live gain', () => {
+  const live = {
+    year: 2026,
+    minutes: 75_696,
+    lastStream: '2026-09-22T22:18:08.082Z',
+  }
+  const merged = withLive(stats, live)
+  const year = merged.yearlyHours.find((y) => y.year === '2026')
+  assert.equal(year.hours, 1261.6)
+  assert.equal(merged.overview.totalHours, round1(13385.4 + 1261.6 - 286.8))
+  assert.equal(merged.overview.lastStream, '2026-09-22T22:18:08.082Z')
+  assert.equal(merged.yearlyHours.length, 3)
+  assert.equal(stats.yearlyHours[2].hours, 286.8)
+  const v = spotifyView(merged)
+  assert.equal(v.hours, '14,360')
+  assert.equal(v.yearly[2].text, '2026 · 1,262h so far')
+})
+
+test('withLive never lowers a value and ignores a missing live key', () => {
+  assert.equal(withLive(stats, { year: 2026, minutes: 60 }), stats)
+  assert.equal(withLive(stats, null), stats)
+  assert.equal(withLive(stats, { minutes: 90_000 }), stats)
+  assert.equal(withLive(null, { year: 2026, minutes: 60 }), null)
+})
+
+test('withLive adds a column for a year the stats do not hold yet', () => {
+  const merged = withLive(stats, { year: 2027, minutes: 600 })
+  assert.deepEqual(merged.yearlyHours.at(-1), { year: '2027', hours: 10 })
+  assert.equal(merged.overview.totalHours, 13395.4)
+})
+
+test('liveCounter formats minutes and hides an empty key', () => {
+  assert.deepEqual(liveCounter({ year: 2026, minutes: 75_696.4 }), {
+    minutes: '75,696',
+    year: '2026',
+  })
+  assert.equal(liveCounter({ year: 2026, minutes: 0 }), null)
+  assert.equal(liveCounter(null), null)
+})
+
+function round1(n) {
+  return Math.round(n * 10) / 10
+}

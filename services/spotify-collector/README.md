@@ -31,11 +31,15 @@ docker compose up -d --build
 docker compose exec -T spotify-collector node src/cli.mjs status
 ```
 
-Import an archive: copy the unzipped folder into `./data/archive`, then
+Import an archive: copy the unzipped folder into `./data/archive`, then stop the service
+first. While `serve` runs, its collect holds the SQLite lock, the import aborts part way with
+`database is locked`, and the next publish writes stats from the partial archive.
 
 ```sh
-docker compose exec -T spotify-collector node src/cli.mjs import /data/archive
-docker compose exec -T spotify-collector node src/cli.mjs publish
+docker compose stop
+docker compose run --rm -T spotify-collector node src/cli.mjs import /data/archive
+docker compose run --rm -T spotify-collector node src/cli.mjs publish
+docker compose start
 ```
 
 The SQLite file lives at `./data/plays.db` in WAL mode. Back it up by stopping the container

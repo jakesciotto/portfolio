@@ -11,13 +11,17 @@ export default function Columns({
   barWidth = 20,
   label = '',
   className = '',
+  captionAt = 'peak',
 }) {
   if (!items.length) return null
   const cols = layoutColumns(items, { dim })
   const color = accentVar[accent] || accentVar.primary
-  const hasCaption = cols.some(
-    (c) => c.peak && items.find((it) => it.label === c.label)?.caption,
-  )
+  const captionFor = (c, i) => {
+    if (captionAt === 'last')
+      return i === cols.length - 1 ? items[i].caption : null
+    return c.peak && !c.partial ? items[i].caption : null
+  }
+  const hasCaption = cols.some((c, i) => captionFor(c, i))
 
   return (
     <div className={`w-full ${className}`.trim()}>
@@ -28,7 +32,7 @@ export default function Columns({
         aria-label={label}
       >
         {cols.map((c, i) => {
-          const caption = c.peak && !c.partial ? items[i].caption : null
+          const caption = captionFor(c, i)
           return (
             <div
               key={i}
@@ -37,7 +41,10 @@ export default function Columns({
               className="group relative flex h-full flex-1 flex-col justify-end rounded-sm outline-none focus-visible:ring-1 focus-visible:ring-accent-primary"
             >
               {caption && (
-                <span className="absolute -top-4 left-0 right-0 whitespace-nowrap text-center font-mono text-[10px] text-muted-foreground group-hover:hidden group-focus-visible:hidden">
+                <span
+                  className="absolute left-0 right-0 mb-0.5 whitespace-nowrap text-center font-mono text-[10px] text-muted-foreground group-hover:hidden group-focus-visible:hidden"
+                  style={{ bottom: c.zero ? 2 : `${c.heightPct}%` }}
+                >
                   {caption}
                 </span>
               )}

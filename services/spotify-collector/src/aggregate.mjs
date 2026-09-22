@@ -35,7 +35,7 @@ export function aggregate(entries) {
     if (ms > PLAY_THRESHOLD_MS) {
       trackPlays.set(key, (trackPlays.get(key) || 0) + 1)
     }
-    const year = ts.slice(0, 4)
+    const year = String(new Date(ts).getFullYear())
     yearMs.set(year, (yearMs.get(year) || 0) + ms)
     const day = ts.slice(0, 10)
     dayMs.set(day, (dayMs.get(day) || 0) + ms)

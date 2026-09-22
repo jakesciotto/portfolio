@@ -2,6 +2,49 @@ function round(n) {
   return Math.round(Number(n) || 0)
 }
 
+const round1 = (n) => Math.round(n * 10) / 10
+
+// The live key and the stats keys come from one database, but the stats reach
+// the browser through a one hour cache. The live year never lowers a value.
+export function withLive(stats, live) {
+  const o = stats?.overview
+  const minutes = Number(live?.minutes)
+  if (!o || !live?.year || !(minutes > 0)) return stats
+
+  const year = String(live.year)
+  const liveHours = minutes / 60
+  const yearly = stats.yearlyHours || []
+  const current = yearly.find((y) => String(y.year) === year)
+  const gain = Math.max(0, liveHours - (Number(current?.hours) || 0))
+  if (!gain) return stats
+
+  const yearlyHours = current
+    ? yearly.map((y) =>
+        y === current ? { ...y, hours: round1(liveHours) } : y,
+      )
+    : [...yearly, { year, hours: round1(liveHours) }]
+  const lastStream =
+    live.lastStream && (!o.lastStream || live.lastStream > o.lastStream)
+      ? live.lastStream
+      : o.lastStream
+
+  return {
+    ...stats,
+    overview: {
+      ...o,
+      totalHours: round1((Number(o.totalHours) || 0) + gain),
+      lastStream,
+    },
+    yearlyHours,
+  }
+}
+
+export function liveCounter(live) {
+  const minutes = Math.round(Number(live?.minutes) || 0)
+  if (!live?.year || minutes <= 0) return null
+  return { minutes: minutes.toLocaleString('en-US'), year: String(live.year) }
+}
+
 export function spotifyView(stats) {
   const o = stats?.overview
   if (!o) return null
@@ -43,23 +86,10 @@ export function spotifyView(stats) {
     width: top?.hours ? Math.round((a.hours / top.hours) * 100) : 0,
   }))
 
-  const track = stats.topTracks?.[0]
-  let onRepeat = null
-  if (ff?.mostPlayedTrack) {
-    onRepeat = {
-      name: ff.mostPlayedTrack,
-      artist: ff.mostPlayedTrackArtist,
-      plays: ff.mostPlayedTrackPlays ?? null,
-    }
-  } else if (track) {
-    onRepeat = { name: track.name, artist: track.artist, plays: null }
-  }
-
   return {
     hours: round(totalHours).toLocaleString('en-US'),
     yearly,
     lead,
     bars,
-    onRepeat,
   }
 }

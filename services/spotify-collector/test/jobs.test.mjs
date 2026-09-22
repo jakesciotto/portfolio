@@ -104,6 +104,8 @@ test('the live key counts only the current year', async () => {
   assert.equal(live.minutes, 23)
   assert.equal(live.streams, 2)
   assert.equal(live.since, '2026-02-01T12:00:00Z')
+  const current = stats.yearlyHours.find((y) => y.year === '2026')
+  assert.equal(current.hours, Math.round(live.minutes / 6) / 10)
   db.close()
 })
 

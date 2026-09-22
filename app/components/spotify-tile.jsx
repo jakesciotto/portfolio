@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useCachedFetch } from '../lib/use-cached-fetch'
-import { spotifyView } from '../lib/spotify-view.mjs'
+import { liveCounter, spotifyView, withLive } from '../lib/spotify-view.mjs'
 import { Badge } from './ui/badge'
 import { LABEL } from '../lib/accents.mjs'
 import TileSkeleton from './tile-skeleton'
@@ -26,46 +26,40 @@ function Lead({ label, name, line }) {
   )
 }
 
-function Strip({ label, items }) {
+function Strip({ label, items, aside }) {
   if (!items.length) return null
   return (
-    <div>
-      <span className={LABEL}>{label}</span>
-      <p className="mt-1.5 font-mono text-xs leading-relaxed text-muted-foreground">
-        {items.map((it, i) => (
-          <span key={it.name}>
-            {i > 0 && <span className="text-muted-foreground/50"> · </span>}
-            <span className="font-medium text-foreground">{it.name}</span>
-            {it.meta && ` ${it.meta}`}
-          </span>
-        ))}
-      </p>
+    <div className="flex items-start justify-between gap-x-6 gap-y-3 max-sm:flex-col max-sm:items-stretch">
+      <div className="min-w-0 flex-1">
+        <span className={LABEL}>{label}</span>
+        <p className="mt-1.5 font-mono text-xs leading-relaxed text-muted-foreground">
+          {items.map((it, i) => (
+            <span key={it.name}>
+              {i > 0 && <span className="text-muted-foreground/50"> · </span>}
+              <span className="font-medium text-foreground">{it.name}</span>
+              {it.meta && ` ${it.meta}`}
+            </span>
+          ))}
+        </p>
+      </div>
+      {aside}
     </div>
   )
 }
 
-const ON_REPEAT_BADGE =
-  'min-w-0 max-w-full font-mono normal-case tracking-tight'
-
-function OnRepeat({ name, artist, plays }) {
+function LiveCounter({ minutes }) {
   return (
-    <div className="mt-auto flex min-w-0 flex-col gap-1.5 pt-4">
-      <span className={LABEL}>on repeat</span>
-      <div className="flex min-w-0 flex-wrap items-center gap-1.5">
-        <Badge variant="tertiary" className={ON_REPEAT_BADGE} title={name}>
-          <span className="truncate">{name.toLowerCase()}</span>
-        </Badge>
-        {artist && (
-          <Badge variant="muted" className={ON_REPEAT_BADGE}>
-            <span className="truncate">{artist.toLowerCase()}</span>
-          </Badge>
-        )}
-        {plays != null && (
-          <Badge variant="muted" className={ON_REPEAT_BADGE}>
-            {plays.toLocaleString('en-US')} plays
-          </Badge>
-        )}
-      </div>
+    <div
+      className="flex shrink-0 flex-col items-end gap-1.5"
+      title="minutes listened this year, updated every 15 minutes"
+    >
+      <span className={LABEL}>minutes this year</span>
+      <Badge
+        variant="tertiary"
+        className="px-3 py-1 font-mono text-xs normal-case tracking-tight"
+      >
+        {minutes}
+      </Badge>
     </div>
   )
 }
@@ -82,7 +76,13 @@ export default function SpotifyTile() {
     shouldCache: (data) => !!data.shortTerm,
   })
 
-  const view = spotifyView(stats)
+  const liveData = useCachedFetch('/api/spotify-live', 'spotify_live', {
+    ttl: 120000,
+    shouldCache: (data) => !!data.live,
+  })
+  const listening = liveData?.live
+  const view = spotifyView(withLive(stats, listening))
+  const counter = liveCounter(listening)
   if (!view) return <TileSkeleton accent="tertiary" lines={4} />
 
   const live = topItems?.shortTerm
@@ -116,7 +116,7 @@ export default function SpotifyTile() {
           .map((t) => ({ name: t.name, meta: `, ${t.artist}` })),
       }
     : {
-        label: 'then',
+        label: 'top artists',
         items: view.bars.map((a) => ({ name: a.name, meta: `${a.hours}h` })),
       }
 
@@ -157,20 +157,21 @@ export default function SpotifyTile() {
 
       {view.yearly.length > 1 && (
         <div className="mt-6">
-          <span className={LABEL}>hours per year</span>
+          <span className={LABEL}>hours per year charted</span>
           <Columns
             items={view.yearly}
             accent="tertiary"
             height={118}
             barWidth={40}
             label="Listening hours per year"
+            captionAt="last"
             className="mt-1"
           />
         </div>
       )}
 
       <div className="mt-5">
-        <Strip {...strip} />
+        <Strip {...strip} aside={counter && <LiveCounter {...counter} />} />
       </div>
 
       {footer && (
@@ -178,7 +179,6 @@ export default function SpotifyTile() {
           {footer}
         </p>
       )}
-      {!recent && view.onRepeat && <OnRepeat {...view.onRepeat} />}
     </div>
   )
 }

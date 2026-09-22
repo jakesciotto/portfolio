@@ -55,17 +55,6 @@ export default function SpotifyRecentTile() {
           <Run items={items} ariaHidden />
         </div>
       </div>
-      {data.live?.minutes > 0 && (
-        <p
-          className="mt-2 text-right font-mono text-[10.5px] text-muted-foreground/70"
-          title="minutes listened this year, updated every 15 minutes"
-        >
-          <b className="font-semibold text-foreground">
-            {data.live.minutes.toLocaleString('en-US')}
-          </b>{' '}
-          min {data.live.year ? `in ${data.live.year}` : 'live'}
-        </p>
-      )}
     </div>
   )
 }
