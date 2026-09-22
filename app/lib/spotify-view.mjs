@@ -62,7 +62,6 @@ export function spotifyView(stats) {
       value: y.hours,
       caption: hours,
       text: partial ? `${y.year} · ${hours} so far` : `${y.year} · ${hours}`,
-      partial,
     }
   })
 

@@ -39,7 +39,7 @@ test('spotifyView builds the hero', () => {
   assert.equal(spotifyView(stats).hours, '13,385')
 })
 
-test('spotifyView marks the unfinished last year partial and captions hours', () => {
+test('spotifyView captions hours and marks the unfinished last year so far', () => {
   const v = spotifyView(stats)
   assert.deepEqual(
     v.yearly.map((y) => y.label),
@@ -47,14 +47,12 @@ test('spotifyView marks the unfinished last year partial and captions hours', ()
   )
   assert.equal(v.yearly[1].caption, '1,827h')
   assert.equal(v.yearly[1].text, '2025 · 1,827h')
-  assert.equal(v.yearly[1].partial, false)
   assert.equal(v.yearly[2].text, '2026 · 287h so far')
-  assert.equal(v.yearly[2].partial, true)
+  assert.equal(v.yearly[2].partial, undefined)
   const december = spotifyView({
     ...stats,
     overview: { ...stats.overview, lastStream: '2026-12-19T00:00:00Z' },
   })
-  assert.equal(december.yearly[2].partial, false)
   assert.equal(december.yearly[2].text, '2026 · 287h')
 })
 

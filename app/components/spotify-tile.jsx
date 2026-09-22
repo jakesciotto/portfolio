@@ -29,39 +29,39 @@ function Lead({ label, name, line }) {
 function Strip({ label, items, aside }) {
   if (!items.length) return null
   return (
-    <div className="flex items-start justify-between gap-x-6 gap-y-3 max-sm:flex-col max-sm:items-stretch">
-      <div className="min-w-0 flex-1">
-        <span className={LABEL}>{label}</span>
-        <p className="mt-1.5 font-mono text-xs leading-relaxed text-muted-foreground">
-          {items.map((it, i) => (
-            <span key={it.name}>
-              {i > 0 && <span className="text-muted-foreground/50"> · </span>}
-              <span className="font-medium text-foreground">{it.name}</span>
-              {it.meta && ` ${it.meta}`}
-            </span>
-          ))}
-        </p>
-      </div>
-      {aside}
+    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-6 gap-y-1.5">
+      <span className={LABEL}>{label}</span>
+      {aside && <span className={`${LABEL} text-right`}>{aside.label}</span>}
+      <p
+        className={`font-mono text-xs leading-relaxed text-muted-foreground ${aside ? '' : 'col-span-2'}`}
+      >
+        {items.map((it, i) => (
+          <span key={it.name}>
+            {i > 0 && <span className="text-muted-foreground/50"> · </span>}
+            <span className="font-medium text-foreground">{it.name}</span>
+            {it.meta && ` ${it.meta}`}
+          </span>
+        ))}
+      </p>
+      {aside && <div className="justify-self-end">{aside.value}</div>}
     </div>
   )
 }
 
-function LiveCounter({ minutes }) {
-  return (
-    <div
-      className="flex shrink-0 flex-col items-end gap-1.5"
-      title="minutes listened this year, updated every 15 minutes"
-    >
-      <span className={LABEL}>minutes this year</span>
+function liveAside(counter) {
+  if (!counter) return null
+  return {
+    label: 'minutes this year',
+    value: (
       <Badge
         variant="tertiary"
         className="px-3 py-1 font-mono text-xs normal-case tracking-tight"
+        title="minutes listened this year, updated every 15 minutes"
       >
-        {minutes}
+        {counter.minutes}
       </Badge>
-    </div>
-  )
+    ),
+  }
 }
 
 export default function SpotifyTile() {
@@ -171,7 +171,7 @@ export default function SpotifyTile() {
       )}
 
       <div className="mt-5">
-        <Strip {...strip} aside={counter && <LiveCounter {...counter} />} />
+        <Strip {...strip} aside={liveAside(counter)} />
       </div>
 
       {footer && (
