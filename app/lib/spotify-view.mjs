@@ -55,20 +55,9 @@ export function spotifyView(stats) {
     onRepeat = { name: track.name, artist: track.artist, plays: null }
   }
 
-  const live =
-    stats.live && stats.live.minutes > 0
-      ? {
-          minutes: round(stats.live.minutes).toLocaleString('en-US'),
-          since: stats.live.since
-            ? String(stats.live.since).slice(0, 10)
-            : null,
-        }
-      : null
-
   return {
     hours: round(totalHours).toLocaleString('en-US'),
     yearly,
-    live,
     lead,
     bars,
     onRepeat,

@@ -46,7 +46,7 @@ function Strip({ label, items }) {
 export default function SpotifyTile() {
   const [tab, setTab] = useState('alltime')
 
-  const stats = useCachedFetch('/api/spotify-stats', 'spotify_stats_v3', {
+  const stats = useCachedFetch('/api/spotify-stats', 'spotify_stats_v2', {
     ttl: 3600000,
     shouldCache: (data) => !!data.overview,
   })
@@ -151,21 +151,10 @@ export default function SpotifyTile() {
         <Strip {...strip} />
       </div>
 
-      {(footer || view.live) && (
-        <div className="mt-auto flex items-end justify-between gap-4 pt-4 font-mono text-[10.5px] text-muted-foreground/70">
-          <p>{footer}</p>
-          {view.live && (
-            <p
-              className="shrink-0 whitespace-nowrap"
-              title={`live from the collector since ${view.live.since}`}
-            >
-              <b className="font-semibold text-foreground">
-                {view.live.minutes}
-              </b>{' '}
-              min live
-            </p>
-          )}
-        </div>
+      {footer && (
+        <p className="mt-auto pt-4 font-mono text-[10.5px] text-muted-foreground/70">
+          {footer}
+        </p>
       )}
     </div>
   )

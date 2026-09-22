@@ -1,14 +1,32 @@
+import { Redis } from '@upstash/redis'
 import { getAccessToken } from '../../lib/spotify-auth'
 import { captureServer } from '../../posthog'
 
 const LIMIT = 20
+const redis =
+  process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN
+    ? new Redis({
+        url: process.env.KV_REST_API_URL,
+        token: process.env.KV_REST_API_TOKEN,
+      })
+    : null
+
+async function liveMinutes() {
+  if (!redis) return null
+  const raw = await redis.get('spotify:live').catch(() => null)
+  const live = typeof raw === 'string' ? JSON.parse(raw) : raw
+  return live?.minutes > 0 ? Math.round(live.minutes) : null
+}
 const CACHE = {
   'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=120',
 }
 
 export async function GET() {
   try {
-    const accessToken = await getAccessToken()
+    const [accessToken, minutes] = await Promise.all([
+      getAccessToken(),
+      liveMinutes(),
+    ])
     const res = await fetch(
       `https://api.spotify.com/v1/me/player/recently-played?limit=${LIMIT}`,
       {
@@ -30,7 +48,7 @@ export async function GET() {
     })
 
     return Response.json(
-      { items },
+      { items, live: minutes == null ? null : { minutes } },
       { headers: items.length ? CACHE : { 'Cache-Control': 'no-store' } },
     )
   } catch (error) {

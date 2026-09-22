@@ -80,16 +80,6 @@ test('spotifyView uses fun facts for on repeat and falls back to the top track',
   assert.equal(noFacts.lead.sharePct, 4.4)
 })
 
-test('spotifyView exposes the live minute counter when the collector has data', () => {
-  assert.equal(spotifyView(stats).live, null)
-  const withLive = spotifyView({
-    ...stats,
-    live: { minutes: 1234.6, streams: 400, since: '2026-09-22T03:00:00.000Z' },
-  })
-  assert.deepEqual(withLive.live, { minutes: '1,235', since: '2026-09-22' })
-  assert.equal(spotifyView({ ...stats, live: { minutes: 0 } }).live, null)
-})
-
 test('spotifyView returns null without an overview', () => {
   assert.equal(spotifyView({ overview: null }), null)
   assert.equal(spotifyView(null), null)
