@@ -39,19 +39,23 @@ test('spotifyView builds the hero', () => {
   assert.equal(spotifyView(stats).hours, '13,385')
 })
 
-test('spotifyView drops the unfinished last year and captions hours', () => {
+test('spotifyView marks the unfinished last year partial and captions hours', () => {
   const v = spotifyView(stats)
   assert.deepEqual(
     v.yearly.map((y) => y.label),
-    ["'24", "'25"],
+    ["'24", "'25", "'26"],
   )
   assert.equal(v.yearly[1].caption, '1,827h')
   assert.equal(v.yearly[1].text, '2025 · 1,827h')
+  assert.equal(v.yearly[1].partial, false)
+  assert.equal(v.yearly[2].text, '2026 · 287h so far')
+  assert.equal(v.yearly[2].partial, true)
   const december = spotifyView({
     ...stats,
     overview: { ...stats.overview, lastStream: '2026-12-19T00:00:00Z' },
   })
-  assert.equal(december.yearly.length, 3)
+  assert.equal(december.yearly[2].partial, false)
+  assert.equal(december.yearly[2].text, '2026 · 287h')
 })
 
 test('spotifyView leads with the top artist and bars the next five', () => {
@@ -74,6 +78,16 @@ test('spotifyView uses fun facts for on repeat and falls back to the top track',
     plays: null,
   })
   assert.equal(noFacts.lead.sharePct, 4.4)
+})
+
+test('spotifyView exposes the live minute counter when the collector has data', () => {
+  assert.equal(spotifyView(stats).live, null)
+  const withLive = spotifyView({
+    ...stats,
+    live: { minutes: 1234.6, streams: 400, since: '2026-09-22T03:00:00.000Z' },
+  })
+  assert.deepEqual(withLive.live, { minutes: '1,235', since: '2026-09-22' })
+  assert.equal(spotifyView({ ...stats, live: { minutes: 0 } }).live, null)
 })
 
 test('spotifyView returns null without an overview', () => {

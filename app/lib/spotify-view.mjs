@@ -11,19 +11,17 @@ export function spotifyView(stats) {
   const lastYear = last ? String(last.getUTCFullYear()) : null
   const lastMonth = last ? last.getUTCMonth() : null
 
-  const yearly = (stats.yearlyHours || [])
-    .filter(
-      (y) => !(y.year === lastYear && lastMonth != null && lastMonth < 11),
-    )
-    .map((y) => {
-      const hours = `${round(y.hours).toLocaleString('en-US')}h`
-      return {
-        label: `'${String(y.year).slice(2)}`,
-        value: y.hours,
-        caption: hours,
-        text: `${y.year} · ${hours}`,
-      }
-    })
+  const yearly = (stats.yearlyHours || []).map((y) => {
+    const hours = `${round(y.hours).toLocaleString('en-US')}h`
+    const partial = y.year === lastYear && lastMonth != null && lastMonth < 11
+    return {
+      label: `'${String(y.year).slice(2)}`,
+      value: y.hours,
+      caption: hours,
+      text: partial ? `${y.year} · ${hours} so far` : `${y.year} · ${hours}`,
+      partial,
+    }
+  })
 
   const artists = stats.topArtists || []
   const top = artists[0]
@@ -57,9 +55,20 @@ export function spotifyView(stats) {
     onRepeat = { name: track.name, artist: track.artist, plays: null }
   }
 
+  const live =
+    stats.live && stats.live.minutes > 0
+      ? {
+          minutes: round(stats.live.minutes).toLocaleString('en-US'),
+          since: stats.live.since
+            ? String(stats.live.since).slice(0, 10)
+            : null,
+        }
+      : null
+
   return {
     hours: round(totalHours).toLocaleString('en-US'),
     yearly,
+    live,
     lead,
     bars,
     onRepeat,

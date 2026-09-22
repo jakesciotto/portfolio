@@ -8,10 +8,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "format": "prettier --write \"app/**/*.{js,jsx,mjs,css}\" \"scripts/**/*.mjs\"",
-    "format:check": "prettier --check \"app/**/*.{js,jsx,mjs,css}\" \"scripts/**/*.mjs\"",
+    "format": "prettier --write \"app/**/*.{js,jsx,mjs,css}\" \"scripts/**/*.mjs\" \"services/**/*.mjs\"",
+    "format:check": "prettier --check \"app/**/*.{js,jsx,mjs,css}\" \"scripts/**/*.mjs\" \"services/**/*.mjs\"",
     "start": "next start",
-    "test": "node --test \"app/lib/**/*.test.mjs\" \"scripts/**/*.test.mjs\""
+    "test": "node --test \"app/lib/**/*.test.mjs\" \"scripts/**/*.test.mjs\" \"services/**/*.test.mjs\""
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

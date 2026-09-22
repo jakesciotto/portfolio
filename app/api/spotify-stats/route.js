@@ -15,6 +15,7 @@ const EMPTY = {
   topTracks: [],
   yearlyHours: [],
   funFacts: null,
+  live: null,
 }
 const CACHE = {
   'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400',
@@ -36,13 +37,14 @@ export async function GET() {
   try {
     if (!redis) throw new Error('Redis not configured')
 
-    const [overview, topArtists, topTracks, yearlyHours, funFacts] =
+    const [overview, topArtists, topTracks, yearlyHours, funFacts, live] =
       await Promise.all([
         redis.get('spotify:overview'),
         redis.get('spotify:top_artists'),
         redis.get('spotify:top_tracks'),
         redis.get('spotify:yearly_hours'),
         redis.get('spotify:fun_facts'),
+        redis.get('spotify:live'),
       ])
 
     const result = {
@@ -51,6 +53,7 @@ export async function GET() {
       topTracks: parseValue(topTracks) || [],
       yearlyHours: parseValue(yearlyHours) || [],
       funFacts: parseValue(funFacts),
+      live: parseValue(live),
     }
 
     captureServer('spotify_stats_fetched', { source: 'api' })

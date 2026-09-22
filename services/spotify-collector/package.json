@@ -1,0 +1,16 @@
+{
+  "name": "spotify-collector",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "serve": "node src/cli.mjs serve",
+    "collect": "node src/cli.mjs collect",
+    "publish": "node src/cli.mjs publish",
+    "import": "node src/cli.mjs import",
+    "status": "node src/cli.mjs status",
+    "test": "node --test \"test/**/*.test.mjs\""
+  }
+}
