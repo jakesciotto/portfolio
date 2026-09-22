@@ -162,7 +162,6 @@ export default function SpotifyTile() {
             items={view.yearly}
             accent="tertiary"
             height={118}
-            barWidth={40}
             label="Listening hours per year"
             captionAt="last"
             className="mt-1"

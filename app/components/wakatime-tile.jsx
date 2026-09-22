@@ -65,7 +65,6 @@ export default function WakaTimeTile() {
                 accent="primary"
                 height={72}
                 dim={0.45}
-                barWidth={40}
                 label="Coding time per day this week"
                 className="mt-2"
               />

@@ -8,7 +8,7 @@ export default function Columns({
   accent = 'primary',
   height = 92,
   dim = 0.82,
-  barWidth = 20,
+  fill = 0.8,
   label = '',
   className = '',
   captionAt = 'peak',
@@ -26,7 +26,7 @@ export default function Columns({
   return (
     <div className={`w-full ${className}`.trim()}>
       <div
-        className={`relative flex items-end gap-1 border-b border-border ${hasCaption ? 'mt-4' : ''}`}
+        className={`relative flex items-end gap-1 border-b border-border ${hasCaption ? 'mt-5' : ''}`}
         style={{ height }}
         role="img"
         aria-label={label}
@@ -42,29 +42,29 @@ export default function Columns({
             >
               {caption && (
                 <span
-                  className="absolute left-0 right-0 mb-0.5 whitespace-nowrap text-center font-mono text-[10px] text-muted-foreground group-hover:hidden group-focus-visible:hidden"
+                  className="absolute left-0 right-0 mb-0.5 whitespace-nowrap text-center font-mono text-[11.5px] text-foreground/90 group-hover:hidden group-focus-visible:hidden"
                   style={{ bottom: c.zero ? 2 : `${c.heightPct}%` }}
                 >
                   {caption}
                 </span>
               )}
-              <span className="absolute bottom-full left-1/2 z-10 mb-1 hidden -translate-x-1/2 whitespace-nowrap rounded border border-border-strong bg-card px-1.5 py-0.5 font-mono text-[10px] text-foreground group-hover:block group-focus-visible:block">
+              <span className="absolute bottom-full left-1/2 z-10 mb-1 hidden -translate-x-1/2 whitespace-nowrap rounded border border-border-strong bg-card px-1.5 py-0.5 font-mono text-[11px] text-foreground group-hover:block group-focus-visible:block">
                 {c.text}
               </span>
               <i
-                className="mx-auto block w-full rounded-t-[2px]"
+                className="mx-auto block rounded-t-[2px]"
                 style={
                   c.zero
                     ? {
                         height: 2,
                         background: 'var(--border-strong)',
-                        maxWidth: barWidth,
+                        width: `${fill * 100}%`,
                       }
                     : {
                         height: `${c.heightPct}%`,
                         background: color,
                         opacity: c.opacity,
-                        maxWidth: barWidth,
+                        width: `${fill * 100}%`,
                       }
                 }
               />
@@ -72,11 +72,11 @@ export default function Columns({
           )
         })}
       </div>
-      <div className="mt-1.5 flex gap-1">
+      <div className="mt-2 flex gap-1">
         {cols.map((c, i) => (
           <span
             key={i}
-            className="flex-1 text-center font-mono text-[9.5px] text-muted-foreground/70"
+            className="flex-1 text-center font-mono text-[11px] text-foreground/80"
           >
             {c.label}
           </span>
