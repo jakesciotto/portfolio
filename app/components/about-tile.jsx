@@ -1,34 +1,55 @@
+import { Badge } from './ui/badge'
+
 const facts = [
   {
     label: 'bjj blue belt',
     detail: "all strength, no technique. won't pull guard",
+    badge: 'verified',
+    tone: 'tertiary',
+    // icon: <BeltIcon />,
   },
   {
     label: 'problem solver',
-    detail:
-      'semi-neurotic, highly technical. burdened by knowing a little bit about everything',
+    detail: "just give me about thirty minutes i'll figure something out",
+    badge: 'verified',
+    tone: 'tertiary',
   },
   {
     label: 'coach',
-    detail:
-      'lacrosse & bjj since 2009 - have been called the nick saban of youth sports',
+    detail: 'i have been called the nick saban of youth sports',
+    badge: 'disputed',
+    tone: 'amber',
   },
   {
     label: 'over-educated',
-    detail:
-      "the debt from these 2 master's degrees is not going to pay for itself",
+    detail: "let's just say i will never pay off my student loan debt",
+    badge: 'verified',
+    tone: 'tertiary',
   },
   {
     label: 'sweaty',
-    detail: 'wherever we are i am going to be wearing shorts',
+    detail: "it's always shorts weather baby",
+    badge: 'verified',
+    tone: 'tertiary',
   },
   {
     label: 'horrible bowler',
-    detail: 'just one of the things i am bad at. golf as well',
+    detail: 'what do you want from me',
+    badge: 'self-reported',
+    tone: 'muted',
   },
   {
     label: 'afraid of horses',
-    detail: 'too big to be trusted',
+    detail: 'they are too big to be trusted',
+    badge: 'verified',
+    tone: 'tertiary',
+  },
+  {
+    label: 'wife review',
+    detail: '"smartest guy i have ever met"',
+    badge: 'biased source',
+    tone: 'violet',
+    quote: true,
   },
 ]
 
@@ -39,6 +60,7 @@ function BeltIcon() {
       height="10"
       viewBox="0 0 16 10"
       className="inline-block shrink-0"
+      aria-hidden="true"
     >
       <rect x="0" y="3" width="16" height="4" rx="1" fill="#2563eb" />
       <rect x="6" y="2" width="4" height="6" rx="0.5" fill="#1d4ed8" />
@@ -64,49 +86,48 @@ function BeltIcon() {
   )
 }
 
+function FactCard({ fact, index }) {
+  return (
+    <li className="fact-card relative flex min-w-0 flex-col px-3 py-2.5">
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute top-2.25 right-2.75 font-mono text-2xl font-medium leading-none tracking-[-0.04em] tabular-nums text-foreground/20"
+      >
+        {String(index + 1).padStart(2, '0')}
+      </span>
+      <h4 className="inline-flex min-w-0 items-center gap-1.5 pr-10 text-sm leading-4.5 font-semibold tracking-tight text-foreground">
+        {fact.label}
+        {fact.icon}
+      </h4>
+      <p
+        className={`mt-2 text-xs leading-4 font-medium tracking-[-0.2px] ${
+          fact.quote ? 'text-foreground/90 italic' : 'text-muted-foreground'
+        }`}
+      >
+        {fact.detail}
+      </p>
+      <Badge
+        variant={fact.tone}
+        className="mt-2 h-4 self-end rounded px-1.5 py-0 font-mono text-[9.5px] tracking-[0.04em]"
+      >
+        {fact.badge}
+      </Badge>
+    </li>
+  )
+}
+
 export default function AboutTile() {
   return (
     <div className="h-full flex flex-col">
-      <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground">
+      <h3 className="text-lg font-semibold font-mono tracking-tight text-foreground mb-3">
         about
       </h3>
-      <p className="text-xs font-medium lowercase tracking-tight text-muted-foreground mb-4">
-        in order of importance
-      </p>
 
-      <ol className="flex flex-col gap-3">
+      <ol className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         {facts.map((fact, i) => (
-          <li key={fact.label} className="flex items-baseline gap-2.5">
-            <span className="text-xs font-mono font-medium text-muted-foreground/50 shrink-0 tabular-nums">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <div>
-              <p className="text-sm font-semibold tracking-tight text-foreground leading-tight inline">
-                {fact.label}
-                {fact.label === 'bjj blue belt' && (
-                  <span className="ml-1.5 align-middle">
-                    <BeltIcon />
-                  </span>
-                )}
-              </p>
-              <span className="text-xs font-medium text-muted-foreground ml-1.5">
-                &rarr; {fact.detail}
-              </span>
-            </div>
-          </li>
+          <FactCard key={fact.label} fact={fact} index={i} />
         ))}
       </ol>
-
-      <div className="mt-auto pt-4">
-        <div className="border-l border-accent-violet/40 pl-3">
-          <p className="text-xs font-mono font-medium uppercase tracking-tight text-muted-foreground mb-1">
-            wife review
-          </p>
-          <p className="text-sm italic text-foreground/90 leading-snug">
-            "smartest guy i have ever met"
-          </p>
-        </div>
-      </div>
     </div>
   )
 }
