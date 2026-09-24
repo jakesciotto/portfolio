@@ -44,13 +44,11 @@ Copy and customize this template for new releases:
 
 **Note:** Maintain this changelog by adding entries under `[Unreleased]` during development, then moving them to a versioned section at release time.
 
-## [Unreleased] - 2026-09-24
+## [1.6.0] - 2026-09-24
 
 ### Added
 - Coherence (`@danilocampos/coherence`): a config, a JavaScript adapter, five `*.spec.md` files with invariants anchored to the existing tests, the Claude lifecycle hook, and a generated block in `CLAUDE.md`. `npx coherence verify` is the gate.
 - `CLAUDE.md` and `CHANGELOG.md` at the repository root, rebuilt from the retired `.claude` project files. That directory is archived on vinelab.
-
-## [Unreleased] - 2026-09-23
 
 ### Changed
 - The about tile renders each fact as a card in a two column grid (one column under 640px): a mono numeral top right, the fact as a heading, the detail as a description, and a right-aligned chip badge. Each fact carries `badge` and `tone`, so a swap is one line. The wife review is card 08 with a violet "biased source" badge.
