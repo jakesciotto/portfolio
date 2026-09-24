@@ -1,0 +1,450 @@
+{
+  "version": 1,
+  "verify": {
+    "at": "2026-09-24T17:11:21.209Z",
+    "commit": "4714c1e",
+    "dirty": true,
+    "tier": "full",
+    "scope": null,
+    "cost": {
+      "totalMs": 1427.7738289999998,
+      "claims": [
+        {
+          "node": "View math",
+          "claim": "boundary \"a live value never lowers a stored value\" at withLive via test \"withLive never lowers a value and ignores a missing live key\"",
+          "ms": 146.788916,
+          "source": "wall"
+        },
+        {
+          "node": "Spotify collector",
+          "claim": "boundary \"the live key counts only the current year\" at liveSummary via test \"the live key counts only the current year\"",
+          "ms": 80.80720799999995,
+          "source": "wall"
+        },
+        {
+          "node": "Spotify collector",
+          "claim": "passes test \"ms_played is the gap to the previous play, capped at the duration\"",
+          "ms": 80.50058400000012,
+          "source": "wall"
+        },
+        {
+          "node": "Spotify collector",
+          "claim": "passes test \"collect asks for plays after the newest stored one and publish writes five keys\"",
+          "ms": 79.08245799999986,
+          "source": "wall"
+        },
+        {
+          "node": "View math",
+          "claim": "passes test \"spotifyView captions hours and marks the unfinished last year so far\"",
+          "ms": 78.94633399999998,
+          "source": "wall"
+        }
+      ]
+    },
+    "lastFullAt": "2026-09-24T17:11:21.209Z",
+    "claims": [
+      {
+        "node": "jakesciotto.com",
+        "claim": "app/global.css exists at root",
+        "kind": "pass",
+        "detail": "app/global.css @ root",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 7
+      },
+      {
+        "node": "jakesciotto.com",
+        "claim": "next.config.js exists at root",
+        "kind": "pass",
+        "detail": "next.config.js @ root",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 7
+      },
+      {
+        "node": "jakesciotto.com",
+        "claim": "app/posthog.js exists at root",
+        "kind": "pass",
+        "detail": "app/posthog.js @ root",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 7
+      },
+      {
+        "node": "API routes",
+        "claim": "github-stats/route.js exists at this node",
+        "kind": "pass",
+        "detail": "github-stats/route.js @ this node",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 7
+      },
+      {
+        "node": "API routes",
+        "claim": "spotify-stats/route.js exists at this node",
+        "kind": "pass",
+        "detail": "spotify-stats/route.js @ this node",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 7
+      },
+      {
+        "node": "API routes",
+        "claim": "wakatime-stats/route.js exists at this node",
+        "kind": "pass",
+        "detail": "wakatime-stats/route.js @ this node",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 7
+      },
+      {
+        "node": "API routes",
+        "claim": "trakt-stats/route.js exists at this node",
+        "kind": "pass",
+        "detail": "trakt-stats/route.js @ this node",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 7
+      },
+      {
+        "node": "API routes",
+        "claim": "strava-stats/route.js exists at this node",
+        "kind": "pass",
+        "detail": "strava-stats/route.js @ this node",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 7
+      },
+      {
+        "node": "API routes",
+        "claim": "obsidian-stats/route.js exists at this node",
+        "kind": "pass",
+        "detail": "obsidian-stats/route.js @ this node",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 7
+      },
+      {
+        "node": "Tiles and chart primitives",
+        "claim": "tile.jsx exists at this node",
+        "kind": "pass",
+        "detail": "tile.jsx @ this node",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 1
+      },
+      {
+        "node": "Tiles and chart primitives",
+        "claim": "bento-grid.jsx exists at this node",
+        "kind": "pass",
+        "detail": "bento-grid.jsx @ this node",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 1
+      },
+      {
+        "node": "Tiles and chart primitives",
+        "claim": "ui/columns.jsx exists at this node",
+        "kind": "pass",
+        "detail": "ui/columns.jsx @ this node",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 1
+      },
+      {
+        "node": "Tiles and chart primitives",
+        "claim": "ui/badge.jsx exists at this node",
+        "kind": "pass",
+        "detail": "ui/badge.jsx @ this node",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 1
+      },
+      {
+        "node": "Tiles and chart primitives",
+        "claim": "ui/period-pills.jsx exists at this node",
+        "kind": "pass",
+        "detail": "ui/period-pills.jsx @ this node",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 1
+      },
+      {
+        "node": "Tiles and chart primitives",
+        "claim": "bento-grid.jsx imports gsap",
+        "kind": "pass",
+        "detail": "",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 1
+      },
+      {
+        "node": "View math",
+        "claim": "boundary \"a live value never lowers a stored value\" at withLive via test \"withLive never lowers a value and ignores a missing live key\"",
+        "kind": "pass",
+        "detail": "a live value never lowers a stored value @ withLive",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 7
+      },
+      {
+        "node": "View math",
+        "claim": "boundary \"a zero bar keeps a visible floor\" at layoutColumns via test \"layoutColumns renders zero as a stub and enforces a 3% floor\"",
+        "kind": "pass",
+        "detail": "a zero bar keeps a visible floor @ layoutColumns",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 7
+      },
+      {
+        "node": "View math",
+        "claim": "boundary \"a missing source yields a null view, not a crash\" at spotifyView via test \"spotifyView returns null without an overview\"",
+        "kind": "pass",
+        "detail": "a missing source yields a null view, not a crash @ spotifyView",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 7
+      },
+      {
+        "node": "View math",
+        "claim": "boundary \"a zero total never divides\" at tierCards via test \"tierCards guards missing data and a zero total\"",
+        "kind": "pass",
+        "detail": "a zero total never divides @ tierCards",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 7
+      },
+      {
+        "node": "View math",
+        "claim": "passes test \"mapWakaStats tolerates missing sources\"",
+        "kind": "pass",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 6
+      },
+      {
+        "node": "View math",
+        "claim": "passes test \"mapTraktStats tolerates missing or malformed sources\"",
+        "kind": "pass",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 6
+      },
+      {
+        "node": "View math",
+        "claim": "passes test \"TIERS run hot to cold with one hue each\"",
+        "kind": "pass",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 6
+      },
+      {
+        "node": "View math",
+        "claim": "passes test \"spotifyView captions hours and marks the unfinished last year so far\"",
+        "kind": "pass",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 6
+      },
+      {
+        "node": "View math",
+        "claim": "passes test \"pct rounds and guards a zero total\"",
+        "kind": "pass",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": false,
+        "runs": 2
+      },
+      {
+        "node": "View math",
+        "claim": "passes test \"layoutColumns with all zeros has no peak\"",
+        "kind": "pass",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 6
+      },
+      {
+        "node": "Spotify collector",
+        "claim": "boundary \"a play is stored once\" at dedupeKey via test \"an archive row and an api row for the same play share a dedupe key\"",
+        "kind": "pass",
+        "detail": "a play is stored once @ dedupeKey",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 7
+      },
+      {
+        "node": "Spotify collector",
+        "claim": "boundary \"stats publish only after the archive is loaded\" at publish via test \"publish writes only the live key until the archive is loaded\"",
+        "kind": "pass",
+        "detail": "stats publish only after the archive is loaded @ publish",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 7
+      },
+      {
+        "node": "Spotify collector",
+        "claim": "boundary \"the live key counts only the current year\" at liveSummary via test \"the live key counts only the current year\"",
+        "kind": "pass",
+        "detail": "the live key counts only the current year @ liveSummary",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 7
+      },
+      {
+        "node": "Spotify collector",
+        "claim": "boundary \"a failed run notifies once until recovery\" at serve via test \"serve records a failed run and notifies once until recovery\"",
+        "kind": "pass",
+        "detail": "a failed run notifies once until recovery @ serve",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 7
+      },
+      {
+        "node": "Spotify collector",
+        "claim": "passes test \"insertPlays ignores duplicates and lastTs reads the newest row\"",
+        "kind": "pass",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 6
+      },
+      {
+        "node": "Spotify collector",
+        "claim": "passes test \"ms_played is the gap to the previous play, capped at the duration\"",
+        "kind": "pass",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 6
+      },
+      {
+        "node": "Spotify collector",
+        "claim": "passes test \"collect asks for plays after the newest stored one and publish writes five keys\"",
+        "kind": "pass",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 6
+      },
+      {
+        "node": "Spotify collector",
+        "claim": "passes test \"importArchive loads every history file once\"",
+        "kind": "pass",
+        "at": "2026-09-24T17:11:21.209Z",
+        "commit": "4714c1e",
+        "tier": "full",
+        "everFailed": true,
+        "lastFailAt": "2026-09-24T16:58:41.937Z",
+        "lastFailCommit": "4714c1e",
+        "runs": 6
+      }
+    ],
+    "coverage": {
+      "components": 5,
+      "claimed": 5,
+      "withWhy": 5,
+      "symbols": 91,
+      "documented": 5
+    },
+    "invariants": {
+      "total": 8,
+      "anchored": 8,
+      "gaps": []
+    },
+    "narrative": null,
+    "jobs": 86,
+    "failures": 0
+  }
+}

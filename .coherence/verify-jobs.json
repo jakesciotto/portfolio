@@ -1,0 +1,619 @@
+[
+  {
+    "kind": "generate-doc",
+    "id": "s:app/page.jsx#Page",
+    "file": "app/page.jsx",
+    "line": 20,
+    "name": "Page",
+    "hot": 0.1981981981981982
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/github-stats/route.js#GET",
+    "file": "app/api/github-stats/route.js",
+    "line": 31,
+    "name": "GET",
+    "hot": 0.08108108108108109
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/spotify-stats/route.js#GET",
+    "file": "app/api/spotify-stats/route.js",
+    "line": 35,
+    "name": "GET",
+    "hot": 0.06306306306306306
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/layout.jsx#metadata",
+    "file": "app/layout.jsx",
+    "line": 1,
+    "name": "metadata",
+    "hot": 0.06306306306306306
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/layout.jsx#RootLayout",
+    "file": "app/layout.jsx",
+    "line": 18,
+    "name": "RootLayout",
+    "hot": 0.06306306306306306
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/spotify-view.mjs#liveCounter",
+    "file": "app/lib/spotify-view.mjs",
+    "line": 42,
+    "name": "liveCounter",
+    "hot": 0.06306306306306306
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/spotify-view.mjs#spotifyView",
+    "file": "app/lib/spotify-view.mjs",
+    "line": 48,
+    "name": "spotifyView",
+    "hot": 0.06306306306306306
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/strava-stats/route.js#dynamic",
+    "file": "app/api/strava-stats/route.js",
+    "line": 4,
+    "name": "dynamic",
+    "hot": 0.05405405405405406
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/strava-stats/route.js#GET",
+    "file": "app/api/strava-stats/route.js",
+    "line": 30,
+    "name": "GET",
+    "hot": 0.05405405405405406
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/wakatime-stats/route.js#GET",
+    "file": "app/api/wakatime-stats/route.js",
+    "line": 23,
+    "name": "GET",
+    "hot": 0.05405405405405406
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/cert-strip.jsx#CertStrip",
+    "file": "app/components/cert-strip.jsx",
+    "line": 18,
+    "name": "CertStrip",
+    "hot": 0.05405405405405406
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/education-tile.jsx#EducationTile",
+    "file": "app/components/education-tile.jsx",
+    "line": 39,
+    "name": "EducationTile",
+    "hot": 0.05405405405405406
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/footer.jsx#Footer",
+    "file": "app/components/footer.jsx",
+    "line": 6,
+    "name": "Footer",
+    "hot": 0.05405405405405406
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/github-tile.jsx#GitHubTile",
+    "file": "app/components/github-tile.jsx",
+    "line": 10,
+    "name": "GitHubTile",
+    "hot": 0.05405405405405406
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/spotify-recent-tile.jsx#SpotifyRecentTile",
+    "file": "app/components/spotify-recent-tile.jsx",
+    "line": 25,
+    "name": "SpotifyRecentTile",
+    "hot": 0.05405405405405406
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/oura-stats/route.js#GET",
+    "file": "app/api/oura-stats/route.js",
+    "line": 78,
+    "name": "GET"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/oura-callback/route.js#GET",
+    "file": "app/api/oura-callback/route.js",
+    "line": 3,
+    "name": "GET"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/spotify-recent/route.js#GET",
+    "file": "app/api/spotify-recent/route.js",
+    "line": 9,
+    "name": "GET"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/trakt-stats/route.js#GET",
+    "file": "app/api/trakt-stats/route.js",
+    "line": 102,
+    "name": "GET"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/header-now-playing.jsx#HeaderNowPlaying",
+    "file": "app/components/header-now-playing.jsx",
+    "line": 5,
+    "name": "HeaderNowPlaying"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/tile.jsx#Tile",
+    "file": "app/components/tile.jsx",
+    "line": 6,
+    "name": "Tile"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/ui/heatmap.jsx#Heatmap",
+    "file": "app/components/ui/heatmap.jsx",
+    "line": 44,
+    "name": "Heatmap"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/privacy/page.jsx#metadata",
+    "file": "app/privacy/page.jsx",
+    "line": 1,
+    "name": "metadata"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/privacy/page.jsx#PrivacyPage",
+    "file": "app/privacy/page.jsx",
+    "line": 6,
+    "name": "PrivacyPage"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/terms/page.jsx#metadata",
+    "file": "app/terms/page.jsx",
+    "line": 1,
+    "name": "metadata"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/terms/page.jsx#TermsPage",
+    "file": "app/terms/page.jsx",
+    "line": 6,
+    "name": "TermsPage"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/tweets/tweet-client.jsx#TweetClient",
+    "file": "app/tweets/tweet-client.jsx",
+    "line": 7,
+    "name": "TweetClient"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/obsidian-stats/route.js#dynamic",
+    "file": "app/api/obsidian-stats/route.js",
+    "line": 4,
+    "name": "dynamic"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/obsidian-stats/route.js#GET",
+    "file": "app/api/obsidian-stats/route.js",
+    "line": 20,
+    "name": "GET"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/spotify-now-playing/route.js#GET",
+    "file": "app/api/spotify-now-playing/route.js",
+    "line": 33,
+    "name": "GET"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/spotify-top/route.js#GET",
+    "file": "app/api/spotify-top/route.js",
+    "line": 35,
+    "name": "GET"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/hero-name.jsx#HeroName",
+    "file": "app/components/hero-name.jsx",
+    "line": 9,
+    "name": "HeroName"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/magnetic-link.jsx#MagneticLink",
+    "file": "app/components/magnetic-link.jsx",
+    "line": 7,
+    "name": "MagneticLink"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/obsidian-row.mjs#TIERS",
+    "file": "app/lib/obsidian-row.mjs",
+    "line": 3,
+    "name": "TIERS"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/obsidian-row.mjs#tierCards",
+    "file": "app/lib/obsidian-row.mjs",
+    "line": 12,
+    "name": "tierCards"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/trakt-stats.mjs#mapTraktStats",
+    "file": "app/lib/trakt-stats.mjs",
+    "line": 1,
+    "name": "mapTraktStats"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/posthog.js#captureServer",
+    "file": "app/posthog.js",
+    "line": 16,
+    "name": "captureServer"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/aggregate.mjs#aggregate",
+    "file": "services/spotify-collector/src/aggregate.mjs",
+    "line": 7,
+    "name": "aggregate"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/aggregate.mjs#LIVE_KEY",
+    "file": "services/spotify-collector/src/aggregate.mjs",
+    "line": 126,
+    "name": "LIVE_KEY"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/aggregate.mjs#REDIS_KEYS",
+    "file": "services/spotify-collector/src/aggregate.mjs",
+    "line": 128,
+    "name": "REDIS_KEYS"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/experience-tile.jsx#ExperienceTile",
+    "file": "app/components/experience-tile.jsx",
+    "line": 5,
+    "name": "ExperienceTile"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/stat-tile.jsx#StatTile",
+    "file": "app/components/stat-tile.jsx",
+    "line": 3,
+    "name": "StatTile"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/posts.js#getAllPosts",
+    "file": "app/lib/posts.js",
+    "line": 35,
+    "name": "getAllPosts"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/posts.js#getPost",
+    "file": "app/lib/posts.js",
+    "line": 42,
+    "name": "getPost"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/spotify-auth.js#getRefreshToken",
+    "file": "app/lib/spotify-auth.js",
+    "line": 14,
+    "name": "getRefreshToken"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/spotify-auth.js#getAccessToken",
+    "file": "app/lib/spotify-auth.js",
+    "line": 24,
+    "name": "getAccessToken"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/use-cached-fetch.js#useCachedFetch",
+    "file": "app/lib/use-cached-fetch.js",
+    "line": 13,
+    "name": "useCachedFetch"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/wakatime-stats.mjs#mapWakaStats",
+    "file": "app/lib/wakatime-stats.mjs",
+    "line": 18,
+    "name": "mapWakaStats"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/jobs.mjs#collect",
+    "file": "services/spotify-collector/src/jobs.mjs",
+    "line": 4,
+    "name": "collect"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/spotify-callback/route.js#GET",
+    "file": "app/api/spotify-callback/route.js",
+    "line": 3,
+    "name": "GET"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/spotify-live/route.js#GET",
+    "file": "app/api/spotify-live/route.js",
+    "line": 16,
+    "name": "GET"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/api/trakt-callback/route.js#GET",
+    "file": "app/api/trakt-callback/route.js",
+    "line": 3,
+    "name": "GET"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/blog/[slug]/page.jsx#generateStaticParams",
+    "file": "app/blog/[slug]/page.jsx",
+    "line": 7,
+    "name": "generateStaticParams"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/blog/[slug]/page.jsx#generateMetadata",
+    "file": "app/blog/[slug]/page.jsx",
+    "line": 11,
+    "name": "generateMetadata"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/blog/[slug]/page.jsx#PostPage",
+    "file": "app/blog/[slug]/page.jsx",
+    "line": 29,
+    "name": "PostPage"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/blog/page.jsx#metadata",
+    "file": "app/blog/page.jsx",
+    "line": 4,
+    "name": "metadata"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/animated-number.jsx#AnimatedNumber",
+    "file": "app/components/animated-number.jsx",
+    "line": 5,
+    "name": "AnimatedNumber"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/bento-grid.jsx#BentoGrid",
+    "file": "app/components/bento-grid.jsx",
+    "line": 10,
+    "name": "BentoGrid"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/tile-skeleton.jsx#TileSkeleton",
+    "file": "app/components/tile-skeleton.jsx",
+    "line": 12,
+    "name": "TileSkeleton"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/tracked-link.jsx#TrackedLink",
+    "file": "app/components/tracked-link.jsx",
+    "line": 5,
+    "name": "TrackedLink"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/ui/period-pills.jsx#PeriodPills",
+    "file": "app/components/ui/period-pills.jsx",
+    "line": 14,
+    "name": "PeriodPills"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/accents.mjs#ACCENTS",
+    "file": "app/lib/accents.mjs",
+    "line": 1,
+    "name": "ACCENTS"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/accents.mjs#accentVar",
+    "file": "app/lib/accents.mjs",
+    "line": 10,
+    "name": "accentVar"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/accents.mjs#textClass",
+    "file": "app/lib/accents.mjs",
+    "line": 14,
+    "name": "textClass"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/accents.mjs#bgClass",
+    "file": "app/lib/accents.mjs",
+    "line": 23,
+    "name": "bgClass"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/accents.mjs#LABEL",
+    "file": "app/lib/accents.mjs",
+    "line": 32,
+    "name": "LABEL"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/columns.mjs#layoutColumns",
+    "file": "app/lib/columns.mjs",
+    "line": 1,
+    "name": "layoutColumns"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/format.mjs#agoLabel",
+    "file": "app/lib/format.mjs",
+    "line": 17,
+    "name": "agoLabel"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/format.mjs#compact",
+    "file": "app/lib/format.mjs",
+    "line": 35,
+    "name": "compact"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/format.mjs#hoursToDays",
+    "file": "app/lib/format.mjs",
+    "line": 44,
+    "name": "hoursToDays"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/format.mjs#pct",
+    "file": "app/lib/format.mjs",
+    "line": 48,
+    "name": "pct"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/format.mjs#monthYear",
+    "file": "app/lib/format.mjs",
+    "line": 53,
+    "name": "monthYear"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/format.mjs#weekdayShort",
+    "file": "app/lib/format.mjs",
+    "line": 60,
+    "name": "weekdayShort"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/format.mjs#shortDuration",
+    "file": "app/lib/format.mjs",
+    "line": 66,
+    "name": "shortDuration"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/lib/utils.js#cn",
+    "file": "app/lib/utils.js",
+    "line": 4,
+    "name": "cn"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/db.mjs#openDb",
+    "file": "services/spotify-collector/src/db.mjs",
+    "line": 28,
+    "name": "openDb"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/import-archive.mjs#importArchive",
+    "file": "services/spotify-collector/src/import-archive.mjs",
+    "line": 5,
+    "name": "importArchive"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/notify.mjs#createNotifier",
+    "file": "services/spotify-collector/src/notify.mjs",
+    "line": 1,
+    "name": "createNotifier"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/plays.mjs#toSecond",
+    "file": "services/spotify-collector/src/plays.mjs",
+    "line": 1,
+    "name": "toSecond"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/plays.mjs#dedupeKey",
+    "file": "services/spotify-collector/src/plays.mjs",
+    "line": 5,
+    "name": "dedupeKey"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/plays.mjs#fromArchive",
+    "file": "services/spotify-collector/src/plays.mjs",
+    "line": 11,
+    "name": "fromArchive"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/redis.mjs#createRedis",
+    "file": "services/spotify-collector/src/redis.mjs",
+    "line": 1,
+    "name": "createRedis"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/serve.mjs#serve",
+    "file": "services/spotify-collector/src/serve.mjs",
+    "line": 5,
+    "name": "serve"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:services/spotify-collector/src/spotify.mjs#createSpotify",
+    "file": "services/spotify-collector/src/spotify.mjs",
+    "line": 5,
+    "name": "createSpotify"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/scroll-provider.jsx#useLenis",
+    "file": "app/components/scroll-provider.jsx",
+    "line": 12,
+    "name": "useLenis"
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/components/scroll-provider.jsx#ScrollProvider",
+    "file": "app/components/scroll-provider.jsx",
+    "line": 16,
+    "name": "ScrollProvider"
+  }
+]

@@ -37,6 +37,7 @@
     "tailwindcss": "4.3.3"
   },
   "devDependencies": {
+    "@danilocampos/coherence": "^0.37.1",
     "prettier": "^3.9.8"
   }
 }

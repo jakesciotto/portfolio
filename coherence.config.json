@@ -1,0 +1,31 @@
+{
+  "language": "./.coherence/adapters/javascript.mjs",
+  "codeExt": [
+    "js",
+    "jsx",
+    "mjs"
+  ],
+  "outputDir": ".coherence/out",
+  "testDir": ".test.",
+  "test": [
+    "sh",
+    "-c",
+    "node --test --test-reporter=tap --test-name-pattern \"$0\" 'app/lib/**/*.test.mjs' 'services/**/*.test.mjs'"
+  ],
+  "testMatch": "(?:^|\\n)ok \\d+ - (?!\\S+\\.m?js\\r?\\n)",
+  "oracleExecution": "serial",
+  "oracleDomain": false,
+  "staticOracleExistence": false,
+  "ignore": [
+    "node_modules",
+    ".git",
+    ".next",
+    ".next-verify",
+    ".vercel",
+    ".coherence",
+    "public",
+    "content",
+    "data",
+    "scripts"
+  ]
+}
