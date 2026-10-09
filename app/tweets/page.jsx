@@ -1,14 +1,7 @@
-import { readdirSync } from 'fs'
-import { join } from 'path'
+import tweets from '../lib/tweets.json'
 import TweetClient from './tweet-client'
 
 export default function TweetsPage() {
-  const imgDir = join(process.cwd(), 'public', 'img')
-  const allFiles = readdirSync(imgDir)
-  const tweetImages = allFiles
-    .filter((file) => file.toLowerCase().startsWith('tweet'))
-    .sort()
-
   return (
     <div className="mt-12 max-w-5xl mx-auto px-4">
       <h1 className="font-sans font-bold text-7xl md:text-8xl mb-4 tracking-tighter text-foreground">
@@ -19,13 +12,13 @@ export default function TweetsPage() {
       </p>
 
       <div className="grid grid-cols-1 gap-4">
-        {tweetImages.map((image, index) => (
+        {tweets.map((tweet, index) => (
           <div
-            key={image}
-            className="animate-fade-in"
-            style={{ animationDelay: `${100 + index * 100}ms` }}
+            key={tweet.id}
+            className="animate-fade-in min-w-0"
+            style={{ animationDelay: `${100 + Math.min(index, 8) * 100}ms` }}
           >
-            <TweetClient image={image} index={index} />
+            <TweetClient tweet={tweet} priority={index < 2} />
           </div>
         ))}
       </div>
