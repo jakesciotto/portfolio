@@ -44,6 +44,15 @@ Copy and customize this template for new releases:
 
 **Note:** Maintain this changelog by adding entries under `[Unreleased]` during development, then moving them to a versioned section at release time.
 
+## [Unreleased]
+
+### Changed
+- `/tweets` shows the top 50 tweets from the Twitter archive, ranked by likes plus retweets, from `app/lib/tweets.json`. Each card links to its post and uses the tweet text as alt text. The images are WebP cards rendered on fedora (`recall-work/tweets-site`).
+- The `tweet_viewed` event carries `tweet_id` and `tweet_rank` in place of `tweet_image` and `tweet_index`.
+
+### Removed
+- The nine old tweet screenshots in `public/img/`. All nine are in the new top 50.
+
 ## [1.6.0] - 2026-09-24
 
 ### Added
