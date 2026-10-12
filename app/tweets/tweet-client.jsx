@@ -35,14 +35,14 @@ export default function TweetClient({ tweet, priority }) {
       href={tweet.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="card block w-full overflow-hidden max-w-2xl mx-auto"
+      className="card block w-full overflow-hidden"
     >
       <Image
         src={`/img/tweets/${tweet.image}`}
         alt={tweet.text || `Tweet from ${tweet.date}`}
         width={tweet.width}
         height={tweet.height}
-        sizes="(max-width: 704px) 100vw, 672px"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 560px"
         priority={priority}
         className="w-full h-auto"
       />
