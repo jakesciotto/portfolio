@@ -44,7 +44,7 @@ Copy and customize this template for new releases:
 
 **Note:** Maintain this changelog by adding entries under `[Unreleased]` during development, then moving them to a versioned section at release time.
 
-## [Unreleased]
+## [1.7.0] - 2026-10-11
 
 ### Changed
 - `/tweets` shows 32 tweets from the Twitter archive, ranked by likes plus retweets, from `app/lib/tweets.json`. The cut from the top 50 removes every quote tweet, every video tweet, and rank 24 (its only link is an unresolvable `t.co` link). Each card links to its post and uses the tweet text as alt text. The images are WebP cards rendered on fedora (`recall-work/tweets-site`).
