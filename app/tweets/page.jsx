@@ -1,16 +1,9 @@
-import { readdirSync } from 'fs'
-import { join } from 'path'
-import TweetClient from './tweet-client'
+import tweets from '../lib/tweets.json'
+import TweetBento from './tweet-bento'
 
 export default function TweetsPage() {
-  const imgDir = join(process.cwd(), 'public', 'img')
-  const allFiles = readdirSync(imgDir)
-  const tweetImages = allFiles
-    .filter((file) => file.toLowerCase().startsWith('tweet'))
-    .sort()
-
   return (
-    <div className="mt-12 max-w-5xl mx-auto px-4">
+    <div className="mt-12 max-w-[1152px] mx-auto px-4">
       <h1 className="font-sans font-bold text-7xl md:text-8xl mb-4 tracking-tighter text-foreground">
         when i was online
       </h1>
@@ -18,17 +11,7 @@ export default function TweetsPage() {
         a collection of moments from the timeline
       </p>
 
-      <div className="grid grid-cols-1 gap-4">
-        {tweetImages.map((image, index) => (
-          <div
-            key={image}
-            className="animate-fade-in"
-            style={{ animationDelay: `${100 + index * 100}ms` }}
-          >
-            <TweetClient image={image} index={index} />
-          </div>
-        ))}
-      </div>
+      <TweetBento tweets={tweets} />
 
       <div className="mt-12 text-center">
         <a

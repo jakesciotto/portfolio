@@ -44,6 +44,16 @@ Copy and customize this template for new releases:
 
 **Note:** Maintain this changelog by adding entries under `[Unreleased]` during development, then moving them to a versioned section at release time.
 
+## [1.7.0] - 2026-10-11
+
+### Changed
+- `/tweets` shows 32 tweets from the Twitter archive, ranked by likes plus retweets, from `app/lib/tweets.json`. The cut from the top 50 removes every quote tweet, every video tweet, and rank 24 (its only link is an unresolvable `t.co` link). Each card links to its post and uses the tweet text as alt text. The images are WebP cards rendered on fedora (`recall-work/tweets-site`).
+- `/tweets` lays the cards out as a masonry bento (`app/tweets/tweet-bento.jsx`, `.tweet-bento` in `global.css`): six columns at 1152px, the first two tweets span three columns and the rest two; four columns under 1024px, one under 640px. A ResizeObserver sets each row span from the card height.
+- The `tweet_viewed` event carries `tweet_id` and `tweet_rank` in place of `tweet_image` and `tweet_index`.
+
+### Removed
+- The nine old tweet screenshots in `public/img/`. All nine are in the archive set.
+
 ## [1.6.0] - 2026-09-24
 
 ### Added

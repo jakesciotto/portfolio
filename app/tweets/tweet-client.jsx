@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useEffect, useRef } from 'react'
 import posthog from 'posthog-js'
 
-export default function TweetClient({ image, index }) {
+export default function TweetClient({ tweet, priority }) {
   const ref = useRef(null)
   const hasTrackedRef = useRef(false)
 
@@ -13,8 +13,8 @@ export default function TweetClient({ image, index }) {
       ([entry]) => {
         if (entry.isIntersecting && !hasTrackedRef.current) {
           posthog.capture('tweet_viewed', {
-            tweet_image: image,
-            tweet_index: index + 1,
+            tweet_id: tweet.id,
+            tweet_rank: tweet.rank,
           })
           hasTrackedRef.current = true
         }
@@ -27,19 +27,25 @@ export default function TweetClient({ image, index }) {
     }
 
     return () => observer.disconnect()
-  }, [image, index])
+  }, [tweet.id, tweet.rank])
 
   return (
-    <div ref={ref} className="card overflow-hidden">
-      <div className="relative w-full aspect-auto">
-        <Image
-          src={`/img/${image}`}
-          alt={`Tweet ${index + 1}`}
-          width={600}
-          height={400}
-          className="w-full h-auto object-contain"
-        />
-      </div>
-    </div>
+    <a
+      ref={ref}
+      href={tweet.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="card block w-full overflow-hidden"
+    >
+      <Image
+        src={`/img/tweets/${tweet.image}`}
+        alt={tweet.text || `Tweet from ${tweet.date}`}
+        width={tweet.width}
+        height={tweet.height}
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 560px"
+        priority={priority}
+        className="w-full h-auto"
+      />
+    </a>
   )
 }

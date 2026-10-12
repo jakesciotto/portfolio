@@ -450,3 +450,41 @@ body::before {
     scroll-behavior: auto !important;
   }
 }
+
+/* ===================================================
+   Tweet bento -- masonry; tweet-bento.jsx sets each row span
+   =================================================== */
+.tweet-bento {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.tweet-bento > * {
+  grid-column: span var(--span);
+  min-width: 0;
+}
+
+.tweet-bento.is-masonry {
+  grid-auto-rows: 2px;
+  grid-auto-flow: row dense;
+  row-gap: 0;
+}
+
+@media (max-width: 1024px) {
+  .tweet-bento {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .tweet-bento > * {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 640px) {
+  .tweet-bento {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .tweet-bento > * {
+    grid-column: auto;
+  }
+}
