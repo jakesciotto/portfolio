@@ -5,7 +5,7 @@
     "file": "app/page.jsx",
     "line": 20,
     "name": "Page",
-    "hot": 0.19469026548672566
+    "hot": 0.19298245614035087
   },
   {
     "kind": "generate-doc",
@@ -13,7 +13,7 @@
     "file": "app/api/github-stats/route.js",
     "line": 31,
     "name": "GET",
-    "hot": 0.07964601769911504
+    "hot": 0.07894736842105263
   },
   {
     "kind": "generate-doc",
@@ -21,7 +21,7 @@
     "file": "app/api/spotify-stats/route.js",
     "line": 35,
     "name": "GET",
-    "hot": 0.061946902654867256
+    "hot": 0.06140350877192982
   },
   {
     "kind": "generate-doc",
@@ -29,7 +29,7 @@
     "file": "app/layout.jsx",
     "line": 1,
     "name": "metadata",
-    "hot": 0.061946902654867256
+    "hot": 0.06140350877192982
   },
   {
     "kind": "generate-doc",
@@ -37,7 +37,7 @@
     "file": "app/layout.jsx",
     "line": 18,
     "name": "RootLayout",
-    "hot": 0.061946902654867256
+    "hot": 0.06140350877192982
   },
   {
     "kind": "generate-doc",
@@ -45,7 +45,7 @@
     "file": "app/lib/spotify-view.mjs",
     "line": 42,
     "name": "liveCounter",
-    "hot": 0.061946902654867256
+    "hot": 0.06140350877192982
   },
   {
     "kind": "generate-doc",
@@ -53,7 +53,15 @@
     "file": "app/lib/spotify-view.mjs",
     "line": 48,
     "name": "spotifyView",
-    "hot": 0.061946902654867256
+    "hot": 0.06140350877192982
+  },
+  {
+    "kind": "generate-doc",
+    "id": "s:app/tweets/page.jsx#TweetsPage",
+    "file": "app/tweets/page.jsx",
+    "line": 4,
+    "name": "TweetsPage",
+    "hot": 0.06140350877192982
   },
   {
     "kind": "generate-doc",
@@ -61,7 +69,7 @@
     "file": "app/api/strava-stats/route.js",
     "line": 4,
     "name": "dynamic",
-    "hot": 0.05309734513274336
+    "hot": 0.05263157894736842
   },
   {
     "kind": "generate-doc",
@@ -69,7 +77,7 @@
     "file": "app/api/strava-stats/route.js",
     "line": 30,
     "name": "GET",
-    "hot": 0.05309734513274336
+    "hot": 0.05263157894736842
   },
   {
     "kind": "generate-doc",
@@ -77,7 +85,7 @@
     "file": "app/api/wakatime-stats/route.js",
     "line": 23,
     "name": "GET",
-    "hot": 0.05309734513274336
+    "hot": 0.05263157894736842
   },
   {
     "kind": "generate-doc",
@@ -85,7 +93,7 @@
     "file": "app/components/cert-strip.jsx",
     "line": 18,
     "name": "CertStrip",
-    "hot": 0.05309734513274336
+    "hot": 0.05263157894736842
   },
   {
     "kind": "generate-doc",
@@ -93,7 +101,7 @@
     "file": "app/components/education-tile.jsx",
     "line": 39,
     "name": "EducationTile",
-    "hot": 0.05309734513274336
+    "hot": 0.05263157894736842
   },
   {
     "kind": "generate-doc",
@@ -101,7 +109,7 @@
     "file": "app/components/footer.jsx",
     "line": 6,
     "name": "Footer",
-    "hot": 0.05309734513274336
+    "hot": 0.05263157894736842
   },
   {
     "kind": "generate-doc",
@@ -109,7 +117,7 @@
     "file": "app/components/github-tile.jsx",
     "line": 10,
     "name": "GitHubTile",
-    "hot": 0.05309734513274336
+    "hot": 0.05263157894736842
   },
   {
     "kind": "generate-doc",
@@ -117,7 +125,7 @@
     "file": "app/components/spotify-recent-tile.jsx",
     "line": 25,
     "name": "SpotifyRecentTile",
-    "hot": 0.05309734513274336
+    "hot": 0.05263157894736842
   },
   {
     "kind": "generate-doc",
