@@ -44,7 +44,7 @@ Copy and customize this template for new releases:
 
 **Note:** Maintain this changelog by adding entries under `[Unreleased]` during development, then moving them to a versioned section at release time.
 
-## [Unreleased]
+## [1.8.0] - 2026-10-13
 
 ### Changed
 - Every data tile headline is one size: 40px Geist Mono bold with a 13px gray unit, from `HEADLINE` and `HEADLINE_UNIT` in `app/lib/accents.mjs`. Before, the sizes ran from 24px (strava) to 44px (spotify). A test fails if a tile sets its own large size.
