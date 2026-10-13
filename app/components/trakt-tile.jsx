@@ -2,7 +2,7 @@
 
 import { useCachedFetch } from '../lib/use-cached-fetch'
 import { agoLabel, hoursToDays } from '../lib/format.mjs'
-import { LABEL } from '../lib/accents.mjs'
+import { HEADLINE, HEADLINE_UNIT, LABEL } from '../lib/accents.mjs'
 import TileSkeleton from './tile-skeleton'
 import BarList from './ui/bar-list'
 
@@ -54,9 +54,9 @@ export default function TraktTile() {
       </div>
 
       <div>
-        <span className="font-mono text-4xl font-bold leading-none tracking-tighter text-accent-amber">
+        <span className={`${HEADLINE} text-accent-amber`}>
           {all?.hours != null ? all.hours.toLocaleString('en-US') : '---'}
-          <span className="ml-1.5 text-[13px] font-semibold tracking-normal text-muted-foreground">
+          <span className={HEADLINE_UNIT}>
             hours
           </span>
         </span>

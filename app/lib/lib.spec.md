@@ -6,12 +6,17 @@ Pure modules that turn API payloads into the view objects the tiles render.
 - a zero bar keeps a visible floor
 - a missing source yields a null view, not a crash
 - a zero total never divides
+- every data tile headline has one size
+- the strava tile lists every workout type
 
 ## works when
 - boundary "a live value never lowers a stored value" at withLive via test "withLive never lowers a value and ignores a missing live key"
 - boundary "a zero bar keeps a visible floor" at layoutColumns via test "layoutColumns renders zero as a stub and enforces a 3% floor"
 - boundary "a missing source yields a null view, not a crash" at spotifyView via test "spotifyView returns null without an overview"
 - boundary "a zero total never divides" at tierCards via test "tierCards guards missing data and a zero total"
+- boundary "every data tile headline has one size" at HEADLINE via test "every data tile headline takes its size from HEADLINE"
+- boundary "the strava tile lists every workout type" at breakdownColumns via test "breakdownColumns keeps every workout type once, in count order"
+- passes test "breakdownColumns handles an empty breakdown"
 - passes test "mapWakaStats tolerates missing sources"
 - passes test "mapTraktStats tolerates missing or malformed sources"
 - passes test "TIERS run hot to cold with one hue each"
@@ -36,3 +41,14 @@ shows a skeleton or stale cache on null. A thrown error would blank the tile.
 Share calculations honour "a zero total never divides" because the Obsidian KPI
 row and the percentage helpers run on days when the active count is zero, and
 NaN in a badge is the visible symptom.
+
+Every data tile honours "every data tile headline has one size" because the
+headline is the number that surprises, and five sizes made neighbouring tiles
+compete. The size lives in `HEADLINE` in accents.mjs; a tile never sets its own.
+
+The Strava tile honours "the strava tile lists every workout type" because a
+folded "Other" row hid ten types and 141 activities.
+
+## refutations
+- every data tile headline has one size: trakt-tile.jsx headline set back to text-4xl -> the oracle failed naming trakt-tile.jsx
+- the strava tile lists every workout type: second column dropped its last row -> the oracle failed on the type order

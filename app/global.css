@@ -275,14 +275,6 @@ body::after {
 }
 
 .tile-projects {
-  grid-column: 1 / 5;
-  grid-row: 11 / 12;
-}
-.tile-oura {
-  grid-column: 5 / 7;
-  grid-row: 11 / 12;
-}
-.tile-projects-full {
   grid-column: 1 / 7;
   grid-row: 11 / 12;
 }
