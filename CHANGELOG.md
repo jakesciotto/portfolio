@@ -44,6 +44,16 @@ Copy and customize this template for new releases:
 
 **Note:** Maintain this changelog by adding entries under `[Unreleased]` during development, then moving them to a versioned section at release time.
 
+## [Unreleased]
+
+### Changed
+- Every data tile headline is one size: 40px Geist Mono bold with a 13px gray unit, from `HEADLINE` and `HEADLINE_UNIT` in `app/lib/accents.mjs`. Before, the sizes ran from 24px (strava) to 44px (spotify). A test fails if a tile sets its own large size.
+- The about tile cards use mono headings and violet numerals at 13px. The coloured verdict badges stay in the bottom right corner.
+- The strava tile lists all workout types in two columns (one under 640px), with no "Other" row. Hours is the one magenta headline; activities, miles and the type count move to a gray line. `breakdownColumns` in `app/lib/strava-view.mjs` does the split.
+
+### Removed
+- The Oura tile, `/api/oura-stats`, `/api/oura-callback`, `app/lib/flags.mjs` (`FEATURE_OURA`) and the half-width projects layout.
+
 ## [1.7.2] - 2026-10-13
 
 ### Changed

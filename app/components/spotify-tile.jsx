@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useCachedFetch } from '../lib/use-cached-fetch'
 import { liveCounter, spotifyView, withLive } from '../lib/spotify-view.mjs'
 import { Badge } from './ui/badge'
-import { LABEL } from '../lib/accents.mjs'
+import { HEADLINE, HEADLINE_UNIT, LABEL } from '../lib/accents.mjs'
 import TileSkeleton from './tile-skeleton'
 import Columns from './ui/columns'
 import PeriodPills from './ui/period-pills'
@@ -146,9 +146,9 @@ export default function SpotifyTile() {
       </div>
 
       <div className="flex items-end justify-between gap-6">
-        <span className="font-mono text-[44px] font-bold leading-none tracking-tighter text-accent-tertiary">
+        <span className={`${HEADLINE} text-accent-tertiary`}>
           {view.hours}
-          <span className="ml-1.5 text-[13px] font-semibold tracking-normal text-muted-foreground">
+          <span className={HEADLINE_UNIT}>
             hours
           </span>
         </span>

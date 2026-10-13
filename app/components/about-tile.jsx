@@ -91,11 +91,11 @@ function FactCard({ fact, index }) {
     <li className="fact-card relative flex min-w-0 flex-col px-3 py-2.5">
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute top-2.25 right-2.75 font-mono text-2xl font-medium leading-none tracking-[-0.04em] tabular-nums text-foreground/20"
+        className="pointer-events-none absolute top-2.5 right-3 font-mono text-[13px] leading-4.5 font-medium tabular-nums text-accent-violet"
       >
         {String(index + 1).padStart(2, '0')}
       </span>
-      <h4 className="inline-flex min-w-0 items-center gap-1.5 pr-10 text-sm leading-4.5 font-semibold tracking-tight text-foreground">
+      <h4 className="inline-flex min-w-0 items-center gap-1.5 pr-7 font-mono text-[13px] leading-4.5 font-semibold tracking-tight text-foreground">
         {fact.label}
         {fact.icon}
       </h4>

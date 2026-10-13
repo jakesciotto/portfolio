@@ -7,6 +7,8 @@ import TileSkeleton from './tile-skeleton'
 import AnimatedNumber from './animated-number'
 import PeriodPills from './ui/period-pills'
 import BarList from './ui/bar-list'
+import { breakdownColumns } from '../lib/strava-view.mjs'
+import { HEADLINE, HEADLINE_UNIT } from '../lib/accents.mjs'
 
 const PERIODS = [
   { key: 'week', label: '7d' },
@@ -46,19 +48,13 @@ export default function StravaTile() {
   const totalHours = stats.movingTime
     ? Math.floor(stats.movingTime / 3600)
     : null
-  const totalMiles = stats.distance
-  const sorted = [...(stats.breakdown || [])].sort((a, b) => b.count - a.count)
-  const top8 = sorted.slice(0, 8)
-  const rest = sorted.slice(8)
-  const breakdown =
-    rest.length > 0
-      ? [
-          ...top8,
-          { type: 'Other', count: rest.reduce((sum, t) => sum + t.count, 0) },
-        ]
-      : top8
-  const maxCount =
-    breakdown.length > 0 ? Math.max(...breakdown.map((t) => t.count)) : 0
+  const { max, columns } = breakdownColumns(stats.breakdown)
+  const facts = [
+    stats.count != null && `${stats.count.toLocaleString('en-US')} activities`,
+    stats.distance > 0 &&
+      `${Math.round(stats.distance).toLocaleString('en-US')} miles`,
+    max > 0 && `${columns.flat().length} types`,
+  ].filter(Boolean)
 
   return (
     <div className="flex flex-col h-full gap-3">
@@ -77,50 +73,34 @@ export default function StravaTile() {
       <div
         className={`transition-opacity duration-200 ease-in-out ${transitioning ? 'opacity-0' : 'opacity-100'}`}
       >
-        <div className="flex gap-4">
-          <div>
-            <AnimatedNumber
-              value={totalHours}
-              className="text-2xl font-bold font-mono tracking-tighter text-accent-secondary"
-            />
-            <p className="text-[10px] uppercase font-medium tracking-widest text-muted-foreground">
-              hours
-            </p>
-          </div>
-          <div>
-            <AnimatedNumber
-              value={stats.count}
-              className="text-2xl font-bold font-mono tracking-tighter text-accent-primary"
-            />
-            <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-              activities
-            </p>
-          </div>
-          {totalMiles > 0 && (
-            <div>
-              <AnimatedNumber
-                value={Math.round(totalMiles)}
-                className="text-2xl font-bold font-mono tracking-tighter text-accent-tertiary"
-              />
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-medium">
-                miles
-              </p>
-            </div>
-          )}
-        </div>
+        <span className={`${HEADLINE} text-accent-secondary`}>
+          <AnimatedNumber value={totalHours} />
+          <span className={HEADLINE_UNIT}>hours</span>
+        </span>
+        {facts.length > 0 && (
+          <p className="mt-2 font-mono text-[10.5px] text-muted-foreground/70">
+            {facts.join(' · ')}
+          </p>
+        )}
 
-        {breakdown.length > 0 && (
-          <BarList
-            rows={breakdown.map((t) => ({
-              name: t.type,
-              width: (t.count / maxCount) * 100,
-              value: t.count,
-              opacity: 0.7,
-            }))}
-            accent="secondary"
-            nameWidth={104}
-            className="mt-5"
-          />
+        {max > 0 && (
+          <div className="mt-5 grid grid-cols-1 gap-x-6 gap-y-2.5 sm:grid-cols-2">
+            {columns
+              .filter((column) => column.length > 0)
+              .map((column, i) => (
+                <BarList
+                  key={i}
+                  rows={column.map((t) => ({
+                    name: t.type,
+                    width: Math.max(2, (t.count / max) * 100),
+                    value: t.count,
+                    opacity: 0.7,
+                  }))}
+                  accent="secondary"
+                  nameWidth={84}
+                />
+              ))}
+          </div>
         )}
       </div>
 

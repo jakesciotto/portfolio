@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { HEADLINE } from '../lib/accents.mjs'
 
 export default function ExperienceTile() {
   const [years, setYears] = useState(null)
@@ -12,7 +13,7 @@ export default function ExperienceTile() {
 
   return (
     <div className="flex flex-col justify-center h-full">
-      <span className="text-4xl font-bold font-mono tracking-tighter text-accent-secondary">
+      <span className={`${HEADLINE} text-accent-secondary`}>
         {years != null ? `${years}+` : '---'}
       </span>
       <span className="text-xs uppercase font-medium tracking-widest text-muted-foreground mt-1">

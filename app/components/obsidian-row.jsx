@@ -3,12 +3,11 @@
 import { useCachedFetch } from '../lib/use-cached-fetch'
 import { agoLabel } from '../lib/format.mjs'
 import { tierCards } from '../lib/obsidian-row.mjs'
-import { LABEL, textClass, bgClass } from '../lib/accents.mjs'
+import { HEADLINE, LABEL, textClass, bgClass } from '../lib/accents.mjs'
 import Tile from './tile'
 import TileSkeleton from './tile-skeleton'
 
-const NUMBER =
-  'block mt-3 text-[40px] leading-none font-bold font-mono tracking-tighter'
+const NUMBER = `block mt-3 ${HEADLINE}`
 
 function KpiBody({ label, count, accent, pct, zero }) {
   return (

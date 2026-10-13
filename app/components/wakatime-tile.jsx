@@ -6,7 +6,7 @@ import TileSkeleton from './tile-skeleton'
 import Columns from './ui/columns'
 import BarList from './ui/bar-list'
 import { Badge } from './ui/badge'
-import { LABEL } from '../lib/accents.mjs'
+import { HEADLINE, HEADLINE_UNIT, LABEL } from '../lib/accents.mjs'
 
 const DAY_INITIALS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
@@ -40,15 +40,15 @@ export default function WakaTimeTile() {
 
       <div className="grid grid-cols-1 gap-6.5 md:grid-cols-2">
         <div>
-          <span className="font-mono text-3xl font-bold tracking-tighter text-accent-primary">
+          <span className={`${HEADLINE} text-accent-primary`}>
             {stats.totalHours != null
               ? stats.totalHours.toLocaleString('en-US')
               : '---'}
-            <span className="ml-1.5 text-sm font-semibold tracking-normal text-muted-foreground">
+            <span className={HEADLINE_UNIT}>
               hrs
             </span>
           </span>
-          <p className="mt-1 font-mono text-[10.5px] text-muted-foreground/70">
+          <p className="mt-2 font-mono text-[10.5px] text-muted-foreground/70">
             all time
             {stats.dailyAverage &&
               ` · ${shortDuration(stats.dailyAverage)} a day`}

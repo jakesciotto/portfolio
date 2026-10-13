@@ -5,7 +5,6 @@ import SkillTags from './components/skill-tags'
 import WorkAccordion from './components/work-accordion'
 import GitHubTile from './components/github-tile'
 import ExperienceTile from './components/experience-tile'
-import OuraTile from './components/oura-tile'
 import WakaTimeTile from './components/wakatime-tile'
 import SpotifyTile from './components/spotify-tile'
 import EducationTile from './components/education-tile'
@@ -15,7 +14,6 @@ import AboutTile from './components/about-tile'
 import ObsidianRow from './components/obsidian-row'
 import TraktTile from './components/trakt-tile'
 import SpotifyRecentTile from './components/spotify-recent-tile'
-import { flags } from './lib/flags.mjs'
 
 export default function Page() {
   return (
@@ -71,18 +69,9 @@ export default function Page() {
           <StravaTile />
         </Tile>
 
-        <Tile
-          accent="tertiary"
-          gridClass={flags.oura ? 'tile-projects' : 'tile-projects-full'}
-        >
+        <Tile accent="tertiary" gridClass="tile-projects">
           <ProjectTile />
         </Tile>
-
-        {flags.oura && (
-          <Tile accent="violet" gridClass="tile-oura">
-            <OuraTile />
-          </Tile>
-        )}
       </BentoGrid>
     </div>
   )
