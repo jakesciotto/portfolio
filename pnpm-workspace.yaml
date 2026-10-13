@@ -3,3 +3,8 @@ allowBuilds:
   cypress: false
   protobufjs: true
   sharp: true
+
+# GHSA-hp3w-g68c-fv3c: sprintf-js has no patched release; argparse loads it only from the js-yaml CLI, which nothing runs.
+auditConfig:
+  ignoreGhsas:
+    - GHSA-hp3w-g68c-fv3c
