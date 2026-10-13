@@ -44,6 +44,11 @@ Copy and customize this template for new releases:
 
 **Note:** Maintain this changelog by adding entries under `[Unreleased]` during development, then moving them to a versioned section at release time.
 
+## [Unreleased]
+
+### Changed
+- In-range dependency updates: `next` 16.4.0, `radix-ui` 1.8.0, `lucide-react` 1.55.0, `posthog-js` 1.438.7, `posthog-node` 5.55.2, `@upstash/redis` 1.39.0, `postcss` 8.5.29, `react-parallax-tilt` 1.7.346, `prettier` 3.9.10.
+
 ## [1.7.1] - 2026-10-13
 
 ### Security
