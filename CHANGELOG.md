@@ -44,6 +44,12 @@ Copy and customize this template for new releases:
 
 **Note:** Maintain this changelog by adding entries under `[Unreleased]` during development, then moving them to a versioned section at release time.
 
+## [1.7.1] - 2026-10-13
+
+### Security
+- `next` 16.3.5 to 16.3.8: fixes the critical `next/og` remote code execution, the image server-side request forgery, and five lower advisories. `sharp` 0.35.5, `source-map-js` 1.2.2 and `dompurify` 3.4.16 come with in-range updates.
+- `pnpm audit` ignores GHSA-hp3w-g68c-fv3c (`sprintf-js`, moderate). No patched release exists, and `argparse` loads it only from the `js-yaml` command-line tool, which the site never runs.
+
 ## [1.7.0] - 2026-10-11
 
 ### Changed
