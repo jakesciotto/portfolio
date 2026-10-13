@@ -47,7 +47,8 @@ worth a test lives in a pure `.mjs` module and the `.jsx` tile stays a thin
 renderer. Fixtures use invented values shaped like the live payloads. Never put
 a real credential or a real third-party id in a fixture.
 
-`pnpm build` must pass before a branch is offered for merge. Tailwind v4 fails
+`pnpm format:check`, `pnpm test` and `pnpm build` must pass before a branch
+is offered for merge; CI runs all three. Tailwind v4 fails
 the build on an unknown token.
 
 Manual checks after a visual change:
