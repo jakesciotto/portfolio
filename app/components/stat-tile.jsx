@@ -10,9 +10,7 @@ export default function StatTile({
 }) {
   return (
     <div className="flex flex-col h-full">
-      <span
-        className={`${HEADLINE} ${textClass[accent] || textClass.primary}`}
-      >
+      <span className={`${HEADLINE} ${textClass[accent] || textClass.primary}`}>
         {value}
       </span>
       <span className="text-xs uppercase font-medium tracking-widest text-muted-foreground mt-1">

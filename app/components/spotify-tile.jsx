@@ -148,9 +148,7 @@ export default function SpotifyTile() {
       <div className="flex items-end justify-between gap-6">
         <span className={`${HEADLINE} text-accent-tertiary`}>
           {view.hours}
-          <span className={HEADLINE_UNIT}>
-            hours
-          </span>
+          <span className={HEADLINE_UNIT}>hours</span>
         </span>
         {lead && <Lead {...lead} />}
       </div>

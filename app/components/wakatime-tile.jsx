@@ -44,9 +44,7 @@ export default function WakaTimeTile() {
             {stats.totalHours != null
               ? stats.totalHours.toLocaleString('en-US')
               : '---'}
-            <span className={HEADLINE_UNIT}>
-              hrs
-            </span>
+            <span className={HEADLINE_UNIT}>hrs</span>
           </span>
           <p className="mt-2 font-mono text-[10.5px] text-muted-foreground/70">
             all time

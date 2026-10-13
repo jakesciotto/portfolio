@@ -56,9 +56,7 @@ export default function TraktTile() {
       <div>
         <span className={`${HEADLINE} text-accent-amber`}>
           {all?.hours != null ? all.hours.toLocaleString('en-US') : '---'}
-          <span className={HEADLINE_UNIT}>
-            hours
-          </span>
+          <span className={HEADLINE_UNIT}>hours</span>
         </span>
         {all && (
           <p className="mt-2 text-xs font-medium text-muted-foreground">
