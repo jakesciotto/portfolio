@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import posthog from 'posthog-js'
+import { capture } from '../lib/analytics.mjs'
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip'
 
 const certifications = [
@@ -17,9 +17,7 @@ const certifications = [
 
 export default function CertStrip() {
   const handleCredlyClick = () => {
-    if (typeof posthog?.capture === 'function') {
-      posthog.capture('cert_badge_click')
-    }
+    capture('cert_badge_click')
   }
 
   return (

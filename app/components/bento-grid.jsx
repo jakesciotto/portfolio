@@ -1,66 +1,52 @@
 'use client'
 
-import { useRef } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from '@gsap/react'
-
-gsap.registerPlugin(ScrollTrigger)
+import { useEffect, useRef } from 'react'
+import { loadMotion, prefersReducedMotion } from '../lib/motion.mjs'
 
 export default function BentoGrid({ children }) {
   const gridRef = useRef(null)
 
-  useGSAP(
-    () => {
-      const mm = gsap.matchMedia()
+  useEffect(() => {
+    if (prefersReducedMotion()) return
 
-      mm.add('(prefers-reduced-motion: reduce)', () => {
-        gsap.set('.tile', { opacity: 1 })
-      })
+    let ignore = false
+    let context = null
 
-      mm.add(
-        '(prefers-reduced-motion: no-preference) and (min-width: 769px)',
-        () => {
-          ScrollTrigger.batch('.tile', {
-            onEnter: (batch) =>
-              gsap.to(batch, {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                duration: 0.6,
-                ease: 'power2.out',
-                stagger: 0.1,
-              }),
-            start: 'top 92%',
-            once: true,
-          })
+    loadMotion().then(({ gsap, ScrollTrigger }) => {
+      if (ignore || !gridRef.current) return
 
-          gsap.set('.tile', { y: 24, scale: 0.97 })
-        },
-      )
+      const narrow = window.matchMedia('(max-width: 768px)').matches
+      const below = Array.from(
+        gridRef.current.querySelectorAll('.tile'),
+      ).filter((tile) => tile.getBoundingClientRect().top > window.innerHeight)
+      if (below.length === 0) return
 
-      mm.add(
-        '(prefers-reduced-motion: no-preference) and (max-width: 768px)',
-        () => {
-          ScrollTrigger.batch('.tile', {
-            onEnter: (batch) =>
-              gsap.to(batch, {
-                opacity: 1,
-                y: 0,
-                duration: 0.5,
-                ease: 'power2.out',
-                stagger: 0.08,
-              }),
-            start: 'top 95%',
-            once: true,
-          })
+      context = gsap.context(() => {
+        gsap.set(
+          below,
+          narrow ? { opacity: 0, y: 16 } : { opacity: 0, y: 24, scale: 0.97 },
+        )
+        ScrollTrigger.batch(below, {
+          onEnter: (batch) =>
+            gsap.to(batch, {
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              duration: narrow ? 0.5 : 0.6,
+              ease: 'power2.out',
+              stagger: narrow ? 0.08 : 0.1,
+            }),
+          start: narrow ? 'top 95%' : 'top 92%',
+          once: true,
+        })
+      }, gridRef)
+    })
 
-          gsap.set('.tile', { y: 16 })
-        },
-      )
-    },
-    { scope: gridRef },
-  )
+    return () => {
+      ignore = true
+      context?.revert()
+    }
+  }, [])
 
   return (
     <div ref={gridRef} className="bento-grid">

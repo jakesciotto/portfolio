@@ -1,7 +1,7 @@
 'use client'
 
 import { Badge } from './ui/badge'
-import posthog from 'posthog-js'
+import { capture } from '../lib/analytics.mjs'
 
 const projects = [
   {
@@ -39,13 +39,18 @@ const projects = [
     pillVariant: 'violet',
     link: 'https://github.com/jakesciotto/easton-duels',
   },
+  {
+    name: 'easton mcp',
+    description: 'mcp server so coaches can query gym docs from claude',
+    pill: 'live',
+    pillVariant: 'tertiary',
+    link: 'https://github.com/jakesciotto/easton-mcp',
+  },
 ]
 
 export default function ProjectTile() {
   const handleClick = (name) => {
-    if (typeof posthog?.capture === 'function') {
-      posthog.capture('tile_click', { project: name })
-    }
+    capture('tile_click', { project: name })
   }
 
   return (

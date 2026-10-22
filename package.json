@@ -14,7 +14,6 @@
     "test": "node --test \"app/lib/**/*.test.mjs\" \"scripts/**/*.test.mjs\" \"services/**/*.test.mjs\""
   },
   "dependencies": {
-    "@gsap/react": "^2.1.2",
     "@tailwindcss/postcss": "4.3.3",
     "@upstash/redis": "^1.39.0",
     "class-variance-authority": "^0.7.1",

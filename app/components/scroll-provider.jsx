@@ -1,11 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useRef } from 'react'
-import Lenis from 'lenis'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
+import { loadMotion, prefersReducedMotion } from '../lib/motion.mjs'
 
 const LenisContext = createContext(null)
 
@@ -17,31 +13,42 @@ export default function ScrollProvider({ children }) {
   const lenisRef = useRef(null)
 
   useEffect(() => {
-    const prefersReduced = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    ).matches
-    if (prefersReduced) return
+    if (prefersReducedMotion()) return
 
-    const lenis = new Lenis({
-      duration: 0.8,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 2,
-    })
-    lenisRef.current = lenis
+    let ignore = false
+    let teardown = null
 
-    lenis.on('scroll', ScrollTrigger.update)
+    Promise.all([loadMotion(), import('lenis')]).then(
+      ([{ gsap, ScrollTrigger }, { default: Lenis }]) => {
+        if (ignore) return
 
-    const tickerCallback = (time) => {
-      lenis.raf(time * 1000)
-    }
-    gsap.ticker.add(tickerCallback)
-    gsap.ticker.lagSmoothing(0)
+        const lenis = new Lenis({
+          duration: 0.8,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          touchMultiplier: 2,
+        })
+        lenisRef.current = lenis
+
+        lenis.on('scroll', ScrollTrigger.update)
+
+        const tickerCallback = (time) => {
+          lenis.raf(time * 1000)
+        }
+        gsap.ticker.add(tickerCallback)
+        gsap.ticker.lagSmoothing(0)
+
+        teardown = () => {
+          lenis.destroy()
+          lenisRef.current = null
+          gsap.ticker.remove(tickerCallback)
+          ScrollTrigger.getAll().forEach((t) => t.kill())
+        }
+      },
+    )
 
     return () => {
-      lenis.destroy()
-      lenisRef.current = null
-      gsap.ticker.remove(tickerCallback)
-      ScrollTrigger.getAll().forEach((t) => t.kill())
+      ignore = true
+      teardown?.()
     }
   }, [])
 

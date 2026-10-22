@@ -1,8 +1,8 @@
 'use client'
 
 import { useState, useId, useRef, useCallback } from 'react'
-import gsap from 'gsap'
-import posthog from 'posthog-js'
+import { loadMotion } from '../lib/motion.mjs'
+import { capture } from '../lib/analytics.mjs'
 
 const roles = [
   {
@@ -103,63 +103,53 @@ export default function WorkAccordion() {
     contentRefs.current[index] = el
   }, [])
 
+  const collapse = (gsap, panel) => {
+    gsap.killTweensOf(panel)
+    if (panel.style.height === 'auto') {
+      gsap.set(panel, { height: panel.scrollHeight })
+    }
+    gsap.to(panel, {
+      height: 0,
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.in',
+    })
+  }
+
+  const expand = (gsap, panel, content) => {
+    gsap.killTweensOf(panel)
+    gsap.to(panel, {
+      height: content.scrollHeight,
+      opacity: 1,
+      duration: 0.4,
+      ease: 'power2.out',
+      onComplete: () => gsap.set(panel, { height: 'auto' }),
+    })
+  }
+
   const toggle = (index) => {
     const prevIndex = expandedIndex
+    const closing = prevIndex === index
 
-    if (prevIndex === index) {
-      setExpandedIndex(null)
+    setExpandedIndex(closing ? null : index)
+
+    loadMotion().then(({ gsap }) => {
       const panel = panelRefs.current[index]
-      if (panel) {
-        gsap.killTweensOf(panel)
-        if (panel.style.height === 'auto') {
-          gsap.set(panel, { height: panel.scrollHeight })
-        }
-        gsap.to(panel, {
-          height: 0,
-          opacity: 0,
-          duration: 0.3,
-          ease: 'power2.in',
-        })
+      if (closing) {
+        if (panel) collapse(gsap, panel)
+        return
       }
-    } else {
-      setExpandedIndex(index)
-
-      if (prevIndex != null) {
-        const prevPanel = panelRefs.current[prevIndex]
-        if (prevPanel) {
-          gsap.killTweensOf(prevPanel)
-          if (prevPanel.style.height === 'auto') {
-            gsap.set(prevPanel, { height: prevPanel.scrollHeight })
-          }
-          gsap.to(prevPanel, {
-            height: 0,
-            opacity: 0,
-            duration: 0.3,
-            ease: 'power2.in',
-          })
-        }
-      }
-
-      const panel = panelRefs.current[index]
+      const prevPanel = prevIndex != null && panelRefs.current[prevIndex]
+      if (prevPanel) collapse(gsap, prevPanel)
       const content = contentRefs.current[index]
-      if (panel && content) {
-        gsap.killTweensOf(panel)
-        const measuredHeight = content.scrollHeight
-        gsap.to(panel, {
-          height: measuredHeight,
-          opacity: 1,
-          duration: 0.4,
-          ease: 'power2.out',
-          onComplete: () => gsap.set(panel, { height: 'auto' }),
-        })
-      }
+      if (panel && content) expand(gsap, panel, content)
+    })
 
-      if (typeof posthog?.capture === 'function') {
-        posthog.capture('work_accordion_expand', {
-          role: roles[index].title,
-          company: roles[index].company,
-        })
-      }
+    if (!closing) {
+      capture('work_accordion_expand', {
+        role: roles[index].title,
+        company: roles[index].company,
+      })
     }
   }
 

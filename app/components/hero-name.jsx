@@ -1,47 +1,19 @@
-'use client'
-
-import { useRef } from 'react'
-import gsap from 'gsap'
-import { useGSAP } from '@gsap/react'
-
 const letters = 'jake sciotto'.split('')
 
 export default function HeroName() {
-  const containerRef = useRef(null)
-
-  useGSAP(
-    () => {
-      const prefersReduced = window.matchMedia(
-        '(prefers-reduced-motion: reduce)',
-      ).matches
-      const spans = containerRef.current.querySelectorAll('span[data-letter]')
-
-      if (!prefersReduced) {
-        gsap.from(spans, {
-          opacity: 0,
-          y: 20,
-          duration: 0.5,
-          stagger: 0.04,
-          ease: 'power2.out',
-        })
-      }
-    },
-    { scope: containerRef },
-  )
-
   return (
-    <h1
-      ref={containerRef}
-      className="font-sans font-bold text-[min(3.75rem,13vw)] leading-none md:text-8xl mb-2 tracking-tightest text-foreground relative whitespace-nowrap"
-    >
+    <h1 className="font-sans font-bold text-[min(3.75rem,13vw)] leading-none md:text-8xl mb-2 tracking-tightest text-foreground relative whitespace-nowrap">
       {letters.map((char, i) => (
         <span
           key={i}
-          data-letter
-          className="inline-block"
-          style={char === ' ' ? { width: '0.3em' } : undefined}
+          className="hero-letter inline-block"
+          style={
+            char === ' '
+              ? { width: '0.3em', '--letter-index': i }
+              : { '--letter-index': i }
+          }
         >
-          {char === ' ' ? '\u00A0' : char}
+          {char === ' ' ? ' ' : char}
         </span>
       ))}
     </h1>
