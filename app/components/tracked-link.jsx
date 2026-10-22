@@ -1,6 +1,6 @@
 'use client'
 
-import posthog from 'posthog-js'
+import { capture } from '../lib/analytics.mjs'
 
 export default function TrackedLink({
   href,
@@ -12,7 +12,7 @@ export default function TrackedLink({
   rel,
 }) {
   const handleClick = () => {
-    posthog.capture(eventName, {
+    capture(eventName, {
       url: href,
       ...eventProperties,
     })

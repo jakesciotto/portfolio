@@ -15,7 +15,6 @@ export default function Tile({
       className={`tile ${gridClass} ${className}`.trim()}
       style={{
         '--tile-accent': accentMap[accent] || accentMap.primary,
-        opacity: 0,
       }}
     >
       {children}
@@ -40,7 +39,6 @@ export default function Tile({
         style={{
           '--tile-accent': accentMap[accent] || accentMap.primary,
           height: '100%',
-          opacity: 0,
         }}
       >
         {children}

@@ -362,6 +362,28 @@ body::before {
   animation: fade-in 0.3s ease-out both;
 }
 
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-letter {
+  animation: hero-rise 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation-delay: calc(var(--letter-index) * 40ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-letter {
+    animation: none;
+  }
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(100%);

@@ -48,6 +48,19 @@ Copy and customize this template for new releases:
 
 ### Changed
 - Coherence moved from @danilocampos/coherence 0.37.1 to @posthog/coherence 1.8.0: specs rewritten in the 1.x bullet grammar, the why prose moved to docs/design.md, the 0.37 journal archived under .coherence/archive-0.37, CI runs spec --check and the chokepoint run, and jsconfig.json excludes the local data folder so the TypeScript server stays on.
+- Home page first paint: tiles render visible instead of waiting on GSAP, and only tiles below the fold animate in on scroll.
+- The hero name animates with CSS keyframes and ships no JavaScript.
+- posthog-js loads at browser idle through a dynamic import; `app/lib/analytics.mjs` queues up to 50 events until it attaches.
+- GSAP, ScrollTrigger and Lenis load through one dynamic import in `app/lib/motion.mjs`. The initial home page JS drops from 382 KB to 231 KB (gzip).
+
+### Added
+- easton mcp in the projects tile.
+
+### Removed
+- The `@gsap/react` dependency.
+
+### Security
+- next 16.4.0 to 16.4.2 (GHSA-2464-fhr4-w9xw image optimizer RCE, GHSA-p3m5-59mp-jv5r Server Actions DoS).
 
 ## [1.8.0] - 2026-10-13
 

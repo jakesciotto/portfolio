@@ -14,7 +14,6 @@
     "test": "node --test \"app/lib/**/*.test.mjs\" \"scripts/**/*.test.mjs\" \"services/**/*.test.mjs\""
   },
   "dependencies": {
-    "@gsap/react": "^2.1.2",
     "@tailwindcss/postcss": "4.3.3",
     "@upstash/redis": "^1.39.0",
     "class-variance-authority": "^0.7.1",
@@ -24,7 +23,7 @@
     "gsap": "^3.15.0",
     "lenis": "^1.3.26",
     "lucide-react": "^1.55.0",
-    "next": "^16.4.0",
+    "next": "^16.4.2",
     "next-mdx-remote": "^6.0.0",
     "postcss": "^8.5.29",
     "posthog-js": "^1.438.7",

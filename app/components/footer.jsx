@@ -1,11 +1,11 @@
 'use client'
 
 import Link from 'next/link'
-import posthog from 'posthog-js'
+import { capture } from '../lib/analytics.mjs'
 
 export default function Footer() {
   const handleExternalLinkClick = (url, linkName) => {
-    posthog.capture('external_link_clicked', {
+    capture('external_link_clicked', {
       url: url,
       link_name: linkName,
       location: 'footer',

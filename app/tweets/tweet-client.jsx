@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import { useEffect, useRef } from 'react'
-import posthog from 'posthog-js'
+import { capture } from '../lib/analytics.mjs'
 
 export default function TweetClient({ tweet, priority }) {
   const ref = useRef(null)
@@ -12,7 +12,7 @@ export default function TweetClient({ tweet, priority }) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !hasTrackedRef.current) {
-          posthog.capture('tweet_viewed', {
+          capture('tweet_viewed', {
             tweet_id: tweet.id,
             tweet_rank: tweet.rank,
           })
