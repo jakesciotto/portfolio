@@ -1,31 +1,18 @@
 {
-  "language": "./.coherence/adapters/javascript.mjs",
-  "codeExt": [
-    "js",
-    "jsx",
-    "mjs"
-  ],
-  "outputDir": ".coherence/out",
-  "testDir": ".test.",
-  "test": [
-    "sh",
-    "-c",
-    "node --test --test-reporter=tap --test-name-pattern \"$0\" 'app/lib/**/*.test.mjs' 'services/**/*.test.mjs'"
-  ],
-  "testMatch": "(?:^|\\n)ok \\d+ - (?!\\S+\\.m?js\\r?\\n)",
-  "oracleExecution": "serial",
-  "oracleDomain": false,
-  "staticOracleExistence": false,
+  "name": "portfolio",
+  "language": "typescript",
   "ignore": [
     "node_modules",
-    ".git",
     ".next",
     ".next-verify",
     ".vercel",
-    ".coherence",
+    ".coherence/archive-0.37",
     "public",
     "content",
     "data",
     "scripts"
-  ]
+  ],
+  "wellKnown": ["Jake", "Spotify", "Strava", "Trakt", "WakaTime", "Obsidian", "Redis", "Upstash", "Vercel", "PostHog", "GitHub", "Next", "SQLite", "GSAP", "Lenis", "Geist", "vinelab"],
+  "test": "node --test --test-reporter=tap --test-name-pattern {filter} \"app/lib/**/*.test.mjs\" \"scripts/**/*.test.mjs\" \"services/**/*.test.mjs\"",
+  "testMatch": "(?:^|\\n)ok \\d+ - (?!\\S+\\.test\\.mjs\\r?\\n)(?![^\\n]*# SKIP)"
 }

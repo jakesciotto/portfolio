@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "concepts": [
+    {
+      "name": "tile",
+      "definition": "One glass card on the home page bento grid that renders one data source or one piece of profile copy, in one hue."
+    },
+    {
+      "name": "collector",
+      "definition": "The Spotify collector service on vinelab that stores every play in SQLite and publishes yearly stats and the live key to Redis."
+    },
+    {
+      "name": "view",
+      "definition": "The plain object a pure module in app/lib builds from a route payload for one tile to render."
+    },
+    {
+      "name": "snapshot",
+      "definition": "A precomputed payload in Redis that a local importer or the collector writes and a route only reads."
+    },
+    {
+      "name": "live key",
+      "definition": "The Redis key spotify:live that holds the minutes and streams of the current calendar year."
+    },
+    {
+      "name": "headline",
+      "definition": "The one large number a data tile leads with, sized by HEADLINE in accents.mjs."
+    },
+    {
+      "name": "tier",
+      "definition": "One of the six Obsidian task lanes, now, next, waiting, blocked, someday and backlog, each with one hue."
+    },
+    {
+      "name": "archive",
+      "definition": "The Spotify extended streaming history export, read by importArchive from Streaming_History_Audio files."
+    },
+    {
+      "name": "dedupe key",
+      "definition": "The play timestamp truncated to the second plus the track URI, or track and artist when no URI exists."
+    },
+    {
+      "name": "play",
+      "definition": "One listen of one track, stored as one row in the collector database."
+    },
+    {
+      "name": "staging",
+      "definition": "The integration branch that every feature branch targets before a release reaches main."
+    }
+  ]
+}
