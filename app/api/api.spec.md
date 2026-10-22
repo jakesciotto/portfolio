@@ -1,33 +1,42 @@
 # API routes
 Server routes that read tokens and snapshots, call upstreams, shape a payload, and set edge caching.
 
-## works when
-- github-stats/route.js exists at this node
-- spotify-stats/route.js exists at this node
-- wakatime-stats/route.js exists at this node
-- trakt-stats/route.js exists at this node
-- strava-stats/route.js exists at this node
-- obsidian-stats/route.js exists at this node
+## entrances
+- route GET /api/github-stats: the GitHub contribution and repository numbers, for any visitor
+  handler: GET in github-stats/route.js
+  trust: visitor
+- route GET /api/obsidian-stats: the Obsidian task snapshot from Redis, for any visitor
+  handler: GET in obsidian-stats/route.js
+  trust: visitor
+- route GET /api/spotify-callback: the Spotify OAuth code exchange that stores a refresh token in Redis, for any caller with a code
+  handler: GET in spotify-callback/route.js
+  trust: visitor
+- route GET /api/spotify-live: the live Spotify minutes for the current year from Redis, for any visitor
+  handler: GET in spotify-live/route.js
+  trust: visitor
+- route GET /api/spotify-now-playing: the track Spotify plays now, for any visitor
+  handler: GET in spotify-now-playing/route.js
+  trust: visitor
+- route GET /api/spotify-recent: the recent Spotify plays, for any visitor
+  handler: GET in spotify-recent/route.js
+  trust: visitor
+- route GET /api/spotify-stats: the Spotify history snapshot from Redis, for any visitor
+  handler: GET in spotify-stats/route.js
+  trust: visitor
+- route GET /api/spotify-top: the top Spotify artists and tracks, for any visitor
+  handler: GET in spotify-top/route.js
+  trust: visitor
+- route GET /api/strava-stats: the Strava snapshot for one period from Redis, for any visitor
+  handler: GET in strava-stats/route.js
+  trust: visitor
+- route GET /api/trakt-callback: the Trakt OAuth code exchange that stores a refresh token in Redis, for any caller with a code
+  handler: GET in trakt-callback/route.js
+  trust: visitor
+- route GET /api/trakt-stats: the Trakt watch numbers, for any visitor
+  handler: GET in trakt-stats/route.js
+  trust: visitor
+- route GET /api/wakatime-stats: the WakaTime coding numbers, for any visitor
+  handler: GET in wakatime-stats/route.js
+  trust: visitor
 
-## why
-Every route follows one pattern: an in-memory token cache with a sixty second
-buffer plus Redis for refresh-token rotation, parallel upstream calls, a pure
-mapper from `app/lib`, JSON with null fallbacks, and a `Cache-Control` header
-with `s-maxage` and `stale-while-revalidate`. A failed or empty payload goes out
-`no-store`, because the edge would otherwise serve the failure for the full TTL.
-
-Server analytics go through `captureServer` in `app/posthog.js`, which flushes in
-`after()` so the request path never waits on PostHog. One page load emits about a
-dozen `*_fetched` events with no human involved. That asymmetry is by design.
-
-Snapshot routes (Strava, Obsidian, Spotify history) only read Redis. Local
-importers write the snapshots. A route never pages an expensive upstream on a
-visitor's request.
-
-Never refresh a production OAuth token from a local probe. Trakt and Spotify
-rotate the refresh token and the route persists it in Redis, so a local refresh
-invalidates production.
-
-These routes have no unit tests today. The invariants above are rules, not
-oracles. The verification is the manual curl check in the testing section of
-`CLAUDE.md`.
+## invariants
