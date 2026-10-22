@@ -46,6 +46,8 @@ Copy and customize this template for new releases:
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-10-22
+
 ### Changed
 - Coherence moved from @danilocampos/coherence 0.37.1 to @posthog/coherence 1.8.0: specs rewritten in the 1.x bullet grammar, the why prose moved to docs/design.md, the 0.37 journal archived under .coherence/archive-0.37, CI runs spec --check and the chokepoint run, and jsconfig.json excludes the local data folder so the TypeScript server stays on.
 - Home page first paint: tiles render visible instead of waiting on GSAP, and only tiles below the fold animate in on scroll.
