@@ -7,9 +7,10 @@ import Heatmap from './ui/heatmap'
 
 const HEATMAP_WEEKS = 17 // footprint tuned to the current tile width; adjust with layout
 
-export default function GitHubTile() {
+export default function GitHubTile({ initial }) {
   const stats = useCachedFetch('/api/github-stats', 'gh_stats_v2', {
     ttl: 300000,
+    initial,
     shouldCache: (s) => Object.keys(s.days).length > 0,
     transform: (data) => ({
       activity7d: data.activity7d,

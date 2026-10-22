@@ -64,12 +64,13 @@ function liveAside(counter) {
   }
 }
 
-export default function SpotifyTile() {
+export default function SpotifyTile({ initial }) {
   const [tab, setTab] = useState('alltime')
 
   const stats = useCachedFetch('/api/spotify-stats', 'spotify_stats_v2', {
     ttl: 3600000,
     shouldCache: (data) => !!data.overview,
+    initial,
   })
   const topItems = useCachedFetch('/api/spotify-top', 'spotify_top', {
     ttl: 3600000,

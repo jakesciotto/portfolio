@@ -15,9 +15,10 @@ function dayInitial(isoDate) {
   return Number.isNaN(d.getTime()) ? '' : DAY_INITIALS[d.getUTCDay()]
 }
 
-export default function WakaTimeTile() {
+export default function WakaTimeTile({ initial }) {
   const stats = useCachedFetch('/api/wakatime-stats', 'wakatime_stats_v3', {
     shouldCache: (data) => data.totalHours != null,
+    initial,
   })
 
   if (!stats) return <TileSkeleton accent="primary" />
