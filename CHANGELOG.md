@@ -46,12 +46,17 @@ Copy and customize this template for new releases:
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-10-22
+
 ### Changed
 - The home page HTML carries the github, wakatime, obsidian, spotify stats and strava (all) data, so those tiles paint with real numbers and no skeleton. The page stays static with a 5 minute revalidate; `app/lib/sources/tile-data.js` loads the five sources through `unstable_cache`, with a 3 s timeout per source, and only on Vercel.
 - Each of those five routes is a thin wrapper over a loader in `app/lib/sources/`; payloads, headers and events are unchanged.
 - `useCachedFetch` takes an `initial` seed and writes a fresh seed to localStorage, so the first load, the poll and a tab focus all skip the network while the seed is younger than the tile TTL.
 - The GitHub heatmap ends on the latest date in the payload instead of the render clock, so server and client build the same grid.
 - Trakt, spotify top, spotify recent, spotify live and now playing stay client-fetched, because their routes rotate an OAuth refresh token.
+
+### Security
+- dompurify 3.4.16 to 3.4.17 through posthog-js (GHSA-mrv2-3pqr-j5jr, GHSA-c6gr-qvv4-5v3f, and the SAFE_FOR_TEMPLATES and IN_PLACE advisories).
 
 ## [1.9.0] - 2026-10-22
 
