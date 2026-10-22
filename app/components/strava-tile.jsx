@@ -17,7 +17,7 @@ const PERIODS = [
   { key: 'all', label: 'all' },
 ]
 
-export default function StravaTile() {
+export default function StravaTile({ initial }) {
   const [period, setPeriod] = useState('all')
   const [transitioning, setTransitioning] = useState(false)
   const transitionRef = useRef(null)
@@ -28,6 +28,7 @@ export default function StravaTile() {
     {
       ttl: 3600000,
       shouldCache: (data) => data.count != null && !!data.lastSync,
+      initial: period === 'all' ? initial : undefined,
     },
   )
 
@@ -105,7 +106,10 @@ export default function StravaTile() {
       </div>
 
       {stats.lastSync && (
-        <p className="text-[10px] font-mono text-muted-foreground font-medium mt-auto">
+        <p
+          suppressHydrationWarning
+          className="text-[10px] font-mono text-muted-foreground font-medium mt-auto"
+        >
           {agoLabel(stats.lastSync, 'synced')}
         </p>
       )}

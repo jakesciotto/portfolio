@@ -54,17 +54,21 @@ function SummaryBody({ active, overdue, lastSync }) {
           <span className="font-medium text-muted-foreground/70">overdue</span>
         </span>
       )}
-      <span className="mt-auto pt-3 font-mono text-[10px] text-muted-foreground/70">
+      <span
+        suppressHydrationWarning
+        className="mt-auto pt-3 font-mono text-[10px] text-muted-foreground/70"
+      >
         {agoLabel(lastSync, 'synced')}
       </span>
     </>
   )
 }
 
-export default function ObsidianRow() {
+export default function ObsidianRow({ initial }) {
   const stats = useCachedFetch('/api/obsidian-stats', 'obsidian_stats', {
     ttl: 3600000,
     shouldCache: (data) => data.active !== null,
+    initial,
   })
   const cards = tierCards(stats)
 

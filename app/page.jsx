@@ -14,8 +14,13 @@ import AboutTile from './components/about-tile'
 import ObsidianRow from './components/obsidian-row'
 import TraktTile from './components/trakt-tile'
 import SpotifyRecentTile from './components/spotify-recent-tile'
+import { loadTileData } from './lib/sources/tile-data'
 
-export default function Page() {
+export const revalidate = 300
+
+export default async function Page() {
+  const tiles = await loadTileData()
+
   return (
     <div className="py-8">
       <BentoGrid>
@@ -24,7 +29,7 @@ export default function Page() {
         </Tile>
 
         <Tile accent="primary" gridClass="tile-github">
-          <GitHubTile />
+          <GitHubTile initial={tiles.github} />
         </Tile>
 
         <Tile accent="secondary" gridClass="tile-experience">
@@ -47,14 +52,14 @@ export default function Page() {
           <EducationTile />
         </Tile>
 
-        <ObsidianRow />
+        <ObsidianRow initial={tiles.obsidian} />
 
         <Tile accent="amber" gridClass="tile-trakt">
           <TraktTile />
         </Tile>
 
         <Tile accent="primary" gridClass="tile-wakatime">
-          <WakaTimeTile />
+          <WakaTimeTile initial={tiles.wakatime} />
         </Tile>
 
         <Tile accent="tertiary" gridClass="tile-spotify-recent">
@@ -62,11 +67,11 @@ export default function Page() {
         </Tile>
 
         <Tile accent="tertiary" gridClass="tile-spotify">
-          <SpotifyTile />
+          <SpotifyTile initial={tiles.spotifyStats} />
         </Tile>
 
         <Tile accent="secondary" gridClass="tile-strava">
-          <StravaTile />
+          <StravaTile initial={tiles.strava} />
         </Tile>
 
         <Tile accent="tertiary" gridClass="tile-projects">

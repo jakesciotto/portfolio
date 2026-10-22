@@ -21,11 +21,19 @@ function dayKey(d) {
   return d.toISOString().slice(0, 10)
 }
 
-function buildGrid(weeks) {
+function lastDay(data) {
+  const keys = Object.keys(data).sort()
+  const latest = keys.length
+    ? new Date(`${keys[keys.length - 1]}T00:00:00Z`)
+    : null
+  if (latest && !Number.isNaN(latest.getTime())) return latest
   const today = new Date()
-  const end = new Date(
+  return new Date(
     Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate()),
   )
+}
+
+function buildGrid(weeks, end) {
   const start = new Date(end)
   start.setUTCDate(start.getUTCDate() - (weeks - 1) * 7 - end.getUTCDay())
   const columns = []
@@ -44,7 +52,7 @@ function buildGrid(weeks) {
 export default function Heatmap({ data = {}, weeks = 52, accent = 'primary' }) {
   const max = Object.values(data).reduce((m, c) => (c > m ? c : m), 0)
   const color = accentVar[accent] || accentVar.primary
-  const columns = buildGrid(weeks)
+  const columns = buildGrid(weeks, lastDay(data))
 
   return (
     <TooltipProvider delayDuration={0}>

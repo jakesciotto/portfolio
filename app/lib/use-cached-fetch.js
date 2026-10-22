@@ -10,18 +10,29 @@ function readCache(cacheKey, ttl) {
   return { value: JSON.parse(cached), fresh }
 }
 
+function acceptInitial(initial, transform, shouldCache) {
+  if (!initial) return null
+  const result = transform ? transform(initial.data) : initial.data
+  if (shouldCache && !shouldCache(result)) return null
+  return result
+}
+
 export function useCachedFetch(
   endpoint,
   cacheKey,
-  { ttl = 900000, shouldCache, transform } = {},
+  { ttl = 900000, shouldCache, transform, initial } = {},
 ) {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState(() =>
+    acceptInitial(initial, transform, shouldCache),
+  )
   const keyRef = useRef(cacheKey)
+  const initialRef = useRef(data ? initial : null)
 
   useEffect(() => {
     let ignore = false
     if (keyRef.current !== cacheKey) {
       keyRef.current = cacheKey
+      initialRef.current = null
       setData(null)
     }
 
@@ -55,6 +66,14 @@ export function useCachedFetch(
       }
     }
 
+    const seeded = initialRef.current
+    if (seeded && Date.now() - seeded.fetchedAt < ttl) {
+      const storedAt = parseInt(localStorage.getItem(`${cacheKey}_time`)) || 0
+      if (storedAt < seeded.fetchedAt) {
+        localStorage.setItem(cacheKey, JSON.stringify(data))
+        localStorage.setItem(`${cacheKey}_time`, String(seeded.fetchedAt))
+      }
+    }
     fetchData()
 
     const interval = setInterval(() => {

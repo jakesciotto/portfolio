@@ -32,7 +32,7 @@ export default function AnimatedNumber({ value, className }) {
 
   return (
     <span className={className}>
-      {typeof display === 'number' ? display.toLocaleString() : display}
+      {typeof display === 'number' ? display.toLocaleString('en-US') : display}
     </span>
   )
 }
