@@ -5,7 +5,7 @@ A personal site that shows live numbers about Jake's life on a neon-on-glass ben
 - visitor: a browser on the public internet that loads a page or calls an API route
 - upstream: a third-party API that answers the server, such as Spotify, Trakt, WakaTime or GitHub
 - redis: the Upstash Redis keys that hold the refresh tokens and the snapshots
-- operator: Jake's own machines, which run the importers and the vinelab collector
+- operator: Jake's vinelab machine, which runs the Spotify collector
 
 ## entrances
 - page /: the home page with the bento grid, for any visitor

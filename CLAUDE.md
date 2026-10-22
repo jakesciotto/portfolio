@@ -128,3 +128,4 @@ The project runs `@posthog/coherence` 1.x. The grammar is in `node_modules/@post
 4. Record a choice with `npx --no -- coherence decide "<chose>" --over "<rejected>" --because "<why>" --session <id> --agent <name>`.
 5. The rationale that the 0.37 specs carried in prose lives in `docs/design.md` under Rationale by component.
 6. The 0.37 journal is kept under `.coherence/archive-0.37` as history. Coherence 1.x does not read it.
+7. Jake runs `npx --no -- coherence hooks install --host claude` once on this branch. The tracked hooks still name the deleted 0.37 script.

@@ -30,9 +30,9 @@ A dependency-free Node service on vinelab that stores every play in SQLite and p
   checklist: commit-ordered-effects dismissed: publish reads committed rows before it writes any Redis key
   checklist: resumption-coverage dismissed: every publish recomputes every key from the whole table, so the next publish repairs an interrupted one
 - current year live key: The live key counts only plays in the current calendar year.
-  over: one archive play in the previous year, and one archive play and one API play in the current year
+  over: one archive play in the previous year, and one archive play and one API play in the current year, all at midday UTC and bucketed in the runner's zone; the test does not exercise the America/New_York rule or the year boundary
   via: the live key counts only the current year
-  because: the site shows the current year as a growing column; liveSummary buckets by the process time zone, which the collector env sets to America/New_York, and a UTC bucket disagreed with the counter by about three hours
+  because: the site shows the current year as a growing column, and the live key must not count plays from the previous year
   refuted: liveSummary starts the year one year early -> the test the live key counts only the current year went red (2026-10-21)
   kinds: none
 - notify once: A failed run records its error and notifies once until a run recovers.

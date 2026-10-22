@@ -8,16 +8,16 @@ Pure modules that turn API payloads into the view objects the tiles render.
   because: the snapshot is the archive and the live key is an estimate that runs about two percent low, so a merge that could lower a value would make the headline flicker between refreshes
   refuted: withLive drops its Math.max floor, so a live key below the stored year lowers it -> the test withLive never lowers a value and ignores a missing live key went red (2026-10-21)
   kinds: none
-- zero bar floor: A zero value renders as a stub and a nonzero bar never drops below a 3 percent height.
-  over: one zero value, one value below 3 percent of the peak, and the peak
+- zero bar floor: layoutColumns flags a zero value and gives it no height, and gives a nonzero bar at least 3 percent of the height.
+  over: one zero value, one value below 3 percent of the peak, and the peak; the test reads the zero and heightPct fields and does not render
   via: layoutColumns renders zero as a stub and enforces a 3% floor
-  because: a bar that disappears at zero reads as missing data, and the tile must tell a zero from a gap
+  because: a bar that disappears at zero reads as missing data, and the tile must tell a zero from a gap; Columns in components/ui/columns.jsx draws the zero flag as a 2px stub, and no test reads that rendering
   refuted: layoutColumns drops the 3 percent floor -> the test layoutColumns renders zero as a stub and enforces a 3% floor went red (2026-10-21)
   kinds: none
 - null spotify view: spotifyView answers null when the overview is missing.
-  over: stats with a null overview, and null stats
+  over: stats with a null overview, which is what the route answers for a missing snapshot key or a Redis failure, and null stats
   via: spotifyView returns null without an overview
-  because: the routes call upstreams in parallel and any one can fail; the tile shows a skeleton or stale cache on null, and a thrown error would blank the tile
+  because: the spotify-stats route reads five Redis snapshot keys and answers an overview of null when a key is missing or Redis fails; the tile shows a skeleton or stale cache on null, and a thrown error would blank the tile
   refuted: spotifyView answers an empty view instead of null without an overview -> the test spotifyView returns null without an overview went red (2026-10-21)
   kinds: none
 - zero total: tierCards answers zero shares for missing data and for a zero active count.
@@ -53,7 +53,7 @@ Pure modules that turn API payloads into the view objects the tiles render.
 - trakt missing sources: mapTraktStats answers zeros and empty lists for missing or malformed sources.
   over: an empty input, and a watched shows answer that is an error object
   via: mapTraktStats tolerates missing or malformed sources
-  because: the Trakt route calls three endpoints in parallel, and an error body must not reach the tile as data
+  because: the Trakt route makes four Trakt calls in parallel (stats, watched shows, episode history, movie history) and maps them into three sources, and an error body must not reach the tile as data
   refuted: mapTraktStats spreads the watched shows answer without an array check -> the test mapTraktStats tolerates missing or malformed sources went red (2026-10-21)
   kinds: none
 - tier order: TIERS run hot to cold with one hue each.
@@ -80,11 +80,11 @@ Pure modules that turn API payloads into the view objects the tiles render.
   because: a peak caption on a zero column would label nothing
   refuted: layoutColumns marks the first zero column as the peak -> the test layoutColumns with all zeros has no peak went red (2026-10-21)
   kinds: none
-- spotify token refresh: In the site, only getAccessToken reads the stored Spotify refresh token.
-  protects: getRefreshToken
-  chokepoint: getAccessToken
+- spotify token refresh: Only getAccessToken calls getRefreshToken in spotify-auth.js.
+  protects: getRefreshToken in app/lib/spotify-auth.js
+  chokepoint: getAccessToken in app/lib/spotify-auth.js
   from: anywhere
-  because: getAccessToken is the one place that caches the access token and writes a rotated refresh token back to Redis, so a second reader could spend the token without saving its successor
+  because: getAccessToken caches the access token and writes a rotated refresh token back to Redis, but only when Spotify returns one; app/api/spotify-callback/route.js writes the Redis key directly, and the collector (services/spotify-collector/src/spotify.mjs) reads and rotates the same key, so the rule covers the calls inside spotify-auth.js only
   crossing: redis -> upstream
   kinds: credential
   checklist: capability-authorization dismissed: Spotify, not the site, accepts the refresh token and bounds its scope

@@ -47,3 +47,8 @@ jobs:
       - name: Chokepoints
         if: ${{ !cancelled() }}
         run: pnpm exec coherence run --form chokepoint --no-server --session "ci-${{ github.run_id }}" --agent ci
+
+      # Every totality oracle graded in process; an oracle that stays green after its break fails the run.
+      - name: Totality oracles
+        if: ${{ !cancelled() }}
+        run: npx --no -- coherence run --form totality-oracle --no-server --session "ci-${{ github.run_id }}" --agent ci
