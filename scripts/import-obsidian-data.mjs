@@ -8,7 +8,7 @@
  * Usage:   node scripts/import-obsidian-data.mjs
  * Env:     KV_REST_API_URL, KV_REST_API_TOKEN  (required)
  *          OBSIDIAN_VAULT_PATH                  (optional; defaults to
- *                                                ~/Documents/Obsidian Vault)
+ *                                                ~/github/obsidian)
  *
  * A line is a task iff it is a checkbox AND carries a [tier:: ...] field.
  * Active = marker not in {x, X, -}. Scope = areas/** and projects/** only.
@@ -96,7 +96,7 @@ async function main() {
   }
 
   const vault =
-    process.env.OBSIDIAN_VAULT_PATH || join(homedir(), 'Documents', 'Obsidian Vault')
+    process.env.OBSIDIAN_VAULT_PATH || join(homedir(), 'github', 'obsidian')
 
   const files = [
     ...(await collectMarkdown(join(vault, 'areas'))),
