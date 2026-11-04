@@ -11,9 +11,6 @@ export async function collect({ db, spotify, log = console }) {
   return { fetched: items.length, inserted }
 }
 
-// The five stats keys hold the full history the site shows. They are
-// overwritten only once the archive is loaded, or on an explicit force,
-// so a fresh collector cannot replace years of history with a day of plays.
 export async function publish({
   db,
   redis,

@@ -107,10 +107,10 @@ test('classify: unmatched Workout stays Workout', () => {
 test('aggregate: periods bucket by start_local against injected now', () => {
   const now = new Date('2026-06-09T12:00:00')
   const activities = [
-    activity('muay thai', 'Workout', '2026-06-08T17:00:00', 3600), // within 7d
-    activity('coaching BJJ', 'Workout', '2026-05-20T17:00:00', 7200), // within 30d only
-    activity('Morning Run', 'Run', '2026-01-15T08:00:00', 1800, 5000), // ytd only
-    activity('Old Ride', 'Ride', '2025-03-01T08:00:00', 5400, 20000), // all only
+    activity('muay thai', 'Workout', '2026-06-08T17:00:00', 3600),
+    activity('coaching BJJ', 'Workout', '2026-05-20T17:00:00', 7200),
+    activity('Morning Run', 'Run', '2026-01-15T08:00:00', 1800, 5000),
+    activity('Old Ride', 'Ride', '2025-03-01T08:00:00', 5400, 20000),
   ]
   const result = aggregate(activities, now)
 

@@ -4,8 +4,6 @@ function round(n) {
 
 const round1 = (n) => Math.round(n * 10) / 10
 
-// The live key and the stats keys come from one database, but the stats reach
-// the browser through a one hour cache. The live year never lowers a value.
 export function withLive(stats, live) {
   const o = stats?.overview
   const minutes = Number(live?.minutes)

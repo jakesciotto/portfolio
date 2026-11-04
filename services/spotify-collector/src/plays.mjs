@@ -1,4 +1,4 @@
-export function toSecond(ts) {
+function toSecond(ts) {
   return ts.slice(0, 19) + 'Z'
 }
 
@@ -21,9 +21,6 @@ export function fromArchive(raw) {
   }
 }
 
-// played_at marks the end of a play. The gap to the previous play's end
-// bounds the time this play could have run, so a skip counts as its real
-// length. A pause between plays can only inflate a play up to its duration.
 export function fromRecentlyPlayed(items, previousTs) {
   const sorted = [...items]
     .filter((it) => it.track && it.played_at)

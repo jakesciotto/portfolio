@@ -97,8 +97,6 @@ export function aggregate(entries) {
   }
 }
 
-// Minutes in the current calendar year, in the process time zone (TZ). The
-// archive supplies the base for the year and collected plays add to it.
 export function liveSummary(entries, now = new Date()) {
   const year = now.getFullYear()
   const start = new Date(year, 0, 1).toISOString()

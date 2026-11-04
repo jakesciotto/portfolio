@@ -1,49 +1,21 @@
-/**
- * import-strava-data.mjs
- *
- * Reads a JSON dump of Strava activities (pulled via the Strava MCP in a
- * Claude session), classifies and aggregates them per period, and writes
- * Redis keys consumed by /api/strava-stats.
- *
- * Usage:
- *   node scripts/import-strava-data.mjs [path-to-dump.json]
- *   (default dump path: scripts/strava-activities.json)
- *
- * Env vars required:
- *   KV_REST_API_URL   - Upstash Redis REST URL
- *   KV_REST_API_TOKEN - Upstash Redis REST token
- *
- * Dump shape: flat JSON array of MCP activities:
- *   { id, name, sport_type, start_local, summary: { distance, moving_time } }
- */
-
 import { Redis } from '@upstash/redis'
 import { readFile } from 'node:fs/promises'
 import { pathToFileURL } from 'node:url'
 
-// Martial-arts rules run first regardless of sport_type. Earliest keyword
-// mention in the name wins; ties go to BJJ (listed first).
 const NAME_RULES = [
   { pattern: /bjj|jiu.?jitsu|grappl/i, label: 'BJJ' },
   { pattern: /muay.?thai|kickbox/i, label: 'Muay Thai' },
 ]
 
-// Gym vocabulary that means BJJ in this athlete's logs, but only when Strava
-// already bucketed the session as a generic Workout -- a Run named "5K before
-// coaching" must stay a Run.
 const WORKOUT_NAME_RULES = [
   {
     pattern:
       /randori|open mat|\brolls\b|\brolling\b|no.?gi|\bgi\b|comp class|coach|drilling|fundies|fundamentals|wrestl|\btraining\b|\bclass\b/i,
     label: 'BJJ',
   },
-  // Ambiguous outside the gym: "mt" collides with mountain abbreviations on
-  // runs/hikes, "sparring" could ride along anywhere.
   { pattern: /\bmt\b|sparring/i, label: 'Muay Thai' },
 ]
 
-// Strava forces non-enum activity types (e.g. Garmin-synced strength/yoga)
-// into the generic "Workout" bucket. Infer a finer label from the name.
 const WORKOUT_KEYWORDS = [
   { pattern: /\b(hiit|tabata|interval|amrap|emom)\b/i, label: 'HIIT' },
   { pattern: /\b(crossfit|wod)\b/i, label: 'CrossFit' },
@@ -121,9 +93,6 @@ function metersToMiles(m) {
   return +(m * 0.000621371).toFixed(1)
 }
 
-// Maps a raw Strava API v3 activity to the shape `aggregate` consumes. Keeps the
-// API front-end decoupled from the classification/aggregation logic so the MCP
-// dump format and the API format converge on one schema.
 export function mapApiActivity(a) {
   return {
     name: a.name || '',
@@ -193,10 +162,6 @@ export function aggregate(activities, now = new Date()) {
   return result
 }
 
-// Exchanges the stored refresh token for a fresh access token. Strava rotates
-// refresh tokens, so the new one is persisted back to Redis (preferred over the
-// env value on the next run) -- same token-persistence pattern the Oura/Todoist
-// routes use.
 async function refreshAccessToken(redis) {
   const clientId = process.env.STRAVA_CLIENT_ID
   const clientSecret = process.env.STRAVA_SECRET
@@ -236,8 +201,7 @@ async function fetchAllActivities(token) {
     if (res.status === 401) {
       throw new Error(
         'Strava activities fetch returned 401. The refresh token lacks the ' +
-          'activity:read_all scope -- re-authorize the app with that scope and ' +
-          'update STRAVA_REFRESH_TOKEN (see .claude/plans/2026-06-24-obsidian-task-tile-plan.md).',
+          'activity:read_all scope. Run node scripts/strava-reauth.mjs to grant it.',
       )
     }
     if (!res.ok) throw new Error(`Strava activities fetch failed (${res.status})`)
@@ -260,8 +224,6 @@ async function main() {
 
   const redis = new Redis({ url: redisUrl, token: redisToken })
 
-  // Dump-file mode (manual fallback) when a path arg is given; otherwise fetch
-  // live from the Strava API (the mode launchd uses).
   const dumpArg = process.argv[2]
   let activities
   if (dumpArg) {
