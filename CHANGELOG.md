@@ -46,6 +46,24 @@ Copy and customize this template for new releases:
 
 ## [Unreleased]
 
+### Fixed
+- The Obsidian importer reads the git vault at `~/github/obsidian` by default. The old default, `~/Documents/Obsidian Vault`, was a stale iCloud copy, and from 2026-10-27 every daily run failed on it with `errno -11`.
+- `scripts/refresh-tiles.sh` runs `git pull --ff-only` on the vault before the Obsidian import, so the snapshot counts the tasks on origin.
+- `scripts/refresh-tiles.sh` runs the Obsidian and Strava imports independently. A failure in one no longer blocks the other, and the script still exits non-zero.
+- The WakaTime tile updates again. WakaTime API keys can no longer read data, so the loader sends `WAKATIME_ACCESS_TOKEN` as an OAuth Bearer token to `api.wakatime.com`. The tile stopped at 2026-10-30.
+- The GitHub week total and heatmap end on today's date in America/Denver. GitHub ends its public calendar on the UTC date, so each evening the week held an empty tomorrow and lost its oldest day. The window math moved to `app/lib/github-view.mjs`.
+- The Strava importer's 401 message names `scripts/strava-reauth.mjs` instead of a deleted plan file.
+
+### Removed
+- `app/components/ui/sparkline.jsx`, which nothing imported.
+- The unused `BeltIcon` in the about tile and its commented-out reference.
+- The `export` on `ACCENTS` and `toSecond`, which only their own modules use.
+- Code comments in the app, scripts, collector and config. Their facts moved to `docs/design.md` and the collector README. The generated coherence workflow keeps its comments.
+- Duplicate `.env` rules in `.gitignore`.
+
+### Changed
+- `WAKATIME_API_KEY` is no longer read. Delete it from Vercel after the production check passes.
+
 ## [1.10.0] - 2026-10-22
 
 ### Changed

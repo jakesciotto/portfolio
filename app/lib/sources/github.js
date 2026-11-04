@@ -1,3 +1,5 @@
+import { githubView } from '../github-view.mjs'
+
 const GH_USER = 'jakesciotto'
 
 function parseCalendar(html) {
@@ -38,22 +40,5 @@ export async function loadGithubStats() {
   })
   if (!res.ok) throw new Error(`GitHub contributions error: ${res.status}`)
 
-  const countByDate = parseCalendar(await res.text())
-  const series = Object.keys(countByDate)
-    .sort()
-    .map((date) => ({ date, count: countByDate[date] }))
-  const recent = series.slice(-14)
-  const last7 = recent.slice(-7)
-  const prev7 = recent.slice(0, recent.length - 7)
-
-  const sum = (arr) => arr.reduce((s, d) => s + d.count, 0)
-  const daily = last7.map((d) => d.count)
-
-  return {
-    activity7d: sum(last7),
-    prevActivity7d: sum(prev7),
-    daily,
-    isActive: daily.slice(-2).some((c) => c > 0),
-    days: countByDate,
-  }
+  return githubView(parseCalendar(await res.text()))
 }

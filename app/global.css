@@ -1,8 +1,5 @@
 @import 'tailwindcss';
 
-/* ===================================================
-   Theme tokens -- registers with Tailwind v4
-   =================================================== */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -40,9 +37,6 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/* ===================================================
-   One theme: neon on glass black
-   =================================================== */
 :root {
   --background: #050508;
   --foreground: #f4f4f7;
@@ -76,9 +70,6 @@
   color-scheme: dark;
 }
 
-/* ===================================================
-   Base
-   =================================================== */
 ::selection {
   background-color: var(--accent-primary);
   color: var(--background);
@@ -95,7 +86,6 @@ body {
   background: transparent;
 }
 
-/* Ambient field: what the glass blurs */
 body::after {
   content: '';
   position: fixed;
@@ -126,9 +116,6 @@ body::after {
     );
 }
 
-/* ===================================================
-   Card -- opaque surface used off the bento grid
-   =================================================== */
 .card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -140,9 +127,6 @@ body::after {
   border-color: color-mix(in srgb, var(--accent-primary) 40%, var(--border));
 }
 
-/* ===================================================
-   Tile -- glass surface for the bento grid
-   =================================================== */
 .tile {
   background: var(--card-glass);
   backdrop-filter: blur(18px);
@@ -180,9 +164,6 @@ body::after {
   }
 }
 
-/* ===================================================
-   Fact card -- inner surface for the about tile
-   =================================================== */
 .fact-card {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
@@ -198,9 +179,6 @@ body::after {
   );
 }
 
-/* ===================================================
-   Bento grid -- 6-col desktop, 2-col tablet, 1-col phone
-   =================================================== */
 .bento-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -303,9 +281,6 @@ body::after {
   }
 }
 
-/* ===================================================
-   Obsidian KPI row -- summary card plus six tier cards
-   =================================================== */
 .obsidian-row {
   display: grid;
   grid-template-columns: 1.35fr repeat(6, 1fr);
@@ -331,9 +306,6 @@ body::after {
   }
 }
 
-/* ===================================================
-   Grain texture overlay
-   =================================================== */
 body::before {
   content: '';
   position: fixed;
@@ -346,9 +318,6 @@ body::before {
   background-size: 256px 256px;
 }
 
-/* ===================================================
-   Animations
-   =================================================== */
 @keyframes fade-in {
   from {
     opacity: 0;
@@ -407,8 +376,6 @@ body::before {
 }
 
 .ticker {
-  /* width 0 + percentage min-width: layout fills the tile, but the strip
-     contributes no intrinsic width, so it cannot stretch the grid tracks */
   width: 0;
   min-width: 100%;
   overflow: hidden;
@@ -451,9 +418,6 @@ body::before {
   animation: terminal-blink 1.1s step-end infinite;
 }
 
-/* ===================================================
-   Reduced motion
-   =================================================== */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -465,9 +429,6 @@ body::before {
   }
 }
 
-/* ===================================================
-   Tweet bento -- masonry; tweet-bento.jsx sets each row span
-   =================================================== */
 .tweet-bento {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));

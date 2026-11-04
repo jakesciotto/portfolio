@@ -14,11 +14,13 @@ One theme only: neon on glass black, dark, no glow, no light mode. Each tile own
 
 Logic and rendering are split on purpose. Anything worth a test is a pure `.mjs` module under `app/lib` with fixture tests, and the `.jsx` tile stays a thin renderer. Fixtures use invented values shaped like the live payloads and never a real credential or a real third-party id.
 
-Visitor requests are served from the edge or Redis where possible. Routes call upstreams only on an edge miss. Every data route sets `Cache-Control` with `s-maxage` on a good payload, so the Vercel edge serves repeat visitors. The two OAuth callbacks (`spotify-callback`, `trakt-callback`) are exempt: they answer HTML or an error and set no `Cache-Control`. Snapshots feed the expensive tiles from Redis. The client hook caches in localStorage and polls only while the tab is visible. Most routes send an empty or failed payload as `no-store`, so the edge never caches a bad response. Five routes have a failure path that sets neither `no-store` nor `s-maxage`: the catch paths of `wakatime-stats` (and its missing-key path), `trakt-stats`, `github-stats`, `spotify-recent` and `spotify-top`. The last three answer a 500.
+Visitor requests are served from the edge or Redis where possible. Routes call upstreams only on an edge miss. Every data route sets `Cache-Control` with `s-maxage` on a good payload, so the Vercel edge serves repeat visitors. The two OAuth callbacks (`spotify-callback`, `trakt-callback`) are exempt: they answer HTML or an error and set no `Cache-Control`. Snapshots feed the expensive tiles from Redis. The client hook caches in localStorage and polls only while the tab is visible. Most routes send an empty or failed payload as `no-store`, so the edge never caches a bad response. Five routes have a failure path that sets neither `no-store` nor `s-maxage`: the catch paths of `wakatime-stats` (and its missing-token path), `trakt-stats`, `github-stats`, `spotify-recent` and `spotify-top`. The last three answer a 500.
 
 The 0.37 spec also checked that `app/global.css`, `next.config.js` and `app/posthog.js` exist. Coherence 1.x has no existence check, so those three checks are dropped.
 
 The integration branch is `staging`. Releases carry semantic version tags. Secrets never enter git, fixtures, or `public/`.
+
+`pnpm-workspace.yaml` ignores GHSA-hp3w-g68c-fv3c in the audit. sprintf-js has no patched release, and argparse loads it only from the js-yaml CLI, which nothing runs.
 
 ### API routes
 
@@ -40,7 +42,11 @@ A tile renders. It does not compute. Every number a tile shows comes from a pure
 
 One theme. Each tile owns one of six hues through `--tile-accent`, and only the numbers and the identity marks wear it. No text-shadow, no box-shadow, no glow, no light mode.
 
-Charts are hand-built: div columns, an inline SVG sparkline, and a heatmap grid. No chart library. `Columns` fills 0.8 of each column, captions the peak or the last column, and dims a partial bar.
+Charts are hand-built: div columns and a heatmap grid. No chart library. `Columns` fills 0.8 of each column, captions the peak or the last column, and dims a partial bar.
+
+The GitHub heatmap shows 17 weeks, because that count fits the current tile width. Change `HEATMAP_WEEKS` when the layout changes.
+
+The `.ticker` strip has `width: 0` and a percentage `min-width`. The strip fills the tile, but it adds no intrinsic width, so it cannot stretch the grid tracks.
 
 Every tile starts at `opacity: 0` and the bento grid reveals it through a GSAP ScrollTrigger batch. Reduce-motion must still show every tile.
 
@@ -63,6 +69,28 @@ Every data tile headline has one size, because the headline is the number that s
 The Strava tile lists every workout type, because a folded "Other" row hid ten types and 141 activities.
 
 The Spotify access token is refreshed in one place, `getAccessToken`, which caches the access token and writes a rotated refresh token back to Redis.
+
+### Strava importer
+
+`scripts/import-strava-data.mjs` writes the `strava:stats:<period>` keys that `/api/strava-stats` reads. With no argument it pages the Strava API, which is the mode launchd uses. With a path argument it reads a JSON array of activities instead, as a manual fallback. Both inputs pass through `mapApiActivity` or arrive in the same shape, so `classify` and `aggregate` see one schema. The script needs `KV_REST_API_URL` and `KV_REST_API_TOKEN`.
+
+Strava rotates the refresh token. The importer reads `strava:refresh_token` from Redis before `STRAVA_REFRESH_TOKEN`, and writes the rotated token back to Redis.
+
+The activity list needs the `activity:read_all` scope. `node scripts/strava-reauth.mjs` runs the OAuth code flow on a local listener at port 8723. It stores the new refresh token in Redis and in `.env.local`. If the authorize page rejects the redirect, add `localhost` to the Authorization Callback Domain at `strava.com/settings/api`.
+
+`classify` applies three rule sets in order:
+
+1. The martial-arts rules run first for every sport type. The earliest keyword in the name wins, and a tie goes to BJJ.
+2. A generic `Workout` with gym words in its name (open mat, rolling, drilling, class, coach) counts as BJJ. The rule skips other types, so a Run named "5K before coaching" stays a Run. "mt" and "sparring" mean Muay Thai only on a `Workout`, because "mt" is also a mountain abbreviation.
+3. Strava puts types outside its enum, such as Garmin strength or yoga, into `Workout`. The keyword table infers a finer label from the name.
+
+### Obsidian importer
+
+`scripts/import-obsidian-data.mjs` writes the `obsidian:stats` key that `/api/obsidian-stats` reads. It reads the vault at `OBSIDIAN_VAULT_PATH`, which defaults to `~/github/obsidian`, and needs `KV_REST_API_URL` and `KV_REST_API_TOKEN`.
+
+A line is a task only when it is a checkbox and carries a `[tier:: ...]` field. A task is active when its marker is not `x`, `X` or `-`. The importer reads only `areas/**` and `projects/**`. It skips lines inside fenced code blocks, so Dataview query examples do not count.
+
+launchd runs `scripts/refresh-tiles.sh` every day at 07:00 through `com.jakesciotto.portfolio-tiles.plist`. The script refreshes the Obsidian and Strava snapshots.
 
 ### Spotify collector
 

@@ -6,7 +6,6 @@ const facts = [
     detail: "all strength, no technique. won't pull guard",
     badge: 'verified',
     tone: 'tertiary',
-    // icon: <BeltIcon />,
   },
   {
     label: 'problem solver',
@@ -53,39 +52,6 @@ const facts = [
   },
 ]
 
-function BeltIcon() {
-  return (
-    <svg
-      width="16"
-      height="10"
-      viewBox="0 0 16 10"
-      className="inline-block shrink-0"
-      aria-hidden="true"
-    >
-      <rect x="0" y="3" width="16" height="4" rx="1" fill="#2563eb" />
-      <rect x="6" y="2" width="4" height="6" rx="0.5" fill="#1d4ed8" />
-      <line
-        x1="6"
-        y1="8"
-        x2="5"
-        y2="10"
-        stroke="#2563eb"
-        strokeWidth="1"
-        strokeLinecap="round"
-      />
-      <line
-        x1="10"
-        y1="8"
-        x2="11"
-        y2="10"
-        stroke="#2563eb"
-        strokeWidth="1"
-        strokeLinecap="round"
-      />
-    </svg>
-  )
-}
-
 function FactCard({ fact, index }) {
   return (
     <li className="fact-card relative flex min-w-0 flex-col px-3 py-2.5">
@@ -97,7 +63,6 @@ function FactCard({ fact, index }) {
       </span>
       <h4 className="inline-flex min-w-0 items-center gap-1.5 pr-7 font-mono text-[13px] leading-4.5 font-semibold tracking-tight text-foreground">
         {fact.label}
-        {fact.icon}
       </h4>
       <p
         className={`mt-2 text-xs leading-4 font-medium tracking-[-0.2px] ${

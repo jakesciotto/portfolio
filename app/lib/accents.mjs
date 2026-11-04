@@ -1,11 +1,4 @@
-export const ACCENTS = [
-  'primary',
-  'secondary',
-  'tertiary',
-  'amber',
-  'violet',
-  'red',
-]
+const ACCENTS = ['primary', 'secondary', 'tertiary', 'amber', 'violet', 'red']
 
 export const accentVar = Object.fromEntries(
   ACCENTS.map((a) => [a, `var(--accent-${a})`]),

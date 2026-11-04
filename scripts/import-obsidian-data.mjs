@@ -1,21 +1,3 @@
-/**
- * import-obsidian-data.mjs
- *
- * Reads the Obsidian vault markdown, counts Dataview inline-field tasks
- * (`[tier:: ...]` checkboxes) per tier, and writes Redis keys consumed by
- * /api/obsidian-stats.
- *
- * Usage:   node scripts/import-obsidian-data.mjs
- * Env:     KV_REST_API_URL, KV_REST_API_TOKEN  (required)
- *          OBSIDIAN_VAULT_PATH                  (optional; defaults to
- *                                                ~/Documents/Obsidian Vault)
- *
- * A line is a task iff it is a checkbox AND carries a [tier:: ...] field.
- * Active = marker not in {x, X, -}. Scope = areas/** and projects/** only.
- * Lines inside fenced code blocks (```...```) are skipped so embedded
- * Dataview query examples are not counted.
- */
-
 import { Redis } from '@upstash/redis'
 import { readFile, readdir } from 'node:fs/promises'
 import { join } from 'node:path'
@@ -96,7 +78,7 @@ async function main() {
   }
 
   const vault =
-    process.env.OBSIDIAN_VAULT_PATH || join(homedir(), 'Documents', 'Obsidian Vault')
+    process.env.OBSIDIAN_VAULT_PATH || join(homedir(), 'github', 'obsidian')
 
   const files = [
     ...(await collectMarkdown(join(vault, 'areas'))),

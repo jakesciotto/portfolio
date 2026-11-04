@@ -5,7 +5,7 @@ import StatTile from './stat-tile'
 import TileSkeleton from './tile-skeleton'
 import Heatmap from './ui/heatmap'
 
-const HEATMAP_WEEKS = 17 // footprint tuned to the current tile width; adjust with layout
+const HEATMAP_WEEKS = 17
 
 export default function GitHubTile({ initial }) {
   const stats = useCachedFetch('/api/github-stats', 'gh_stats_v2', {

@@ -1,20 +1,3 @@
-/**
- * strava-reauth.mjs
- *
- * One-time (re-)authorization helper for the Strava API. Strava refresh tokens
- * are scoped at grant time; the snapshot-era token only had `read`, which cannot
- * list activities. This walks the OAuth code flow with `activity:read_all`,
- * captures the redirect on a local listener, exchanges the code, and persists
- * the new refresh token to Redis (`strava:refresh_token`, what import-strava-data
- * reads) and to `.env.local` (`STRAVA_REFRESH_TOKEN`).
- *
- * Usage:   node scripts/strava-reauth.mjs
- * Reads:   .env.local (STRAVA_CLIENT_ID, STRAVA_SECRET, KV_REST_API_URL, KV_REST_API_TOKEN)
- *
- * If the authorize page errors on the redirect, add `localhost` to the app's
- * Authorization Callback Domain at https://www.strava.com/settings/api.
- */
-
 import { createServer } from 'node:http'
 import { readFile, writeFile } from 'node:fs/promises'
 import { spawn } from 'node:child_process'
@@ -58,7 +41,6 @@ const authUrl =
   }).toString()
 
 async function persistRefreshToken(token, scope) {
-  // Redis (primary source for import-strava-data.mjs)
   if (env.KV_REST_API_URL && env.KV_REST_API_TOKEN) {
     const redis = new Redis({ url: env.KV_REST_API_URL, token: env.KV_REST_API_TOKEN })
     await redis.set('strava:refresh_token', token)
@@ -66,7 +48,6 @@ async function persistRefreshToken(token, scope) {
   } else {
     console.log('  (no KV creds; skipped Redis)')
   }
-  // .env.local backup
   let text = await readFile('.env.local', 'utf8').catch(() => '')
   if (/^STRAVA_REFRESH_TOKEN=.*$/m.test(text)) {
     text = text.replace(/^STRAVA_REFRESH_TOKEN=.*$/m, `STRAVA_REFRESH_TOKEN=${token}`)

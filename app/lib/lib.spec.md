@@ -80,6 +80,12 @@ Pure modules that turn API payloads into the view objects the tiles render.
   because: a peak caption on a zero column would label nothing
   refuted: layoutColumns marks the first zero column as the peak -> the test layoutColumns with all zeros has no peak went red (2026-10-21)
   kinds: none
+- github local week: githubView drops every calendar day after the local date in America/Denver, so the week and the heatmap end on that date.
+  over: a fifteen day calendar whose last day is a UTC tomorrow, read at 17:43 and at 08:00 local time
+  via: githubView ends the week on the local date, not a later UTC calendar day
+  because: GitHub ends the anonymous calendar on the UTC date but dates each commit in its own time zone, so each evening the week held an empty tomorrow and lost its oldest day
+  refuted: githubView keeps every calendar day, so a UTC tomorrow stays in the week -> the test githubView ends the week on the local date, not a later UTC calendar day went red (2026-11-03)
+  kinds: none
 - spotify token refresh: Only getAccessToken calls getRefreshToken in spotify-auth.js.
   protects: getRefreshToken in app/lib/spotify-auth.js
   chokepoint: getAccessToken in app/lib/spotify-auth.js

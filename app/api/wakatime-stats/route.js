@@ -7,7 +7,8 @@ const CACHE = {
 
 export async function GET() {
   try {
-    if (!process.env.WAKATIME_API_KEY) return Response.json(EMPTY_WAKA_STATS)
+    if (!process.env.WAKATIME_ACCESS_TOKEN)
+      return Response.json(EMPTY_WAKA_STATS)
 
     const result = await loadWakaStats()
     captureServer('wakatime_stats_fetched', { totalHours: result.totalHours })

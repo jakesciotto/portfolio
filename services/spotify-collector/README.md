@@ -22,6 +22,9 @@ The API omits podcasts and plays under 30 seconds.
 The refresh token comes from Redis (`spotify_live_refresh_token`), the same key the site
 uses, with `SPOTIFY_LIVE_REFRESH_TOKEN` as a fallback.
 
+`NTFY_TOPIC` is optional. It names a public ntfy.sh topic that gets the failure and recovery
+alerts.
+
 ## Run on vinelab
 
 ```sh
