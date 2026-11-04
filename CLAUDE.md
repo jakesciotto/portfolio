@@ -99,6 +99,13 @@ contrast between hues, never through glow.
 
 - WakaTime reports only editors with a WakaTime plugin. `ai_model_breakdown`
   on `stats/<range>` gives lines per model.
+- A WakaTime API key can only send heartbeats. A read needs an OAuth access
+  token as `Authorization: Bearer`. `WAKATIME_ACCESS_TOKEN` holds that token
+  with the `read_stats` and `read_summaries` scopes. The route has no callback
+  and no refresh. WakaTime documents a 100 year life for a code-flow token and
+  12 hours for an implicit-flow token. A ninth token revokes the oldest one.
+- The `stats/<range>` endpoints answer 202 while WakaTime computes them. The
+  loader reads a 202 as empty, and a later call returns the data.
 - `stats/last_30_days` and `stats/last_6_months` return `is_up_to_date: false`
   with empty arrays on the first call.
 - Never refresh a production OAuth token from a local probe. Trakt and Spotify

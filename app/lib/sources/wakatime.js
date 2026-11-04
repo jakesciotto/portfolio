@@ -1,6 +1,6 @@
 import { mapWakaStats } from '../wakatime-stats.mjs'
 
-const BASE = 'https://wakatime.com/api/v1/users/current'
+const BASE = 'https://api.wakatime.com/api/v1/users/current'
 
 async function readJson(settled, label) {
   if (settled.status !== 'fulfilled') return null
@@ -19,11 +19,10 @@ async function readJson(settled, label) {
 export const EMPTY_WAKA_STATS = mapWakaStats({})
 
 export async function loadWakaStats() {
-  if (!process.env.WAKATIME_API_KEY) return EMPTY_WAKA_STATS
+  const token = process.env.WAKATIME_ACCESS_TOKEN
+  if (!token) return EMPTY_WAKA_STATS
 
-  const headers = {
-    Authorization: `Basic ${Buffer.from(process.env.WAKATIME_API_KEY).toString('base64')}`,
-  }
+  const headers = { Authorization: `Bearer ${token}` }
   const opts = { headers, next: { revalidate: 300 } }
 
   const settled = await Promise.allSettled([

@@ -50,6 +50,10 @@ Copy and customize this template for new releases:
 - The Obsidian importer reads the git vault at `~/github/obsidian` by default. The old default, `~/Documents/Obsidian Vault`, was a stale iCloud copy, and from 2026-10-27 every daily run failed on it with `errno -11`.
 - `scripts/refresh-tiles.sh` runs `git pull --ff-only` on the vault before the Obsidian import, so the snapshot counts the tasks on origin.
 - `scripts/refresh-tiles.sh` runs the Obsidian and Strava imports independently. A failure in one no longer blocks the other, and the script still exits non-zero.
+- The WakaTime tile updates again. WakaTime API keys can no longer read data, so the loader sends `WAKATIME_ACCESS_TOKEN` as an OAuth Bearer token to `api.wakatime.com`. The tile stopped at 2026-10-30.
+
+### Changed
+- `WAKATIME_API_KEY` is no longer read. Delete it from Vercel after the production check passes.
 
 ## [1.10.0] - 2026-10-22
 
