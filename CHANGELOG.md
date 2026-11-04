@@ -51,6 +51,7 @@ Copy and customize this template for new releases:
 - `scripts/refresh-tiles.sh` runs `git pull --ff-only` on the vault before the Obsidian import, so the snapshot counts the tasks on origin.
 - `scripts/refresh-tiles.sh` runs the Obsidian and Strava imports independently. A failure in one no longer blocks the other, and the script still exits non-zero.
 - The WakaTime tile updates again. WakaTime API keys can no longer read data, so the loader sends `WAKATIME_ACCESS_TOKEN` as an OAuth Bearer token to `api.wakatime.com`. The tile stopped at 2026-10-30.
+- The GitHub week total and heatmap end on today's date in America/Denver. GitHub ends its public calendar on the UTC date, so each evening the week held an empty tomorrow and lost its oldest day. The window math moved to `app/lib/github-view.mjs`.
 
 ### Changed
 - `WAKATIME_API_KEY` is no longer read. Delete it from Vercel after the production check passes.
