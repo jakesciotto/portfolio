@@ -46,6 +46,8 @@ Copy and customize this template for new releases:
 
 ## [Unreleased]
 
+## [1.10.1] - 2026-11-03
+
 ### Fixed
 - The Obsidian importer reads the git vault at `~/github/obsidian` by default. The old default, `~/Documents/Obsidian Vault`, was a stale iCloud copy, and from 2026-10-27 every daily run failed on it with `errno -11`.
 - `scripts/refresh-tiles.sh` runs `git pull --ff-only` on the vault before the Obsidian import, so the snapshot counts the tasks on origin.
