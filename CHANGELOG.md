@@ -46,6 +46,16 @@ Copy and customize this template for new releases:
 
 ## [Unreleased]
 
+### Fixed
+- A tile no longer replaces a newer number with an older one. On 2026-11-05 the GitHub tile painted the page seed of 180, then the API answer replaced it with 138 from a 30 hour old cache. `useCachedFetch` now passes the seed, the localStorage entry and the network answer through `newerEntry` in `app/lib/snapshot-time.mjs`, and an older or undated answer never replaces a dated one.
+- The GitHub and WakaTime routes read the same `unstable_cache` entry as the home page, so the page and the API answer the same snapshot. The route used to read the Next data cache, which only a browser call refreshed, while the page fetched the upstream live. The WakaTime cache keeps only an answer with all four parts, so a 202 part is asked again on the next call.
+- The GitHub source gets a 10 second timeout in the page render. The public calendar answered in about 7 seconds, so the 3 second limit dropped the GitHub seed and the tile painted a skeleton.
+
+### Changed
+- The github, wakatime, obsidian, spotify stats and strava payloads carry `fetchedAt`, the time of the upstream answer in milliseconds. GitHub and WakaTime take it from the upstream `Date` header, the oldest one when a payload has several parts. The Redis sources take the read time.
+- `app/lib/sources/tile-data.js` caches each source on its own instead of the whole settled result, because Next bypasses an `unstable_cache` nested inside another one. A timeout in one source no longer stays cached for five minutes.
+- `useCachedFetch` keeps the snapshot time in localStorage under `<key>_at`. An entry without it loses to a dated seed.
+
 ## [1.10.1] - 2026-11-03
 
 ### Fixed

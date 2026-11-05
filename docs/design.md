@@ -30,6 +30,12 @@ Server analytics go through `captureServer` in `app/posthog.js`, which flushes i
 
 Snapshot routes (Strava, Obsidian, Spotify history) only read Redis. Local importers write the snapshots. A route never pages an expensive upstream on a visitor's request.
 
+The home page and the GitHub and WakaTime routes read one `unstable_cache` entry per source, `loadGithubStats` and `loadWakaStats`, with a 300 second revalidate. Before 2026-11-05 the page fetched the upstream live and the route read the Next data cache. Crawlers regenerate the page about every 30 minutes, but only a browser calls the route, so the route answer was 30 hours old while the page was current. Next treats every `fetch` inside `unstable_cache` as `force-no-store`, and it bypasses an `unstable_cache` nested inside another one. So `tile-data.js` caches each source on its own and never wraps the shared loaders in a second cache. The three Redis loaders keep a cache of their own in `tile-data.js`, because the Upstash client fetches with `cache: 'no-store'` and an uncached Redis read would make the page dynamic. Their routes still read Redis live.
+
+The WakaTime cache keeps only a complete answer. WakaTime answers 202 while it computes a range, and the Next data cache never stored a non-200 answer, so the old route retried a missing part on the next call. When one of the four parts is missing, `fetchWakaStats` throws `PartialWakaStats` with the partial payload. `unstable_cache` stores no rejected call, so `loadWakaStats` returns that payload and the next call asks WakaTime again. On a stale entry, a partial background refresh fails and Next keeps the last complete entry.
+
+Every seeded payload carries `fetchedAt`, the time of the upstream answer. `responseTime` reads it from the upstream `Date` header, because the data cache keeps the upstream headers and a cached answer then keeps its true age. A payload with several upstream parts takes the oldest one. The Redis loaders take the read time.
+
 Never refresh a production OAuth token from a local probe. Trakt and Spotify rotate the refresh token and the route persists it in Redis, so a local refresh invalidates production.
 
 The 0.37 spec checked that the six data routes (`github-stats`, `spotify-stats`, `wakatime-stats`, `trakt-stats`, `strava-stats`, `obsidian-stats`) exist. That check is dropped.
@@ -59,6 +65,8 @@ The 0.37 spec checked that `tile.jsx`, `bento-grid.jsx`, `ui/columns.jsx`, `ui/b
 The Spotify tile merges a live counter into a snapshot. The merge never lowers a stored value, because the snapshot is the archive and the live key is an estimate that runs about two percent low. A merge that could lower a value would make the headline flicker between refreshes.
 
 A zero bar keeps a visible stub, because a bar that disappears at zero reads as missing data, and the tile must tell a zero from a gap.
+
+`useCachedFetch` takes a number from three places: the page seed, the localStorage entry and the network answer. Each place can hold a different snapshot age, because the page, the edge and the browser each cache on their own schedule. Every value passes through `newerEntry`, which keeps a dated snapshot over an older or undated one. An undated answer loses because a route sends its empty fallback without `fetchedAt`, and the tile must keep stale data over an empty response. A client-only tile has no dated value, so it takes every answer, as before. When the network answers an older snapshot, the hook writes the shown snapshot back with a new check time, so the tile does not refetch on every focus.
 
 Every mapper answers a null or empty view for a missing source. The Trakt and WakaTime routes call upstreams in parallel and any one of them can fail. The Spotify stats route reads five Redis snapshot keys and answers an overview of null on a missing key or a Redis failure. The tile shows a skeleton or stale cache on null. A thrown error would blank the tile.
 

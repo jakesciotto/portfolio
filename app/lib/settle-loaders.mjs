@@ -8,13 +8,16 @@ function withTimeout(promise, ms) {
 
 export async function settleLoaders(
   loaders,
-  { timeoutMs = 3000, now = Date.now, onError = () => {} } = {},
+  { timeoutMs = 3000, timeouts = {}, now = Date.now, onError = () => {} } = {},
 ) {
   const fetchedAt = now()
   const entries = await Promise.all(
     Object.entries(loaders).map(async ([key, load]) => {
       try {
-        const data = await withTimeout(Promise.resolve().then(load), timeoutMs)
+        const data = await withTimeout(
+          Promise.resolve().then(load),
+          timeouts[key] ?? timeoutMs,
+        )
         return data == null ? null : [key, { data, fetchedAt }]
       } catch (error) {
         onError(key, error)

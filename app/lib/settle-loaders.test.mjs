@@ -27,9 +27,17 @@ test('settleLoaders drops a loader that throws, rejects, returns null or times o
       empty: async () => null,
       slow: () =>
         new Promise((resolve) => setTimeout(() => resolve('late'), 200)),
+      patient: () =>
+        new Promise((resolve) => setTimeout(() => resolve('waited'), 60)),
     },
-    { timeoutMs: 20, now: () => 0, onError: (key) => errors.push(key) },
+    {
+      timeoutMs: 20,
+      timeouts: { patient: 500 },
+      now: () => 0,
+      onError: (key) => errors.push(key),
+    },
   )
-  assert.deepEqual(Object.keys(result), ['ok'])
+  assert.deepEqual(Object.keys(result).sort(), ['ok', 'patient'])
+  assert.equal(result.patient.data, 'waited')
   assert.deepEqual(errors.sort(), ['rejected', 'slow', 'thrown'])
 })

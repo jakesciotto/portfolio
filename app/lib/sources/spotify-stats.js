@@ -26,5 +26,6 @@ export async function loadSpotifyStats() {
     topTracks: parseValue(topTracks) || [],
     yearlyHours: parseValue(yearlyHours) || [],
     funFacts: parseValue(funFacts),
+    fetchedAt: Date.now(),
   }
 }
