@@ -119,6 +119,12 @@ contrast between hues, never through glow.
   measurement on a slower machine than an M4 Max.
 - The tiles cache stats in localStorage for up to an hour. A stale headline
   after a deploy is the cache, not a bug. Clear localStorage before you judge.
+- Next runs every `fetch` inside `unstable_cache` as `force-no-store`, and it
+  bypasses an `unstable_cache` nested inside another one. The page and a route
+  share a source cache only when neither call is nested in a second cache.
+- To tell an edge answer from a function answer, call the route with a
+  throwaway query string. The edge keys on the query, so the call runs the
+  function, and `x-vercel-cache: MISS` confirms it.
 
 ## Open items
 

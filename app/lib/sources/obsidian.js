@@ -22,5 +22,5 @@ export async function loadObsidianStats() {
   }
 
   const parsed = typeof stats === 'string' ? JSON.parse(stats) : stats
-  return { ...parsed, lastSync: lastSync || null }
+  return { ...parsed, lastSync: lastSync || null, fetchedAt: Date.now() }
 }

@@ -99,3 +99,21 @@ Pure modules that turn API payloads into the view objects the tiles render.
   checklist: encrypted-storage dismissed: the site stores the token in Redis as plain text behind the KV REST token and adds no encryption of its own
   checklist: key-rotation-compatibility dismissed: the site encrypts nothing it retains
   checklist: separation-of-duties dismissed: no approval policy exists on a token refresh
+- newest snapshot: newerEntry keeps a dated snapshot that a tile shows when the candidate is older or undated, and takes the candidate otherwise.
+  over: a dated shown snapshot against an older, an undated, an equal and a newer candidate, and an undated or absent shown snapshot against a dated candidate; useCachedFetch passes the seed, the localStorage entry and the network answer through newerEntry, and no test runs the hook
+  via: newerEntry never replaces a dated snapshot with an older or undated one
+  because: the page seed, the localStorage entry and the API answer can each hold a different snapshot age; on 2026-11-05 a route answer from a 30 hour old cache replaced a seed of 180 with 138
+  refuted: newerEntry drops the time comparison, so an older dated candidate replaces the shown snapshot -> the test newerEntry never replaces a dated snapshot with an older or undated one went red (2026-11-05)
+  kinds: none
+- oldest answer: responseTime dates a payload by its oldest upstream Date header, and by the clock when no Date header parses.
+  over: two responses with different Date headers, one response without a Date header beside one with it, one response without it, and no responses
+  via: responseTime takes the oldest Date header and falls back to the clock
+  because: a payload is only as fresh as its oldest part, and the Next data cache keeps the upstream headers, so a cached answer keeps its true age
+  refuted: responseTime takes the newest Date header instead of the oldest -> the test responseTime takes the oldest Date header and falls back to the clock went red (2026-11-05)
+  kinds: none
+- source timeout: settleLoaders drops a source that does not answer within its own timeout, or within the shared timeout when it has none.
+  over: loaders that throw, reject, answer null, answer after the shared timeout, and answer after the shared timeout but inside their own timeout
+  via: settleLoaders drops a loader that throws, rejects, returns null or times out
+  because: on 2026-11-05 GitHub's public calendar answered in about 7 seconds, and the single 3 second limit dropped the GitHub seed from two page renders
+  refuted: settleLoaders applies the shared timeout to every source and ignores the per-source timeout -> the test settleLoaders drops a loader that throws, rejects, returns null or times out went red (2026-11-05)
+  kinds: none
