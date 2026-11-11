@@ -120,8 +120,12 @@ contrast between hues, never through glow.
 - The tiles cache stats in localStorage for up to an hour. A stale headline
   after a deploy is the cache, not a bug. Clear localStorage before you judge.
 - Next runs every `fetch` inside `unstable_cache` as `force-no-store`, and it
-  bypasses an `unstable_cache` nested inside another one. The page and a route
-  share a source cache only when neither call is nested in a second cache.
+  bypasses an `unstable_cache` nested inside another one.
+- The page and a route never share an `unstable_cache` entry. Next keys the
+  entry on `cb.toString()`, and each bundle minifies the function with other
+  names. Share an upstream answer through `fetch` with `next.revalidate`,
+  which keys on the URL and the request options. Count the entries in
+  `.next/cache/fetch-cache` to prove one shared entry.
 - To tell an edge answer from a function answer, call the route with a
   throwaway query string. The edge keys on the query, so the call runs the
   function, and `x-vercel-cache: MISS` confirms it.

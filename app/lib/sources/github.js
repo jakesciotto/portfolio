@@ -1,4 +1,3 @@
-import { unstable_cache } from 'next/cache'
 import { githubView } from '../github-view.mjs'
 import { responseTime } from '../snapshot-time.mjs'
 
@@ -35,9 +34,10 @@ export const EMPTY_GITHUB_STATS = {
   days: {},
 }
 
-async function fetchGithubStats() {
+export async function loadGithubStats() {
   const res = await fetch(`https://github.com/users/${GH_USER}/contributions`, {
     headers: { 'User-Agent': 'Mozilla/5.0 (portfolio github-tile)' },
+    next: { revalidate: 300 },
   })
   if (!res.ok) throw new Error(`GitHub contributions error: ${res.status}`)
 
@@ -45,9 +45,3 @@ async function fetchGithubStats() {
   const view = githubView(parseCalendar(await res.text()), new Date(fetchedAt))
   return { ...view, fetchedAt }
 }
-
-export const loadGithubStats = unstable_cache(
-  fetchGithubStats,
-  ['github-stats-v1'],
-  { revalidate: 300 },
-)
