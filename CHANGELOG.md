@@ -46,6 +46,8 @@ Copy and customize this template for new releases:
 
 ## [Unreleased]
 
+## [1.10.2] - 2026-11-10
+
 ### Fixed
 - A tile no longer replaces a newer number with an older one. On 2026-11-05 the GitHub tile painted the page seed of 180, then the API answer replaced it with 138 from a 30 hour old cache. `useCachedFetch` now passes the seed, the localStorage entry and the network answer through `newerEntry` in `app/lib/snapshot-time.mjs`, and an older or undated answer never replaces a dated one.
 - The GitHub and WakaTime routes read the same Next data cache entry as the home page, so the page and the API answer the same snapshot. The page used to fetch the upstream live inside the `tile-data-v1` `unstable_cache`, and only a browser call refreshed the entry that the route read. A page regeneration now refreshes that entry.
